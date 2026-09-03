@@ -1,0 +1,4890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ND BURGS | Faça seu pedido</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:#090909;color:#fff;padding-bottom:115px}
+
+/* HEADER */
+header{background:#000;padding:12px 20px;text-align:center;border-bottom:2px solid #f5c400;position:sticky;top:0;z-index:1000}
+.logo{width:150px;max-width:70%;height:auto}
+
+/* HORÁRIOS */
+.horarios{max-width:1100px;margin:15px auto 0;padding:0 15px}
+.horarios-box{background:linear-gradient(145deg,#151515,#0d0d0d);border:1px solid #f5c400;border-radius:12px;padding:14px 18px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.4)}
+.horarios-titulo{color:#f5c400;font-weight:bold;font-size:17px;margin-bottom:8px}
+.horarios-linha{font-size:14px;color:#ddd;line-height:1.7}
+.status-aberto{color:#25d366;font-weight:bold;margin-top:5px}
+.status-fechado{color:#ff4b4b;font-weight:bold;margin-top:5px}
+
+/* CONTAINER */
+.container{width:100%;max-width:1100px;margin:auto;padding:15px}
+h1{text-align:center;margin:20px 0;color:#f5c400}
+h2{color:#f5c400;margin:25px 0 12px;border-bottom:1px solid #333;padding-bottom:8px}
+
+/* CATEGORIAS */
+.categoria{margin-top:20px;scroll-margin-top:90px}
+.categoria-titulo{display:flex;align-items:center;gap:8px;color:#f5c400;font-size:20px;font-weight:bold;border-bottom:1px solid #333;padding-bottom:8px;margin-bottom:12px}
+
+/* PRODUTOS */
+.produtos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+.produto{background:linear-gradient(145deg,#1c1c1c,#111);border:1px solid #333;border-radius:12px;padding:12px;box-shadow:0 3px 12px rgba(0,0,0,.35);overflow:hidden;transition:.2s}
+.produto:hover{transform:translateY(-2px);border-color:#f5c400}
+.produto-imagem{width:100%;height:180px;object-fit:contain;display:block;background:#111;border-radius:9px;margin-bottom:10px}
+.produto h3{color:#fff;margin-bottom:7px;font-size:18px}
+.produto p{color:#aaa;min-height:40px;font-size:13px;line-height:1.4}
+.preco{color:#f5c400;font-weight:bold;font-size:19px;margin:10px 0}
+.btn{width:100%;border:none;border-radius:8px;padding:12px;cursor:pointer;font-weight:bold;font-size:15px}
+.btn-add{background:#f5c400;color:#000}
+.btn-add:hover{background:#ffd92b}
+
+/* CARRINHO */
+.carrinho{background:#181818;border:1px solid #333;border-radius:12px;padding:20px;margin-top:30px}
+.item-carrinho{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #333}
+.item-info{flex:1}
+.item-info strong{display:block;margin-bottom:4px}
+.item-info small{color:#aaa}
+.controles{display:flex;align-items:center;gap:8px}
+.controles button{width:30px;height:30px;border:none;border-radius:6px;background:#f5c400;color:#000;font-weight:bold;cursor:pointer}
+.remover{background:#c62828!important;color:#fff!important}
+.resumo{margin-top:20px}
+.linha{display:flex;justify-content:space-between;padding:8px 0}
+.total{font-size:24px;font-weight:bold;color:#f5c400;border-top:1px solid #555;margin-top:10px;padding-top:15px}
+.vazio{text-align:center;color:#999;padding:20px}
+
+/* CARRINHO FLUTUANTE */
+.carrinho-flutuante{position:fixed;left:50%;bottom:15px;transform:translateX(-50%) translateY(150px);width:calc(100% - 30px);max-width:650px;background:#111;border:2px solid #f5c400;border-radius:16px;padding:12px 14px;z-index:9000;box-shadow:0 8px 35px rgba(0,0,0,.75);display:flex;align-items:center;justify-content:space-between;gap:12px;opacity:0;pointer-events:none;transition:.3s ease}
+.carrinho-flutuante.ativo{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+.carrinho-flutuante-info{min-width:0}
+.carrinho-flutuante-info strong{display:block;color:#fff;font-size:15px}
+.carrinho-flutuante-info span{display:block;color:#aaa;font-size:12px;margin-top:3px}
+.carrinho-flutuante-direita{display:flex;align-items:center;gap:10px}
+.carrinho-flutuante-total{color:#f5c400;font-size:18px;font-weight:bold;white-space:nowrap}
+.btn-ver-carrinho{border:none;background:#f5c400;color:#000;font-weight:bold;border-radius:9px;padding:11px 13px;cursor:pointer;white-space:nowrap}
+.btn-ver-carrinho:hover{background:#ffd92b}
+
+/* MODAL CARRINHO */
+.modal-carrinho{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100001;display:none;align-items:flex-end;justify-content:center;padding:0}
+.modal-carrinho.ativo{display:flex}
+.painel-carrinho{width:100%;max-width:650px;max-height:90vh;overflow:auto;background:#151515;border:2px solid #f5c400;border-bottom:0;border-radius:20px 20px 0 0;padding:20px;box-shadow:0 -10px 40px rgba(0,0,0,.6)}
+.cabecalho-carrinho{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+.cabecalho-carrinho h2{margin:0;border:0;padding:0}
+.fechar-carrinho{width:38px;height:38px;border:none;border-radius:50%;background:#8b0000;color:#fff;font-size:22px;cursor:pointer}
+.item-carrinho-modal{border-bottom:1px solid #333;padding:12px 0}
+.item-carrinho-modal-topo{display:flex;justify-content:space-between;gap:10px}
+.item-carrinho-modal strong{font-size:14px}
+.item-carrinho-modal small{display:block;color:#aaa;margin-top:4px;line-height:1.4}
+.controles-modal{display:flex;align-items:center;gap:8px;margin-top:9px}
+.controles-modal button{width:34px;height:34px;border:none;border-radius:7px;background:#f5c400;color:#000;font-weight:bold;font-size:17px;cursor:pointer}
+.controles-modal .remover{background:#c62828!important;color:#fff!important;width:34px}
+.resumo-modal{margin-top:15px;padding-top:10px;border-top:1px solid #444}
+.resumo-modal .linha{padding:6px 0}
+.resumo-modal .total-modal{color:#f5c400;font-size:21px;font-weight:bold;padding-top:12px;margin-top:7px;border-top:1px solid #555}
+
+/* BOTÕES DO CARRINHO */
+.btn-continuar-comprando{
+margin-top:15px;
+background:#ff8c00;
+color:#fff;
+font-size:17px
+}
+
+.btn-finalizar-pedido{
+margin-top:15px;
+background:#0b3d91;
+color:#fff;
+font-size:18px
+}
+
+.btn-finalizar-pedido:hover{
+background:#124fa8;
+}
+
+/* TOAST */
+.toast-carrinho{position:fixed;left:50%;top:80px;transform:translate(-50%,-20px);background:#25D366;color:#fff;font-weight:bold;padding:11px 18px;border-radius:30px;z-index:100005;opacity:0;pointer-events:none;transition:.25s ease;box-shadow:0 5px 20px rgba(0,0,0,.5)}
+.toast-carrinho.mostrar{opacity:1;transform:translate(-50%,0)}
+
+/* FORMULÁRIO */
+.formulario{background:#181818;border:1px solid #333;border-radius:12px;padding:20px;margin-top:20px;scroll-margin-top:90px}
+label{display:block;margin-top:14px;margin-bottom:6px;font-weight:bold}
+input,select,textarea{width:100%;padding:13px;border-radius:8px;border:1px solid #444;background:#0d0d0d;color:#fff;font-size:15px}
+textarea{resize:vertical;min-height:80px}
+.endereco-extra{display:none}
+.aviso-taxa{background:#292000;border:1px solid #f5c400;color:#f5c400;padding:12px;border-radius:8px;margin-top:12px;display:none}
+.btn-whatsapp{background:#25D366;color:#fff;margin-top:20px;font-size:18px}
+.btn-limpar{background:#8b0000;color:#fff;margin-top:10px}
+
+/* MENU CATEGORIAS */
+.categoria-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.categoria-btn{background:#181818;border:1px solid #333;color:#fff;border-radius:10px;padding:13px 10px;cursor:pointer;font-weight:bold}
+.categoria-btn:hover{border-color:#f5c400;color:#f5c400}
+
+/* INSTAGRAM */
+footer{text-align:center;padding:20px 15px;color:#777;font-size:13px}
+.rodape-instagram{padding:30px 15px 25px}
+.instagram-destaque{width:100%;max-width:850px;margin:0 auto;padding:25px;border-radius:20px;background:linear-gradient(145deg,#181818,#0d0d0d);border:2px solid #f5c400;box-shadow:0 8px 30px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.instagram-icone{width:65px;height:65px;min-width:65px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);font-size:32px;box-shadow:0 5px 18px rgba(0,0,0,.4)}
+.instagram-texto{flex:1;text-align:left}
+.instagram-texto span{display:block;color:#f5c400;font-size:13px;font-weight:900;letter-spacing:1px;margin-bottom:3px}
+.instagram-texto strong{display:block;color:#fff;font-size:25px;margin-bottom:4px}
+.instagram-texto p{margin:0;color:#aaa;font-size:13px;line-height:1.5}
+.instagram-botao{display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:12px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;text-decoration:none;font-weight:900;font-size:13px;white-space:nowrap;transition:.2s;box-shadow:0 5px 18px rgba(0,0,0,.35)}
+.instagram-botao:hover{transform:scale(1.04);filter:brightness(1.1)}
+.instagram-botao:active{transform:scale(.98)}
+.rodape-final{text-align:center;color:#777;font-size:12px;line-height:1.8;margin-top:18px}
+
+/* BLOQUEIO HORÁRIO */
+#bloqueioHorario{position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:99999;display:none;align-items:center;justify-content:center;padding:20px}
+.bloqueio-box{width:100%;max-width:480px;background:#151515;border:2px solid #f5c400;border-radius:18px;padding:30px 20px;text-align:center;box-shadow:0 0 40px rgba(245,196,0,.15)}
+.bloqueio-box h2{border:none;color:#f5c400;margin:0 0 15px}
+.bloqueio-box p{color:#ccc;line-height:1.6}
+.bloqueio-horarios{margin-top:18px;padding:15px;background:#0c0c0c;border-radius:10px;color:#ddd;line-height:1.8}
+.bloqueio-logo{width:130px;max-width:60%;margin-bottom:15px}
+
+/* MOBILE */
+@media(max-width:600px){
+body{padding-bottom:105px}
+.item-carrinho{flex-direction:column;align-items:flex-start}
+.controles{width:100%}
+.controles button{width:35px;height:35px}
+.produtos{grid-template-columns:repeat(2,1fr);gap:8px}
+.produto{padding:9px}
+.produto-imagem{height:125px}
+.produto h3{font-size:14px}
+.produto p{font-size:11px;min-height:45px}
+.preco{font-size:16px}
+.btn{padding:10px 5px;font-size:12px}
+.categoria-titulo{font-size:17px}
+.categoria-menu{grid-template-columns:1fr 1fr}
+.carrinho-flutuante{width:calc(100% - 16px);bottom:8px;padding:10px;border-radius:13px}
+.carrinho-flutuante-info strong{font-size:13px}
+.carrinho-flutuante-info span{font-size:11px}
+.carrinho-flutuante-direita{gap:7px}
+.carrinho-flutuante-total{font-size:15px}
+.btn-ver-carrinho{padding:10px 9px;font-size:11px}
+.painel-carrinho{padding:16px}
+}
+
+/* PERSONALIZAÇÃO */
+.modal-personalizacao{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100000;display:none;align-items:center;justify-content:center;padding:15px}
+.modal-box{width:100%;max-width:560px;max-height:92vh;overflow:auto;background:#151515;border:2px solid #f5c400;border-radius:18px;padding:20px;box-shadow:0 0 40px rgba(245,196,0,.2)}
+.modal-topo{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+.modal-topo h2{margin:0;border:0;padding:0}
+.modal-fechar{width:38px;height:38px;border:0;border-radius:50%;background:#8b0000;color:#fff;font-size:20px;cursor:pointer}
+.modal-secao{margin-top:18px;padding-top:15px;border-top:1px solid #333}
+.modal-secao h3{color:#f5c400;margin-bottom:10px;font-size:17px}
+.opcoes-tamanho{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.opcao-tamanho{position:relative}
+.opcao-tamanho input{position:absolute;opacity:0;pointer-events:none}
+.opcao-tamanho label{margin:0;display:block;padding:12px 8px;text-align:center;border:1px solid #444;border-radius:9px;background:#0d0d0d;cursor:pointer;font-weight:bold}
+.opcao-tamanho input:checked+label{border-color:#f5c400;background:#302900;color:#f5c400}
+.lista-acompanhamentos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opcao-acomp{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #333;border-radius:8px;background:#0d0d0d;cursor:pointer}
+.opcao-acomp input{width:auto;margin:0}
+.opcao-acomp span{font-size:13px}
+.preco-adicional{color:#f5c400;font-weight:bold}
+.modal-total{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding:14px;border-radius:10px;background:#0b0b0b;border:1px solid #333;font-size:19px}
+.modal-total strong:last-child{color:#f5c400}
+.btn-confirmar-personalizacao{margin-top:12px;background:#f5c400;color:#000}
+
+/* MODAL FINALIZAR PEDIDO */
+.modal-finalizar{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.88);
+z-index:100002;
+display:none;
+align-items:center;
+justify-content:center;
+padding:15px;
+}
+
+.modal-finalizar.ativo{
+display:flex;
+}
+
+.painel-finalizar{
+width:100%;
+max-width:600px;
+max-height:92vh;
+overflow:auto;
+background:#151515;
+border:2px solid #f5c400;
+border-radius:18px;
+padding:20px;
+box-shadow:0 0 40px rgba(0,0,0,.7);
+}
+
+.cabecalho-finalizar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:15px;
+}
+
+.cabecalho-finalizar h2{
+margin:0;
+border:0;
+padding:0;
+}
+
+.btn-finalizar-modal{
+background:#0b3d91;
+color:#fff;
+margin-top:20px;
+font-size:18px;
+}
+
+.btn-finalizar-modal:hover{
+background:#124fa8;
+}
+
+.btn-fechar-finalizar{
+width:38px;
+height:38px;
+border:none;
+border-radius:50%;
+background:#8b0000;
+color:#fff;
+font-size:22px;
+cursor:pointer;
+}
+
+@media(max-width:600px){
+.lista-acompanhamentos{grid-template-columns:1fr}
+.opcoes-tamanho{grid-template-columns:repeat(3,1fr)}
+.modal-box{padding:16px}
+
+.painel-finalizar{
+padding:16px;
+}
+
+.instagram-destaque{
+flex-direction:column;
+text-align:center;
+padding:25px 18px;
+gap:15px;
+}
+
+.instagram-icone{
+width:60px;
+height:60px;
+min-width:60px;
+font-size:28px;
+}
+
+.instagram-texto{
+text-align:center;
+}
+
+.instagram-texto strong{
+font-size:23px;
+}
+
+.instagram-texto p{
+font-size:12px;
+}
+
+.instagram-botao{
+width:100%;
+padding:15px 10px;
+font-size:14px;
+}
+}
+
+/* ===== ND BURGS MODERN UI 2026 ===== */
+:root{--gold:#f5c400;--gold2:#ffd83d;--bg:#070707;--panel:#111214;--panel2:#17181b;--line:rgba(255,255,255,.09);--muted:#9a9da5;--green:#25d366;--danger:#ff4d4d;--shadow:0 18px 60px rgba(0,0,0,.42)}
+body{background:radial-gradient(circle at 50% -10%,rgba(245,196,0,.10),transparent 34%),linear-gradient(180deg,#050505 0%,#0b0c0e 55%,#070707 100%);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#fff}
+header{padding:10px 16px 8px;background:rgba(4,4,4,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(245,196,0,.35);box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.logo{width:125px;filter:drop-shadow(0 5px 16px rgba(245,196,0,.12))}
+.horarios{margin:12px auto 0}.horarios-box{border:1px solid rgba(245,196,0,.45);background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018));backdrop-filter:blur(14px);border-radius:18px;box-shadow:var(--shadow);padding:13px 16px}.status-aberto{font-size:14px;background:rgba(37,211,102,.10);border:1px solid rgba(37,211,102,.22);display:inline-block;padding:6px 11px;border-radius:999px}.status-fechado{font-size:14px;background:rgba(255,75,75,.08);border:1px solid rgba(255,75,75,.22);display:inline-block;padding:6px 11px;border-radius:999px}
+.container{max-width:1180px;padding:12px 16px 30px}.container>h1{font-size:clamp(28px,5vw,46px);letter-spacing:-1.5px;margin:22px 0 10px;background:linear-gradient(90deg,#fff,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}.container>h1:after{content:"PEDA PELO SITE • RÁPIDO, FÁCIL E DIRETO";display:block;color:#858890;font-size:11px;letter-spacing:2px;margin-top:8px;font-weight:800}
+.modern-search{position:sticky;top:68px;z-index:800;display:flex;gap:10px;align-items:center;margin:16px 0 13px;padding:10px;border:1px solid var(--line);background:rgba(12,13,15,.88);backdrop-filter:blur(18px);border-radius:16px;box-shadow:0 10px 35px rgba(0,0,0,.28)}.modern-search input{margin:0!important;background:#08090a!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:12px!important;padding:14px 15px!important}.search-count{white-space:nowrap;color:#888;font-size:12px;font-weight:700}
+.categoria-menu{display:flex;overflow-x:auto;gap:8px;padding:3px 1px 12px;margin:0 0 10px;scrollbar-width:none;position:sticky;top:126px;z-index:700;background:linear-gradient(180deg,#0b0c0e 75%,transparent)}.categoria-menu::-webkit-scrollbar{display:none}.categoria-btn{flex:0 0 auto;border:1px solid var(--line);background:rgba(255,255,255,.045);padding:11px 14px;border-radius:999px;transition:.2s}.categoria-btn:hover,.categoria-btn:focus{background:rgba(245,196,0,.10);border-color:rgba(245,196,0,.55);color:var(--gold)}
+.categoria{margin-top:26px;scroll-margin-top:150px}.categoria-titulo{font-size:22px;padding:0 0 10px;border-bottom:1px solid var(--line);position:relative}.categoria-titulo:after{content:"";position:absolute;left:0;bottom:-1px;width:70px;height:2px;background:var(--gold);box-shadow:0 0 16px rgba(245,196,0,.45)}
+.produtos{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.produto{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:18px;padding:11px;box-shadow:0 10px 35px rgba(0,0,0,.20);transition:transform .22s,border-color .22s,box-shadow .22s}.produto:hover{transform:translateY(-4px);border-color:rgba(245,196,0,.42);box-shadow:0 18px 45px rgba(0,0,0,.34)}.produto-imagem{height:205px;border-radius:14px;background:radial-gradient(circle at 50% 50%,#202124,#0b0c0d);object-fit:contain}.produto h3{font-size:17px;margin:11px 2px 5px}.produto p{font-size:12px;color:#999da6;min-height:36px}.preco{font-size:20px;margin:9px 2px;color:var(--gold2)}.btn{border-radius:12px;font-weight:900;transition:.18s}.btn-add{background:linear-gradient(135deg,var(--gold),#e9ae00);box-shadow:0 7px 18px rgba(245,196,0,.13)}.btn-add:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.carrinho,.formulario{background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.022));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.carrinho{margin-top:26px}.formulario{margin-top:16px}input,select,textarea{border:1px solid rgba(255,255,255,.10);background:#090a0b;color:#fff;outline:none;transition:.2s}input:focus,select:focus,textarea:focus{border-color:rgba(245,196,0,.65);box-shadow:0 0 0 3px rgba(245,196,0,.08)}
+.carrinho-flutuante{bottom:14px;width:calc(100% - 24px);max-width:720px;background:rgba(14,15,17,.92);backdrop-filter:blur(18px);border:1px solid rgba(245,196,0,.55);box-shadow:0 18px 60px rgba(0,0,0,.65)}.btn-ver-carrinho{background:var(--gold);border-radius:11px;padding:12px 16px}.carrinho-flutuante-total{color:var(--gold2)}
+.modal-carrinho,.modal-finalizar,.modal-personalizacao{backdrop-filter:blur(8px)}.painel-carrinho,.painel-finalizar,.modal-box{background:linear-gradient(160deg,#17181b,#0d0e10);border:1px solid rgba(245,196,0,.55);box-shadow:0 -20px 80px rgba(0,0,0,.65)}
+.btn-whatsapp{background:linear-gradient(135deg,#25d366,#16b957);box-shadow:0 10px 28px rgba(37,211,102,.15)}.btn-finalizar-pedido,.btn-finalizar-modal{background:linear-gradient(135deg,#f5c400,#d9a900);color:#090909}.btn-continuar-comprando{background:rgba(255,255,255,.08);border:1px solid var(--line)}
+.instagram-destaque{border:1px solid rgba(245,196,0,.35);background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015));box-shadow:var(--shadow)}
+/* address quick search */.address-search-wrap{margin:7px 0 9px}.address-search-wrap input{margin:0!important}.address-search-wrap small{display:block;color:#777;margin-top:5px;font-size:11px}
+/* suggestion sheet */.suggestions-modal{position:fixed;inset:0;z-index:100006;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.76);backdrop-filter:blur(8px)}.suggestions-modal.show{display:flex}.suggestions-panel{width:100%;max-width:760px;max-height:88vh;overflow:auto;background:linear-gradient(160deg,#18191c,#0d0e10);border:1px solid rgba(245,196,0,.45);border-bottom:0;border-radius:24px 24px 0 0;padding:18px;box-shadow:0 -25px 80px rgba(0,0,0,.7)}.suggestions-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.suggestions-head h2{margin:0;border:0;padding:0;color:#fff}.suggestions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.suggestion-card{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.035)}.suggestion-card img{width:70px;height:70px;object-fit:contain;border-radius:10px;background:#090a0b}.suggestion-card strong{display:block;font-size:13px}.suggestion-card span{display:block;color:var(--gold2);font-weight:900;font-size:13px;margin:4px 0}.suggestion-card button{border:0;background:var(--gold);color:#000;border-radius:9px;padding:7px 10px;font-weight:900;cursor:pointer}.suggestions-close{border:0;background:#2a2b2f;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px}
+.no-results{display:none;text-align:center;padding:35px 15px;color:#999;border:1px dashed #333;border-radius:16px;margin-top:12px}.produto.search-hidden{display:none!important}
+@media(max-width:600px){.modern-search{top:57px}.categoria-menu{top:116px}.produtos{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.produto{padding:8px;border-radius:15px}.produto-imagem{height:135px}.produto h3{font-size:13px}.produto p{font-size:10px;min-height:40px}.preco{font-size:16px}.btn{font-size:11px}.container{padding-left:9px;padding-right:9px}.suggestions-grid{grid-template-columns:1fr}.suggestion-card img{width:62px;height:62px}}
+
+</style>
+
+<style id="nd-v3-upgrades">
+:root{--nd-gold:#f5c542;--nd-bg:#080808;--nd-card:#111;--nd-line:rgba(255,255,255,.09)}
+html{scroll-behavior:smooth}.categoria{scroll-margin-top:145px}
+.nd-v3-strip{position:sticky;top:0;z-index:1200;background:linear-gradient(90deg,#0a0a0a,#151515,#0a0a0a);border-bottom:1px solid var(--nd-line);padding:8px 14px;text-align:center;font-size:12px;font-weight:800;letter-spacing:.3px;color:#fff}.nd-v3-strip b{color:var(--nd-gold)}
+.nd-v3-progress{position:fixed;left:0;right:0;top:0;height:3px;background:transparent;z-index:3000}.nd-v3-progress span{display:block;height:100%;width:0;background:var(--nd-gold);box-shadow:0 0 12px rgba(245,197,66,.8)}
+.nd-v3-buybar{position:fixed;left:50%;bottom:14px;transform:translate(-50%,130px);opacity:0;z-index:1100;width:min(560px,calc(100% - 24px));display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(12,12,12,.94);border:1px solid rgba(245,197,66,.35);border-radius:18px;box-shadow:0 18px 55px rgba(0,0,0,.55);backdrop-filter:blur(16px);transition:.25s}.nd-v3-buybar.show{transform:translate(-50%,0);opacity:1}.nd-v3-buybar .nd-v3-buyinfo{flex:1;font-size:12px;color:#aaa}.nd-v3-buybar strong{display:block;color:#fff;font-size:16px}.nd-v3-buybar button{border:0;border-radius:13px;background:var(--nd-gold);color:#111;font-weight:900;padding:12px 18px;cursor:pointer}
+.nd-v3-upsell{margin:12px 0;padding:14px;border:1px solid rgba(245,197,66,.18);border-radius:16px;background:linear-gradient(145deg,#171717,#0d0d0d)}.nd-v3-upsell h4{margin:0 0 9px;color:#fff}.nd-v3-upsell-grid{display:flex;gap:8px;overflow:auto}.nd-v3-up{min-width:145px;border:1px solid var(--nd-line);border-radius:13px;padding:10px;background:#101010}.nd-v3-up strong{display:block;font-size:13px;color:#fff}.nd-v3-up small{display:block;color:#aaa;margin:4px 0 8px}.nd-v3-up button{width:100%;border:0;border-radius:9px;padding:8px;background:#242424;color:#fff;font-weight:800;cursor:pointer}.nd-v3-up button:hover{background:var(--nd-gold);color:#111}
+.nd-v3-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.nd-v3-trust div{padding:11px 7px;text-align:center;border:1px solid var(--nd-line);border-radius:14px;background:#101010;font-size:11px;color:#aaa}.nd-v3-trust b{display:block;color:#fff;font-size:12px;margin-bottom:3px}.nd-v3-last{margin:10px 0;padding:12px 14px;border-radius:14px;background:#121212;border:1px solid var(--nd-line);display:none}.nd-v3-last button{float:right;border:0;background:var(--nd-gold);padding:7px 10px;border-radius:9px;font-weight:900}.nd-fav{z-index:4}.produto{transition:transform .18s ease,box-shadow .18s ease}.produto:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.25)}
+@media(max-width:600px){.nd-v3-trust{grid-template-columns:1fr 1fr}.nd-v3-trust div:last-child{grid-column:1/-1}.nd-v3-buybar{bottom:8px}.nd-v3-buybar button{padding:11px 13px}}
+</style>
+</head>
+
+<body>
+
+<div id="bloqueioHorario">
+<div class="bloqueio-box">
+
+<img class="bloqueio-logo" src="https://i.ibb.co/5gsVbBcb/corretooo.jpg" alt="ND BURGS">
+
+<h2>🔒 PEDIDOS FECHADOS</h2>
+
+<p>
+A ND BURGS está fechada no momento.
+<br>
+Volte durante nosso horário de atendimento.
+</p>
+
+<div class="bloqueio-horarios">
+
+<strong style="color:#f5c400;">🕐 HORÁRIO DE ATENDIMENTO</strong>
+
+<br>
+
+Terça a domingo:
+<strong>18:00 às 00:30</strong>
+
+<br>
+
+Domingo:
+<strong>18:00 às 00:30</strong>
+
+<br>
+
+Segunda-feira:
+<strong style="color:#ff4444;">FECHADO</strong>
+
+</div>
+
+</div>
+</div>
+
+<header>
+
+<img class="logo" src="https://i.ibb.co/5gsVbBcb/corretooo.jpg" alt="ND BURGS">
+
+</header>
+
+<div class="horarios">
+
+<div class="horarios-box">
+
+<div class="horarios-titulo">
+🕐 HORÁRIOS DE ATENDIMENTO
+</div>
+
+<div class="horarios-linha">
+
+📅 Terça a domingo:
+<strong>18:00 às 00:30</strong>
+
+<br>
+
+📅 Domingo:
+<strong>18:00 às 00:30</strong>
+
+<br>
+
+📅 Segunda-feira:
+<strong>FECHADO</strong>
+
+</div>
+
+<div id="statusHorario"></div>
+
+</div>
+
+</div>
+
+<div class="nd-hero-v3" id="inicio">
+  <div class="nd-hero-copy">
+    <span class="nd-hero-kicker">🔥 PEDIDO RÁPIDO • DELIVERY & RETIRADA</span>
+    <h2>SEU PEDIDO<br><strong>COMEÇA AQUI.</strong></h2>
+    <p>Escolha seu lanche, personalize do seu jeito e mande o pedido direto para a ND BURGS.</p>
+    <div class="nd-hero-actions">
+      <button class="nd-hero-btn primary" type="button" onclick="irPara('combos')">🍔 PEDIR AGORA</button>
+      <button class="nd-hero-btn secondary" type="button" onclick="irPara('combos')">🔥 VER COMBOS</button>
+    </div>
+    <div class="nd-hero-trust"><span>🛵 Delivery</span><span>🏪 Retirada</span><span>📲 WhatsApp</span></div>
+  </div>
+  <div class="nd-hero-art" aria-hidden="true">
+    <div class="nd-hero-glow"></div>
+    <div class="nd-hero-burger">🍔</div>
+    <div class="nd-hero-price">PEÇA<br><b>AGORA</b></div>
+  </div>
+</div>
+
+<section class="nd-mais-pedidos-v3" id="maisPedidos">
+  <div class="nd-section-head"><div><span>🏆 OS FAVORITOS</span><h2>MAIS PEDIDOS</h2></div><button type="button" onclick="irPara('combos')">VER CARDÁPIO →</button></div>
+  <div id="ndMaisPedidosGrid" class="nd-featured-grid"></div>
+</section>
+
+<h1>🍔 FAÇA SEU PEDIDO</h1>
+<div class="modern-search"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><span id="contadorBusca" class="search-count"></span></div>
+<div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
+
+<div class="categoria-menu">
+
+<button class="categoria-btn" onclick="irPara('combos')">
+❤️ COMBOS
+</button>
+
+<button class="categoria-btn" onclick="irPara('tradicionais')">
+🍔 TRADICIONAIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('artesanais')">
+🍔 ARTESANAIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('combosArtesanais')">
+🔥 COMBOS ARTESANAIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('porcoes')">
+🍟 PORÇÕES
+</button>
+
+<button class="categoria-btn" onclick="irPara('pasteis')">
+🥟 PASTÉIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('acai')">
+🥤 AÇAÍ
+</button>
+
+<button class="categoria-btn" onclick="irPara('milkshakes')">
+🥤🥤 MILKSHAKES
+</button>
+
+<button class="categoria-btn" onclick="irPara('bebidas')">
+🥤 BEBIDAS
+</button>
+
+<button class="categoria-btn" onclick="irPara('sobremesas')">
+🍓 SOBREMESAS
+</button>
+
+<button class="categoria-btn" onclick="irPara('adicionais')">
+➕ ADICIONAIS
+</button>
+
+</div>
+
+<section id="combos" class="categoria">
+
+<div class="categoria-titulo">
+❤️ COMBOS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/wNQqzkSf/COMBO-DOCE.png" alt="COMBO DOCE">
+<h3>COMBO DOCE</h3>
+<p>Combo especial ND BURGS.</p>
+<div class="preco">R$ 32,90</div>
+<button class="btn btn-add" onclick="adicionar('COMBO DOCE',32.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/cSLMFXtL/COMBO-GELADO.png" alt="COMBO GELADO">
+<h3>COMBO GELADO</h3>
+<p>Combo especial ND BURGS.</p>
+<div class="preco">R$ 40,90</div>
+<button class="btn btn-add" onclick="adicionar('COMBO GELADO',40.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/5WM7335K/5-ESTRELAS.png" alt="COMBO 5 ESTRELAS">
+<h3>COMBO 5 ESTRELAS</h3>
+<p>Combo especial ND BURGS.</p>
+<div class="preco">R$ 45,90</div>
+<button class="btn btn-add" onclick="adicionar('COMBO 5 ESTRELAS',45.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/twFJ6Vwt/COMBO-DIETA-SO-SEGUNDA.png" alt="COMBO DIETA SÓ SEGUNDA">
+<h3>COMBO DIETA SÓ SEGUNDA</h3>
+<p>Coca lata + doce surpresa + pastel.</p>
+<div class="preco">R$ 27,90</div>
+<button class="btn btn-add" onclick="adicionar('COMBO DIETA SÓ SEGUNDA',27.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/HLNHv9tt/COMBO-MAIS-VENDIDO-NOVO.png" alt="COMBO MAIS VENDIDO">
+<h3>COMBO MAIS VENDIDO</h3>
+<p>Um dos combos especiais da ND BURGS.</p>
+<div class="preco">R$ 20,90</div>
+<button class="btn btn-add" onclick="adicionar('COMBO MAIS VENDIDO',20.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/PvJqcwzb/MOTACA-ND.png" alt="COMBO MOTOCA ND">
+<h3>COMBO MOTOCA ND</h3>
+<p>Combo especial ND BURGS.</p>
+<div class="preco">R$ 32,90</div>
+<button class="btn btn-add" onclick="adicionar('COMBO MOTOCA ND',32.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/QR0388c/COMBO-S-LOVE.png" alt="COMBO SÓ LOVE">
+<h3>COMBO SÓ LOVE</h3>
+<p>Combo especial para compartilhar.</p>
+<div class="preco">R$ 71,90</div>
+<button class="btn btn-add" onclick="adicionar('COMBO SÓ LOVE',71.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/23CmpQqn/DATE-COM-ND-BURGS.png" alt="DATE COM NDBURGS">
+<h3>DATE COM NDBURGS</h3>
+<p>Combo especial para o seu date.</p>
+<div class="preco">R$ 70,90</div>
+<button class="btn btn-add" onclick="adicionar('DATE COM NDBURGS',70.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/Lz9JQx8f/01-NDBURGS.png" alt="01 ND BURGS">
+<h3>01 ND BURGS</h3>
+<p>Combo especial.</p>
+<div class="preco">R$ 50,90</div>
+<button class="btn btn-add" onclick="adicionar('01 ND BURGS',50.90)">ADICIONAR</button>
+</div>
+
+</div>
+</section>
+
+<section id="tradicionais" class="categoria">
+
+<div class="categoria-titulo">
+🍔 TRADICIONAIS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/ds9Qr0PD/BURGUER.jpg" alt="X-BURGUER">
+<h3>X-BURGUER</h3>
+<p>Hambúrguer tradicional.</p>
+<div class="preco">R$ 10,90</div>
+<button class="btn btn-add" onclick="adicionar('X-BURGUER',10.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/k2KQwpjp/BACON.jpg" alt="X-BACON">
+<h3>X-BACON</h3>
+<p>Hambúrguer tradicional com bacon.</p>
+<div class="preco">R$ 11,90</div>
+<button class="btn btn-add" onclick="adicionar('X-BACON',11.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/390n5BZv/SALADA.png" alt="X-SALADA">
+<h3>X-SALADA</h3>
+<p>Hambúrguer tradicional com salada.</p>
+<div class="preco">R$ 11,90</div>
+<button class="btn btn-add" onclick="adicionar('X-SALADA',11.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/NgWQv5Nm/EGG.png" alt="X-EGG">
+<h3>X-EGG</h3>
+<p>Hambúrguer tradicional com ovo.</p>
+<div class="preco">R$ 11,90</div>
+<button class="btn btn-add" onclick="adicionar('X-EGG',11.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/fGHQ9NrW/SELLIS.png" alt="SELLIS">
+<h3>SELLIS</h3>
+<p>Hambúrguer tradicional especial ND BURGS.</p>
+<div class="preco">R$ 13,90</div>
+<button class="btn btn-add" onclick="adicionar('SELLIS',13.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/Vszxw7h/NUNES.png" alt="NUNES">
+<h3>NUNES</h3>
+<p>Hambúrguer especial tradicional.</p>
+<div class="preco">R$ 24,90</div>
+<button class="btn btn-add" onclick="adicionar('NUNES',24.90)">ADICIONAR</button>
+</div>
+
+</div>
+</section>
+
+<section id="artesanais" class="categoria">
+
+<div class="categoria-titulo">
+🍔 ARTESANAIS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/zW8gbZpK/BERENICE.jpg" alt="BERENICE">
+<h3>BERENICE</h3>
+<p>Pão de brioche, carne artesanal, cheddar, maionese verde, alface e cebola roxa.</p>
+<div class="preco">R$ 22,90</div>
+<button class="btn btn-add" onclick="adicionar('BERENICE',22.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/tTWqZ9ST/PATAO.png" alt="PATAO">
+<h3>PATAO</h3>
+<p>Pão de brioche, carne artesanal, bacon, barbecue e onion rings.</p>
+<div class="preco">R$ 23,90</div>
+<button class="btn btn-add" onclick="adicionar('PATAO',23.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/d4pD5bNc/DINA.jpg" alt="DINA">
+<h3>DINA</h3>
+<p>Pão de brioche, frango empanado, cheddar, maionese verde, alface e tomate.</p>
+<div class="preco">R$ 20,90</div>
+<button class="btn btn-add" onclick="adicionar('DINA',20.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/qLK7hWYs/GADEIA.jpg" alt="GADEIA">
+<h3>GADEIA</h3>
+<p>Pão de hambúrguer, carne artesanal, maionese verde e queijo cheddar.</p>
+<div class="preco">R$ 20,90</div>
+<button class="btn btn-add" onclick="adicionar('GADEIA',20.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/ymQ7sFZn/GAROTINHO.png" alt="GAROTINHO">
+<h3>GAROTINHO</h3>
+<p>Pão de brioche, carne artesanal, molho cheddar cremoso e bacon.</p>
+<div class="preco">R$ 22,90</div>
+<button class="btn btn-add" onclick="adicionar('GAROTINHO',22.90)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/0yTLwY4b/PEZAO.jpg" alt="PÉZÃO">
+<h3>PÉZÃO</h3>
+<p>Pão de brioche dividido em 3, 2 carnes artesanais, maionese, cheddar, ovo, cebola, bacon, alface e tomate.</p>
+<div class="preco">R$ 32,90</div>
+<button class="btn btn-add" onclick="adicionar('PÉZÃO',32.90)">ADICIONAR</button>
+</div>
+
+</div>
+</section>
+
+<section id="combosArtesanais" class="categoria">
+
+<div class="categoria-titulo">
+🔥 COMBOS ARTESANAIS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/QR0388c/COMBO-S-LOVE.png" alt="COMBO SÓ LOVE">
+<h3>ARTESANAL COMBO SÓ LOVE</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 90,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO SÓ LOVE',90.80)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/5WM7335K/5-ESTRELAS.png" alt="COMBO 5 ESTRELAS">
+<h3>ARTESANAL COMBO 5 ESTRELAS</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 70,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO 5 ESTRELAS',70.80)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/HLNHv9tt/COMBO-MAIS-VENDIDO-NOVO.png" alt="COMBO MAIS VENDIDO">
+<h3>ARTESANAL COMBO MAIS VENDIDO</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 34,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO MAIS VENDIDO',34.80)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/wNQqzkSf/COMBO-DOCE.png" alt="COMBO DOCE">
+<h3>ARTESANAL COMBO DOCE</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 44,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO DOCE',44.80)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/cSLMFXtL/COMBO-GELADO.png" alt="COMBO GELADO">
+<h3>ARTESANAL COMBO GELADO</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 52,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO GELADO',52.80)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/23CmpQqn/DATE-COM-ND-BURGS.png" alt="DATE COM NDBURGS">
+<h3>ARTESANAL DATE COM NDBURGS</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 91,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL DATE COM NDBURGS',91.80)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/PvJqcwzb/MOTACA-ND.png" alt="COMBO MOTOCA ND">
+<h3>ARTESANAL MOTOCA ND</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 41,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL MOTOCA ND',41.80)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/Lz9JQx8f/01-NDBURGS.png" alt="01 ND BURGS">
+<h3>ARTESANAL 01 ND BURGS</h3>
+<p>Combo artesanal especial.</p>
+<div class="preco">R$ 96,80</div>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL 01 ND BURGS',96.80)">ADICIONAR</button>
+</div>
+
+</div>
+</section>
+
+<section id="porcoes" class="categoria">
+
+<div class="categoria-titulo">
+🍟 PORÇÕES
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/JT71z1Y/BATATA.png" alt="BATATA">
+<h3>BATATA</h3>
+<p>Escolha o tamanho.</p>
+<div class="preco">A partir de R$ 6,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('batata')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/v4QS3vVp/BATATA-COM-CHEDDAR-E-BACON.png" alt="BATATA COMPLETA">
+<h3>BATATA COMPLETA</h3>
+<p>Batata completa com cheddar e bacon.</p>
+<div class="preco">A partir de R$ 12,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('batataCompleta')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/39SVqYJP/NUGGETS.png" alt="NUGGETS">
+<h3>NUGGETS</h3>
+<p>Escolha o tamanho.</p>
+<div class="preco">A partir de R$ 9,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('nuggets')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/Pz0W4RKj/ONION-RINGS.png" alt="ANEL DE CEBOLA">
+<h3>ANEL DE CEBOLA</h3>
+<p>Escolha o tamanho.</p>
+<div class="preco">A partir de R$ 9,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('anelCebola')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/Fb7LHQXC/FRANGO-PEDA-OS-EMPANADO.png" alt="FRANGO FRITO">
+<h3>FRANGO FRITO</h3>
+<p>Escolha o tamanho.</p>
+<div class="preco">A partir de R$ 15,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('frangoFrito')">ESCOLHER</button>
+</div>
+
+</div>
+</section>
+
+<section id="pasteis" class="categoria">
+
+<div class="categoria-titulo">
+🥟 PASTÉIS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+
+<img class="produto-imagem" src="https://i.ibb.co/5x68nMyh/Chat-GPT-Image-25-06-2026-23-28-35.png" alt="PASTÉIS">
+
+<h3>PASTÉIS</h3>
+
+<p>Escolha entre nossos sabores salgados e doces.</p>
+
+<div class="preco">A partir de R$ 11,00</div>
+
+<button class="btn btn-add" onclick="abrirPersonalizacao('pasteis')">
+ESCOLHER SABOR
+</button>
+
+</div>
+
+</div>
+</section>
+
+<section id="acai" class="categoria">
+
+<div class="categoria-titulo">
+🥤 AÇAÍ
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+
+<img class="produto-imagem" src="https://i.ibb.co/Kxj5h5Km/Chat-GPT-Image-28-07-2026-18-32-28.png" alt="AÇAÍ">
+
+<h3>AÇAÍ</h3>
+
+<p>Escolha o tamanho e seus acompanhamentos.</p>
+
+<div class="preco">A partir de R$ 11,90</div>
+
+<button class="btn btn-add" onclick="abrirPersonalizacao('acai')">
+ESCOLHER
+</button>
+
+</div>
+
+<div class="produto">
+
+<h3>CASADINHO</h3>
+
+<p>Açaí casadinho.</p>
+
+<div class="preco">R$ 11,90</div>
+
+<button class="btn btn-add" onclick="abrirPersonalizacao('casadinho')">
+ESCOLHER
+</button>
+
+</div>
+
+<div class="produto">
+
+<h3>AÇAÍ TRUFFADO</h3>
+
+<p>Açaí truffado especial.</p>
+
+<div class="preco">A partir de R$ 26,00</div>
+
+<button class="btn btn-add" onclick="abrirPersonalizacao('truffado')">
+ESCOLHER
+</button>
+
+</div>
+
+<div class="produto">
+
+<h3>TENTAÇÃO DE MORANGO</h3>
+
+<p>Açaí com combinação especial de morango.</p>
+
+<div class="preco">A partir de R$ 18,00</div>
+
+<button class="btn btn-add" onclick="abrirPersonalizacao('tentacao')">
+ESCOLHER
+</button>
+
+</div>
+
+</div>
+</section>
+
+<section id="milkshakes" class="categoria">
+
+<div class="categoria-titulo">
+🥤 MILKSHAKES
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/PZD2DtDq/MILKSHAKE-DE-OVOMALTINE.png" alt="MILKSHAKE OVOMALTINE">
+<h3>OVOMALTINE</h3>
+<p>Milkshake cremoso.</p>
+<div class="preco">A partir de R$ 15,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('milkOvomaltine')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/ZRbdHHVQ/oreo.jpg" alt="MILKSHAKE OREO">
+<h3>OREO</h3>
+<p>Milkshake cremoso.</p>
+<div class="preco">A partir de R$ 15,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('milkOreo')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/NnyTc0wK/pa-oca.jpg" alt="MILKSHAKE PAÇOCA">
+<h3>PAÇOCA</h3>
+<p>Milkshake cremoso.</p>
+<div class="preco">A partir de R$ 15,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('milkPacoca')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/1Ym81pQM/MILKSHAKE-MORANGO.png" alt="MILKSHAKE NESQUIK">
+<h3>NESQUIK</h3>
+<p>Milkshake cremoso.</p>
+<div class="preco">A partir de R$ 15,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('milkNesquik')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/NntDRB8q/leite-ninho.jpg" alt="MILKSHAKE LEITE NINHO">
+<h3>LEITE NINHO</h3>
+<p>Milkshake cremoso.</p>
+<div class="preco">A partir de R$ 15,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('milkNinho')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" src="https://i.ibb.co/WvRv23Y5/milk-a-ai.jpg" alt="MILKSHAKE DE AÇAÍ">
+<h3>DE AÇAÍ</h3>
+<p>Milkshake de açaí.</p>
+<div class="preco">A partir de R$ 15,00</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('milkAcai')">ESCOLHER</button>
+</div>
+
+</div>
+</section>
+
+<section id="bebidas" class="categoria">
+
+<div class="categoria-titulo">
+🥤 BEBIDAS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<h3>COCA COLA LATA</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 6,00</div>
+<button class="btn btn-add" onclick="adicionar('COCA COLA LATA',6)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>COCA COLA ZERO LATA</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 6,00</div>
+<button class="btn btn-add" onclick="adicionar('COCA COLA ZERO LATA',6)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>SPRITE LATA</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 6,00</div>
+<button class="btn btn-add" onclick="adicionar('SPRITE LATA',6)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>FANTA UVA LATA</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 6,00</div>
+<button class="btn btn-add" onclick="adicionar('FANTA UVA LATA',6)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>FANTA LARANJA LATA</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 6,00</div>
+<button class="btn btn-add" onclick="adicionar('FANTA LARANJA LATA',6)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>GUARANA LATA</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 6,00</div>
+<button class="btn btn-add" onclick="adicionar('GUARANA LATA',6)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>DELL VALE LATA</h3>
+<p>Bebida.</p>
+<div class="preco">R$ 7,00</div>
+<button class="btn btn-add" onclick="adicionar('DELL VALE LATA',7)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>ÁGUA MINERAL</h3>
+<p>Água mineral.</p>
+<div class="preco">R$ 3,50</div>
+<button class="btn btn-add" onclick="adicionar('ÁGUA MINERAL',3.50)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>COCA COLA 600ML</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 10,00</div>
+<button class="btn btn-add" onclick="adicionar('COCA COLA 600ML',10)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>COCA COLA 2 LITROS</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 15,00</div>
+<button class="btn btn-add" onclick="adicionar('COCA COLA 2 LITROS',15)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>COCA COLA ZERO 2 LITROS</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 15,00</div>
+<button class="btn btn-add" onclick="adicionar('COCA COLA ZERO 2 LITROS',15)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>DOLLY 2 LITROS LIMÃO</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 9,00</div>
+<button class="btn btn-add" onclick="adicionar('DOLLY 2 LITROS LIMÃO',9)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>DOLLY 2 LITROS GUARANÁ</h3>
+<p>Refrigerante.</p>
+<div class="preco">R$ 9,00</div>
+<button class="btn btn-add" onclick="adicionar('DOLLY 2 LITROS GUARANÁ',9)">ADICIONAR</button>
+</div>
+
+</div>
+</section>
+
+<section id="sobremesas" class="categoria">
+
+<div class="categoria-titulo">
+🍓 SOBREMESAS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+
+<img class="produto-imagem" src="https://i.ibb.co/ksyxPyr2/Chat-GPT-Image-26-06-2026-00-10-12.png" alt="KITKAT">
+
+<h3>KITKAT</h3>
+
+<p>Doce especial.</p>
+
+<div class="preco">R$ 7,00</div>
+
+<button class="btn btn-add" onclick="adicionar('KITKAT',7)">
+ADICIONAR
+</button>
+
+</div>
+
+<div class="produto">
+
+<img class="produto-imagem" src="https://i.ibb.co/7x6dFWmm/Chat-GPT-Image-25-06-2026-23-14-20.png" alt="SURPRESA DE UVA">
+
+<h3>SURPRESA DE UVA</h3>
+
+<p>Sobremesa especial.</p>
+
+<div class="preco">R$ 12,00</div>
+
+<button class="btn btn-add" onclick="adicionar('SURPRESA DE UVA',12)">
+ADICIONAR
+</button>
+
+</div>
+
+</div>
+</section>
+
+<section id="adicionais" class="categoria">
+
+<div class="categoria-titulo">
+➕ ADICIONAIS
+</div>
+
+<div class="produtos">
+
+<div class="produto">
+<h3>FATIA QUEIJO CHEDDAR EXTRA</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('FATIA QUEIJO CHEDDAR EXTRA',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>HAMBURGUER EXTRA ARTESANAL</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 9,00</div>
+<button class="btn btn-add" onclick="adicionar('HAMBURGUER EXTRA ARTESANAL',9)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>HAMBURGUER EXTRA TRADICIONAL</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 2,50</div>
+<button class="btn btn-add" onclick="adicionar('HAMBURGUER EXTRA TRADICIONAL',2.50)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>BACON</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('BACON',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>POTINHO BARBECUE</h3>
+<p>Molho extra.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('POTINHO BARBECUE',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>POTINHO MAIONESE VERDE</h3>
+<p>Molho extra.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('POTINHO MAIONESE VERDE',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>POTINHO CHEDDAR</h3>
+<p>Molho extra.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('POTINHO CHEDDAR',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>POTINHO MAIONESE ARTESANAL</h3>
+<p>Molho extra.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('POTINHO MAIONESE ARTESANAL',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>ADICIONAL NUTELLA</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 5,00</div>
+<button class="btn btn-add" onclick="adicionar('ADICIONAL NUTELLA',5)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>ADICIONAL CREME DE NINHO</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('ADICIONAL CREME DE NINHO',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>ADICIONAL KITKAT</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('ADICIONAL KITKAT',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>ACOMPANHAMENTO EXTRA</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('ACOMPANHAMENTO EXTRA',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>ADICIONAL BACON</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('ADICIONAL BACON',3)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<h3>ADICIONAL CHEDDAR</h3>
+<p>Adicional.</p>
+<div class="preco">R$ 3,00</div>
+<button class="btn btn-add" onclick="adicionar('ADICIONAL CHEDDAR',3)">ADICIONAR</button>
+</div>
+
+</div>
+</section>
+
+<div id="checkout" class="carrinho">
+
+<h2>🛒 SEU CARRINHO</h2>
+
+<div id="carrinhoItens">
+<div class="vazio">Seu carrinho está vazio.</div>
+</div>
+
+<div class="resumo">
+
+<div class="linha">
+<span>Subtotal</span>
+<strong id="subtotal">R$ 0,00</strong>
+</div>
+
+<div class="linha">
+<span>Taxa de entrega</span>
+<strong id="taxa">R$ 0,00</strong>
+</div>
+
+<div class="linha total">
+<span>TOTAL</span>
+<strong id="total">R$ 0,00</strong>
+</div>
+
+</div>
+</div>
+
+<div class="formulario">
+
+<h2>📍 DADOS DO PEDIDO</h2>
+
+<label>Nome</label>
+<input type="text" id="nome" placeholder="Digite seu nome">
+
+<label>Telefone</label>
+<input type="tel" id="telefone" placeholder="Digite seu telefone">
+
+<label>Tipo do pedido</label>
+
+<select id="tipoPedido" onchange="alterarTipoPedido()">
+
+<option value="ENTREGA">
+🏍️ DELIVERY
+</option>
+
+<option value="RETIRADA">
+🏪 RETIRADA
+</option>
+
+</select>
+
+<div id="enderecoArea">
+
+<label>Rua</label>
+<div class="address-search-wrap"><input id="ruaBusca" type="search" autocomplete="off" placeholder="🔎 Pesquisar sua rua"><small>Digite parte do nome para encontrar mais rápido.</small></div>
+<select id="rua" onchange="calcularTaxa()">
+
+<option value="">
+Selecione sua rua
+</option>
+
+</select>
+
+<label>Número</label>
+
+<input
+type="text"
+id="numero"
+placeholder="Número da residência"
+>
+
+<label>Complemento</label>
+
+<input
+type="text"
+id="complemento"
+placeholder="Apartamento, casa, bloco..."
+>
+
+<div id="avisoTaxa" class="aviso-taxa"></div>
+
+</div>
+
+<label>Forma de pagamento</label>
+
+<select id="pagamento">
+
+<option value="">
+Selecione
+</option>
+
+<option value="PIX">
+PIX
+</option>
+
+<option value="DINHEIRO">
+DINHEIRO
+</option>
+
+<option value="CARTÃO">
+CARTÃO
+</option>
+
+</select>
+
+<div id="trocoArea" style="display:none;">
+
+<label>Troco para quanto?</label>
+
+<input
+type="number"
+id="troco"
+placeholder="Ex: 50"
+step="0.01"
+>
+
+</div>
+
+<label>Observação</label>
+
+<textarea
+id="observacao"
+placeholder="Ex: Sem cebola, tocar campainha..."
+></textarea>
+
+<button
+class="btn btn-whatsapp"
+onclick="finalizarPedido()"
+>
+📲 ENVIAR PEDIDO PELO WHATSAPP
+</button>
+
+<button
+class="btn btn-limpar"
+onclick="limparCarrinho()"
+>
+🗑️ LIMPAR CARRINHO
+</button>
+
+</div>
+
+</div>
+
+<!-- CARRINHO FLUTUANTE -->
+
+<div id="carrinhoFlutuante" class="carrinho-flutuante">
+
+<div class="carrinho-flutuante-info">
+
+<strong>
+🛒 SEU CARRINHO
+</strong>
+
+<span id="contadorCarrinho">
+0 itens
+</span>
+
+</div>
+
+<div class="carrinho-flutuante-direita">
+
+<strong
+id="totalCarrinhoFlutuante"
+class="carrinho-flutuante-total"
+>
+R$ 0,00
+</strong>
+
+<button
+type="button"
+class="btn-ver-carrinho"
+onclick="abrirCarrinho()"
+>
+VER CARRINHO
+</button>
+
+</div>
+
+</div>
+
+<!-- MODAL CARRINHO -->
+
+<div
+id="modalCarrinho"
+class="modal-carrinho"
+onclick="fecharCarrinho(event)"
+>
+
+<div
+class="painel-carrinho"
+onclick="event.stopPropagation()"
+>
+
+<div class="cabecalho-carrinho">
+
+<h2>
+🛒 SEU PEDIDO
+</h2>
+
+<button
+class="fechar-carrinho"
+onclick="fecharCarrinho()"
+>
+×
+</button>
+
+</div>
+
+<div id="itensCarrinhoModal"></div>
+
+<div class="resumo-modal">
+
+<div class="linha">
+<span>Subtotal</span>
+<strong id="subtotalCarrinhoModal">
+R$ 0,00
+</strong>
+</div>
+
+<div class="linha">
+<span>Taxa de entrega</span>
+<strong id="taxaCarrinhoModal">
+R$ 0,00
+</strong>
+</div>
+
+<div class="linha total-modal">
+<span>TOTAL</span>
+<strong id="totalCarrinhoModal">
+R$ 0,00
+</strong>
+</div>
+
+</div>
+
+<button
+class="btn btn-continuar-comprando"
+onclick="irParaCheckout()"
+>
+❤️ CONTINUAR COMPRANDO
+</button>
+
+<button
+class="btn btn-finalizar-pedido"
+onclick="irParaFinalizarPedido()"
+>
+📲 FINALIZAR PEDIDO
+</button>
+
+</div>
+</div>
+
+<!-- MODAL FINALIZAR PEDIDO -->
+
+<div
+id="modalFinalizar"
+class="modal-finalizar"
+onclick="fecharModalFinalizar(event)"
+>
+
+<div
+class="painel-finalizar"
+onclick="event.stopPropagation()"
+>
+
+<div class="cabecalho-finalizar">
+
+<h2>
+📍 DADOS DO PEDIDO
+</h2>
+
+<button
+class="btn-fechar-finalizar"
+onclick="fecharModalFinalizar()"
+>
+×
+</button>
+
+</div>
+
+<label>
+Nome
+</label>
+
+<input
+type="text"
+id="nomeModal"
+placeholder="Digite seu nome"
+>
+
+<label>
+Telefone
+</label>
+
+<input
+type="tel"
+id="telefoneModal"
+placeholder="Digite seu telefone"
+>
+
+<label>
+Tipo do pedido
+</label>
+
+<select
+id="tipoPedidoModal"
+onchange="alterarTipoPedidoModal()"
+>
+
+<option value="ENTREGA">
+🏍️ DELIVERY
+</option>
+
+<option value="RETIRADA">
+🏪 RETIRADA
+</option>
+
+</select>
+
+<div id="enderecoAreaModal">
+
+<label>
+Rua
+</label>
+
+<select
+id="ruaModal"
+onchange="calcularTaxaModal()"
+>
+
+<option value="">
+Selecione sua rua
+</option>
+
+</select>
+
+<label>
+Número
+</label>
+
+<input
+type="text"
+id="numeroModal"
+placeholder="Número da residência"
+>
+
+<label>
+Complemento
+</label>
+
+<input
+type="text"
+id="complementoModal"
+placeholder="Apartamento, casa, bloco..."
+>
+
+<div
+id="avisoTaxaModal"
+class="aviso-taxa"
+></div>
+
+</div>
+
+<label>
+Forma de pagamento
+</label>
+
+<select
+id="pagamentoModal"
+onchange="alterarPagamentoModal()"
+>
+
+<option value="">
+Selecione
+</option>
+
+<option value="PIX">
+PIX
+</option>
+
+<option value="DINHEIRO">
+DINHEIRO
+</option>
+
+<option value="CARTÃO">
+CARTÃO
+</option>
+
+</select>
+
+<div
+id="trocoAreaModal"
+style="display:none;"
+>
+
+<label>
+Troco para quanto?
+</label>
+
+<input
+type="number"
+id="trocoModal"
+placeholder="Ex: 50"
+step="0.01"
+>
+
+</div>
+
+<label>
+Observação
+</label>
+
+<textarea
+id="observacaoModal"
+placeholder="Ex: Sem cebola, tocar campainha..."
+></textarea>
+
+<div
+class="resumo-modal"
+style="margin-top:18px;"
+>
+
+<div class="linha">
+<span>Subtotal</span>
+
+<strong id="subtotalFinalizarModal">
+R$ 0,00
+</strong>
+</div>
+
+<div class="linha">
+<span>Taxa de entrega</span>
+
+<strong id="taxaFinalizarModal">
+R$ 0,00
+</strong>
+</div>
+
+<div class="linha total-modal">
+<span>TOTAL</span>
+
+<strong id="totalFinalizarModal">
+R$ 0,00
+</strong>
+</div>
+
+</div>
+
+<button
+class="btn btn-finalizar-modal"
+onclick="finalizarPedidoModal()"
+>
+📲 CLIQUE PARA CONFIRMAR PEDIDO 
+</button>
+
+</div>
+</div>
+
+<div
+id="toastCarrinho"
+class="toast-carrinho"
+>
+✅ Adicionado ao carrinho
+</div>
+
+<!-- MODAL PERSONALIZAÇÃO -->
+
+<div
+id="modalPersonalizacao"
+class="modal-personalizacao"
+>
+
+<div class="modal-box">
+
+<div class="modal-topo">
+
+<h2 id="modalTitulo">
+Personalizar
+</h2>
+
+<button
+class="modal-fechar"
+onclick="fecharPersonalizacao()"
+>
+×
+</button>
+
+</div>
+
+<div id="modalConteudo"></div>
+
+</div>
+</div>
+
+<div id="suggestionsModal" class="suggestions-modal" onclick="fecharSugestoes(event)"><div class="suggestions-panel" onclick="event.stopPropagation()"><div class="suggestions-head"><div><h2>❤️ QUE TAL LEVAR MAIS UM?</h2><small style="color:#999">Escolha uma sugestão e adicione ao pedido.</small></div><button class="suggestions-close" onclick="fecharSugestoes()">×</button></div><div id="suggestionsGrid" class="suggestions-grid"></div><button class="btn btn-finalizar-pedido" style="margin-top:12px" onclick="fecharSugestoes()">CONTINUAR PARA O PEDIDO</button></div></div>
+
+<footer class="rodape-instagram">
+
+<div class="instagram-destaque">
+
+<div class="instagram-icone">
+📸
+</div>
+
+<div class="instagram-texto">
+
+<span>
+SIGA A ND BURGS
+</span>
+
+<strong>
+@ndburgs
+</strong>
+
+<p>
+Acompanhe nossas novidades,
+promoções e lançamentos!
+</p>
+
+</div>
+
+<a
+href="https://www.instagram.com/ndburgs/"
+target="_blank"
+rel="noopener noreferrer"
+class="instagram-botao"
+>
+📲 SEGUIR NO INSTAGRAM
+</a>
+
+</div>
+
+<div class="rodape-final">
+
+ND BURGS © 2026
+<br>
+Obrigado pela preferência ❤️
+
+</div>
+
+</footer>
+
+<script>
+
+const taxas = {
+"AV ATLETICO":9,
+"AV LYONS":5,
+"AV MARABAS":4,
+"AV MARAMBAIA":4,
+"AV TORRE ALBERT MUNCK":6,
+"AVENIDA BRASIL":5,
+"AVENIDA PROFESSOR MANOEL JOSE PEDROSO":7,
+"BALCAO":0,
+"CONDOMINIO PARQUE REAL":9,
+"CONDOMINIO VALE VERDE":10,
+"ESTRADA DO ATALAIA":6,
+"ESTRADA DO MORRO GRANDE":9,
+"ESTRADA DO PADRE INACIO":6,
+"ESTRADA DOS FISCHER'S":7,
+"ESTRADA VELHA DA OLARIA":5,
+"MANDELINHA KENKIT":5,
+"MANDELINHA PARTE DE CIMA":5,
+"MANDELINHA PORTO ALEGRE":5,
+"POINT DO DIGO":6,
+"RETIRADA":0,
+"RUA 7":6,
+"RUA ACLIMACAO":6,
+"RUA ADOVEL QUINTINO":6,
+"RUA AGULHAS NEGRAS":7,
+"RUA ALAGOINHAS":6,
+"RUA ARCO DOURADO":5,
+"RUA ARCO VERDE":5,
+"RUA BELMONTE":5,
+"RUA BENEDITO MARIA DE JESUS":5,
+"RUA BRASILIA":7,
+"RUA BRUMADO":6,
+"RUA CAETETE":6,
+"RUA CAIAPO":7,
+"RUA CAIO GRACO":5,
+"RUA CALIL FILHO":8,
+"RUA CAMINHO EXISTENTE":4,
+"RUA CARMEN MIRANDA":9,
+"RUA CIRO MONTEIRO":9,
+"RUA COAPA":6,
+"RUA COMODORO":5,
+"RUA DAS AMEIXEIRAS":3,
+"RUA DAS BANANEIRAS":3,
+"RUA DOS COQUEIRAIS":3,
+"RUA DAS DAMASQUEIRAS":3,
+"RUA DAS MACIEIRAS":3,
+"RUA DAS MORANGUEIRAS":3,
+"RUA DESPORTIVA":9,
+"RUA DR APARECIDA J DOMINGUES":4,
+"RUA DR ODAIR PACHECO PEDROSO":8,
+"RUA ERICO VERISSIMO":7,
+"RUA ERIVELTON MARTINS":7,
+"RUA ESPLANADA":5,
+"RUA EXISTENTE":4,
+"RUA FELISBINO DE OLIVEIRA":8,
+"RUA FRANCISCO ALVES":9,
+"RUA FUGI":8,
+"RUA GRACIANO SOARES DE ARAUJO":5,
+"RUA INDUSQUIMICA":5,
+"RUA IPIRANGA":6,
+"RUA ISMENIA":6,
+"RUA ITABUNA":6,
+"RUA ITAGUAI":6,
+"RUA ITAPETI":7,
+"RUA ITARIRI":4,
+"RUA JACOBINA":5,
+"RUA JOAQUIM RUAS":6,
+"RUA JUQUITIBA":4,
+"RUA LAMARTINE BABO":9,
+"RUA LEVER":6,
+"RUA PADRE LUIZ MARTINE":5,
+"RUA MADRESSILVAS":6,
+"RUA MARIO ANDREATINI":4,
+"RUA METAL LEVE":5,
+"RUA MIL FOLHAS":9,
+"RUA MIRAMAR":5,
+"RUA MOÇAMBIQUE":9,
+"RUA NILO":9,
+"RUA NOGAM":6,
+"RUA NOVA ODESSA":6,
+"RUA NOVA OLINDA":6,
+"RUA NOVA PATRIA":6,
+"RUA NOVA SAO PAULO":6,
+"RUA ODETE":6,
+"RUA OMA":9,
+"RUA OTELO ZELONI":7,
+"RUA PACARAIMA":8,
+"RUA PALMAS":9,
+"RUA PARANA":7,
+"RUA PAULO SERGIO LEMOS":7,
+"RUA PENHA":6,
+"RUA PIRINEUS":8,
+"RUA PONTA GROSSA":4,
+"RUA PORTO ALEGRE":5,
+"RUA PROFESSOR ZOE PEREIRA BENIAMINO":6,
+"RUA REGISTRO":4,
+"RUA RIBEIRAO PIRES":4,
+"RUA RIO BRANCO":5,
+"RUA RIO CLARO":5,
+"RUA MARANHAO":7,
+"RUA SANTA MARIA IMACULADA":5,
+"RUA SANTA MATILDE":6,
+"RUA SANTO AGOSTINO":7,
+"RUA SAO BENEDITO":7,
+"RUA SAO CIPRIANO":6,
+"RUA SAO CRISTOVAO":6,
+"RUA SAO GEREMIAS":6,
+"RUA SAO PAULO":6,
+"RUA SAO PAULO DAS MISSOES":7,
+"RUA SAO SERAFIM":6,
+"RUA SERGIO CARDOSO":6,
+"RUA SILVA TELES":9,
+"RUA TIBERIO":5,
+"RUA TORQUARO NETO":6,
+"RUA UGANDA":9,
+"RUA VICENTE CELESTINO":9,
+"RUA VICENTE STRIFEZZI":15,
+"RUA VILA VERDE":5,
+"RUA VOTURAMA":7,
+"RUA WELCOME":5,
+"RUA ZIEMBINSKI":7,
+"VIELA DOS FISCHERS":9,
+"ESTRADA DAS GRAÇAS":4,
+"RUA NOVA TRINDADE":6,
+"RUA APENINOS":12,
+"RUA VERA CRUZ":5,
+"MERCADO LIVRE":15,
+"RUA SANTA QUITERIA":6,
+"RUA ITAPETININGA":5,
+"RUA MELGAXE":9,
+"RUA GETULIO VARGAS":8,
+"IDOMINEU ANTUNES CALDEIRA":9,
+"RUA PATATIVA":7,
+"RUA MOEMA":6
+};
+
+/* =========================
+   CARRINHO SALVO
+========================= */
+
+const CHAVE_CARRINHO="ndburgs_carrinho";
+
+let carrinho=[];
+
+function salvarCarrinho(){
+
+try{
+
+localStorage.setItem(
+CHAVE_CARRINHO,
+JSON.stringify(carrinho)
+);
+
+}catch(e){}
+
+}
+
+function carregarCarrinhoSalvo(){
+
+try{
+
+const salvo=
+localStorage.getItem(CHAVE_CARRINHO);
+
+if(!salvo)return;
+
+const dados=
+JSON.parse(salvo);
+
+if(Array.isArray(dados)){
+carrinho=dados;
+}
+
+}catch(e){
+
+carrinho=[];
+
+}
+
+}
+
+function moeda(valor){
+
+return Number(valor).toLocaleString(
+"pt-BR",
+{
+style:"currency",
+currency:"BRL"
+}
+);
+
+}
+
+const produtosPersonalizaveis={
+
+acai:{
+titulo:"AÇAÍ",
+tamanhos:[
+["200ML",11.90],
+["300ML",15.00],
+["400ML",18.00],
+["700ML",32.00]
+],
+acompanhamentos:[
+["CALDA DE MORANGO",0],
+["CALDA DE CHOCOLATE",0],
+["LEITE CONDENSADO",0],
+["PAÇOCA",0],
+["OREO",0],
+["CONFETE",0],
+["OVOMALTINE",0],
+["NESQUIK",0],
+["NUTELLA",5],
+["SUCRILHOS",0],
+["GRANOLA",0],
+["MORANGO",0],
+["MANGA",0],
+["BANANA",0],
+["LEITE EM PÓ",0],
+["KIT KAT",3],
+["CHOCOBALL",0],
+["DOCE DE LEITE",0],
+["CREME DE NINHO",3],
+["KIWI",0]
+]
+},
+
+casadinho:{
+titulo:"CASADINHO",
+tamanhos:[
+["200ML",11.90]
+],
+acompanhamentos:[]
+},
+
+truffado:{
+titulo:"AÇAÍ TRUFFADO",
+tamanhos:[
+["300ML",26.00],
+["400ML",29.00],
+["700ML",43.00]
+],
+acompanhamentos:[]
+},
+
+tentacao:{
+titulo:"TENTAÇÃO DE MORANGO",
+tamanhos:[
+["300ML",18.00],
+["400ML",18.00],
+["700ML",32.00]
+],
+acompanhamentos:[]
+},
+
+milkOvomaltine:{
+titulo:"MILKSHAKE OVOMALTINE",
+tamanhos:[
+["300ML",15],
+["400ML",18],
+["700ML",30]
+],
+acompanhamentos:[]
+},
+
+milkOreo:{
+titulo:"MILKSHAKE OREO",
+tamanhos:[
+["300ML",15],
+["400ML",18],
+["700ML",30]
+],
+acompanhamentos:[]
+},
+
+milkPacoca:{
+titulo:"MILKSHAKE PAÇOCA",
+tamanhos:[
+["300ML",15],
+["400ML",18],
+["700ML",30]
+],
+acompanhamentos:[]
+},
+
+milkNesquik:{
+titulo:"MILKSHAKE NESQUIK",
+tamanhos:[
+["300ML",15],
+["400ML",18],
+["700ML",30]
+],
+acompanhamentos:[]
+},
+
+milkNinho:{
+titulo:"MILKSHAKE LEITE NINHO",
+tamanhos:[
+["300ML",15],
+["400ML",18],
+["700ML",30]
+],
+acompanhamentos:[]
+},
+
+milkAcai:{
+titulo:"MILKSHAKE DE AÇAÍ",
+tamanhos:[
+["300ML",15],
+["400ML",18],
+["700ML",30]
+],
+acompanhamentos:[]
+},
+
+batata:{
+titulo:"BATATA",
+tamanhos:[
+["P",6],
+["M",15],
+["G",32]
+],
+acompanhamentos:[]
+},
+
+batataCompleta:{
+titulo:"BATATA COMPLETA",
+tamanhos:[
+["P",12],
+["M",21],
+["G",57]
+],
+acompanhamentos:[]
+},
+
+nuggets:{
+titulo:"NUGGETS",
+tamanhos:[
+["P",9],
+["M",16],
+["G",55]
+],
+acompanhamentos:[]
+},
+
+anelCebola:{
+titulo:"ANEL DE CEBOLA",
+tamanhos:[
+["P",9],
+["M",16],
+["G",55]
+],
+acompanhamentos:[]
+},
+
+frangoFrito:{
+titulo:"FRANGO FRITO",
+tamanhos:[
+["P",15],
+["M",27],
+["G",70]
+],
+acompanhamentos:[]
+}
+
+};
+
+const saboresPasteis={
+
+salgados:[
+
+["PASTEL DE CARNE",11],
+["PASTEL DE CARNE COM QUEIJO",11],
+["PASTEL DE CARNE COM CHEDDAR",11],
+["PASTEL DE CARNE COM CATUPIRY",11],
+["PASTEL DE QUEIJO",11],
+["PASTEL DE FRANGO",11],
+["PASTEL DE FRANGO COM QUEIJO",11],
+["PASTEL DE FRANGO COM CATUPIRY",11],
+["PASTEL DE FRANGO COM CHEDDAR",11],
+["PASTEL DE BAURU",11],
+["PASTEL DE PIZZA",11],
+["PASTEL DE FRANGO COM QUEIJO E OVO",11],
+["PASTEL DE CARNE COM OVO",11],
+["PASTEL DE PRESUNTO COM QUEIJO",11],
+["PASTEL 3 QUEIJOS",11],
+["PASTEL ND",11],
+["PASTEL ESPECIAL",15]
+
+],
+
+doces:[
+
+["PASTEL A MODA CAROL",15],
+["PASTEL DE NUTELLA COM BANANA",13],
+["PASTEL DE DOCE DE LEITE COM BANANA",13],
+["PASTEL DE NINHO COM MORANGO",13],
+["PASTEL DE NINHO",13],
+["PASTEL DE KITKAT COM NINHO",13],
+["PASTEL DE NINHO COM OREO",13,"https://i.ibb.co/Hp1JT71N/Chat-GPT-Image-25-06-2026-23-40-43.png"],
+["PASTEL DE NUTELLA COM MORANGO",13,"https://i.ibb.co/TMjs2Z7V/Chat-GPT-Image-25-06-2026-23-46-39.png"],
+["PASTEL DE NUTELLA",13,"https://i.ibb.co/5x68nMyh/Chat-GPT-Image-25-06-2026-23-28-35.png"],
+["PASTEL DUO NUTELLA COM CREME DE NINHO",13,"https://i.ibb.co/nM3ncdZ3/Chat-GPT-Image-25-06-2026-23-57-41.png"]
+
+]
+
+};
+
+let produtoModalAtual=null;
+let toastTimer=null;
+
+function mostrarToast(texto){
+
+const toast=
+document.getElementById("toastCarrinho");
+
+toast.innerText=texto;
+
+toast.classList.add("mostrar");
+
+clearTimeout(toastTimer);
+
+toastTimer=setTimeout(
+()=>{
+toast.classList.remove("mostrar");
+},
+1600
+);
+
+}
+
+/* =========================
+   FECHAR MODAL DE PERSONALIZAÇÃO
+========================= */
+function fecharPersonalizacao(){
+
+const modal =
+document.getElementById("modalPersonalizacao");
+
+if(modal){
+modal.style.display="none";
+}
+
+document.body.style.overflow="";
+
+produtoModalAtual=null;
+}
+
+function abrirPersonalizacao(chave){
+if(chave==="pasteis"){
+
+const modal=
+document.getElementById("modalPersonalizacao");
+
+const conteudo=
+document.getElementById("modalConteudo");
+
+document.getElementById("modalTitulo").innerText=
+"🥟 ESCOLHA SEU PASTEL";
+
+produtoModalAtual={
+tipo:"pasteis"
+};
+
+let html=
+`<div class="modal-secao" style="margin-top:0;padding-top:0;border-top:0"><h3>🥟 PASTÉIS SALGADOS</h3><div class="lista-acompanhamentos">`;
+
+saboresPasteis.salgados.forEach((p,i)=>{
+
+html+=
+`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="pastelModal" value="salgados|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
+
+});
+
+html+=
+`</div></div><div class="modal-secao"><h3>🍫 PASTÉIS DOCES</h3><div class="lista-acompanhamentos">`;
+
+saboresPasteis.doces.forEach((p,i)=>{
+
+html+=
+`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="pastelModal" value="doces|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
+
+});
+
+html+=
+`</div></div><div class="modal-total"><span>TOTAL</span><strong id="modalTotal">ESCOLHA UM SABOR</strong></div><button class="btn btn-confirmar-personalizacao" onclick="confirmarPersonalizacaoPastel()">✅ ADICIONAR AO CARRINHO</button>`;
+
+conteudo.innerHTML=html;
+
+modal.style.display="flex";
+
+document.body.style.overflow="hidden";
+
+return;
+
+}
+
+const produto=
+produtosPersonalizaveis[chave];
+
+if(!produto)return;
+
+produtoModalAtual=produto;
+
+const modal=
+document.getElementById("modalPersonalizacao");
+
+const conteudo=
+document.getElementById("modalConteudo");
+
+document.getElementById("modalTitulo").innerText=
+produto.titulo;
+
+let html=
+`<div class="modal-secao"><h3>📏 ESCOLHA O TAMANHO</h3><div class="opcoes-tamanho">`;
+
+produto.tamanhos.forEach((t,i)=>{
+
+html+=
+`<div class="opcao-tamanho"><input type="radio" name="tamanhoModal" id="tam_${i}" value="${i}" ${i===0?'checked':''} onchange="atualizarTotalModal()"><label for="tam_${i}">${t[0]}<br>${moeda(t[1])}</label></div>`;
+
+});
+
+html+=
+`</div></div>`;
+
+if(
+produto.acompanhamentos &&
+produto.acompanhamentos.length
+){
+
+html+=
+`<div class="modal-secao"><h3>🍓 ACOMPANHAMENTOS</h3><div class="lista-acompanhamentos">`;
+
+produto.acompanhamentos.forEach((a,i)=>{
+
+const pago=a[1]>0;
+
+html+=
+`<label class="opcao-acomp"><input type="checkbox" name="acompModal" value="${i}" onchange="atualizarTotalModal()"><span>${a[0]} ${pago?`<span class="preco-adicional">+ ${moeda(a[1])}</span>`:`<span>GRÁTIS</span>`}</span></label>`;
+
+});
+
+html+=
+`</div></div>`;
+
+}
+
+html+=
+`<div class="modal-total"><span>TOTAL</span><strong id="modalTotal">${moeda(produto.tamanhos[0][1])}</strong></div><button class="btn btn-confirmar-personalizacao" onclick="confirmarPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>`;
+
+conteudo.innerHTML=html;
+
+modal.style.display="flex";
+
+document.body.style.overflow="hidden";
+
+}
+
+function atualizarTotalModalPastel(){
+
+const selecionado=
+document.querySelector(
+'input[name="pastelModal"]:checked'
+);
+
+const total=
+document.getElementById("modalTotal");
+
+if(!selecionado){
+
+total.innerText=
+"ESCOLHA UM SABOR";
+
+return;
+
+}
+
+const partes=
+selecionado.value.split("|");
+
+const lista=
+saboresPasteis[partes[0]];
+
+const pastel=
+lista[
+parseInt(partes[1],10)
+];
+
+total.innerText=
+moeda(pastel[1]);
+
+}
+
+function confirmarPersonalizacaoPastel(){
+
+const selecionado=
+document.querySelector(
+'input[name="pastelModal"]:checked'
+);
+
+if(!selecionado){
+
+alert("Escolha o sabor do pastel.");
+
+return;
+
+}
+
+const partes=
+selecionado.value.split("|");
+
+const lista=
+saboresPasteis[partes[0]];
+
+const pastel=
+lista[
+parseInt(partes[1],10)
+];
+
+adicionar(
+pastel[0],
+pastel[1]
+);
+
+fecharPersonalizacao();
+
+}
+
+function atualizarTotalModal(){
+
+if(!produtoModalAtual)return;
+
+const tamanhoSelecionado=
+document.querySelector(
+'input[name="tamanhoModal"]:checked'
+);
+
+if(!tamanhoSelecionado)return;
+
+const tamanho=
+produtoModalAtual.tamanhos[
+parseInt(
+tamanhoSelecionado.value,
+10
+)
+];
+
+let total=tamanho[1];
+
+let acompanhamentosNormais=0;
+
+document.querySelectorAll(
+'input[name="acompModal"]:checked'
+).forEach(el=>{
+
+const acomp=
+produtoModalAtual.acompanhamentos[
+parseInt(el.value,10)
+];
+
+const nome=
+acomp[0].toUpperCase();
+
+if(nome==="NUTELLA"){
+
+total+=5;
+
+}else if(
+nome==="CREME DE NINHO" ||
+nome==="KIT KAT"
+){
+
+total+=3;
+
+}else{
+
+acompanhamentosNormais++;
+
+if(acompanhamentosNormais>3){
+
+total+=3;
+
+}
+
+}
+
+});
+
+document.getElementById("modalTotal").innerText=
+moeda(total);
+
+}
+
+function confirmarPersonalizacao(){
+
+if(!produtoModalAtual)return;
+
+const tamanhoSelecionado=
+document.querySelector(
+'input[name="tamanhoModal"]:checked'
+);
+
+if(!tamanhoSelecionado)return;
+
+const tamanho=
+produtoModalAtual.tamanhos[
+parseInt(
+tamanhoSelecionado.value,
+10
+)
+];
+
+let preco=tamanho[1];
+
+const detalhes=[];
+
+let acompanhamentosNormais=0;
+
+document.querySelectorAll(
+'input[name="acompModal"]:checked'
+).forEach(el=>{
+
+const acomp=
+produtoModalAtual.acompanhamentos[
+parseInt(el.value,10)
+];
+
+const nome=
+acomp[0].toUpperCase();
+
+let valorAdicional=0;
+
+if(nome==="NUTELLA"){
+
+valorAdicional=5;
+
+}else if(
+nome==="CREME DE NINHO" ||
+nome==="KIT KAT"
+){
+
+valorAdicional=3;
+
+}else{
+
+acompanhamentosNormais++;
+
+if(acompanhamentosNormais>3){
+
+valorAdicional=3;
+
+}
+
+}
+
+preco+=valorAdicional;
+
+detalhes.push(
+acomp[0]+
+(valorAdicional>0?
+" ("+moeda(valorAdicional)+")":
+"")
+);
+
+});
+
+carrinho.push({
+
+nome:
+produtoModalAtual.titulo+
+" "+
+tamanho[0],
+
+preco:preco,
+
+quantidade:1,
+
+detalhes:detalhes,
+
+tamanho:tamanho[0]
+
+});
+
+atualizarCarrinho();
+
+fecharPersonalizacao();
+
+mostrarToast(
+"✅ Adicionado ao carrinho"
+);
+
+}
+
+function adicionar(nome,preco){
+
+const existente=
+carrinho.find(
+item=>
+item.nome===nome &&
+!item.detalhes
+);
+
+if(existente){
+
+existente.quantidade++;
+
+}else{
+
+carrinho.push({
+
+nome:nome,
+
+preco:preco,
+
+quantidade:1
+
+});
+
+}
+
+atualizarCarrinho();
+
+mostrarToast(
+"✅ "+nome+" adicionado"
+);
+
+}
+
+function alterarQuantidade(index,valor){
+
+if(!carrinho[index])return;
+
+carrinho[index].quantidade+=valor;
+
+if(
+carrinho[index].quantidade<=0
+){
+
+carrinho.splice(index,1);
+
+}
+
+atualizarCarrinho();
+
+}
+
+function removerItem(index){
+
+carrinho.splice(index,1);
+
+atualizarCarrinho();
+
+}
+
+function calcularSubtotal(){
+
+return carrinho.reduce(
+(soma,item)=>
+soma+
+item.preco*
+item.quantidade,
+0
+);
+
+}
+
+function obterTaxaEntrega(){
+
+const tipo=
+document.getElementById(
+"tipoPedido"
+).value;
+
+if(tipo!=="ENTREGA")
+return 0;
+
+const selectRua=
+document.getElementById("rua");
+
+const ruaSelecionada=
+selectRua?
+selectRua.value:
+"";
+
+if(
+ruaSelecionada &&
+Object.prototype.hasOwnProperty.call(
+taxas,
+ruaSelecionada
+)
+){
+
+return Number(
+taxas[ruaSelecionada]
+);
+
+}
+
+return 0;
+
+}
+
+function atualizarAvisoTaxa(){
+
+const tipo=
+document.getElementById(
+"tipoPedido"
+).value;
+
+const selectRua=
+document.getElementById("rua");
+
+const aviso=
+document.getElementById("avisoTaxa");
+
+if(!aviso)return;
+
+if(tipo!=="ENTREGA"){
+
+aviso.style.display="none";
+
+return;
+
+}
+
+const rua=
+selectRua.value;
+
+if(
+rua &&
+taxas[rua]!==undefined
+){
+
+const taxa=
+Number(taxas[rua]);
+
+aviso.style.display="block";
+
+aviso.innerHTML=
+"🏍️ Taxa para <strong>"+
+rua+
+"</strong>: <strong>"+
+moeda(taxa)+
+"</strong>";
+
+}else{
+
+aviso.style.display="none";
+
+aviso.innerHTML="";
+
+}
+
+}
+
+function atualizarCarrinho(){
+
+const area=
+document.getElementById(
+"carrinhoItens"
+);
+
+area.innerHTML="";
+
+let subtotal=0;
+
+let quantidadeTotal=0;
+
+if(carrinho.length===0){
+
+area.innerHTML=
+`<div class="vazio">Seu carrinho está vazio.</div>`;
+
+}
+
+carrinho.forEach((item,index)=>{
+
+const totalItem=
+item.preco*
+item.quantidade;
+
+subtotal+=totalItem;
+
+quantidadeTotal+=
+item.quantidade;
+
+area.innerHTML+=`
+
+<div class="item-carrinho">
+
+<div class="item-info">
+
+<strong>
+${item.nome}
+</strong>
+
+<small>
+${moeda(item.preco)} cada
+</small>
+
+${
+item.detalhes &&
+item.detalhes.length
+?
+`<small style="display:block;color:#f5c400;margin-top:5px;line-height:1.5;">↳ ${item.detalhes.join(", ")}</small>`
+:
+""
+}
+
+</div>
+
+<div class="controles">
+
+<button onclick="alterarQuantidade(${index},-1)">
+−
+</button>
+
+<strong>
+${item.quantidade}
+</strong>
+
+<button onclick="alterarQuantidade(${index},1)">
++
+</button>
+
+<button
+class="remover"
+onclick="removerItem(${index})"
+>
+X
+</button>
+
+</div>
+
+<strong>
+${moeda(totalItem)}
+</strong>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"subtotal"
+).innerText=
+moeda(subtotal);
+
+atualizarCarrinhoFlutuante(
+quantidadeTotal,
+subtotal
+);
+
+atualizarModalCarrinho();
+
+calcularTaxa();
+
+salvarCarrinho();
+
+}
+
+function atualizarCarrinhoFlutuante(
+quantidade,
+subtotal
+){
+
+const barra=
+document.getElementById(
+"carrinhoFlutuante"
+);
+
+const contador=
+document.getElementById(
+"contadorCarrinho"
+);
+
+const total=
+document.getElementById(
+"totalCarrinhoFlutuante"
+);
+
+if(carrinho.length===0){
+
+barra.classList.remove("ativo");
+
+contador.innerText=
+"0 itens";
+
+total.innerText=
+"R$ 0,00";
+
+return;
+
+}
+
+const taxa=
+obterTaxaEntrega();
+
+const valorTotal=
+subtotal+taxa;
+
+barra.classList.add("ativo");
+
+contador.innerText=
+quantidade+
+(
+quantidade===1?
+" item":
+" itens"
+);
+
+total.innerText=
+moeda(valorTotal);
+
+}
+
+function abrirCarrinho(){
+
+if(carrinho.length===0)
+return;
+
+atualizarModalCarrinho();
+
+document.getElementById(
+"modalCarrinho"
+).classList.add("ativo");
+
+document.body.style.overflow=
+"hidden";
+
+}
+
+function fecharCarrinho(event){
+
+if(
+event &&
+event.target &&
+event.target.id!=="modalCarrinho"
+)
+return;
+
+document.getElementById(
+"modalCarrinho"
+).classList.remove("ativo");
+
+document.body.style.overflow="";
+
+}
+
+function atualizarModalCarrinho(){
+
+const area=
+document.getElementById(
+"itensCarrinhoModal"
+);
+
+if(!area)return;
+
+area.innerHTML="";
+
+if(carrinho.length===0){
+
+area.innerHTML=
+`<div class="vazio">Seu carrinho está vazio.</div>`;
+
+}
+
+let subtotal=0;
+
+carrinho.forEach((item,index)=>{
+
+const totalItem=
+item.preco*
+item.quantidade;
+
+subtotal+=totalItem;
+
+area.innerHTML+=`
+
+<div class="item-carrinho-modal">
+
+<div class="item-carrinho-modal-topo">
+
+<div>
+
+<strong>
+${item.nome}
+</strong>
+
+<small>
+${moeda(item.preco)} cada
+</small>
+
+${
+item.detalhes &&
+item.detalhes.length
+?
+`<small style="color:#f5c400">↳ ${item.detalhes.join(", ")}</small>`
+:
+""
+}
+
+</div>
+
+<strong>
+${moeda(totalItem)}
+</strong>
+
+</div>
+
+<div class="controles-modal">
+
+<button onclick="alterarQuantidade(${index},-1)">
+−
+</button>
+
+<strong>
+${item.quantidade}
+</strong>
+
+<button onclick="alterarQuantidade(${index},1)">
++
+</button>
+
+<button
+class="remover"
+onclick="removerItem(${index})"
+>
+X
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+const taxa=
+obterTaxaEntrega();
+
+const total=
+subtotal+taxa;
+
+document.getElementById(
+"subtotalCarrinhoModal"
+).innerText=
+moeda(subtotal);
+
+document.getElementById(
+"taxaCarrinhoModal"
+).innerText=
+moeda(taxa);
+
+document.getElementById(
+"totalCarrinhoModal"
+).innerText=
+moeda(total);
+
+}
+
+/* =========================
+   CONTINUAR COMPRANDO
+========================= */
+
+function irParaCheckout(){
+
+fecharCarrinho();
+
+setTimeout(()=>{
+
+const checkout=
+document.getElementById(
+"checkout"
+);
+
+if(checkout){
+
+checkout.scrollIntoView({
+
+behavior:"smooth",
+
+block:"start"
+
+});
+
+}
+
+},150);
+
+}
+
+/* =========================
+   ABRIR MODAL FINALIZAÇÃO
+========================= */
+
+function irParaFinalizarPedido(){
+
+fecharCarrinho();
+
+const modal=
+document.getElementById(
+"modalFinalizar"
+);
+
+if(!modal)return;
+
+carregarRuasModal();
+
+copiarDadosFormularioParaModal();
+
+atualizarResumoFinalizarModal();
+
+modal.classList.add("ativo");
+
+document.body.style.overflow=
+"hidden";
+
+}
+
+/* =========================
+   FECHAR MODAL FINALIZAÇÃO
+========================= */
+
+function fecharModalFinalizar(event){
+
+if(
+event &&
+event.target &&
+event.target.id!=="modalFinalizar"
+)
+return;
+
+const modal=
+document.getElementById(
+"modalFinalizar"
+);
+
+if(modal){
+
+modal.classList.remove("ativo");
+
+}
+
+document.body.style.overflow="";
+
+}
+
+/* =========================
+   COPIAR DADOS EXISTENTES
+========================= */
+
+function copiarDadosFormularioParaModal(){
+
+const pares=[
+
+["nome","nomeModal"],
+["telefone","telefoneModal"],
+["tipoPedido","tipoPedidoModal"],
+["rua","ruaModal"],
+["numero","numeroModal"],
+["complemento","complementoModal"],
+["pagamento","pagamentoModal"],
+["troco","trocoModal"],
+["observacao","observacaoModal"]
+
+];
+
+pares.forEach(par=>{
+
+const origem=
+document.getElementById(par[0]);
+
+const destino=
+document.getElementById(par[1]);
+
+if(
+origem &&
+destino
+){
+
+destino.value=
+origem.value;
+
+}
+
+});
+
+alterarTipoPedidoModal();
+
+alterarPagamentoModal();
+
+}
+
+/* =========================
+   RUAS DO MODAL
+========================= */
+
+function carregarRuasModal(){
+
+const select=
+document.getElementById(
+"ruaModal"
+);
+
+if(!select)return;
+
+const valorAtual=
+select.value;
+
+select.innerHTML=
+'<option value="">Selecione sua rua</option>';
+
+const ruas=
+Object.keys(taxas)
+.filter(
+rua=>
+rua!=="BALCAO" &&
+rua!=="RETIRADA" &&
+rua!=="IFOOD" &&
+rua!=="99FOOD"
+)
+.sort(
+(a,b)=>
+a.localeCompare(
+b,
+"pt-BR"
+)
+);
+
+ruas.forEach(rua=>{
+
+const option=
+document.createElement(
+"option"
+);
+
+option.value=rua;
+
+option.textContent=
+rua+
+" — "+
+moeda(taxas[rua]);
+
+select.appendChild(option);
+
+});
+
+if(
+valorAtual &&
+taxas[valorAtual]!==undefined
+){
+
+select.value=
+valorAtual;
+
+}
+
+}
+
+/* =========================
+   TIPO PEDIDO MODAL
+========================= */
+
+function alterarTipoPedidoModal(){
+
+const tipo=
+document.getElementById(
+"tipoPedidoModal"
+).value;
+
+const enderecoArea=
+document.getElementById(
+"enderecoAreaModal"
+);
+
+if(tipo==="ENTREGA"){
+
+enderecoArea.style.display=
+"block";
+
+}else{
+
+enderecoArea.style.display=
+"none";
+
+}
+
+calcularTaxaModal();
+
+}
+
+/* =========================
+   TAXA MODAL
+========================= */
+
+function calcularTaxaModal(){
+
+const tipo=
+document.getElementById(
+"tipoPedidoModal"
+).value;
+
+const rua=
+document.getElementById(
+"ruaModal"
+).value;
+
+let taxa=0;
+
+const aviso=
+document.getElementById(
+"avisoTaxaModal"
+);
+
+if(
+tipo==="ENTREGA" &&
+rua
+){
+
+taxa=
+Number(
+taxas[rua]||0
+);
+
+if(aviso){
+
+aviso.style.display=
+"block";
+
+aviso.innerHTML=
+"🏍️ Taxa para <strong>"+
+rua+
+"</strong>: <strong>"+
+moeda(taxa)+
+"</strong>";
+
+}
+
+}else{
+
+if(aviso){
+
+aviso.style.display=
+"none";
+
+aviso.innerHTML="";
+
+}
+
+}
+
+atualizarResumoFinalizarModal();
+
+return taxa;
+
+}
+
+/* =========================
+   PAGAMENTO MODAL
+========================= */
+
+function alterarPagamentoModal(){
+
+const pagamento=
+document.getElementById(
+"pagamentoModal"
+).value;
+
+const area=
+document.getElementById(
+"trocoAreaModal"
+);
+
+if(
+pagamento==="DINHEIRO"
+){
+
+area.style.display=
+"block";
+
+}else{
+
+area.style.display=
+"none";
+
+}
+
+}
+
+/* =========================
+   RESUMO MODAL
+========================= */
+
+function atualizarResumoFinalizarModal(){
+
+const subtotal=
+calcularSubtotal();
+
+const tipoElemento=
+document.getElementById(
+"tipoPedidoModal"
+);
+
+const ruaElemento=
+document.getElementById(
+"ruaModal"
+);
+
+let taxa=0;
+
+if(
+tipoElemento &&
+ruaElemento &&
+tipoElemento.value==="ENTREGA"
+){
+
+taxa=
+Number(
+taxas[ruaElemento.value]||0
+);
+
+}
+
+const total=
+subtotal+taxa;
+
+const subtotalEl=
+document.getElementById(
+"subtotalFinalizarModal"
+);
+
+const taxaEl=
+document.getElementById(
+"taxaFinalizarModal"
+);
+
+const totalEl=
+document.getElementById(
+"totalFinalizarModal"
+);
+
+if(subtotalEl)
+subtotalEl.innerText=
+moeda(subtotal);
+
+if(taxaEl)
+taxaEl.innerText=
+moeda(taxa);
+
+if(totalEl)
+totalEl.innerText=
+moeda(total);
+
+}
+
+/* =========================
+   FINALIZAR PELO MODAL
+========================= */
+
+function finalizarPedidoModal(){
+
+if(carrinho.length===0){
+
+alert(
+"Adicione pelo menos um produto ao carrinho."
+);
+
+return;
+
+}
+
+const nome=
+document.getElementById(
+"nomeModal"
+).value.trim();
+
+const telefone=
+document.getElementById(
+"telefoneModal"
+).value.trim();
+
+const tipo=
+document.getElementById(
+"tipoPedidoModal"
+).value;
+
+const rua=
+document.getElementById(
+"ruaModal"
+).value;
+
+const numero=
+document.getElementById(
+"numeroModal"
+).value.trim();
+
+const complemento=
+document.getElementById(
+"complementoModal"
+).value.trim();
+
+const pagamento=
+document.getElementById(
+"pagamentoModal"
+).value;
+
+const troco=
+document.getElementById(
+"trocoModal"
+).value;
+
+const observacao=
+document.getElementById(
+"observacaoModal"
+).value.trim();
+
+if(!nome){
+
+alert("Digite seu nome.");
+
+document.getElementById(
+"nomeModal"
+).focus();
+
+return;
+
+}
+
+if(!telefone){
+
+alert(
+"📱 Digite seu telefone."
+);
+
+document.getElementById(
+"telefoneModal"
+).focus();
+
+return;
+
+}
+
+const telefoneNumeros =
+telefone.replace(/\D/g,"");
+
+if(telefoneNumeros.length<10){
+
+alert(
+"📱 TELEFONE INVÁLIDO\n\n"+
+"Digite um telefone válido com DDD."
+);
+
+document.getElementById(
+"telefoneModal"
+).focus();
+
+return;
+
+}
+
+if(telefoneNumeros.length>11){
+
+alert(
+"📱 TELEFONE INVÁLIDO\n\n"+
+"Confira o número informado."
+);
+
+document.getElementById(
+"telefoneModal"
+).focus();
+
+return;
+
+}
+
+if(tipo==="ENTREGA"){
+
+if(!rua){
+
+alert("Selecione sua rua.");
+
+document.getElementById(
+"ruaModal"
+).focus();
+
+return;
+
+}
+
+if(!numero){
+
+alert(
+"Digite o número do endereço."
+);
+
+document.getElementById(
+"numeroModal"
+).focus();
+
+return;
+
+}
+
+}
+
+if(tipo==="ENTREGA"){
+
+const subtotalMinimo=11.90;
+
+const subtotalAtual=
+carrinho.reduce(
+(soma,item)=>
+soma+
+(item.preco*item.quantidade),
+0
+);
+
+if(subtotalAtual<subtotalMinimo){
+
+const falta=
+subtotalMinimo-subtotalAtual;
+
+alert(
+"🏍️ PEDIDO MÍNIMO PARA DELIVERY\n\n"+
+"Para delivery, o pedido mínimo é "+
+moeda(subtotalMinimo)+".\n\n"+
+"Seu pedido está em "+
+moeda(subtotalAtual)+".\n"+
+"Faltam "+
+moeda(falta)+
+" para poder finalizar."
+);
+
+return;
+
+}
+
+}
+   
+if(!pagamento){
+
+alert(
+"Selecione a forma de pagamento."
+);
+
+document.getElementById(
+"pagamentoModal"
+).focus();
+
+return;
+
+}
+
+if(
+pagamento==="DINHEIRO"
+){
+
+if(!troco){
+
+alert(
+"💵 INFORME O VALOR DO TROCO\n\n"+
+"Digite quanto você irá pagar em dinheiro."
+);
+
+document.getElementById(
+"trocoModal"
+).focus();
+
+return;
+
+}
+
+const valorTroco=
+parseFloat(troco);
+
+const subtotalAtual=
+carrinho.reduce(
+(soma,item)=>
+soma+
+(item.preco*item.quantidade),
+0
+);
+
+let taxaAtual=0;
+
+if(tipo==="ENTREGA"){
+
+taxaAtual=
+Number(
+taxas[rua]||0
+);
+
+}
+
+const totalAtual=
+subtotalAtual+taxaAtual;
+
+if(
+isNaN(valorTroco) ||
+valorTroco<=totalAtual
+){
+
+alert(
+"💵 VALOR PARA TROCO INVÁLIDO\n\n"+
+"Total do pedido: "+
+moeda(totalAtual)+
+"\n\n"+
+"Você precisa informar um valor igual ou maior que o total."
+);
+
+document.getElementById(
+"trocoModal"
+).focus();
+
+return;
+
+}
+
+}
+
+let subtotal=0;
+
+let mensagem="";
+
+mensagem+=
+"🍔 *NOVO PEDIDO - ND BURGS*%0A";
+
+mensagem+=
+"==============================%0A%0A";
+
+mensagem+=
+"👤 *CLIENTE:* "+
+encodeURIComponent(nome)+
+"%0A";
+
+mensagem+=
+"📱 *TELEFONE:* "+
+encodeURIComponent(telefone)+
+"%0A";
+
+mensagem+=
+"🏍️ *TIPO:* "+
+encodeURIComponent(
+tipo==="ENTREGA"?
+"DELIVERY":
+"RETIRADA"
+)+
+"%0A";
+
+if(tipo==="ENTREGA"){
+
+mensagem+=
+"📍 *ENDEREÇO:* "+
+encodeURIComponent(
+rua+
+", Nº "+
+numero
+)+
+"%0A";
+
+if(complemento){
+
+mensagem+=
+"🏠 *COMPLEMENTO:* "+
+encodeURIComponent(
+complemento
+)+
+"%0A";
+
+}
+
+}
+
+mensagem+=
+"%0A🛒 *ITENS DO PEDIDO*%0A";
+
+mensagem+=
+"------------------------------%0A";
+
+carrinho.forEach(item=>{
+
+const totalItem=
+item.preco*
+item.quantidade;
+
+subtotal+=
+totalItem;
+
+mensagem+=
+encodeURIComponent(
+item.quantidade+
+"x "+
+item.nome+
+" — "+
+moeda(totalItem)
+)+
+"%0A";
+
+if(
+item.detalhes &&
+item.detalhes.length
+){
+
+mensagem+=
+encodeURIComponent(
+"   ↳ "+
+item.detalhes.join(", ")
+)+
+"%0A";
+
+}
+
+});
+
+let taxa=0;
+
+if(tipo==="ENTREGA"){
+
+taxa=
+taxas[rua]!==undefined
+?
+Number(taxas[rua])
+:
+0;
+
+}
+
+const total=
+subtotal+taxa;
+
+mensagem+=
+"%0A";
+
+mensagem+=
+"💰 *SUBTOTAL:* "+
+encodeURIComponent(
+moeda(subtotal)
+)+
+"%0A";
+
+mensagem+=
+"🏍️ *TAXA:* "+
+encodeURIComponent(
+moeda(taxa)
+)+
+"%0A";
+
+mensagem+=
+"💵 *TOTAL:* "+
+encodeURIComponent(
+moeda(total)
+)+
+"%0A";
+
+mensagem+=
+"💳 *PAGAMENTO:* "+
+encodeURIComponent(
+pagamento
+)+
+"%0A";
+
+if(
+pagamento==="DINHEIRO" &&
+troco
+){
+
+mensagem+=
+"💵 *TROCO PARA:* "+
+encodeURIComponent(
+moeda(
+parseFloat(troco)
+)
+)+
+"%0A";
+
+}
+
+if(observacao){
+
+mensagem+=
+"%0A📝 *OBSERVAÇÃO:*%0A";
+
+mensagem+=
+encodeURIComponent(
+observacao
+)+
+"%0A";
+
+}
+
+mensagem+=
+"%0A==============================%0A";
+
+mensagem+=
+"ND BURGS 🍔";
+
+const whatsapp=
+"5511963973846";
+
+window.open(
+"https://wa.me/"+
+whatsapp+
+"?text="+
+mensagem,
+"_blank"
+);
+
+}
+
+/* =========================
+   TAXA FORMULÁRIO ORIGINAL
+========================= */
+
+function calcularTaxa(){
+
+const tipo=
+document.getElementById(
+"tipoPedido"
+).value;
+
+let taxa=0;
+
+if(tipo==="ENTREGA"){
+
+const ruaSelecionada=
+document.getElementById(
+"rua"
+).value;
+
+if(
+ruaSelecionada &&
+taxas[ruaSelecionada]!==undefined
+){
+
+taxa=
+Number(
+taxas[ruaSelecionada]
+);
+
+}
+
+}
+
+const subtotal=
+calcularSubtotal();
+
+const total=
+subtotal+taxa;
+
+document.getElementById(
+"taxa"
+).innerText=
+moeda(taxa);
+
+document.getElementById(
+"total"
+).innerText=
+moeda(total);
+
+atualizarAvisoTaxa();
+
+atualizarCarrinhoFlutuante(
+carrinho.reduce(
+(soma,item)=>
+soma+item.quantidade,
+0
+),
+subtotal
+);
+
+atualizarModalCarrinho();
+
+}
+
+/* =========================
+   ALTERAR TIPO PEDIDO
+========================= */
+
+function alterarTipoPedido(){
+
+const tipo=
+document.getElementById(
+"tipoPedido"
+).value;
+
+const enderecoArea=
+document.getElementById(
+"enderecoArea"
+);
+
+if(tipo==="ENTREGA")
+enderecoArea.style.display=
+"block";
+else
+enderecoArea.style.display=
+"none";
+
+calcularTaxa();
+
+}
+
+/* =========================
+   PAGAMENTO ORIGINAL
+========================= */
+
+document.getElementById(
+"pagamento"
+).addEventListener(
+"change",
+function(){
+
+const trocoArea=
+document.getElementById(
+"trocoArea"
+);
+
+if(this.value==="DINHEIRO")
+trocoArea.style.display=
+"block";
+else
+trocoArea.style.display=
+"none";
+
+}
+);
+
+/* =========================
+   CARREGAR RUAS
+========================= */
+
+function carregarRuas(){
+
+const select=
+document.getElementById(
+"rua"
+);
+
+const ruas=
+Object.keys(taxas)
+.filter(
+rua=>
+rua!=="BALCAO" &&
+rua!=="RETIRADA" &&
+rua!=="IFOOD" &&
+rua!=="99FOOD"
+)
+.sort(
+(a,b)=>
+a.localeCompare(
+b,
+"pt-BR"
+)
+);
+
+ruas.forEach(rua=>{
+
+const option=
+document.createElement(
+"option"
+);
+
+option.value=
+rua;
+
+option.textContent=
+rua+
+" — "+
+moeda(taxas[rua]);
+
+select.appendChild(option);
+
+});
+
+}
+
+/* =========================
+   LIMPAR CARRINHO
+========================= */
+
+function limparCarrinho(){
+
+if(carrinho.length===0)
+return;
+
+if(
+!confirm(
+"Deseja realmente limpar o carrinho?"
+)
+)
+return;
+
+carrinho=[];
+
+try{
+
+localStorage.removeItem(
+CHAVE_CARRINHO
+);
+
+}catch(e){}
+
+atualizarCarrinho();
+
+fecharCarrinho();
+
+}
+
+/* =========================
+   NAVEGAÇÃO
+========================= */
+
+function irPara(id){
+
+const elemento=
+document.getElementById(id);
+
+if(elemento){
+
+elemento.scrollIntoView({
+
+behavior:"smooth",
+
+block:"start"
+
+});
+
+}
+
+}
+
+/* =========================
+   HORÁRIO
+========================= */
+
+function verificarHorario(){
+const agora=new Date();
+const dia=agora.getDay();
+const minutos=agora.getHours()*60+agora.getMinutes();
+let aberto=false;
+// Terça a domingo: 18:00 até 00:30. Segunda: fechado.
+if(dia>=2 && dia<=6 && minutos>=1080) aberto=true;
+if(dia===0 && minutos>=1080) aberto=true;
+if(dia>=3 && dia<=0 && minutos<30) aberto=true;
+// Madrugada pertence ao atendimento iniciado no dia anterior.
+if((dia>=3 && dia<=6) && minutos<30) aberto=true;
+if(dia===0 && minutos<30) aberto=true;
+const bloqueio=document.getElementById("bloqueioHorario");
+const status=document.getElementById("statusHorario");
+if(aberto){bloqueio.style.display="none";status.className="status-aberto";status.innerHTML="🟢 ESTAMOS ACEITANDO PEDIDOS #BORADENDBURGS";}
+else{bloqueio.style.display="flex";status.className="status-fechado";status.innerHTML="🔴 PEDIDOS FECHADOS NO MOMENTO";}
+}
+
+/* =========================
+   FINALIZAR FORMULÁRIO ORIGINAL
+========================= */
+
+function finalizarPedido(){
+
+if(carrinho.length===0){
+
+alert(
+"Adicione pelo menos um produto ao carrinho."
+);
+
+return;
+
+}
+
+const nome=
+document.getElementById(
+"nome"
+).value.trim();
+
+const telefone=
+document.getElementById(
+"telefone"
+).value.trim();
+
+const tipo=
+document.getElementById(
+"tipoPedido"
+).value;
+
+const rua=
+document.getElementById(
+"rua"
+).value;
+
+const numero=
+document.getElementById(
+"numero"
+).value.trim();
+
+const complemento=
+document.getElementById(
+"complemento"
+).value.trim();
+
+const pagamento=
+document.getElementById(
+"pagamento"
+).value;
+
+const troco=
+document.getElementById(
+"troco"
+).value;
+
+const observacao=
+document.getElementById(
+"observacao"
+).value.trim();
+
+if(!nome){
+
+alert("Digite seu nome.");
+
+return;
+
+}
+
+if(!telefone){
+
+alert("Digite seu telefone.");
+
+return;
+
+}
+
+if(tipo==="ENTREGA"){
+
+if(!rua){
+
+alert("Selecione sua rua.");
+
+return;
+
+}
+
+if(!numero){
+
+alert(
+"Digite o número do endereço."
+);
+
+return;
+
+}
+
+}
+
+if(!pagamento){
+
+alert(
+"Selecione a forma de pagamento."
+);
+
+return;
+
+}
+
+let subtotal=0;
+
+let mensagem="";
+
+mensagem+=
+"🍔 *NOVO PEDIDO - ND BURGS*%0A";
+
+mensagem+=
+"==============================%0A%0A";
+
+mensagem+=
+"👤 *CLIENTE:* "+
+encodeURIComponent(nome)+
+"%0A";
+
+mensagem+=
+"📱 *TELEFONE:* "+
+encodeURIComponent(telefone)+
+"%0A";
+
+mensagem+=
+"🏍️ *TIPO:* "+
+encodeURIComponent(
+tipo==="ENTREGA"?
+"DELIVERY":
+"RETIRADA"
+)+
+"%0A";
+
+if(tipo==="ENTREGA"){
+
+mensagem+=
+"📍 *ENDEREÇO:* "+
+encodeURIComponent(
+rua+
+", Nº "+
+numero
+)+
+"%0A";
+
+if(complemento){
+
+mensagem+=
+"🏠 *COMPLEMENTO:* "+
+encodeURIComponent(
+complemento
+)+
+"%0A";
+
+}
+
+}
+
+mensagem+=
+"%0A🛒 *ITENS DO PEDIDO*%0A";
+
+mensagem+=
+"------------------------------%0A";
+
+carrinho.forEach(item=>{
+
+const totalItem=
+item.preco*
+item.quantidade;
+
+subtotal+=
+totalItem;
+
+mensagem+=
+encodeURIComponent(
+item.quantidade+
+"x "+
+item.nome+
+" — "+
+moeda(totalItem)
+)+
+"%0A";
+
+if(
+item.detalhes &&
+item.detalhes.length
+){
+
+mensagem+=
+encodeURIComponent(
+"   ↳ "+
+item.detalhes.join(", ")
+)+
+"%0A";
+
+}
+
+});
+
+let taxa=0;
+
+if(tipo==="ENTREGA"){
+
+taxa=
+taxas[rua]!==undefined
+?
+Number(taxas[rua])
+:
+0;
+
+}
+
+const total=
+subtotal+taxa;
+
+mensagem+=
+"%0A";
+
+mensagem+=
+"💰 *SUBTOTAL:* "+
+encodeURIComponent(
+moeda(subtotal)
+)+
+"%0A";
+
+mensagem+=
+"🏍️ *TAXA:* "+
+encodeURIComponent(
+moeda(taxa)
+)+
+"%0A";
+
+mensagem+=
+"💵 *TOTAL:* "+
+encodeURIComponent(
+moeda(total)
+)+
+"%0A";
+
+mensagem+=
+"💳 *PAGAMENTO:* "+
+encodeURIComponent(
+pagamento
+)+
+"%0A";
+
+if(
+pagamento==="DINHEIRO" &&
+troco
+){
+
+mensagem+=
+"💵 *TROCO PARA:* "+
+encodeURIComponent(
+moeda(
+parseFloat(troco)
+)
+)+
+"%0A";
+
+}
+
+if(observacao){
+
+mensagem+=
+"%0A📝 *OBSERVAÇÃO:*%0A";
+
+mensagem+=
+encodeURIComponent(
+observacao
+)+
+"%0A";
+
+}
+
+mensagem+=
+"%0A==============================%0A";
+
+mensagem+=
+"ND BURGS 🍔";
+
+const whatsapp=
+"5511963973846";
+
+window.open(
+"https://wa.me/"+
+whatsapp+
+"?text="+
+mensagem,
+"_blank"
+);
+
+}
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+carregarCarrinhoSalvo();
+
+carregarRuas();
+
+carregarRuasModal();
+
+atualizarCarrinho();
+
+alterarTipoPedido();
+
+verificarHorario();
+
+setInterval(
+verificarHorario,
+30000
+);
+
+
+/* ===== MELHORIAS ND BURGS ===== */
+(function(){
+  const q=document.getElementById('buscaProdutos');
+  const counter=document.getElementById('contadorBusca');
+  const empty=document.getElementById('semResultados');
+  function filtrar(){
+    const termo=(q?.value||'').trim().toLocaleLowerCase('pt-BR');
+    let total=0, visiveis=0;
+    document.querySelectorAll('.produto').forEach(card=>{
+      total++;
+      const texto=card.innerText.toLocaleLowerCase('pt-BR');
+      const ok=!termo||texto.includes(termo);
+      card.classList.toggle('search-hidden',!ok);
+      if(ok)visiveis++;
+    });
+    if(counter) counter.textContent=termo?`${visiveis} produto${visiveis===1?'':'s'}`:'';
+    if(empty) empty.style.display=termo&&visiveis===0?'block':'none';
+  }
+  q?.addEventListener('input',filtrar);
+
+  function configurarBuscaRua(inputId,selectId){
+    const input=document.getElementById(inputId), select=document.getElementById(selectId);
+    if(!input||!select)return;
+    input.addEventListener('input',()=>{
+      const termo=input.value.trim().toLocaleLowerCase('pt-BR');
+      Array.from(select.options).forEach((op,i)=>{
+        if(i===0){op.hidden=false;return;}
+        op.hidden=!!termo&&!op.textContent.toLocaleLowerCase('pt-BR').includes(termo);
+      });
+      const primeira=Array.from(select.options).find((op,i)=>i>0&&!op.hidden);
+      if(termo&&primeira&&(!select.value||select.options[select.selectedIndex]?.hidden)){
+        select.value=primeira.value; select.dispatchEvent(new Event('change',{bubbles:true}));
+      }
+    });
+  }
+  configurarBuscaRua('ruaBusca','rua');
+  configurarBuscaRua('ruaBuscaModal','ruaModal');
+
+  window.fecharSugestoes=function(event){
+    if(event&&event.target&&event.target.id!=='suggestionsModal')return;
+    const m=document.getElementById('suggestionsModal'); if(m)m.classList.remove('show');
+    document.body.style.overflow='';
+  };
+  window.mostrarSugestoes=function(){
+    const grid=document.getElementById('suggestionsGrid'), modal=document.getElementById('suggestionsModal');
+    if(!grid||!modal)return;
+    const cards=[...document.querySelectorAll('.produto:not(.search-hidden)')].filter(c=>!c.closest('#checkout')).filter(c=>c.querySelector('.btn-add'));
+    const usados=new Set(carrinho.map(x=>x.nome));
+    const candidatos=cards.filter(c=>!usados.has(c.querySelector('h3')?.innerText.trim())).sort(()=>Math.random()-.5).slice(0,4);
+    grid.innerHTML=candidatos.map((c,i)=>{
+      const img=c.querySelector('img')?.src||''; const nome=c.querySelector('h3')?.innerText||'Produto'; const preco=c.querySelector('.preco')?.innerText||'';
+      return `<div class="suggestion-card"><img src="${img}" alt="${nome}"><div style="flex:1"><strong>${nome}</strong><span>${preco}</span><button type="button" data-sug="${i}">+ ADICIONAR</button></div></div>`;
+    }).join('') || '<div style="grid-column:1/-1;text-align:center;color:#999;padding:25px">Seu pedido já está cheio de boas escolhas 😍</div>';
+    candidatos.forEach((c,i)=>grid.querySelector(`[data-sug="${i}"]`)?.addEventListener('click',()=>{
+      c.querySelector('.btn-add')?.click();
+      mostrarToast('✅ Adicionado ao carrinho');
+      setTimeout(()=>mostrarSugestoes(),120);
+    }));
+    modal.classList.add('show'); document.body.style.overflow='hidden';
+  };
+  window.irParaCheckout=function(){ mostrarSugestoes(); };
+
+  // Máscara de telefone BR nos dois formulários.
+  ['telefone','telefoneModal'].forEach(id=>{
+    const el=document.getElementById(id); if(!el)return;
+    el.addEventListener('input',()=>{let v=el.value.replace(/\D/g,'').slice(0,11); if(v.length<=10)v=v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3'); else v=v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3'); el.value=v;});
+  });
+
+  // Salva dados básicos do cliente para acelerar o próximo pedido.
+  const dadosIds=['nome','telefone','nomeModal','telefoneModal'];
+  dadosIds.forEach(id=>{const el=document.getElementById(id); if(!el)return; const k='ndburgs_'+id; try{el.value|| (el.value=localStorage.getItem(k)||''); el.addEventListener('input',()=>localStorage.setItem(k,el.value));}catch(e){}});
+})();
+
+</script>
+
+
+<!-- =========================
+     ND BURGS — MELHORIAS PRO 2.0
+========================= -->
+<style>
+:root{--nd-gold:#f5c400;--nd-gold2:#ffd92b;--nd-bg:#080808;--nd-card:#121212;--nd-border:#292929;--nd-green:#25d366;--nd-red:#ff4545}
+body{background:radial-gradient(circle at 50% -10%,rgba(245,196,0,.08),transparent 32%),#080808}
+::selection{background:var(--nd-gold);color:#000}
+button,input,select,textarea{font-family:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--nd-gold);outline-offset:2px}
+.produto{position:relative}
+.produto .btn-add{transition:transform .15s,filter .15s}
+.produto .btn-add:active{transform:scale(.97)}
+.nd-badge{position:absolute;top:10px;left:10px;z-index:2;background:var(--nd-gold);color:#000;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900;box-shadow:0 5px 16px #0008}
+.nd-fav{position:absolute;top:10px;right:10px;z-index:3;width:36px;height:36px;border:1px solid #444;border-radius:50%;background:#080808d9;color:#fff;font-size:19px;cursor:pointer;display:grid;place-items:center}
+.nd-fav.ativo{color:#ff4d6d;border-color:#ff4d6d;background:#2a1018}
+.nd-topbar{position:sticky;top:74px;z-index:800;background:#0b0b0bee;backdrop-filter:blur(14px);border-bottom:1px solid #252525;padding:8px 12px}
+.nd-topbar-inner{max-width:1100px;margin:auto;display:flex;gap:8px;overflow:auto;scrollbar-width:none}
+.nd-topbar-inner::-webkit-scrollbar{display:none}
+.nd-cat-btn{white-space:nowrap;border:1px solid #333;background:#151515;color:#ddd;border-radius:999px;padding:8px 12px;font-weight:800;font-size:12px;cursor:pointer}
+.nd-cat-btn.ativo{background:var(--nd-gold);border-color:var(--nd-gold);color:#000}
+.nd-toast{position:fixed;left:50%;bottom:94px;transform:translate(-50%,20px);background:#151515;border:1px solid var(--nd-gold);color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 10px 35px #000b;z-index:100500;opacity:0;pointer-events:none;transition:.25s;max-width:calc(100% - 30px);text-align:center;font-weight:700;font-size:13px}
+.nd-toast.show{opacity:1;transform:translate(-50%,0)}
+.nd-backtop{position:fixed;right:15px;bottom:92px;width:42px;height:42px;border:1px solid #444;background:#151515;color:#fff;border-radius:50%;z-index:8800;display:none;cursor:pointer;box-shadow:0 8px 25px #0008}
+.nd-backtop.show{display:block}
+.nd-cart-progress{margin:12px 0;padding:10px 12px;background:#0d0d0d;border:1px solid #292929;border-radius:10px;font-size:12px;color:#bbb}
+.nd-cart-progress b{color:var(--nd-gold)}
+.nd-progress-track{height:6px;background:#292929;border-radius:99px;overflow:hidden;margin-top:7px}
+.nd-progress-bar{height:100%;width:0;background:var(--nd-gold);transition:.3s}
+.nd-empty-search{display:none;text-align:center;padding:35px 15px;color:#aaa;border:1px dashed #444;border-radius:14px;margin:15px 0}
+.nd-empty-search strong{display:block;color:#fff;font-size:17px;margin-bottom:6px}
+.nd-order-steps{display:flex;align-items:center;justify-content:center;gap:7px;margin:10px 0 16px;font-size:11px;color:#777}
+.nd-step{padding:7px 9px;border-radius:999px;border:1px solid #333;background:#111}
+.nd-step.active{border-color:var(--nd-gold);color:var(--nd-gold)}
+.nd-step-line{height:1px;width:22px;background:#333}
+.nd-delivery-estimate{margin:10px 0;padding:12px;border-radius:10px;background:#101010;border:1px solid #2a2a2a;color:#ccc;font-size:13px}
+.nd-delivery-estimate b{color:var(--nd-gold)}
+@media(max-width:700px){.nd-topbar{top:65px}.nd-order-steps{font-size:9px}.nd-step{padding:6px 7px}.nd-step-line{width:10px}.nd-toast{bottom:125px}}
+</style>
+
+<div id="ndToast" class="nd-toast" role="status" aria-live="polite"></div>
+<button id="ndBackTop" class="nd-backtop" aria-label="Voltar ao topo">↑</button>
+<div class="nd-topbar" id="ndTopbar">
+  <div class="nd-topbar-inner" id="ndCategoryNav"></div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const MIN_PEDIDO=11.90;
+  const favKey='ndburgs_favoritos_v2';
+  const favs=new Set(JSON.parse(localStorage.getItem(favKey)||'[]'));
+  let toastTimer;
+  function toast(msg){
+    const el=document.getElementById('ndToast'); if(!el)return;
+    el.textContent=msg; el.classList.add('show'); clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>el.classList.remove('show'),2300);
+  }
+  window.ndToast=toast;
+  function saveFavs(){localStorage.setItem(favKey,JSON.stringify([...favs]));}
+  function productId(card,i){return (card.dataset.nome||card.querySelector('h3')?.textContent||'produto-'+i).trim().toUpperCase();}
+  function addFavButtons(){
+    document.querySelectorAll('.produto').forEach((card,i)=>{
+      if(card.dataset.ndEnhanced==='1')return;
+      card.dataset.ndEnhanced='1';
+      const id=productId(card,i); card.dataset.ndPid=id;
+      const b=document.createElement('button'); b.className='nd-fav'+(favs.has(id)?' ativo':''); b.type='button'; b.title='Favoritar'; b.setAttribute('aria-label','Favoritar '+id); b.textContent=favs.has(id)?'♥':'♡';
+      b.onclick=(e)=>{e.stopPropagation(); if(favs.has(id)){favs.delete(id);b.classList.remove('ativo');b.textContent='♡';toast('Removido dos favoritos')}else{favs.add(id);b.classList.add('ativo');b.textContent='♥';toast('❤️ Adicionado aos favoritos')} saveFavs();};
+      card.appendChild(b);
+    });
+  }
+  function buildCategories(){
+    const nav=document.getElementById('ndCategoryNav'); if(!nav)return;
+    const cats=[...document.querySelectorAll('.categoria')]; nav.innerHTML='';
+    cats.forEach((cat,i)=>{
+      if(!cat.id)cat.id='nd-cat-'+i;
+      const title=cat.querySelector('.categoria-titulo,h2'); if(!title)return;
+      const b=document.createElement('button'); b.className='nd-cat-btn'; b.type='button'; b.textContent=title.textContent.replace(/[\n\r]+/g,' ').trim();
+      b.onclick=()=>document.getElementById(cat.id)?.scrollIntoView({behavior:'smooth',block:'start'}); nav.appendChild(b);
+    });
+  }
+  function refreshEmptyCategories(){
+    document.querySelectorAll('.categoria').forEach(cat=>{
+      const cards=[...cat.querySelectorAll('.produto')];
+      const visible=cards.some(x=>getComputedStyle(x).display!=='none');
+      cat.style.display=visible?'':'none';
+    });
+    const cards=[...document.querySelectorAll('.produto')];
+    const any=cards.some(x=>getComputedStyle(x).display!=='none');
+    let e=document.getElementById('ndEmptySearch');
+    if(!e){e=document.createElement('div');e.id='ndEmptySearch';e.className='nd-empty-search';e.innerHTML='<strong>NÃO ENCONTRAMOS ESSE PRODUTO 😕</strong><span>Tente outro nome ou veja uma categoria diferente.</span>';document.querySelector('.container')?.appendChild(e)}
+    e.style.display=any?'none':'';
+  }
+  function enhanceSearch(){
+    const input=document.getElementById('buscaProdutos'); if(!input||input.dataset.ndSearch==='1')return;
+    input.dataset.ndSearch='1';
+    input.addEventListener('input',()=>setTimeout(refreshEmptyCategories,0));
+  }
+  function updateProgress(){
+    const carts=typeof carrinho!=='undefined' ? carrinho : (window.carrinho||[]);
+    const subtotal=(carts||[]).reduce((s,x)=>s+(Number(x.preco)||0)*(Number(x.quantidade)||1),0);
+    document.querySelectorAll('.nd-cart-progress').forEach(x=>x.remove());
+    const targets=[document.querySelector('.painel-carrinho'),document.getElementById('carrinho')].filter(Boolean);
+    targets.forEach(t=>{
+      const box=document.createElement('div');box.className='nd-cart-progress';
+      const pct=Math.min(100,(subtotal/MIN_PEDIDO)*100);
+      box.innerHTML=subtotal>=MIN_PEDIDO?'<b>✓ Pedido mínimo atingido!</b>':'Falta <b>'+moeda(Math.max(0,MIN_PEDIDO-subtotal))+'</b> para atingir o pedido mínimo de '+moeda(MIN_PEDIDO)+'<div class="nd-progress-track"><div class="nd-progress-bar" style="width:'+pct+'%"></div></div>';
+      t.prepend(box);
+    });
+  }
+  window.ndUpdateProgress=updateProgress;
+  const oldAtualizar=window.atualizarCarrinho;
+  if(typeof oldAtualizar==='function'){
+    window.atualizarCarrinho=function(){const r=oldAtualizar.apply(this,arguments);setTimeout(updateProgress,20);return r;};
+  }
+  const back=document.getElementById('ndBackTop');
+  window.addEventListener('scroll',()=>back?.classList.toggle('show',window.scrollY>600),{passive:true});
+  back?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  document.addEventListener('click',e=>{
+    const btn=e.target.closest('.btn-add');
+    if(btn){btn.style.transform='scale(.96)';setTimeout(()=>btn.style.transform='',120);}
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.nd-toast.show').forEach(x=>x.classList.remove('show'));}});
+  document.addEventListener('DOMContentLoaded',()=>{addFavButtons();buildCategories();enhanceSearch();refreshEmptyCategories();updateProgress();});
+  setTimeout(()=>{addFavButtons();buildCategories();enhanceSearch();refreshEmptyCategories();updateProgress();},700);
+
+  // Melhor feedback após adicionar item, sem substituir a lógica original.
+  document.addEventListener('click',e=>{if(e.target.closest('.btn-add'))setTimeout(()=>toast('✓ Adicionado ao carrinho'),180);});
+
+  // Salva dados básicos digitados para facilitar o próximo pedido.
+  ['nome','telefone','nomeModal','telefoneModal'].forEach(id=>{
+    const el=document.getElementById(id); if(!el)return;
+    const key='ndburgs_'+id;
+    const saved=localStorage.getItem(key); if(saved&&!el.value)el.value=saved;
+    el.addEventListener('change',()=>localStorage.setItem(key,el.value.trim()));
+  });
+})();
+</script>
+
+
+<script id="nd-v3-logic">
+(function(){
+  const MIN=11.90;
+  const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+  function cart(){return typeof window.carrinho!=='undefined'?window.carrinho:[]}
+  function total(){return cart().reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
+  function qty(){return cart().reduce((a,i)=>a+(Number(i.quantidade)||1),0)}
+  function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
+  function createUI(){
+    if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
+    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🔥 <b>ND BURGS</b> • Peça pelo site • Terça a domingo, das <b>18:00 às 00:30</b>';document.body.prepend(x)}
+    if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
+    addTrust(); addLastOrder();
+  }
+  function addTrust(){if(document.querySelector('.nd-v3-trust'))return;const anchor=document.querySelector('.categoria-menu')||document.querySelector('.container');if(!anchor)return;const d=document.createElement('div');d.className='nd-v3-trust';d.innerHTML='<div>🔒<b>Compra fácil</b>Pedido direto pelo site</div><div>🏍️<b>Delivery</b>Taxa calculada por endereço</div><div>⚡<b>Rápido</b>Checkout simples pelo WhatsApp</div>';anchor.parentNode.insertBefore(d,anchor.nextSibling)}
+  function addLastOrder(){
+    if(document.querySelector('.nd-v3-last'))return;const raw=localStorage.getItem('ndburgs_ultimo_pedido');if(!raw)return;let arr;try{arr=JSON.parse(raw)}catch(e){return}if(!Array.isArray(arr)||!arr.length)return;const first=arr.slice(0,2).map(x=>x.nome).join(' + ');const d=document.createElement('div');d.className='nd-v3-last';d.innerHTML='<b>🔁 Seu último pedido</b><br><small style="color:#aaa">'+first+(arr.length>2?' e mais...':'')+'</small><button type="button">PEDIR DE NOVO</button>';d.querySelector('button').onclick=()=>{arr.forEach(x=>add(x.nome,x.preco));refresh()};const a=document.querySelector('.categoria-menu');if(a)a.parentNode.insertBefore(d,a);}
+  function upsell(){
+    const box=document.querySelector('#carrinhoItens,#itensCarrinhoModal');if(!box)return;
+    const parent=box.closest('.modal-content,.modal,.painel-carrinho')||box.parentElement;if(!parent||parent.querySelector('.nd-v3-upsell'))return;
+    const names=cart().map(x=>String(x.nome).toUpperCase()).join(' ');let options=[];
+    document.querySelectorAll('.produto').forEach((c,i)=>{const n=c.querySelector('h3')?.textContent?.trim();const pr=c.querySelector('.preco')?.textContent?.match(/[\d]+[,.][\d]{2}/)?.[0];const btn=c.querySelector('.btn-add');if(n&&pr&&!names.includes(n.toUpperCase())&&btn&&options.length<4)options.push({n,p:parseFloat(pr.replace('.','').replace(',','.')),btn})});
+    if(!options.length)return;const d=document.createElement('div');d.className='nd-v3-upsell';d.innerHTML='<h4>👀 Que tal completar seu pedido?</h4><div class="nd-v3-upsell-grid"></div>';const g=d.querySelector('div');options.forEach(o=>{const c=document.createElement('div');c.className='nd-v3-up';c.innerHTML='<strong>'+o.n+'</strong><small>'+money(o.p)+'</small><button type="button">ADICIONAR</button>';c.querySelector('button').onclick=()=>{o.btn.click();d.remove()};g.appendChild(c)});parent.insertBefore(d,box.nextSibling)
+  }
+  function refresh(){
+    const t=total(),q=qty(),bar=document.querySelector('.nd-v3-buybar');if(bar){bar.classList.toggle('show',q>0);document.getElementById('ndV3BuyTotal').textContent=money(t);document.getElementById('ndV3BuyQty').textContent=q? q+' item(ns) • '+(t>=MIN?'pedido mínimo atingido':'faltam '+money(MIN-t)):'Seu carrinho está vazio'}
+    const prog=document.querySelector('.nd-v3-progress span');if(prog)prog.style.width=Math.min(100,(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1))*100)+'%';
+    setTimeout(upsell,80);
+  }
+  const old=window.atualizarCarrinho;if(typeof old==='function'&&!old.__ndv3){window.atualizarCarrinho=function(){const r=old.apply(this,arguments);refresh();return r};window.atualizarCarrinho.__ndv3=true}
+  window.addEventListener('scroll',refresh,{passive:true});
+  document.addEventListener('click',e=>{if(e.target.closest('.btn-add'))setTimeout(refresh,100)});
+  document.addEventListener('click',e=>{if(e.target.closest('#finalizarPedido,.btn-finalizar,button[onclick*="finalizarPedido"]')){try{localStorage.setItem('ndburgs_ultimo_pedido',JSON.stringify(cart()))}catch(_){} }});
+  document.addEventListener('DOMContentLoaded',()=>{createUI();refresh();setTimeout(refresh,600)});
+  setTimeout(()=>{createUI();refresh()},900);
+})();
+</script>
+
+<style id="nd-v3-conversion">
+:root{--nd-gold:#f5c400;--nd-orange:#ff8a00;--nd-red:#ff3b30;--nd-bg:#090909;--nd-card:#151515}
+body{background:radial-gradient(circle at 50% -10%,rgba(245,196,0,.10),transparent 32%),#090909!important}
+/* HERO */
+.nd-hero{width:min(1180px,calc(100% - 28px));margin:18px auto 22px;border:1px solid rgba(245,196,0,.25);border-radius:26px;overflow:hidden;position:relative;background:linear-gradient(110deg,#111 0%,#0b0b0b 62%,#17120a 100%);min-height:310px;display:flex;align-items:center;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.nd-hero-copy{padding:34px;position:relative;z-index:2;max-width:650px}.nd-hero-kicker{display:inline-flex;background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.35);color:var(--nd-gold);padding:7px 11px;border-radius:999px;font-weight:900;font-size:12px}.nd-hero h1{font-size:clamp(32px,6vw,62px);line-height:.95;margin:14px 0 12px;color:#fff;font-weight:1000;letter-spacing:-2px}.nd-hero h1 span{color:var(--nd-gold)}.nd-hero p{color:#bbb;max-width:520px;font-size:16px}.nd-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.nd-hero-actions button{border:0;border-radius:13px;padding:14px 20px;font-weight:1000;cursor:pointer;font-size:14px}.nd-hero-primary{background:var(--nd-gold);color:#090909}.nd-hero-secondary{background:#222;color:#fff;border:1px solid #444!important}.nd-hero-product{position:absolute;right:2%;bottom:-5%;width:min(43%,480px);height:115%;object-fit:contain;filter:drop-shadow(0 25px 30px rgba(0,0,0,.8));transform:rotate(-4deg)}
+/* SECTIONS */
+.nd-section-title{width:min(1180px,calc(100% - 28px));margin:30px auto 12px;display:flex;align-items:end;justify-content:space-between;gap:10px}.nd-section-title h2{margin:0;color:#fff;font-size:28px;font-weight:1000}.nd-section-title p{margin:0;color:#888;font-size:13px}.nd-section-title strong{color:var(--nd-gold)}
+/* PRODUCT CARDS */
+.produtos{gap:20px!important;grid-template-columns:repeat(auto-fill,minmax(285px,1fr))!important}.produto{position:relative!important;border-radius:20px!important;padding:14px!important;background:linear-gradient(145deg,#1b1b1b,#0d0d0d)!important;border:1px solid #303030!important;box-shadow:0 10px 28px rgba(0,0,0,.42)!important;transition:transform .22s,box-shadow .22s,border-color .22s!important}.produto:hover{transform:translateY(-6px)!important;border-color:rgba(245,196,0,.7)!important;box-shadow:0 18px 40px rgba(0,0,0,.58)!important}.produto-imagem{height:245px!important;border-radius:15px!important;background:radial-gradient(circle,#222,#0d0d0d)!important}.produto h3{font-size:21px!important;margin-top:12px!important}.produto p{font-size:14px!important;min-height:48px!important}.preco{font-size:28px!important;line-height:1!important;color:#fff!important;margin:14px 0!important}.preco::first-letter{color:#fff}.btn-add,.produto .btn{min-height:50px!important;border-radius:13px!important;font-size:15px!important;font-weight:1000!important;background:linear-gradient(135deg,#f5c400,#ff9700)!important;color:#090909!important;box-shadow:0 7px 18px rgba(245,196,0,.20)!important}.btn-add:hover,.produto .btn:hover{transform:scale(1.015);filter:brightness(1.08)}
+.nd-badge{position:absolute;top:24px;left:24px;z-index:4;padding:7px 10px;border-radius:9px;background:#f5c400;color:#090909;font-size:11px;font-weight:1000;box-shadow:0 5px 15px rgba(0,0,0,.35)}.nd-badge.hot{background:#ff5a36;color:#fff}.nd-badge.value{background:#fff;color:#111}.nd-fav{position:absolute;right:23px;top:23px;z-index:5;width:38px;height:38px;border-radius:50%;border:1px solid #444;background:rgba(0,0,0,.7);color:#fff;font-size:18px;cursor:pointer}.nd-fav.active{color:#ff4d67;border-color:#ff4d67}
+/* MOBILE */
+@media(max-width:650px){.nd-hero{min-height:430px;margin-top:12px}.nd-hero-copy{padding:24px 20px;align-self:flex-start}.nd-hero h1{font-size:42px}.nd-hero-product{width:78%;height:62%;right:8%;bottom:-1%}.nd-hero-actions{position:relative;z-index:4}.nd-hero-actions button{flex:1;min-width:140px}.produtos{grid-template-columns:1fr!important;gap:15px!important}.produto{padding:12px!important}.produto-imagem{height:275px!important}.produto h3{font-size:22px!important}.preco{font-size:30px!important}.btn-add,.produto .btn{min-height:54px!important;font-size:16px!important}.nd-section-title{margin-top:24px}.nd-section-title h2{font-size:24px}.nd-v3-buybar{bottom:10px!important;width:calc(100% - 20px)!important;border-radius:18px!important}}
+/* CART CONVERSION */
+.nd-v3-buybar{z-index:9998!important;background:rgba(16,16,16,.96)!important;border:1px solid rgba(245,196,0,.55)!important;box-shadow:0 14px 40px rgba(0,0,0,.7)!important}.nd-v3-buybar button{background:linear-gradient(135deg,#f5c400,#ff9700)!important;color:#090909!important;font-weight:1000!important;border-radius:12px!important}.nd-v3-upsell{background:#111!important;border:1px solid #333!important;border-radius:16px!important;padding:14px!important;margin:14px 0!important}.nd-v3-up button{background:#f5c400!important;color:#111!important;font-weight:900!important}
+/* PAYMENT CARDS */
+.nd-paycards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 12px}.nd-paycard{border:1px solid #333;background:#171717;color:#fff;border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;font-weight:900}.nd-paycard small{display:block;color:#888;font-weight:600;margin-top:3px}.nd-paycard.active{border-color:var(--nd-gold);box-shadow:0 0 0 1px var(--nd-gold) inset;background:rgba(245,196,0,.08)}@media(max-width:500px){.nd-paycards{grid-template-columns:1fr}}
+/* TEST MODE */
+.nd-test-pill{position:fixed;top:8px;right:8px;z-index:10000;background:#7b2cff;color:#fff;padding:6px 10px;border-radius:999px;font:900 10px Arial;box-shadow:0 5px 20px rgba(0,0,0,.4)}
+</style>
+<script>
+(function(){
+'use strict';
+window.ND_MODO_TESTE=true; // TRUE = sempre aberto | FALSE = horário real
+const MIN=11.90;
+function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function getProducts(){return [...document.querySelectorAll('.produto')].filter(x=>!x.closest('#checkout'))}
+function firstImage(){const c=getProducts()[0];return c?.querySelector('img')?.src||''}
+function buildHero(){if(document.querySelector('.nd-hero'))return;const h=document.createElement('section');h.className='nd-hero';h.innerHTML='<div class="nd-hero-copy"><span class="nd-hero-kicker">🔥 FEITO NA HORA • PEDIDO DIRETO</span><h1>SEU LANCHE.<br><span>SEU MOMENTO.</span></h1><p>Hambúrgueres, combos, porções, açaí e muito mais. Monte seu pedido e receba em casa ou retire com a ND BURGS.</p><div class="nd-hero-actions"><button class="nd-hero-primary" type="button">PEDIR AGORA 🍔</button><button class="nd-hero-secondary" type="button">VER MAIS PEDIDOS 🔥</button></div></div><img class="nd-hero-product" alt="Destaque ND BURGS">';h.querySelector('img').src=firstImage();h.querySelector('.nd-hero-primary').onclick=()=>document.querySelector('.categoria-menu')?.scrollIntoView({behavior:'smooth'});h.querySelector('.nd-hero-secondary').onclick=()=>{const x=document.querySelector('.categoria-menu');x?.scrollIntoView({behavior:'smooth'})};const anchor=document.querySelector('.categoria-menu')||document.querySelector('.container');if(anchor)anchor.parentNode.insertBefore(h,anchor)}
+function badges(){getProducts().forEach((c,i)=>{if(!c.querySelector('.nd-badge')){const b=document.createElement('span');b.className='nd-badge '+(i===1?'hot':i===2?'value':'');b.textContent=i===0?'🏆 MAIS PEDIDO':i===1?'🔥 QUERIDINHO':i===2?'💰 CUSTO-BENEFÍCIO':'⭐ DESTAQUE';c.appendChild(b)}if(!c.querySelector('.nd-fav')){const b=document.createElement('button');b.type='button';b.className='nd-fav';b.setAttribute('aria-label','Favoritar produto');const n=c.querySelector('h3')?.textContent?.trim()||'';const key='ndfav_'+n;b.textContent=localStorage.getItem(key)==='1'?'♥':'♡';if(localStorage.getItem(key)==='1')b.classList.add('active');b.onclick=e=>{e.stopPropagation();const on=b.classList.toggle('active');b.textContent=on?'♥':'♡';localStorage.setItem(key,on?'1':'0')};c.appendChild(b)}})}
+function paymentCards(){document.querySelectorAll('select').forEach(sel=>{if(!/pagamento/i.test(sel.id+sel.name))return;if(sel.dataset.ndCards)return;sel.dataset.ndCards='1';const wrap=document.createElement('div');wrap.className='nd-paycards';[...sel.options].forEach(o=>{if(!o.value)return;const d=document.createElement('div');d.className='nd-paycard';d.innerHTML=(o.value.toUpperCase().includes('PIX')?'💠 ':o.value.toUpperCase().includes('DINHEIRO')?'💵 ':'💳 ')+o.textContent+'<small>'+ (o.value.toUpperCase().includes('DINHEIRO')?'Precisa de troco?':'Pagamento na entrega')+'</small>';d.onclick=()=>{sel.value=o.value;sel.dispatchEvent(new Event('change',{bubbles:true}));wrap.querySelectorAll('.nd-paycard').forEach(x=>x.classList.remove('active'));d.classList.add('active')};wrap.appendChild(d)});sel.style.position='absolute';sel.style.opacity='0';sel.style.pointerEvents='none';sel.parentNode.insertBefore(wrap,sel)});}
+function testMode(){const b=document.getElementById('bloqueioHorario');if(window.ND_MODO_TESTE){if(b)b.style.display='none';const s=document.getElementById('statusHorario');if(s){s.className='status-aberto';s.innerHTML='🟢 ESTAMOS ACEITANDO PEDIDOS <b>#BORADENDBURGS</b>'}}}
+const oldVerify=window.verificarHorario;if(!window.__ndv3verify){window.verificarHorario=function(){if(window.ND_MODO_TESTE){testMode();return true}return typeof oldVerify==='function'?oldVerify.apply(this,arguments):true};window.__ndv3verify=true}
+function observe(){buildHero();badges();paymentCards();testMode()}
+document.addEventListener('DOMContentLoaded',observe);setTimeout(observe,500);setTimeout(observe,1600);
+})();
+</script>
+
+<style id="nd-v3-final-polish">
+/* ND BURGS V3 — POLIMENTO FINAL | CORES ORIGINAIS PRESERVADAS */
+:root{--nd-gold:#f5c400;--nd-gold2:#ffd92b;--nd-black:#080808;--nd-card:#121212;--nd-line:#292929;--nd-green:#25d366}
+body{background:#090909;color:#fff}
+/* HOME */
+.nd-hero-v3{position:relative;overflow:hidden;display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:center;margin:0 auto 24px;padding:28px 26px;border:1px solid #292929;border-radius:22px;background:radial-gradient(circle at 80% 45%,rgba(245,196,0,.14),transparent 30%),linear-gradient(145deg,#151515,#0b0b0b);box-shadow:0 18px 55px #0009}
+.nd-hero-kicker{display:inline-flex;padding:7px 10px;border:1px solid #4a3b00;border-radius:999px;color:var(--nd-gold);font-size:11px;font-weight:900;letter-spacing:.5px}
+.nd-hero-copy h2{font-size:clamp(34px,6vw,64px);line-height:.92;margin:15px 0 12px;letter-spacing:-2px}.nd-hero-copy h2 strong{color:var(--nd-gold)}
+.nd-hero-copy p{max-width:600px;color:#bbb;font-size:15px;line-height:1.55}.nd-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.nd-hero-btn{border:0;border-radius:11px;padding:14px 18px;font-weight:900;cursor:pointer;transition:.2s;min-height:48px}.nd-hero-btn.primary{background:var(--nd-gold);color:#000;box-shadow:0 8px 25px rgba(245,196,0,.18)}.nd-hero-btn.secondary{background:#171717;color:#fff;border:1px solid #444}.nd-hero-btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.nd-hero-trust{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;color:#999;font-size:12px}.nd-hero-art{min-height:250px;position:relative;display:grid;place-items:center}.nd-hero-glow{position:absolute;width:250px;height:250px;border-radius:50%;background:rgba(245,196,0,.09);filter:blur(20px)}.nd-hero-burger{font-size:clamp(100px,18vw,180px);filter:drop-shadow(0 25px 22px #000);transform:rotate(-5deg)}.nd-hero-price{position:absolute;right:5%;bottom:8%;padding:11px 14px;background:#000;border:1px solid var(--nd-gold);border-radius:12px;color:#fff;font-size:12px;line-height:1.05;box-shadow:0 10px 30px #000}.nd-hero-price b{color:var(--nd-gold);font-size:20px}
+.nd-mais-pedidos-v3{margin:20px 0 28px}.nd-section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}.nd-section-head span{font-size:11px;color:var(--nd-gold);font-weight:900}.nd-section-head h2{font-size:26px;margin-top:3px}.nd-section-head button{background:none;border:0;color:var(--nd-gold);font-weight:900;cursor:pointer}.nd-featured-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.nd-featured-grid .produto{margin:0;min-width:0}
+/* PRODUTOS — maiores e mais chamativos, mantendo amarelo/preto */
+.produtos{grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:18px}.produto{position:relative;border-radius:16px;overflow:hidden;padding:13px;background:linear-gradient(160deg,#191919,#101010);border:1px solid #292929;box-shadow:0 10px 28px #0007;transition:transform .22s,box-shadow .22s,border-color .22s}.produto:hover{transform:translateY(-4px);border-color:#4d4100;box-shadow:0 18px 38px #0009}.produto-imagem{width:100%;height:245px;object-fit:cover;border-radius:12px;display:block;background:#0d0d0d;transition:transform .3s}.produto:hover .produto-imagem{transform:scale(1.035)}.produto h3{font-size:20px;margin:12px 2px 5px}.produto p{font-size:13px;min-height:40px}.preco{font-size:26px!important;color:var(--nd-gold)!important;font-weight:1000!important;letter-spacing:-.5px;margin:11px 2px!important}.btn-add{font-size:16px!important;padding:14px!important;border-radius:10px!important;box-shadow:0 8px 18px rgba(245,196,0,.15);transition:.18s}.btn-add:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(245,196,0,.22)}
+/* BADGES */
+.nd-v3-badge{position:absolute;top:21px;left:21px;z-index:4;background:var(--nd-gold);color:#000;padding:6px 9px;border-radius:7px;font-size:10px;font-weight:1000;box-shadow:0 5px 15px #0008}
+/* CARRINHO */
+.carrinho-flutuante{box-shadow:0 -8px 30px #000b;border-top:1px solid #4b3d00}.carrinho-flutuante-total{color:var(--nd-gold)!important;font-size:20px}.btn-ver-carrinho{background:var(--nd-gold)!important;color:#000!important;font-weight:1000!important;box-shadow:0 7px 18px rgba(245,196,0,.18)}.nd-cart-upsell{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;margin:10px 0;background:#101010;border:1px solid #332b00;border-radius:11px}.nd-cart-upsell b{color:var(--nd-gold)}.nd-cart-upsell button{border:0;background:var(--nd-gold);color:#000;border-radius:8px;padding:9px 11px;font-weight:900;cursor:pointer}
+/* PAGAMENTO EM CARDS */
+.nd-payment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 14px}.nd-pay-card{border:1px solid #333;background:#111;color:#ddd;border-radius:10px;padding:11px;text-align:center;font-weight:900;cursor:pointer}.nd-pay-card.active{border-color:var(--nd-gold);box-shadow:0 0 0 1px var(--nd-gold) inset;color:var(--nd-gold)}
+/* CHECKOUT 4 ETAPAS */
+.nd-checkout-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:0 0 15px}.nd-checkout-step{border:1px solid #333;background:#111;color:#777;border-radius:9px;padding:8px 4px;text-align:center;font-size:10px;font-weight:900}.nd-checkout-step.active{border-color:var(--nd-gold);color:var(--nd-gold);background:#171300}.nd-step-panel{display:none}.nd-step-panel.active{display:block}.nd-step-nav{display:flex;gap:8px;margin-top:14px}.nd-step-nav button{flex:1;border:0;border-radius:10px;padding:13px;font-weight:900;cursor:pointer}.nd-next{background:var(--nd-gold);color:#000}.nd-prev{background:#1a1a1a;color:#fff;border:1px solid #333!important}
+/* MOBILE */
+@media(max-width:800px){.nd-hero-v3{grid-template-columns:1fr;padding:22px 17px}.nd-hero-art{min-height:170px;position:absolute;right:-20px;bottom:-10px;opacity:.25}.nd-hero-copy{position:relative;z-index:2}.nd-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.nd-featured-grid .produto-imagem{height:150px}.nd-featured-grid .produto{padding:9px}.nd-featured-grid .produto h3{font-size:14px}.nd-featured-grid .preco{font-size:20px!important}.nd-featured-grid .btn-add{font-size:13px!important;padding:11px!important}.produtos{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.produto{padding:9px;border-radius:13px}.produto-imagem{height:190px;border-radius:10px}.produto h3{font-size:16px}.produto p{font-size:12px;min-height:38px}.preco{font-size:23px!important}.btn-add{font-size:14px!important;padding:12px!important}.nd-checkout-steps{gap:3px}.nd-checkout-step{font-size:8px;padding:7px 2px}.nd-payment-grid{gap:5px}.nd-pay-card{padding:10px 5px;font-size:12px}}
+@media(max-width:420px){.nd-featured-grid,.produtos{grid-template-columns:repeat(2,minmax(0,1fr))}.produto-imagem{height:160px}.produto h3{font-size:14px}.preco{font-size:20px!important}.btn-add{font-size:13px!important;padding:11px!important}.nd-hero-copy h2{font-size:39px}.nd-section-head h2{font-size:22px}}
+
+.nd-repeat-box{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 16px;padding:13px 15px;border:1px solid #292929;border-radius:13px;background:#101010}.nd-repeat-box span{display:block;color:var(--nd-gold);font-size:10px;font-weight:900}.nd-repeat-box strong{display:block;font-size:15px;margin:3px 0}.nd-repeat-box small{color:#888}.nd-repeat-box button{border:0;background:var(--nd-gold);color:#000;border-radius:9px;padding:11px 13px;font-weight:1000;cursor:pointer;white-space:nowrap}@media(max-width:600px){.nd-repeat-box{align-items:stretch;flex-direction:column}.nd-repeat-box button{width:100%}}
+</style>
+
+<script id="nd-v3-conversion-engine">
+(function(){
+'use strict';
+const TEST_MODE=true; // MODO TESTE ATIVO — altere para false para voltar ao horário real.
+const MIN=11.90;
+const $=id=>document.getElementById(id);
+function toast(msg){ if(window.ndToast) window.ndToast(msg); else {const e=$('ndToast'); if(e){e.textContent=msg;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200);}} }
+
+// MODO TESTE: força o site a ficar aberto sem apagar o sistema de horário real.
+if(TEST_MODE){
+  window.addEventListener('DOMContentLoaded',()=>{
+    const b=$('bloqueioHorario'),st=$('statusHorario');
+    if(b)b.style.display='none';
+    if(st){st.className='status-aberto';st.innerHTML='🟢 ESTAMOS ACEITANDO PEDIDOS <b>#BORADENDBURGS</b><br><small>🧪 MODO TESTE ATIVO</small>';}
+  });
+  const original=window.verificarHorario;
+  window.verificarHorario=function(){
+    const b=$('bloqueioHorario'),st=$('statusHorario');
+    if(b)b.style.display='none';
+    if(st){st.className='status-aberto';st.innerHTML='🟢 ESTAMOS ACEITANDO PEDIDOS <b>#BORADENDBURGS</b><br><small>🧪 MODO TESTE ATIVO</small>';}
+    return true;
+  };
+}
+
+function produtoCards(){return [...document.querySelectorAll('.produto')].filter(x=>!x.closest('#ndMaisPedidosGrid'));}
+function nomeCard(card){return (card.querySelector('h3')?.textContent||'').trim();}
+function montarMaisPedidos(){
+ const grid=$('ndMaisPedidosGrid'); if(!grid)return;
+ const cards=produtoCards();
+ const ranked=[...cards].sort((a,b)=>{
+   const na=nomeCard(a).toUpperCase(), nb=nomeCard(b).toUpperCase();
+   const sa=(na.includes('MAIS VENDIDO')?100:0)+(na.includes('COMBO')?20:0)+(na.includes('5 ESTRELAS')?15:0);
+   const sb=(nb.includes('MAIS VENDIDO')?100:0)+(nb.includes('COMBO')?20:0)+(nb.includes('5 ESTRELAS')?15:0);
+   return sb-sa;
+ }).slice(0,4);
+ grid.innerHTML='';
+ ranked.forEach((card,i)=>{const c=card.cloneNode(true); const badge=document.createElement('span'); badge.className='nd-v3-badge'; badge.textContent=i===0?'🏆 MAIS PEDIDO':i===1?'🔥 QUERIDINHO':'⭐ DESTAQUE'; c.prepend(badge); grid.appendChild(c);});
+}
+function instalarBadges(){
+ produtoCards().forEach(card=>{
+   const n=nomeCard(card).toUpperCase();
+   if(n.includes('MAIS VENDIDO')&&!card.querySelector('.nd-v3-badge')){const b=document.createElement('span');b.className='nd-v3-badge';b.textContent='🏆 MAIS PEDIDO';card.prepend(b);}
+   card.querySelectorAll('img').forEach(img=>{img.loading='lazy';img.decoding='async';img.addEventListener('error',()=>{img.style.objectFit='contain';img.style.padding='30px';img.alt='Imagem indisponível';},{once:true});});
+ });
+}
+
+// Pagamento em cartões: mantém o select original como fonte de verdade.
+function montarPagamentos(){
+ ['pagamento','pagamentoModal'].forEach(id=>{
+   const select=$(id); if(!select||select.dataset.cards==='1')return;
+   const wrap=document.createElement('div'); wrap.className='nd-payment-grid';
+   [['PIX','💠','PIX'],['DINHEIRO','💵','DINHEIRO'],['CARTÃO','💳','CARTÃO']].forEach(([v,ic,t])=>{const b=document.createElement('button');b.type='button';b.className='nd-pay-card';b.innerHTML=ic+'<br>'+t;b.onclick=()=>{select.value=v;select.dispatchEvent(new Event('change',{bubbles:true}));wrap.querySelectorAll('.nd-pay-card').forEach(x=>x.classList.remove('active'));b.classList.add('active');};wrap.appendChild(b);});
+   select.style.display='none'; select.parentNode.insertBefore(wrap,select.nextSibling); select.dataset.cards='1';
+ });
+}
+
+// Checkout em 4 etapas, sem remover nenhum ID usado pelo sistema existente.
+function montarCheckout4Etapas(){
+ const panel=document.querySelector('#modalFinalizar .painel-finalizar'); if(!panel||panel.dataset.wizard==='1')return;
+ const header=panel.querySelector('.cabecalho-finalizar');
+ const ids=[['nomeModal','telefoneModal'],['tipoPedidoModal','ruaModal','ruaBuscaModal','numeroModal','complementoModal','avisoTaxaModal'],['pagamentoModal','trocoModal','observacaoModal'],['subtotalFinalizarModal','taxaFinalizarModal','totalFinalizarModal']];
+ const labels=[['SEUS DADOS','👤 Nome e WhatsApp'],['ENTREGA','🛵 Como você vai receber'],['PAGAMENTO','💳 Escolha como pagar'],['CONFIRME','✅ Confira seu pedido']];
+ const steps=document.createElement('div');steps.className='nd-checkout-steps';
+ labels.forEach((x,i)=>{const el=document.createElement('div');el.className='nd-checkout-step'+(i===0?' active':'');el.innerHTML=x[0]+'<br><small>'+x[1]+'</small>';steps.appendChild(el);});
+ panel.insertBefore(steps,header.nextSibling);
+ const panels=[];
+ ids.forEach((group,i)=>{const box=document.createElement('div');box.className='nd-step-panel'+(i===0?' active':'');box.dataset.step=String(i);panel.appendChild(box); group.forEach(id=>{const el=$(id);if(!el)return; const lab=el.previousElementSibling; if(lab && lab.tagName==='LABEL')box.appendChild(lab); box.appendChild(el); if(id==='pagamentoModal'){const pay=el.parentNode.querySelector('.nd-payment-grid'); if(pay)box.appendChild(pay);}}); panels.push(box);});
+ // Observação pode ter sido colocada junto do pagamento; manter resumo no passo 4.
+ const resumo=panel.querySelector('.resumo-modal'); if(resumo)panels[3].appendChild(resumo);
+ const finalBtn=panel.querySelector('.btn-finalizar-modal'); if(finalBtn)panels[3].appendChild(finalBtn);
+ const nav=document.createElement('div');nav.className='nd-step-nav';
+ const prev=document.createElement('button');prev.type='button';prev.className='nd-prev';prev.textContent='← VOLTAR';
+ const next=document.createElement('button');next.type='button';next.className='nd-next';next.textContent='CONTINUAR →';
+ nav.append(prev,next); panel.appendChild(nav);
+ let current=0;
+ function show(n){current=Math.max(0,Math.min(3,n));panels.forEach((p,i)=>p.classList.toggle('active',i===current));steps.querySelectorAll('.nd-checkout-step').forEach((e,i)=>e.classList.toggle('active',i===current));prev.style.display=current===0?'none':'';next.style.display=current===3?'none':''; if(current===3){const t=$('totalFinalizarModal'); if(t&&window.atualizarCarrinho)try{window.atualizarCarrinho()}catch(e){}}}
+ function validStep(){
+   if(current===0){if(!$('nomeModal')?.value.trim()||!$('telefoneModal')?.value.trim()){toast('⚠️ Preencha seu nome e telefone.');return false;}}
+   if(current===1 && $('tipoPedidoModal')?.value==='ENTREGA'){if(!$('ruaModal')?.value||!$('numeroModal')?.value.trim()){toast('⚠️ Selecione sua rua e informe o número.');return false;}}
+   if(current===2){if(!$('pagamentoModal')?.value){toast('⚠️ Escolha a forma de pagamento.');return false;} if($('pagamentoModal').value==='DINHEIRO'&&!$('trocoModal')?.value){toast('⚠️ Informe o troco ou coloque 0 se não precisar.');return false;}}
+   return true;
+ }
+ prev.onclick=()=>show(current-1);next.onclick=()=>{if(validStep())show(current+1)}; show(0); panel.dataset.wizard='1';
+}
+
+// Barra de carrinho: sugestão de complemento sem alterar produtos/taxas.
+function atualizarUpsell(){
+ const panel=document.querySelector('#modalCarrinho .painel-carrinho'); if(!panel)return;
+ let box=panel.querySelector('.nd-cart-upsell');
+ let cart=[]; try{cart=JSON.parse(localStorage.getItem('ndburgs_carrinho')||'[]')}catch(e){} if(!Array.isArray(cart)||!cart.length){if(box)box.remove();return;}
+ if(!box){box=document.createElement('div');box.className='nd-cart-upsell'; const resumo=panel.querySelector('.resumo-modal'); if(resumo)panel.insertBefore(box,resumo);}
+ const hasDrink=cart.some(x=>/coca|guaran|dolly|bebida|suco|água/i.test((x.nome||'')));
+ box.innerHTML=hasDrink?'🔥 Pedido completo! Você já adicionou uma bebida.':'<span><b>Que tal completar?</b><br><small style="color:#999">Uma bebida ou sobremesa combina muito com seu pedido.</small></span><button type="button">VER OPÇÕES</button>';
+ if(!hasDrink)box.querySelector('button').onclick=()=>{if(window.mostrarSugestoes)window.mostrarSugestoes();};
+}
+
+// Pedir novamente: restaura o último carrinho enviado/salvo antes de limpar.
+function guardarUltimoPedido(){try{const cart=JSON.parse(localStorage.getItem('ndburgs_carrinho')||'[]');if(Array.isArray(cart)&&cart.length)localStorage.setItem('ndburgs_ultimo_pedido',JSON.stringify(cart));}catch(e){}}
+window.ndPedirNovamente=function(){try{const x=JSON.parse(localStorage.getItem('ndburgs_ultimo_pedido')||'null');if(!Array.isArray(x)||!x.length){toast('Ainda não existe um pedido anterior neste aparelho.');return;} localStorage.setItem('ndburgs_carrinho',JSON.stringify(x)); if(window.carregarCarrinhoSalvo)window.carregarCarrinhoSalvo(); if(window.atualizarCarrinho)window.atualizarCarrinho(); toast('🔄 Último pedido restaurado!'); if(window.abrirCarrinho)window.abrirCarrinho();}catch(e){toast('Não foi possível restaurar o pedido.');}};
+function criarPedirNovamente(){
+ const box=document.createElement('section');box.className='nd-repeat-box';box.innerHTML='<div><span>🔄 PEDIR NOVAMENTE</span><strong>Seu último pedido em 1 toque</strong><small>Disponível neste aparelho.</small></div><button type="button" onclick="ndPedirNovamente()">PEDIR NOVAMENTE</button>';
+ const search=document.querySelector('.modern-search'); if(search?.parentNode)search.parentNode.insertBefore(box,search); else document.querySelector('.container')?.prepend(box);
+}
+
+// Monitoramento leve do carrinho sem substituir funções existentes.
+const originalUpdate=window.atualizarCarrinho;
+if(typeof originalUpdate==='function'){
+ window.atualizarCarrinho=function(){const r=originalUpdate.apply(this,arguments); setTimeout(atualizarUpsell,0); return r;};
+}
+const originalFinal=window.finalizarPedidoModal;
+if(typeof originalFinal==='function'){
+ window.finalizarPedidoModal=function(){guardarUltimoPedido(); return originalFinal.apply(this,arguments);};
+}
+const originalFinal2=window.finalizarPedido;
+if(typeof originalFinal2==='function'){
+ window.finalizarPedido=function(){guardarUltimoPedido(); return originalFinal2.apply(this,arguments);};
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+ montarMaisPedidos(); instalarBadges(); montarPagamentos(); montarCheckout4Etapas(); criarPedirNovamente();
+ const q=$('buscaProdutos'); if(q)q.setAttribute('aria-label','Pesquisar no cardápio');
+ // Botão voltar ao topo
+ const top=$('ndBackTop'); if(top)top.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+});
+})();
+</script>
+</body>
+</html>
