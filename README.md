@@ -1,4 +1,3 @@
-[V03.html](https://github.com/user-attachments/files/31813734/V03.html)
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
