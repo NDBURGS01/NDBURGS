@@ -2,10 +2,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260903-02">
+<meta name="nd-site-version" content="20260903-01">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260903-02";
+  const ND_SITE_VERSION = "20260903-01";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -33,7 +33,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#090909;color:#fff;paddin
 
 /* HEADER */
 header{background:#000;padding:12px 20px;text-align:center;border-bottom:2px solid #f5c400;position:sticky;top:0;z-index:1000}
-.logo{width:230px;max-width:82%;height:auto}
+.logo{width:150px;max-width:70%;height:auto}
 
 /* HORÁRIOS */
 .horarios{max-width:1100px;margin:15px auto 0;padding:0 15px}
@@ -375,13 +375,13 @@ Volte durante nosso horário de atendimento.
 
 <br>
 
-Terça a sábado:
+Terça a domingo:
 <strong>18:00 às 00:30</strong>
 
 <br>
 
 Domingo:
-<strong>18:00 às 00:00</strong>
+<strong>18:00 às 00:30</strong>
 
 <br>
 
@@ -436,13 +436,13 @@ Segunda-feira:
 
 <div class="horarios-linha">
 
-📅 Terça a sábado:
+📅 Terça a domingo:
 <strong>18:00 às 00:30</strong>
 
 <br>
 
 📅 Domingo:
-<strong>18:00 às 00:00</strong>
+<strong>18:00 às 00:30</strong>
 
 <br>
 
@@ -1935,7 +1935,6 @@ const taxas = {
 const CHAVE_CARRINHO="ndburgs_carrinho";
 
 let carrinho=[];
-window.carrinho=carrinho;
 
 function salvarCarrinho(){
 
@@ -4694,7 +4693,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
   function createUI(){
     if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
-    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🔥 <b>ND BURGS</b> • Peça pelo site • Terça a sábado, das <b>18:00 às 00:30</b>';document.body.prepend(x)}
+    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🔥 <b>ND BURGS</b> • Peça pelo site • Terça a domingo, das <b>18:00 às 00:30</b>';document.body.prepend(x)}
     if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
     addTrust(); addLastOrder();
   }
@@ -4739,7 +4738,7 @@ html,body{background:#050505!important;color:var(--nd-text)!important}
 body{background:#050505!important}
 body *{scrollbar-color:#333 #050505}
 header{background:#050505!important;border-bottom:2px solid var(--nd-orange)!important}
-header .logo{max-height:150px!important;width:230px!important;max-width:82%!important}
+header .logo{max-height:72px}
 .horarios{background:#070707!important}
 .horarios-box,.produto,.carrinho,.formulario,.painel-carrinho,.painel-finalizar,.suggestions-panel{background:#0d0d0d!important;color:#f2f2f2!important;border-color:#252525!important}
 input,select,textarea{background:#111!important;color:#fff!important;border:1px solid #303030!important}
@@ -4770,7 +4769,7 @@ select option{background:#111;color:#fff}
 .total strong,.total-modal strong,#total,#totalCarrinhoModal,#totalFinalizarModal{color:var(--nd-orange2)!important}
 .aviso-taxa{background:#101010!important;border-color:var(--nd-orange)!important;color:#ddd!important}
 .rodape-instagram,.rodape-final{background:#050505!important;color:#aaa!important;border-color:#222!important}
-.nd-v4-hero{display:none!important;position:relative;min-height:520px;max-width:1180px;margin:0 auto;padding:58px 28px 46px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;overflow:hidden;background:#050505}
+.nd-v4-hero{position:relative;min-height:520px;max-width:1180px;margin:0 auto;padding:58px 28px 46px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;overflow:hidden;background:#050505}
 .nd-v4-hero-glow{position:absolute;width:520px;height:520px;border-radius:50%;right:-100px;top:-130px;background:radial-gradient(circle,rgba(255,106,0,.18),transparent 66%);pointer-events:none}
 .nd-v4-hero-content{position:relative;z-index:2;max-width:650px}
 .nd-v4-kicker{display:inline-flex;padding:7px 11px;border:1px solid #ff6a0055;border-radius:999px;color:var(--nd-orange2);font-size:12px;font-weight:1000;letter-spacing:1px;background:#ff6a000c}
@@ -4820,29 +4819,6 @@ select option{background:#111;color:#fff}
  .btn-add{min-height:48px!important;font-size:13px!important}
  .nd-v4-payment-grid{grid-template-columns:1fr}
 }
-
-/* ===== ND BURGS FUTURISTIC RESTRUCTURE ===== */
-:root{--nd-orange:#ff6a00;--nd-orange2:#ff8a1f;--nd-black:#050505;--nd-panel:#101010}
-body{background:radial-gradient(circle at 50% -10%,rgba(255,106,0,.13),transparent 30%),linear-gradient(180deg,#030303,#080808 55%,#030303)!important}
-header{padding:16px 12px 14px!important;min-height:126px!important;display:flex!important;align-items:center!important;justify-content:center!important;position:sticky!important;top:0!important;z-index:2000!important;background:rgba(3,3,3,.94)!important;backdrop-filter:blur(20px)!important;border-bottom:1px solid rgba(255,106,0,.55)!important;box-shadow:0 8px 35px rgba(0,0,0,.7)!important}
-header .logo{width:230px!important;max-width:82%!important;max-height:105px!important;object-fit:contain!important;filter:drop-shadow(0 0 22px rgba(255,106,0,.25))!important}
-.container{max-width:1240px!important;padding-top:18px!important}
-.container>h1{font-size:0!important;margin:8px 0 14px!important;height:0!important;overflow:hidden!important}
-.horarios{margin:10px auto 0!important}.horarios-box{border-color:rgba(255,106,0,.4)!important;border-radius:16px!important}
-.modern-search{top:126px!important;border-color:rgba(255,106,0,.35)!important;box-shadow:0 10px 40px rgba(0,0,0,.55)!important}
-.categoria-menu{top:194px!important;background:linear-gradient(180deg,#080808 78%,transparent)!important}
-.categoria-titulo{color:#fff!important;text-transform:uppercase;letter-spacing:.5px}.categoria-titulo:after{background:var(--nd-orange)!important}
-.produtos{grid-template-columns:repeat(auto-fill,minmax(245px,1fr))!important;gap:14px!important}
-.produto{background:linear-gradient(155deg,#151515,#090909)!important;border:1px solid #262626!important;border-radius:18px!important;min-height:100%!important}
-.produto:hover{border-color:rgba(255,106,0,.65)!important;box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 30px rgba(255,106,0,.06)!important}
-.produto img{aspect-ratio:1/1!important;height:auto!important;object-fit:cover!important}
-.produto h3{letter-spacing:.2px!important}.preco{color:var(--nd-orange2)!important}
-.nd-qty-add{display:flex;align-items:center;gap:7px;margin-top:10px}.nd-qty{display:flex;align-items:center;background:#080808;border:1px solid #303030;border-radius:11px;overflow:hidden;height:46px}.nd-qty button{width:40px;height:100%;border:0;background:#151515;color:#fff;font-size:22px;font-weight:900;cursor:pointer}.nd-qty button:hover{background:var(--nd-orange);color:#000}.nd-qty span{min-width:30px;text-align:center;font-weight:1000;color:#fff}.nd-qty-add .btn-add{flex:1!important;width:auto!important;margin:0!important;height:46px!important;padding:8px 10px!important;font-size:12px!important}
-.nd-best-seller{position:absolute;left:10px;top:10px;z-index:20;padding:7px 10px;border-radius:999px;background:linear-gradient(135deg,#ff6a00,#ff9a3d);color:#080808;font-size:10px;font-weight:1000;letter-spacing:.5px;box-shadow:0 8px 24px rgba(255,106,0,.3);animation:ndPulse 2.5s infinite}
-@keyframes ndPulse{0%,100%{box-shadow:0 8px 24px rgba(255,106,0,.25)}50%{box-shadow:0 8px 32px rgba(255,106,0,.55)}}
-.nd-cart-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.nd-cart-title span{color:#888;font-size:12px}
-.carrinho-flutuante{border:1px solid rgba(255,106,0,.55)!important;border-top:2px solid var(--nd-orange)!important}
-@media(max-width:600px){header{min-height:92px!important;padding:9px!important}header .logo{width:185px!important;max-height:78px!important}.modern-search{top:92px!important}.categoria-menu{top:160px!important}.produtos{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}.produto{padding:8px!important}.produto img{aspect-ratio:1/1!important}.nd-qty{height:42px}.nd-qty button{width:32px;font-size:19px}.nd-qty span{min-width:25px}.nd-qty-add .btn-add{height:42px!important;font-size:10px!important}.nd-best-seller{font-size:8px;padding:5px 7px;left:6px;top:6px}.horarios-box{padding:10px!important}.categoria-menu{padding-bottom:9px!important}}
 </style>
 
 <script id="nd-v4-logic">
@@ -4850,13 +4826,13 @@ header .logo{width:230px!important;max-width:82%!important;max-height:105px!impo
 'use strict';
 const MIN=11.90;
 const WA='5511963973846';
-function cart(){return (typeof carrinho!=='undefined' && Array.isArray(carrinho)) ? carrinho : (Array.isArray(window.carrinho)?window.carrinho:[])}
+function cart(){return window.carrinho||[]}
 function money(v){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}
 function subtotal(){return cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
 function saveLast(){try{localStorage.setItem('ndburgs_ultimo_pedido',JSON.stringify(cart()))}catch(e){}}
 function clearCart(){
   try{localStorage.removeItem('carrinho');localStorage.removeItem('ndburgs_carrinho');}catch(e){}
-  if(Array.isArray(carrinho)) carrinho.length=0; window.carrinho=carrinho;
+  if(Array.isArray(window.carrinho)) window.carrinho.length=0;
   if(typeof window.atualizarCarrinho==='function') window.atualizarCarrinho();
 }
 function buildCheckout(){
@@ -5020,44 +4996,6 @@ window.irParaFinalizarPedido=function(){
  modal.classList.add('ativo');document.body.style.overflow='hidden';
  buildCheckout();ndStep(1);
 }
-function ndEnhanceProducts(){
- document.querySelectorAll('.produto').forEach((card,index)=>{
-   if(card.dataset.ndQtyReady==='1')return;
-   const btn=card.querySelector('.btn-add'); if(!btn)return;
-   card.dataset.ndQtyReady='1';
-   let qty=1;
-   const wrap=document.createElement('div'); wrap.className='nd-qty-add';
-   const controls=document.createElement('div'); controls.className='nd-qty';
-   const minus=document.createElement('button'); minus.type='button'; minus.textContent='−';
-   const count=document.createElement('span'); count.textContent='1';
-   const plus=document.createElement('button'); plus.type='button'; plus.textContent='+';
-   controls.append(minus,count,plus);
-   btn.parentNode.insertBefore(wrap,btn); wrap.append(controls,btn);
-   minus.onclick=()=>{qty=Math.max(1,qty-1);count.textContent=qty};
-   plus.onclick=()=>{qty=Math.min(20,qty+1);count.textContent=qty};
-   btn.addEventListener('click',()=>{
-      if(btn.getAttribute('onclick')?.includes('adicionar(') && !btn.getAttribute('onclick')?.includes('abrirPersonalizacao')){
-        const original=btn.getAttribute('onclick');
-        const m=original.match(/adicionar\((['\"])(.*?)\1\s*,\s*([0-9.]+)/);
-        if(m){
-          const nome=m[2],preco=Number(m[3]);
-          if(qty>1){for(let i=1;i<qty;i++)adicionar(nome,preco);}
-        }
-      }
-      qty=1;count.textContent='1';
-   });
- });
-}
-function ndRandomBestSellers(){
- const pool=[...document.querySelectorAll('.produto')].filter(c=>c.querySelector('h3')&&c.querySelector('.btn-add'));
- pool.forEach(c=>c.querySelector('.nd-best-seller')?.remove());
- const candidatos=pool.filter(c=>{const n=c.querySelector('h3').textContent.toUpperCase();return /BURG|COMBO|PATAO|NUNES|PEZAO|BERENICE|DINA|GADEIA|GAROTINHO|SELLIS/.test(n)});
- const escolhidos=candidatos.sort(()=>Math.random()-.5).slice(0,4);
- escolhidos.forEach(c=>{const b=document.createElement('div');b.className='nd-best-seller';b.textContent='🔥 LANCHE MAIS VENDIDO';c.prepend(b)});
-}
-window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{ndEnhanceProducts();ndRandomBestSellers()},500));
-setTimeout(()=>{ndEnhanceProducts();ndRandomBestSellers()},1200);
-
 function ndFilterStreet(){
  const inp=document.getElementById('ruaBuscaModal'),sel=document.getElementById('ruaModal');if(!inp||!sel||inp.dataset.ndV4)return;
  inp.dataset.ndV4='1';
@@ -5072,6 +5010,371 @@ window.addEventListener('DOMContentLoaded',()=>{
 })();
 </script>
 
+
+<style id="nd-total-layout">
+/* =========================================================
+   ND BURGS — NOVA ESTRUTURA FUTURISTA | PRETO + LARANJA
+   Camada visual/funcional adicionada sem remover a lógica existente.
+========================================================= */
+:root{
+  --nd-o:#ff6500;
+  --nd-o2:#ff8a24;
+  --nd-o3:#ffb05f;
+  --nd-black:#000;
+  --nd-bg:#030303;
+  --nd-panel:#0b0b0b;
+  --nd-panel2:#111;
+  --nd-line:#242424;
+  --nd-white:#f5f5f5;
+  --nd-muted:#8b8b8b;
+}
+html,body{background:#000!important}
+body{
+  min-height:100vh;
+  padding-bottom:120px!important;
+  background:#000!important;
+  color:var(--nd-white)!important;
+}
+body:after{
+  content:"";display:block;height:210px;margin-top:45px;
+  background:linear-gradient(180deg,#000 0%,#050505 18%,#241004 55%,#ff6500 145%);
+  pointer-events:none;
+}
+/* topo somente com logo */
+header{
+  min-height:112px!important;padding:14px 18px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  background:rgba(0,0,0,.94)!important;
+  border-bottom:1px solid rgba(255,101,0,.55)!important;
+  box-shadow:0 8px 35px rgba(0,0,0,.8)!important;
+}
+header .logo{width:190px!important;max-width:72vw!important;height:auto!important;max-height:none!important;filter:drop-shadow(0 0 24px rgba(255,101,0,.18))!important}
+/* remove completamente o hero antigo: sem foto gigante e sem frase ND BURGS */
+.nd-v4-hero{display:none!important}
+.container>h1{display:none!important}
+.horarios{max-width:1180px!important;margin:0 auto!important;padding:0 10px!important}
+.horarios-box{
+  border:1px solid #242424!important;border-radius:16px!important;
+  background:#080808!important;box-shadow:none!important;padding:12px 16px!important;
+}
+.horarios-titulo{color:var(--nd-o)!important;font-size:13px!important;letter-spacing:1px}
+.horarios-linha{color:#aaa!important;font-size:12px!important}
+.status-aberto,.status-fechado{color:var(--nd-o2)!important;border-color:#ff650055!important;background:#100a06!important}
+.container{max-width:1180px!important;padding:14px 12px 30px!important}
+/* barra de busca */
+.modern-search{
+  position:sticky!important;top:112px!important;z-index:1500!important;
+  margin:14px 0 10px!important;padding:8px!important;
+  border:1px solid #2b2b2b!important;border-radius:15px!important;
+  background:rgba(5,5,5,.94)!important;backdrop-filter:blur(18px)!important;
+  box-shadow:0 12px 40px #000!important;
+}
+.modern-search input{color:#fff!important;font-size:14px!important}
+.search-count{color:var(--nd-o2)!important}
+/* categorias */
+.categoria-menu,.nd-topbar,.nd-v3-strip{display:none!important}
+.nd-topbar{top:112px!important;background:#000!important}
+.nd-topbar-inner{max-width:1180px!important}
+.nd-cat-btn{border-color:#292929!important;background:#0d0d0d!important}
+.nd-cat-btn.ativo{background:var(--nd-o)!important;color:#000!important}
+/* cabeçalho de seção */
+.categoria{margin-top:28px!important;scroll-margin-top:130px!important}
+.categoria-titulo{
+  font-size:20px!important;letter-spacing:.3px!important;
+  color:#fff!important;border-bottom:1px solid #222!important;
+  padding:0 0 11px!important;margin-bottom:14px!important;
+}
+.categoria-titulo:after{background:var(--nd-o)!important;box-shadow:0 0 20px rgba(255,101,0,.55)!important;width:82px!important}
+/* cards */
+.produtos{grid-template-columns:repeat(auto-fill,minmax(235px,1fr))!important;gap:14px!important}
+.produto{
+  background:linear-gradient(145deg,#111 0%,#080808 100%)!important;
+  border:1px solid #252525!important;border-radius:20px!important;padding:10px!important;
+  box-shadow:0 15px 45px rgba(0,0,0,.48)!important;
+  overflow:hidden!important;
+}
+.produto:hover{border-color:#ff650066!important;transform:translateY(-3px)!important}
+.produto .produto-imagem,.produto>img{
+  width:100%!important;aspect-ratio:1/1!important;height:auto!important;
+  object-fit:contain!important;background:#050505!important;border-radius:15px!important;
+}
+.produto h3{font-size:17px!important;margin:12px 2px 5px!important;line-height:1.15!important}
+.produto p{font-size:11px!important;color:#898989!important;min-height:34px!important}
+.preco{font-size:21px!important;color:var(--nd-o2)!important;margin:9px 2px!important}
+/* ações de quantidade */
+.nd-card-controls{
+  display:grid!important;grid-template-columns:42px 1fr 42px!important;
+  gap:6px!important;align-items:center!important;margin-top:9px!important;
+}
+.nd-card-controls button{
+  height:43px!important;border:1px solid #333!important;border-radius:11px!important;
+  background:#151515!important;color:#fff!important;font-size:22px!important;font-weight:1000!important;cursor:pointer!important;
+}
+.nd-card-controls button:hover{border-color:var(--nd-o)!important;color:var(--nd-o)!important}
+.nd-card-qty{
+  height:43px!important;display:grid!important;place-items:center!important;
+  border:1px solid #292929!important;border-radius:11px!important;background:#080808!important;
+  color:var(--nd-o2)!important;font-weight:1000!important;font-size:17px!important;
+}
+.nd-card-add{
+  width:100%!important;height:43px!important;margin-top:7px!important;
+  border:0!important;border-radius:11px!important;cursor:pointer!important;
+  background:linear-gradient(135deg,var(--nd-o),var(--nd-o2))!important;color:#050505!important;
+  font-weight:1000!important;letter-spacing:.3px!important;
+  box-shadow:0 8px 24px rgba(255,101,0,.18)!important;
+}
+.nd-card-add:active,.nd-card-controls button:active{transform:scale(.97)!important}
+/* selo de mais vendido */
+.nd-best-seller{
+  position:absolute!important;left:10px!important;top:10px!important;z-index:20!important;
+  padding:7px 10px!important;border-radius:999px!important;
+  background:linear-gradient(135deg,#ff6500,#ff9a3d)!important;color:#000!important;
+  font-size:10px!important;font-weight:1000!important;letter-spacing:.4px!important;
+  box-shadow:0 7px 22px rgba(0,0,0,.65),0 0 18px rgba(255,101,0,.22)!important;
+}
+.nd-best-seller:before{content:"★ ";}
+.nd-best-seller-img{position:relative!important}
+/* carrinho */
+.carrinho-flutuante,.nd-v3-buybar{
+  background:rgba(8,8,8,.96)!important;border:1px solid #ff650077!important;
+  border-top:2px solid var(--nd-o)!important;backdrop-filter:blur(18px)!important;
+  box-shadow:0 -12px 50px #000!important;
+}
+.carrinho-flutuante-total,.nd-v3-buybar strong{color:var(--nd-o2)!important}
+.btn-ver-carrinho,.nd-v3-buybar button{background:linear-gradient(135deg,var(--nd-o),var(--nd-o2))!important;color:#000!important}
+/* modais */
+.modal-carrinho,.modal-finalizar,.modal-personalizacao{background:rgba(0,0,0,.9)!important;backdrop-filter:blur(12px)!important}
+.painel-carrinho,.painel-finalizar,.modal-box,.suggestions-panel{
+  background:linear-gradient(160deg,#111,#060606)!important;
+  border:1px solid #ff650066!important;box-shadow:0 -20px 80px #000!important;
+}
+.btn-finalizar-pedido,.btn-finalizar-modal,.btn-confirmar-personalizacao{background:linear-gradient(135deg,var(--nd-o),var(--nd-o2))!important;color:#000!important}
+/* checkout futurista */
+.nd-v4-stepbar{gap:5px!important}
+.nd-v4-step{background:#080808!important;border-color:#252525!important}
+.nd-v4-step.active{border-color:var(--nd-o)!important;color:var(--nd-o)!important;background:#140b06!important}
+.nd-v4-next{background:linear-gradient(135deg,var(--nd-o),var(--nd-o2))!important;color:#000!important}
+.nd-v4-summary{background:#080808!important;border-color:#292929!important}
+.nd-v4-final-total{color:var(--nd-o)!important}
+/* rodapé */
+footer{background:#000!important}
+.rodape-instagram{border-top:1px solid #222!important}
+.instagram-destaque{border-color:#ff650044!important;background:#0a0a0a!important}
+/* mobile */
+@media(max-width:700px){
+  header{min-height:92px!important;padding:10px!important}
+  header .logo{width:165px!important}
+  .modern-search{top:92px!important}
+  .produtos{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .produto{padding:8px!important;border-radius:15px!important}
+  .produto h3{font-size:13px!important}
+  .produto p{font-size:10px!important;min-height:39px!important}
+  .preco{font-size:17px!important}
+  .nd-card-controls{grid-template-columns:34px 1fr 34px!important;gap:4px!important}
+  .nd-card-controls button,.nd-card-qty{height:38px!important}
+  .nd-card-controls button{font-size:19px!important}
+  .nd-card-qty{font-size:14px!important}
+  .nd-card-add{height:42px!important;font-size:11px!important}
+  .nd-best-seller{left:7px!important;top:7px!important;font-size:8px!important;padding:6px 7px!important}
+  .container{padding-left:8px!important;padding-right:8px!important}
+}
+</style>
+
+<script id="nd-total-layout-logic">
+(function(){
+  'use strict';
+  const DAY_KEY='ndburgs_mais_vendidos_'+new Date().toISOString().slice(0,10);
+
+  /* CORREÇÃO DEFINITIVA DO CARRINHO:
+     o código V4 consultava window.carrinho, mas o carrinho original usa
+     uma variável global lexical chamada carrinho. */
+  function realCart(){
+    try{
+      if(typeof carrinho!=='undefined' && Array.isArray(carrinho)) return carrinho;
+    }catch(e){}
+    return Array.isArray(window.carrinho)?window.carrinho:[];
+  }
+  window.ndRealCart=realCart;
+
+  /* mantém a referência pública sincronizada sem substituir a lógica original */
+  function syncPublicCart(){
+    try{ if(typeof carrinho!=='undefined') window.carrinho=carrinho; }catch(e){}
+  }
+  syncPublicCart();
+
+  /* sobrescreve apenas as funções V4 que dependiam da referência errada */
+  if(typeof window.irParaFinalizarPedido==='function'){
+    window.irParaFinalizarPedido=function(){
+      const c=realCart();
+      if(!c.length){ alert('Seu carrinho está vazio.'); return; }
+      if(typeof fecharCarrinho==='function') fecharCarrinho();
+      const modal=document.getElementById('modalFinalizar');
+      if(!modal)return;
+      modal.classList.add('ativo');
+      document.body.style.overflow='hidden';
+      if(typeof buildCheckout==='function') buildCheckout();
+      if(typeof ndStep==='function') ndStep(1);
+    };
+  }
+
+  if(typeof window.finalizarPedidoModal==='function'){
+    /* guarda a versão V4 corrigida para usar o carrinho real */
+    window.finalizarPedidoModal=function(){
+      const c=realCart();
+      if(!c.length){alert('Seu carrinho está vazio.');return;}
+      const get=id=>document.getElementById(id);
+      const nome=get('nomeModal')?.value.trim()||'';
+      const telefone=get('telefoneModal')?.value.trim()||'';
+      const telNum=telefone.replace(/\D/g,'');
+      const tipo=get('tipoPedidoModal')?.value||'ENTREGA';
+      const rua=get('ruaModal')?.value||'';
+      const numero=get('numeroModal')?.value.trim()||'';
+      const complemento=get('complementoModal')?.value.trim()||'';
+      const pagamento=get('pagamentoModal')?.value||'';
+      const troco=get('trocoModal')?.value||'';
+      const obs=get('observacaoModal')?.value.trim()||'';
+      if(!nome)return alert('Digite seu nome.');
+      if(telNum.length<10||telNum.length>11)return alert('Digite um WhatsApp válido com DDD.');
+      if(tipo==='ENTREGA'&&(!rua||!numero))return alert('Complete seu endereço.');
+      if(!pagamento)return alert('Escolha o pagamento.');
+      const fee=tipo==='ENTREGA'?Number((typeof taxas!=='undefined'?taxas[rua]:0)||0):0;
+      const sub=c.reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0);
+      const min=11.90;
+      if(sub<min)return alert('O pedido mínimo é R$ 11,90. Faltam R$ '+(min-sub).toFixed(2).replace('.',',')+'.');
+      const total=sub+fee;
+      if(pagamento==='DINHEIRO'){
+        const valor=parseFloat(troco);
+        if(isNaN(valor)||valor<total)return alert('Informe um valor de troco igual ou maior que o total.');
+      }
+      const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+      const lines=['🍔 *NOVO PEDIDO - ND BURGS*','━━━━━━━━━━━━━━━━━━━━','👤 *CLIENTE:* '+nome,'📱 *WHATSAPP:* '+telefone,'📦 *TIPO:* '+(tipo==='ENTREGA'?'DELIVERY':'RETIRADA')];
+      if(tipo==='ENTREGA'){lines.push('📍 *ENDEREÇO:* '+rua+', Nº '+numero);if(complemento)lines.push('🏠 *COMPLEMENTO:* '+complemento);}
+      lines.push('','🛒 *ITENS DO PEDIDO*','━━━━━━━━━━━━━━━━━━━━');
+      c.forEach(i=>{lines.push(`${Number(i.quantidade)||1}x ${i.nome} — ${money((Number(i.preco)||0)*(Number(i.quantidade)||1))}`);if(i.detalhes?.length)lines.push('   ↳ '+i.detalhes.join(', '));});
+      lines.push('','💰 *SUBTOTAL:* '+money(sub),'🛵 *TAXA:* '+money(fee),'💵 *TOTAL:* '+money(total),'💳 *PAGAMENTO:* '+pagamento);
+      if(pagamento==='DINHEIRO'&&troco)lines.push('💵 *TROCO PARA:* '+money(Number(troco)));
+      if(obs)lines.push('','📝 *OBSERVAÇÃO:* '+obs);
+      lines.push('','━━━━━━━━━━━━━━━━━━━━','ND BURGS 🍔');
+      try{localStorage.setItem('ndburgs_ultimo_pedido',JSON.stringify(c));}catch(e){}
+      const url='https://wa.me/5511963973846?text='+encodeURIComponent(lines.join('\n'));
+      /* NÃO limpa antes de abrir: isso evita qualquer corrida de estado no checkout. */
+      window.open(url,'_blank');
+      setTimeout(function(){
+        try{localStorage.removeItem('ndburgs_carrinho');}catch(e){}
+        try{c.length=0;}catch(e){}
+        syncPublicCart();
+        if(typeof atualizarCarrinho==='function')atualizarCarrinho();
+        if(typeof fecharModalFinalizar==='function')fecharModalFinalizar();
+      },350);
+    };
+  }
+
+  /* quantidade nos cards */
+  function addCardControls(){
+    document.querySelectorAll('.produto').forEach((card,idx)=>{
+      if(card.dataset.ndQtyReady==='1')return;
+      const oldBtn=card.querySelector('.btn-add');
+      const title=card.querySelector('h3')?.textContent.trim();
+      if(!oldBtn||!title)return;
+      card.dataset.ndQtyReady='1';
+      card.dataset.ndQty='1';
+      const controls=document.createElement('div');
+      controls.className='nd-card-controls';
+      controls.innerHTML='<button type="button" aria-label="Diminuir quantidade">−</button><div class="nd-card-qty">1</div><button type="button" aria-label="Aumentar quantidade">+</button>';
+      const add=document.createElement('button');
+      add.type='button';add.className='nd-card-add';
+      const isCustom=oldBtn.getAttribute('onclick')?.includes('abrirPersonalizacao');
+      add.textContent=isCustom?'ESCOLHER E ADICIONAR':'ADICIONAR AO CARRINHO';
+      oldBtn.style.display='none';
+      oldBtn.parentNode.insertBefore(controls,oldBtn);
+      oldBtn.parentNode.insertBefore(add,oldBtn);
+      const qtyEl=controls.querySelector('.nd-card-qty');
+      const setQty=n=>{n=Math.max(1,Math.min(20,n));card.dataset.ndQty=String(n);qtyEl.textContent=n;};
+      controls.children[0].onclick=e=>{e.stopPropagation();setQty(Number(card.dataset.ndQty)-1)};
+      controls.children[2].onclick=e=>{e.stopPropagation();setQty(Number(card.dataset.ndQty)+1)};
+      add.onclick=e=>{
+        e.stopPropagation();
+        const q=Number(card.dataset.ndQty)||1;
+        if(isCustom){
+          window.ndPendingCustomQty=q;
+          oldBtn.click();
+        }else{
+          const m=oldBtn.getAttribute('onclick')||'';
+          const match=m.match(/adicionar\((['"])(.*?)\1\s*,\s*([0-9.]+)/);
+          if(match){
+            const name=match[2],price=Number(match[3]);
+            for(let i=0;i<q;i++)window.adicionar(name,price);
+          }else oldBtn.click();
+          setQty(1);
+        }
+      };
+    });
+  }
+
+  /* quantidade escolhida para itens personalizáveis */
+  function wrapCustomConfirm(){
+    if(window.__ndCustomWrapped)return;
+    if(typeof window.confirmarPersonalizacao==='function'){
+      const original=window.confirmarPersonalizacao;
+      window.confirmarPersonalizacao=function(){
+        const before=realCart().length;
+        original.apply(this,arguments);
+        const q=Number(window.ndPendingCustomQty)||1;
+        const c=realCart();
+        if(q>1&&c.length>before){c[c.length-1].quantidade=q;window.ndPendingCustomQty=1;if(typeof atualizarCarrinho==='function')atualizarCarrinho();}
+      };
+    }
+    if(typeof window.confirmarPersonalizacaoPastel==='function'){
+      const originalP=window.confirmarPersonalizacaoPastel;
+      window.confirmarPersonalizacaoPastel=function(){
+        const before=realCart().length;
+        originalP.apply(this,arguments);
+        const q=Number(window.ndPendingCustomQty)||1;
+        const c=realCart();
+        if(q>1&&c.length>before){c[c.length-1].quantidade=q;window.ndPendingCustomQty=1;if(typeof atualizarCarrinho==='function')atualizarCarrinho();}
+      };
+    }
+    window.__ndCustomWrapped=true;
+  }
+
+  /* mais vendidos: seleção aleatória diária e selo visual */
+  function addBestSellers(){
+    let chosen=[];
+    try{chosen=JSON.parse(localStorage.getItem(DAY_KEY)||'[]');}catch(e){}
+    const cards=[...document.querySelectorAll('.produto')].filter(c=>c.querySelector('h3')&&c.querySelector('img'));
+    const valid=cards.map((c,i)=>({c,i}));
+    if(!Array.isArray(chosen)||chosen.length<4||chosen.some(i=>!valid[i])){
+      chosen=valid.map(x=>x.i).sort(()=>Math.random()-.5).slice(0,6);
+      try{localStorage.setItem(DAY_KEY,JSON.stringify(chosen));}catch(e){}
+    }
+    chosen.forEach(i=>{
+      const card=valid[i]?.c;if(!card||card.querySelector('.nd-best-seller'))return;
+      card.classList.add('nd-best-seller-img');
+      const badge=document.createElement('span');badge.className='nd-best-seller';badge.textContent='MAIS VENDIDO DO DIA';card.appendChild(badge);
+    });
+  }
+
+  /* sincroniza após qualquer atualização do carrinho */
+  const oldUpdate=window.atualizarCarrinho;
+  if(typeof oldUpdate==='function'&&!oldUpdate.__ndTotal){
+    const wrapped=function(){syncPublicCart();const r=oldUpdate.apply(this,arguments);syncPublicCart();return r;};
+    wrapped.__ndTotal=true;window.atualizarCarrinho=wrapped;
+  }
+
+  function init(){
+    syncPublicCart();
+    addCardControls();
+    wrapCustomConfirm();
+    addBestSellers();
+    /* esconde o h1/hero antigo e garante o topo limpo */
+    const hero=document.querySelector('.nd-v4-hero');if(hero)hero.remove();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,80));
+  else setTimeout(init,80);
+  setTimeout(init,800);
+})();
+</script>
+
 </body>
 </html>
-<!-- ND BURGS VERSION: 20260903-02 -->
+<!-- ND BURGS VERSION: 20260903-01 -->
