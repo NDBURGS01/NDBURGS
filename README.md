@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R8">
+<meta name="nd-site-version" content="20260904-R9">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260904-R8";
+  const ND_SITE_VERSION = "20260904-R9";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -530,6 +530,26 @@ window.addEventListener('DOMContentLoaded',()=>{enhance();restore();obs.observe(
   .categoria-menu{display:none!important;}
 }
 </style>
+
+<style id="nd-r9-cart-upgrade">
+/* ND BURGS R9 — carrinho único com ícone e contador */
+.nd-cart-fab{position:fixed;right:18px;bottom:18px;z-index:120000;width:64px;height:64px;border:0;border-radius:50%;cursor:pointer;background:linear-gradient(135deg,#e50914,#ff3038);color:#fff;box-shadow:0 14px 40px rgba(229,9,20,.38);display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform .2s,box-shadow .2s}.nd-cart-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 20px 50px rgba(229,9,20,.5)}.nd-cart-badge{position:absolute;right:-5px;top:-5px;min-width:25px;height:25px;padding:0 6px;border-radius:999px;background:#fff;color:#111;border:3px solid #111;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:950}.nd-cart-fab.empty{opacity:.88}.nd-cart-fab.empty .nd-cart-badge{background:#27272b;color:#aaa}.nd-cart-label{position:fixed;right:16px;bottom:90px;z-index:119999;background:#151519;border:1px solid #303038;border-radius:999px;padding:8px 12px;color:#fff;font-size:11px;font-weight:900;box-shadow:0 8px 25px rgba(0,0,0,.35)}.carrinho-flutuante,#ndFxCartbar,.nd-v3-buybar{display:none!important}.painel-carrinho{border-radius:24px 24px 0 0!important}.cabecalho-carrinho h2{font-size:24px!important}.nd-cart-countline{font-size:12px;color:#999;margin-top:3px}.nd-cart-empty-tip{margin-top:8px;color:#888;font-size:12px}@media(max-width:600px){.nd-cart-fab{width:60px;height:60px;right:14px;bottom:14px;font-size:26px}.nd-cart-label{right:12px;bottom:82px;font-size:10px}}
+</style>
+<script id="nd-r9-cart-upgrade-script">
+(function(){
+'use strict';
+function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:(typeof carrinho!=='undefined'&&Array.isArray(carrinho)?carrinho:[])}catch(e){return []}}
+function qty(){return getCart().reduce((s,i)=>s+(Number(i.quantidade)||0),0)}
+function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function total(){return getCart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||0),0)}
+function update(){const q=qty(),b=document.getElementById('ndCartBadge'),f=document.getElementById('ndCartFab'),l=document.getElementById('ndCartLabel');if(b)b.textContent=q;if(f)f.classList.toggle('empty',q===0);if(l)l.textContent=q?`${q} ${q===1?'item':'itens'} • ${money(total())}`:'Seu carrinho está vazio'}
+}
+function build(){if(document.getElementById('ndCartFab'))return;const f=document.createElement('button');f.type='button';f.id='ndCartFab';f.className='nd-cart-fab empty';f.setAttribute('aria-label','Abrir carrinho');f.innerHTML='🛒<span id="ndCartBadge" class="nd-cart-badge">0</span>';f.onclick=function(){if(typeof window.abrirCarrinho==='function'){window.abrirCarrinho();setTimeout(()=>{const m=document.getElementById('modalCarrinho');if(m&&!m.classList.contains('ativo')&&typeof window.atualizarModalCarrinho==='function'){window.atualizarModalCarrinho();m.classList.add('ativo');document.body.style.overflow='hidden'}},0)}};document.body.appendChild(f);const l=document.createElement('div');l.id='ndCartLabel';l.className='nd-cart-label';l.textContent='Seu carrinho está vazio';document.body.appendChild(l);update()}
+function patch(){if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__r9cart){const old=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(update,0);return r};window.atualizarCarrinho.__r9cart=true}if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__r9cart){const old=window.abrirCarrinho;window.abrirCarrinho=function(){if(getCart().length===0){if(typeof window.atualizarModalCarrinho==='function')window.atualizarModalCarrinho();const m=document.getElementById('modalCarrinho');if(m){m.classList.add('ativo');document.body.style.overflow='hidden'}return}return old.apply(this,arguments)};window.abrirCarrinho.__r9cart=true}}
+window.addEventListener('DOMContentLoaded',()=>{build();patch();update();setInterval(()=>{patch();update()},700)});
+})();
+</script>
+
 </head>
 
 <body>
