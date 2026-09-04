@@ -6197,8 +6197,8 @@ header .logo{display:none!important}
  }
  function showGate(){const g=$('#nd17Gate');if(g)g.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>$('#nd17GateStreet')?.focus(),80)}
  function hideGate(){const g=$('#nd17Gate');if(g)g.classList.remove('show');document.body.style.overflow=''}
- function renderList(input,list){if(!input||!list)return;const q=norm(input.value).trim();const arr=streets().filter(s=>!q||norm(s).includes(q)).slice(0,12);list.innerHTML='';arr.forEach(s=>{const d=document.createElement('div');d.className='nd17-option';d.textContent=s+' — '+money((window.taxas||{})[s]);d.addEventListener('click',()=>{input.value=s;input.dataset.value=s;list.classList.remove('show');input.dispatchEvent(new Event('change',{bubbles:true}));cartTotalSync()});list.appendChild(d)});list.classList.toggle('show',!!q&&arr.length>0)}
- function bindAutocomplete(input,list){if(!input||input.dataset.nd17bound)return;input.dataset.nd17bound='1';input.addEventListener('input',()=>renderList(input,list));input.addEventListener('focus',()=>{if(input.value)renderList(input,list)});document.addEventListener('click',e=>{if(!input.contains(e.target)&&!list.contains(e.target))list.classList.remove('show')})}
+ function renderList(input,list){if(!input||!list)return;const q=norm(input.value).trim();const arr=streets().filter(s=>!q||norm(s).includes(q));list.innerHTML='';arr.forEach(s=>{const d=document.createElement('div');d.className='nd17-option';d.innerHTML='<span>'+s+'</span><strong>'+money((window.taxas||{})[s])+'</strong>';d.addEventListener('click',()=>{input.value=s;input.dataset.value=s;list.classList.remove('show');input.dispatchEvent(new Event('change',{bubbles:true}));cartTotalSync()});list.appendChild(d)});list.classList.toggle('show',arr.length>0)}
+ function bindAutocomplete(input,list){if(!input||input.dataset.nd17bound)return;input.dataset.nd17bound='1';input.addEventListener('input',()=>renderList(input,list));input.addEventListener('focus',()=>renderList(input,list));document.addEventListener('click',e=>{if(!input.contains(e.target)&&!list.contains(e.target))list.classList.remove('show')})}
  function setupAutocomplete(){bindAutocomplete($('#nd17GateStreet'),$('#nd17GateList'));bindAutocomplete($('#ruaBuscaModal'),ensureInline($('#ruaBuscaModal')));bindAutocomplete($('#ruaBusca'),ensureInline($('#ruaBusca')))}
  function ensureInline(input){if(!input)return null;let list=input.parentElement.querySelector('.nd17-inline-list');if(!list){const wrap=document.createElement('div');wrap.className='nd17-inline-suggest';input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);list=document.createElement('div');list.className='nd17-inline-list';wrap.appendChild(list)}return list}
  function saveGate(type){const street=$('#nd17GateStreet')?.value.trim().toUpperCase()||'', num=$('#nd17GateNumber')?.value.trim()||'';if(type==='ENTREGA'){const key=streets().find(s=>norm(s)===norm(street));if(!key)return alert('Selecione uma rua da lista de sugestões.');if(!num)return alert('Digite o número do endereço.');saveAddr(key,num,'ENTREGA')}else saveAddr('','', 'RETIRADA');ensureMainForms();cartTotalSync();hideGate();updateBar();}
@@ -6461,6 +6461,43 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
    if(cart){cart.style.opacity='1';cart.style.pointerEvents='auto';cart.style.transform='translateX(-50%) translateY(0)';}
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();
+})();
+</script>
+
+<style id="nd-etapa-22-endereco-cart-final">
+/* CARRINHO SEMPRE VISÍVEL ACIMA DA SIDEBAR */
+#carrinhoFlutuante{z-index:199999!important;display:flex!important;}
+#carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important;visibility:visible!important;}
+#nd17Gate{z-index:300000!important;}
+/* LISTA COM TODOS OS ENDEREÇOS CADASTRADOS */
+#nd17GateList{max-height:300px!important;overflow-y:auto!important;}
+#nd17GateList .nd17-option{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;}
+#nd17GateList .nd17-option strong{color:#ff3038!important;white-space:nowrap!important;}
+/* PREÇOS SOMENTE VERMELHOS, SEM NEON */
+.produto .preco,.preco,.carrinho-flutuante-total{color:#e50914!important;text-shadow:none!important;filter:none!important;}
+/* SIDEBAR DO TOPO AO FIM */
+@media(min-width:901px){
+ body{padding-left:235px!important;}
+ #nd18Sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;height:100vh!important;max-height:none!important;transform:none!important;width:215px!important;overflow-y:auto!important;z-index:199990!important;border-radius:0 18px 18px 0!important;}
+}
+</style>
+<script id="nd-etapa-22-endereco-cart-final-js">
+(function(){
+ function fixWelcome(){
+  const g=document.getElementById('nd17Gate');
+  if(!g)return;
+  const k=g.querySelector('.nd17-kicker'),t=g.querySelector('h2'),p=g.querySelector('p'),b=document.getElementById('nd17GateSave'),r=document.getElementById('nd17GatePickup');
+  if(k)k.textContent='BEM-VINDO À ND BURGS';
+  if(t)t.textContent='Olá! Vamos preparar seu pedido?';
+  if(p)p.textContent='Antes de começar, informe seu endereço para calcularmos a taxa de entrega. Se preferir, escolha retirada no local.';
+  if(b)b.textContent='SALVAR ENDEREÇO E COMEÇAR';
+  if(r)r.textContent='VOU RETIRAR NO LOCAL';
+ }
+ function fixCart(){
+  const c=document.getElementById('carrinhoFlutuante');
+  if(c){c.style.zIndex='199999';c.style.visibility='visible';}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{fixWelcome();fixCart()});else{fixWelcome();fixCart()}
 })();
 </script>
 </body>
