@@ -2057,7 +2057,9 @@ const taxas = {
 
 const CHAVE_CARRINHO="ndburgs_carrinho";
 
-let carrinho=[];
+var carrinho=[];
+// Compatibilidade global: todas as camadas das Rodadas 1–23 enxergam o mesmo carrinho.
+window.carrinho = carrinho;
 
 function salvarCarrinho(){
 
