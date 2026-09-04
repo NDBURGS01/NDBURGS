@@ -1332,33 +1332,6 @@ ADICIONAR
 <button class="btn btn-add" onclick="adicionar('POTINHO MAIONESE ARTESANAL',3)">ADICIONAR</button>
 </div>
 
-<div class="produto">
-<h3>ADICIONAL NUTELLA</h3>
-<p>Adicional.</p>
-<div class="preco">R$ 5,00</div>
-<button class="btn btn-add" onclick="adicionar('ADICIONAL NUTELLA',5)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<h3>ADICIONAL CREME DE NINHO</h3>
-<p>Adicional.</p>
-<div class="preco">R$ 3,00</div>
-<button class="btn btn-add" onclick="adicionar('ADICIONAL CREME DE NINHO',3)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<h3>ADICIONAL KITKAT</h3>
-<p>Adicional.</p>
-<div class="preco">R$ 3,00</div>
-<button class="btn btn-add" onclick="adicionar('ADICIONAL KITKAT',3)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<h3>ACOMPANHAMENTO EXTRA</h3>
-<p>Adicional.</p>
-<div class="preco">R$ 3,00</div>
-<button class="btn btn-add" onclick="adicionar('ACOMPANHAMENTO EXTRA',3)">ADICIONAR</button>
-</div>
 
 <div class="produto">
 <h3>ADICIONAL BACON</h3>
