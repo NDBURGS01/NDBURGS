@@ -23,7 +23,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Faça seu pedido</title>
+<title>ND BURGS | Faça seu pedido</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
