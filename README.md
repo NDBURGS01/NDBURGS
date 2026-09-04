@@ -513,6 +513,23 @@ window.addEventListener('DOMContentLoaded',()=>{enhance();restore();obs.observe(
 })();
 </script>
 
+
+<style id="nd-etapa21-sidebar-fix">
+@media (min-width:901px){
+  body{padding-left:230px!important;}
+  .categoria-menu{display:none!important;}
+  #nd18Sidebar{position:fixed!important;left:16px!important;top:110px!important;width:190px!important;max-height:calc(100vh - 130px)!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;gap:4px!important;padding:12px!important;background:#070707!important;border:1px solid #242424!important;border-radius:16px!important;z-index:9999!important;box-sizing:border-box!important;}
+  #nd18Sidebar .nd18-title{display:block!important;color:#fff!important;font-size:13px!important;font-weight:700!important;letter-spacing:1px!important;padding:6px 8px 10px!important;}
+  #nd18Sidebar button{width:100%!important;flex:none!important;margin:0!important;text-align:left!important;padding:11px 12px!important;background:#101010!important;color:#ddd!important;border:1px solid #202020!important;border-radius:10px!important;cursor:pointer!important;transition:.18s ease!important;}
+  #nd18Sidebar button:hover,#nd18Sidebar button.ativo{background:#1677ff!important;color:#fff!important;border-color:#1677ff!important;transform:translateX(2px)!important;}
+}
+@media(max-width:900px){
+  #nd18Sidebar{position:sticky!important;top:0!important;left:auto!important;width:100%!important;max-height:none!important;overflow-x:auto!important;overflow-y:hidden!important;display:flex!important;flex-direction:row!important;gap:6px!important;padding:8px!important;background:#050505!important;border-bottom:1px solid #202020!important;border-radius:0 0 12px 12px!important;z-index:9999!important;box-sizing:border-box!important;}
+  #nd18Sidebar .nd18-title{display:none!important;}
+  #nd18Sidebar button{flex:0 0 auto!important;width:auto!important;white-space:nowrap!important;margin:0!important;}
+  .categoria-menu{display:none!important;}
+}
+</style>
 </head>
 
 <body>
@@ -1819,13 +1836,6 @@ onclick="finalizarPedidoModal()"
 </div>
 </div>
 
-<div
-id="toastCarrinho"
-class="toast-carrinho"
->
-✅ Adicionado ao carrinho
-</div>
-
 <!-- MODAL PERSONALIZAÇÃO -->
 
 <div
@@ -2316,21 +2326,7 @@ doces:[
 let produtoModalAtual=null;
 let toastTimer=null;
 
-function mostrarToast(texto){
-
-const toast=
-document.getElementById("toastCarrinho");
-
-toast.innerText=texto;
-
-toast.classList.add("mostrar");
-
-clearTimeout(toastTimer);
-
-toastTimer=setTimeout(
-()=>{
-toast.classList.remove("mostrar");
-},
+function mostrarToast(texto){ /* feedback antigo desativado para evitar mensagens duplicadas */ },
 1600
 );
 
@@ -2693,10 +2689,6 @@ atualizarCarrinho();
 window.ndPendingQty=1;
 
 fecharPersonalizacao();
-
-mostrarToast(
-"✅ Adicionado ao carrinho"
-);
 
 }
 
@@ -4623,7 +4615,6 @@ verificarHorario();
     }).join('') || '<div style="grid-column:1/-1;text-align:center;color:#999;padding:25px">Seu pedido já está cheio de boas escolhas 😍</div>';
     candidatos.forEach((c,i)=>grid.querySelector(`[data-sug="${i}"]`)?.addEventListener('click',()=>{
       c.querySelector('.btn-add')?.click();
-      mostrarToast('✅ Adicionado ao carrinho');
       setTimeout(()=>mostrarSugestoes(),120);
     }));
     modal.classList.add('show'); document.body.style.overflow='hidden';
@@ -4682,6 +4673,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .nd-delivery-estimate b{color:var(--nd-gold)}
 @media(max-width:700px){.nd-topbar{top:65px}.nd-order-steps{font-size:9px}.nd-step{padding:6px 7px}.nd-step-line{width:10px}.nd-toast{bottom:125px}}
 </style>
+<style id="nd-cleanup-navigation">#ndTopbar{display:none!important}</style>
 
 <div id="ndToast" class="nd-toast" role="status" aria-live="polite"></div>
 <button id="ndBackTop" class="nd-backtop" aria-label="Voltar ao topo">↑</button>
@@ -4769,8 +4761,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   document.addEventListener('DOMContentLoaded',()=>{addFavButtons();buildCategories();enhanceSearch();refreshEmptyCategories();updateProgress();});
   setTimeout(()=>{addFavButtons();buildCategories();enhanceSearch();refreshEmptyCategories();updateProgress();},700);
 
-  // Melhor feedback após adicionar item, sem substituir a lógica original.
-  document.addEventListener('click',e=>{if(e.target.closest('.btn-add'))setTimeout(()=>toast('✓ Adicionado ao carrinho'),180);});
 
   // Salva dados básicos digitados para facilitar o próximo pedido.
   ['nome','telefone','nomeModal','telefoneModal'].forEach(id=>{
@@ -5460,10 +5450,6 @@ button{font-family:inherit}
 /* CONTADOR DE BUSCA */
 .search-count{min-width:42px;text-align:right}
 
-/* TOAST PREMIUM */
-.nd-r5-toast{position:fixed;left:50%;top:82px;z-index:100020;transform:translate(-50%,-16px) scale(.98);opacity:0;pointer-events:none;padding:11px 16px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(18,19,22,.96);backdrop-filter:blur(16px);box-shadow:0 14px 40px rgba(0,0,0,.48);font-size:12px;font-weight:900;color:#fff;transition:opacity .2s ease,transform .2s ease;white-space:nowrap}
-.nd-r5-toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
-.nd-r5-toast b{color:#ff3038}
 
 /* INDICADOR DE CARREGAMENTO DO SITE */
 .nd-r5-loader{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:#070707;transition:opacity .28s ease,visibility .28s ease}
@@ -5529,14 +5515,6 @@ button{font-family:inherit}
     setTimeout(hide,1800);
   }
 
-  let toastTimer;
-  function toast(msg){
-    let t=$('#ndR5Toast');
-    if(!t){
-      t=document.createElement('div'); t.id='ndR5Toast'; t.className='nd-r5-toast'; document.body.appendChild(t);
-    }
-    t.innerHTML=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1900);
-  }
 
   function setupReveal(){
     const cards=$$('.produto');
@@ -5603,13 +5581,7 @@ button{font-family:inherit}
     },{passive:true});
   }
 
-  function markCartChanges(){
-    const oldAdd=window.adicionar;
-    if(typeof oldAdd==='function'&&!oldAdd.__ndR5){
-      window.adicionar=function(){const r=oldAdd.apply(this,arguments);toast('<b>✓ ADICIONADO</b> ao seu pedido');return r};
-      window.adicionar.__ndR5=true;
-    }
-  }
+  function markCartChanges(){}
 
   function init(){
     addPreload(); optimizeImages(); buildLoader(); setupReveal(); setupCategoryActive(); setupSearchCounter(); setupButtonFeedback(); setupKeyboardAndScroll(); markCartChanges();
@@ -5627,8 +5599,6 @@ button{font-family:inherit}
      Camada adicional. Não substitui funções existentes.
      ========================================================= -->
 <style id="nd-rodada-7">
-#ndR7Toast{position:fixed;left:50%;top:82px;transform:translate(-50%,-16px) scale(.98);z-index:100020;opacity:0;pointer-events:none;padding:11px 16px;border:1px solid rgba(37,211,102,.35);border-radius:999px;background:rgba(13,18,15,.96);color:#fff;font-weight:900;font-size:12px;box-shadow:0 14px 40px rgba(0,0,0,.45);backdrop-filter:blur(14px);transition:.22s ease}
-#ndR7Toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
 #ndR7Reco{display:none;margin:18px 0 8px;padding:15px;border:1px solid rgba(229,9,20,.28);border-radius:18px;background:linear-gradient(145deg,rgba(30,16,18,.96),rgba(13,13,15,.96));box-shadow:0 12px 35px rgba(0,0,0,.25)}
 #ndR7Reco.show{display:block;animation:ndR7Up .24s ease both}
 #ndR7RecoHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
@@ -5641,7 +5611,7 @@ button{font-family:inherit}
 .nd-r7-pulse{animation:ndR7Pulse .42s ease}.nd-r7-added{border-color:rgba(37,211,102,.45)!important;box-shadow:0 0 0 2px rgba(37,211,102,.08),0 14px 35px rgba(0,0,0,.3)!important}
 @keyframes ndR7Up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@keyframes ndR7Pulse{50%{transform:scale(1.025)}}
 @media(max-width:600px){#ndR7Reco{margin-left:0;margin-right:0}.nd-r7-card{flex-basis:165px}.nd-r7-card img{height:78px}}
-@media(prefers-reduced-motion:reduce){#ndR7Toast,#ndR7Reco{transition:none;animation:none}.nd-r7-pulse{animation:none}}
+@media(prefers-reduced-motion:reduce){#ndR7Reco{transition:none;animation:none}.nd-r7-pulse{animation:none}}
 </style>
 <script id="nd-rodada-7-logic">
 (function(){'use strict';
@@ -5649,10 +5619,9 @@ button{font-family:inherit}
  const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
  function cart(){return Array.isArray(window.carrinho)?window.carrinho:[]}
  function total(){return cart().reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
- function toast(msg){let t=q('#ndR7Toast');if(!t){t=document.createElement('div');t.id='ndR7Toast';document.body.appendChild(t)}t.innerHTML=msg;t.classList.add('show');clearTimeout(window.__ndR7t);window.__ndR7t=setTimeout(()=>t.classList.remove('show'),1800)}
  function getRecent(){try{return JSON.parse(localStorage.getItem('ndburgs_r7_recent')||'null')}catch(_){return null}}
  function setRecent(x){try{localStorage.setItem('ndburgs_r7_recent',JSON.stringify(x))}catch(_) {}}
- function add(name,price){if(typeof window.adicionar==='function'){window.adicionar(name,price);setRecent({name,price});renderRecent();toast('✓ <b>'+name+'</b> adicionado')}}
+ function add(name,price){if(typeof window.adicionar==='function'){window.adicionar(name,price);setRecent({name,price});renderRecent()}}
  function productData(){return qa('.produto').map(c=>{let h=c.querySelector('h3'),p=c.querySelector('p'),im=c.querySelector('img'),pr=c.querySelector('.preco');if(!h||!pr)return null;let b=c.querySelector('.btn-add');if(!b)return null;let onclick=b.getAttribute('onclick')||'';let m=onclick.match(/adicionar\(\s*[\'\"]([^\'\"]+)[\'\"]\s*,\s*([0-9.]+)/);if(!m)return null;return {name:m[1],price:Number(m[2]),desc:p?.textContent?.trim()||'',img:im?.src||'',el:c}}).filter(Boolean)}
  function buildReco(){if(q('#ndR7Reco'))return;let anchor=q('.categoria-menu')||q('.container');if(!anchor)return;let d=document.createElement('section');d.id='ndR7Reco';d.innerHTML='<div id="ndR7RecoHead"><strong>🔥 PODE COMBINAR COM SEU PEDIDO</strong><span>adicione em 1 toque</span></div><div class="nd-r7-grid"></div>';anchor.parentNode.insertBefore(d,anchor.nextSibling)}
  function renderReco(){let box=q('#ndR7Reco'),grid=q('#ndR7Reco .nd-r7-grid');if(!box||!grid)return;let items=productData();let names=new Set(cart().map(i=>String(i.nome||i.name||'').toUpperCase()));let keywords=cart().map(i=>String(i.nome||i.name||'').toUpperCase()).join(' ');
@@ -6268,5 +6237,216 @@ header .logo{display:none!important}
  document.addEventListener('DOMContentLoaded',()=>{init();$('#nd17GateSave')?.addEventListener('click',()=>saveGate('ENTREGA'));$('#nd17GatePickup')?.addEventListener('click',()=>saveGate('RETIRADA'));});
 })();
 </script>
+<!-- ND BURGS ETAPA 18 - CATEGORIAS LATERAIS -->
+<style>
+#nd18Sidebar{position:fixed;left:18px;top:50%;transform:translateY(-50%);width:205px;max-height:78vh;overflow:auto;background:#050505;border:1px solid #292929;border-radius:16px;padding:10px;z-index:7000;box-shadow:0 12px 35px rgba(0,0,0,.65)}
+#nd18Sidebar .nd18-title{font-size:12px;letter-spacing:1.2px;color:#888;padding:6px 9px 10px;border-bottom:1px solid #222;margin-bottom:7px}
+#nd18Sidebar button{display:block;width:100%;text-align:left;background:#101010;color:#d8d8d8;border:1px solid #222;border-radius:10px;padding:11px 10px;margin:5px 0;cursor:pointer;font-size:14px;font-weight:400;transition:transform .18s,background .18s,border-color .18s,color .18s}
+#nd18Sidebar button:hover{background:#0759c9;border-color:#1475ff;color:#fff;transform:translateX(3px)}
+#nd18Sidebar button.ativo{background:#0759c9;border-color:#1475ff;color:#fff;box-shadow:0 5px 15px rgba(0,89,210,.25)}
+#nd18Sidebar::-webkit-scrollbar{width:5px}#nd18Sidebar::-webkit-scrollbar-thumb{background:#333;border-radius:10px}
+@media(min-width:901px){
+ body{padding-left:235px!important}
+ .container{max-width:1100px}
+ #nd18Sidebar{display:block}
+}
+@media(max-width:900px){
+ #nd18Sidebar{position:sticky;top:72px;left:auto;transform:none;width:calc(100% - 20px);max-height:none;margin:8px auto 12px;display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;padding:8px;z-index:8500;border-radius:13px}
+ #nd18Sidebar .nd18-title{display:none}
+ #nd18Sidebar button{flex:0 0 auto;width:auto;margin:0;white-space:nowrap;padding:9px 12px;font-size:13px}
+}
+@media(max-width:600px){body{padding-left:0!important}#nd18Sidebar{top:65px;width:calc(100% - 14px);margin-bottom:8px}}
+@media(prefers-reduced-motion:reduce){#nd18Sidebar button{transition:none}}
+</style>
+<script>
+(function(){
+ function norm(t){return (t||'').replace(/\s+/g,' ').trim()}
+ function build(){
+  if(document.getElementById('nd18Sidebar'))return;
+  const cats=[...document.querySelectorAll('.categoria')];
+  if(!cats.length)return;
+  const nav=document.createElement('nav');nav.id='nd18Sidebar';nav.setAttribute('aria-label','Categorias do cardápio');
+  const title=document.createElement('div');title.className='nd18-title';title.textContent='CATEGORIAS';nav.appendChild(title);
+  cats.forEach((cat,i)=>{
+   const heading=cat.querySelector('.categoria-titulo,h2'); if(!heading)return;
+   if(!cat.id)cat.id='nd18-cat-'+i;
+   const b=document.createElement('button');b.type='button';b.textContent=norm(heading.textContent).replace(/^\S+\s+/,'');b.dataset.target=cat.id;
+   b.onclick=function(){document.getElementById(this.dataset.target)?.scrollIntoView({behavior:'smooth',block:'start'})};
+   nav.appendChild(b);
+  });
+  document.body.appendChild(nav);
+  const buttons=[...nav.querySelectorAll('button')];
+  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){buttons.forEach(b=>b.classList.toggle('ativo',b.dataset.target===e.target.id))}})},{rootMargin:'-20% 0px -65% 0px',threshold:0});
+  cats.forEach(c=>io.observe(c));
+  if(buttons[0])buttons[0].classList.add('ativo');
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
+ setTimeout(build,700);
+})();
+</script>
+
+<style id="nd-etapa19-css">
+/* ND BURGS — ETAPA 19: refinamento final, sem alterar a lógica existente */
+:root{--nd19-blue:#1677ff;--nd19-blue2:#0b5ed7;--nd19-border:#242424;--nd19-soft:#111;--nd19-text:#f5f5f5;--nd19-muted:#aaa}
+html,body{background:#000!important;background-image:none!important}
+body{overflow-x:hidden}
+/* área principal mais organizada quando existe a navegação lateral da etapa 18 */
+@media (min-width:901px){
+ body{padding-left:210px!important}
+ .nd18-cat-nav{left:14px!important;right:auto!important;top:120px!important;width:178px!important;max-height:calc(100vh - 145px)!important;border:1px solid var(--nd19-border)!important;border-radius:16px!important;background:#080808!important;box-shadow:0 8px 28px rgba(0,0,0,.65)!important;padding:10px!important;z-index:10000!important}
+ .nd18-cat-nav button{width:100%!important;text-align:left!important;border-radius:10px!important;margin:3px 0!important;padding:11px 12px!important;background:#0e0e0e!important;color:#ddd!important;border:1px solid transparent!important;transition:.18s ease!important}
+ .nd18-cat-nav button:hover,.nd18-cat-nav button.ativo{background:#1677ff!important;color:#fff!important;border-color:#1677ff!important;transform:translateX(3px)!important}
+}
+/* títulos */
+h1,h2,h3{letter-spacing:.1px}
+.categoria-titulo,h2{scroll-margin-top:90px}
+.produto h3,.produto .nome,.produto .produto-nome{font-weight:400!important;font-size:clamp(18px,2vw,23px)!important;line-height:1.18!important}
+/* preço: destaque forte, sem transformar nome em negrito */
+.produto .preco,.produto .preco-produto,.produto [class*="preco"]{font-weight:800!important;font-size:clamp(19px,2.1vw,25px)!important;text-shadow:0 0 7px rgba(22,119,255,.65),0 0 16px rgba(22,119,255,.22)!important}
+/* botões de produto: azul + microinteração */
+.produto button{transition:transform .18s ease,filter .18s ease,background-color .18s ease,box-shadow .18s ease!important}
+.produto button:hover{background:#1677ff!important;color:#fff!important;filter:brightness(1.08)!important;transform:translateY(-2px)!important;box-shadow:0 7px 18px rgba(22,119,255,.24)!important}
+.produto button:active{transform:translateY(0) scale(.98)!important}
+/* revisão/carrinho */
+#modalCarrinho .painel-carrinho,#modalFinalizar .painel-finalizar{border:1px solid #242424!important;background:#070707!important}
+#subtotalCarrinhoModal,#taxaCarrinhoModal,#totalCarrinhoModal,#ndV4Sub,#ndV4Fee,#ndV4Total{font-variant-numeric:tabular-nums}
+#taxaCarrinhoModal,#ndV4Fee{color:#66a9ff!important}
+#totalCarrinhoModal,#ndV4Total{font-size:clamp(22px,3vw,30px)!important;font-weight:900!important;color:#fff!important;text-shadow:0 0 8px rgba(22,119,255,.65)!important}
+/* checkout */
+#modalFinalizar input,#modalFinalizar select,#modalFinalizar textarea{background:#0d0d0d!important;border-color:#292929!important;color:#fff!important}
+#modalFinalizar input:focus,#modalFinalizar select:focus,#modalFinalizar textarea:focus{border-color:#1677ff!important;outline:none!important;box-shadow:0 0 0 2px rgba(22,119,255,.16)!important}
+/* qualquer botão de finalização */
+#modalCarrinho button,#modalFinalizar button{transition:transform .18s ease,filter .18s ease,background-color .18s ease,box-shadow .18s ease!important}
+#modalCarrinho button:hover,#modalFinalizar button:hover{background:#1677ff!important;color:#fff!important;transform:translateY(-2px)!important;box-shadow:0 7px 18px rgba(22,119,255,.22)!important}
+/* não aplicar o azul ao coração/favoritos */
+button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{transform:none!important;box-shadow:none!important}
+@media(max-width:900px){
+ body{padding-left:0!important}
+ .nd18-cat-nav{position:sticky!important;left:auto!important;top:0!important;width:100%!important;max-height:none!important;border-radius:0 0 14px 14px!important;background:#050505!important}
+ .nd18-cat-nav button{white-space:nowrap!important}
+ .produto h3,.produto .nome,.produto .produto-nome{font-size:19px!important}
+ .produto .preco,.produto .preco-produto,.produto [class*="preco"]{font-size:21px!important}
+}
+@media(prefers-reduced-motion:reduce){.produto button,#modalCarrinho button,#modalFinalizar button{transition:none!important}}
+</style>
+
+<script id="nd-etapa19-js">
+(function(){
+  'use strict';
+  /* ETAPA 19 — reforça apenas a apresentação e mantém o carrinho/checkout originais */
+  function nd19NormalizeMoney(v){
+    if(v==null)return 0;
+    if(typeof v==='number')return v;
+    let x=String(v).replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.');
+    const n=parseFloat(x); return Number.isFinite(n)?n:0;
+  }
+  function nd19RefreshTotals(){
+    /* Não substitui funções existentes. Apenas garante que, quando os campos já existirem,
+       o total visual seja subtotal + taxa. */
+    const subEl=document.getElementById('subtotalCarrinhoModal');
+    const feeEl=document.getElementById('taxaCarrinhoModal');
+    const totalEl=document.getElementById('totalCarrinhoModal');
+    if(subEl&&feeEl&&totalEl){
+      const sub=nd19NormalizeMoney(subEl.textContent);
+      const fee=nd19NormalizeMoney(feeEl.textContent);
+      if(subEl.textContent.trim() && feeEl.textContent.trim()) totalEl.textContent=(sub+fee).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+    }
+    const sub2=document.getElementById('ndV4Sub'),fee2=document.getElementById('ndV4Fee'),tot2=document.getElementById('ndV4Total');
+    if(sub2&&fee2&&tot2){
+      const sub=nd19NormalizeMoney(sub2.textContent),fee=nd19NormalizeMoney(fee2.textContent);
+      if(sub2.textContent.trim()&&fee2.textContent.trim())tot2.textContent=(sub+fee).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+    }
+  }
+  function nd19Bind(){
+    /* Observa alterações já feitas pelo sistema original sem interceptar suas funções. */
+    const root=document.body;
+    if(root&&!root.__nd19Observer){
+      root.__nd19Observer=new MutationObserver(function(){clearTimeout(root.__nd19Timer);root.__nd19Timer=setTimeout(nd19RefreshTotals,30)});
+      root.__nd19Observer.observe(root,{subtree:true,childList:true,characterData:true});
+    }
+    nd19RefreshTotals();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',nd19Bind);else nd19Bind();
+  setTimeout(nd19Bind,600);
+})();
+</script>
+
+
+
+
+<!-- ETAPA 22 — BOTÕES FUTURISTAS ND BURGS | camada visual, sem alterar funções -->
+<style id="nd-etapa-22-buttons">
+:root{--nd22-blue:#168cff;--nd22-blue2:#0066ff;--nd22-dark:#080b10;--nd22-border:rgba(22,140,255,.55)}
+/* Botões de produto */
+.btn.btn-add,
+.nd-r3-add,
+.nd-r7-add,
+.r11-add,
+button[data-add],
+button[data-batata]{
+  position:relative!important; overflow:hidden!important; isolation:isolate;
+  background:linear-gradient(180deg,#111923 0%,#0a0f16 100%)!important;
+  color:#fff!important; border:1px solid rgba(22,140,255,.48)!important;
+  border-radius:14px!important; box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 4px 14px rgba(0,0,0,.42)!important;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+.btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before{
+  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 15%,rgba(255,255,255,.13) 42%,transparent 68%);
+  transform:translateX(-120%);transition:transform .55s ease;
+}
+.btn.btn-add::after,.nd-r3-add::after,.nd-r7-add::after,.r11-add::after,button[data-add]::after,button[data-batata]::after{
+  content:"";position:absolute;left:12%;right:12%;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,transparent,var(--nd22-blue),transparent);opacity:.7;transition:opacity .2s ease,transform .2s ease;
+}
+.btn.btn-add:hover,.nd-r3-add:hover,.nd-r7-add:hover,.r11-add:hover,button[data-add]:hover,button[data-batata]:hover{
+  background:linear-gradient(180deg,#0b8cff 0%,#005ee8 100%)!important;
+  border-color:#49a9ff!important;transform:translateY(-2px)!important;
+  box-shadow:0 8px 24px rgba(0,110,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
+}
+.btn.btn-add:hover::before,.nd-r3-add:hover::before,.nd-r7-add:hover::before,.r11-add:hover::before,button[data-add]:hover::before,button[data-batata]:hover::before{transform:translateX(120%)}
+.btn.btn-add:active,.nd-r3-add:active,.nd-r7-add:active,.r11-add:active,button[data-add]:active,button[data-batata]:active{transform:translateY(0) scale(.975)!important}
+/* CTA principal / WhatsApp */
+.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,
+button[onclick*="finalizarPedido"],button[onclick*="finalizarPedidoModal"],button[onclick*="WhatsApp"],button[onclick*="whatsapp"]{
+  position:relative!important;overflow:hidden!important;isolation:isolate;
+  background:linear-gradient(135deg,#087dff 0%,#0057d9 55%,#003fa8 100%)!important;
+  color:#fff!important;border:1px solid #4aaaff!important;border-radius:15px!important;
+  box-shadow:0 8px 26px rgba(0,105,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease!important;
+}
+.nd-v4-primary:hover,.nd-v4-next:hover,.nd17-gate-main:hover,.btn-finalizar-pedido:hover,.nd-fx-cart-open:hover,.ndFx-action.primary:hover,#ndFxSendReview:hover,
+button[onclick*="finalizarPedido"]:hover,button[onclick*="finalizarPedidoModal"]:hover,button[onclick*="WhatsApp"]:hover,button[onclick*="whatsapp"]:hover{
+  filter:brightness(1.13);transform:translateY(-2px)!important;box-shadow:0 12px 32px rgba(0,105,255,.38),inset 0 1px 0 rgba(255,255,255,.32)!important;
+}
+/* Varredura futurista */
+.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after,
+button[onclick*="finalizarPedido"]::after,button[onclick*="finalizarPedidoModal"]::after,button[onclick*="WhatsApp"]::after,button[onclick*="whatsapp"]::after{
+  content:"";position:absolute;top:0;bottom:0;width:45%;left:-55%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.24),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none;
+}
+.nd-v4-primary:hover::after,.nd-v4-next:hover::after,.nd17-gate-main:hover::after,.btn-finalizar-pedido:hover::after,.nd-fx-cart-open:hover::after,.ndFx-action.primary:hover::after,#ndFxSendReview:hover::after,
+button[onclick*="finalizarPedido"]:hover::after,button[onclick*="finalizarPedidoModal"]:hover::after,button[onclick*="WhatsApp"]:hover::after,button[onclick*="whatsapp"]:hover::after{left:115%}
+/* Categorias: premium, sem mudar posição/funcionalidade */
+.categoria-btn{transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important}
+.categoria-btn:hover{transform:translateX(4px)!important;background:linear-gradient(90deg,rgba(0,102,255,.22),rgba(0,102,255,.06))!important;border-color:rgba(22,140,255,.65)!important;box-shadow:0 5px 18px rgba(0,80,220,.16)!important}
+/* Preços continuam brilhando, sem alterar o texto */
+.preco{ text-shadow:0 0 7px rgba(22,140,255,.7),0 0 18px rgba(22,140,255,.28)!important; }
+/* Acessibilidade */
+button:focus-visible{outline:2px solid #49a9ff!important;outline-offset:3px!important}
+@media (prefers-reduced-motion:reduce){
+  .btn.btn-add,.nd-r3-add,.nd-r7-add,.r11-add,button[data-add],button[data-batata],.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,.categoria-btn{transition:none!important}
+  .btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before,.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after{display:none!important}
+}
+</style>
+<script>
+(function(){
+  'use strict';
+  /* Apenas feedback visual. Não intercepta onclicks nem funções do sistema. */
+  document.addEventListener('pointerdown',function(e){
+    const b=e.target.closest('button'); if(!b) return;
+    b.classList.remove('nd22-pressed'); void b.offsetWidth; b.classList.add('nd22-pressed');
+    setTimeout(()=>b.classList.remove('nd22-pressed'),180);
+  },{passive:true});
+})();
+</script>
+
 </body>
 </html>
