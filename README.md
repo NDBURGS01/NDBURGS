@@ -440,17 +440,17 @@ SEGUNDA FEIRA :
 
 <div class="horarios-linha">
 
-📅 Terça a sábado:
+📅 TERÇA A SÁBADO :
 <strong>18:00 às 00:30</strong>
 
 <br>
 
-📅 Domingo:
+📅 DOMINGO :
 <strong>18:00 às 00:00</strong>
 
 <br>
 
-📅 Segunda-feira:
+📅 SEGUNDA-FEIRA :
 <strong>FECHADO</strong>
 
 </div>
