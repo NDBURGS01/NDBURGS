@@ -4141,11 +4141,11 @@ function verificarHorario(){
  const minutos=agora.getHours()*60+agora.getMinutes();
  let aberto=false;
  // Terça a sábado: 18:00–00:30. Domingo: 18:00–00:00. Segunda: fechado.
- if(dia>=2 && dia<=6 && minutos>=1080) aberto=true;
+ if(dia>=2 && dia<=6 && minutos>=1080) aberto=false;
  // A madrugada até 00:30 pertence ao atendimento iniciado na noite anterior.
- if(dia>=3 && dia<=6 && minutos<30) aberto=true;
+ if(dia>=3 && dia<=6 && minutos<30) aberto=false;
  // Domingo encerra exatamente à meia-noite; não abre na madrugada de segunda.
- if(dia===0 && minutos>=1080) aberto=true;
+ if(dia===0 && minutos>=1080) aberto=false;
  const bloqueio=document.getElementById("bloqueioHorario");
  const status=document.getElementById("statusHorario");
  if(aberto){if(bloqueio)bloqueio.style.display="none";if(status){status.className="status-aberto";status.innerHTML="🟠 ESTAMOS ACEITANDO PEDIDOS • #BORADENDBURGS";}}
