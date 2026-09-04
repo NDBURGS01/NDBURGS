@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260903-01">
+<meta name="nd-site-version" content="20260904-01">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260903-01";
+  const ND_SITE_VERSION = "20260904-01";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -356,6 +356,196 @@ html{scroll-behavior:smooth}.categoria{scroll-margin-top:145px}
 <style>
 :root{--bg:#09090b;--surface:#141418;--surface2:#1d1d22;--red:#ff3b30;--red2:#b90016;--orange:#ff8a00;--gold:#ffd166;--text:#fff;--muted:#b8b8c2;--green:#25d366}body{background:radial-gradient(circle at 50% -10%,#35100c 0,#09090b 38%,#050506 100%);color:var(--text)}header{background:rgba(9,9,11,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,59,48,.45);box-shadow:0 8px 30px rgba(0,0,0,.35)}h1,h2,.categoria-titulo{color:#fff;border-color:#2b2b32}.horarios-box,.produto,.carrinho,.formulario{background:linear-gradient(145deg,#1a1a20,#101014);border-color:#2c2c34;box-shadow:0 12px 30px rgba(0,0,0,.22)}.horarios-titulo,.preco,.total,.carrinho-flutuante-total,.modal-total strong:last-child{color:var(--gold)}.produto{border-radius:20px;transition:transform .22s,box-shadow .22s,border-color .22s}.produto:hover{transform:translateY(-5px);border-color:var(--red);box-shadow:0 18px 40px rgba(255,59,48,.13)}.produto-imagem{border-radius:14px;background:#09090b}.btn-add,.btn-confirmar-personalizacao,.btn-ver-carrinho{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border-radius:12px;box-shadow:0 8px 20px rgba(255,59,48,.22)}.btn-add:hover,.btn-confirmar-personalizacao:hover,.btn-ver-carrinho:hover{background:linear-gradient(135deg,#ff4b40,#ff9e1b)}.categoria-btn{border-radius:14px;background:#17171c;border-color:#2c2c34}.categoria-btn:hover{border-color:var(--red);color:#fff;background:#211317}.carrinho-flutuante{background:rgba(18,18,22,.96);border-color:var(--red);border-radius:18px;backdrop-filter:blur(14px)}.painel-carrinho,.painel-finalizar,.modal-box{background:#131318;border-color:var(--red);border-radius:24px}.btn-finalizar-pedido,.btn-finalizar-modal{background:linear-gradient(135deg,#25d366,#149c4d)}.btn-continuar-comprando{background:linear-gradient(135deg,#ff7a00,#ffad16)}.toast-carrinho{background:linear-gradient(135deg,var(--green),#159a4d)}input,select,textarea{background:#0d0d11;border-color:#34343d;border-radius:12px}.aviso-taxa{background:#2a1606;border-color:var(--orange);color:var(--gold)}.opcao-tamanho input:checked+label{border-color:var(--red);background:#2b1315;color:#fff}.modal-secao h3{color:var(--orange)}.instagram-destaque{border-color:var(--red);border-radius:24px}.categoria{scroll-margin-top:100px}@media(max-width:600px){.produto{border-radius:16px}.produto-imagem{height:145px}.preco{font-size:18px;font-weight:900}.btn-add{font-size:12px;border-radius:10px}.categoria-btn{padding:14px 8px}.produtos{gap:10px}}
 </style>
+
+<style id="nd-final-orange-theme">
+/* =====================================================
+   ND BURGS — TEMA FINAL: PRETO + LARANJA DEGRADÊ
+   Mantém a estrutura e todas as funcionalidades existentes.
+   ===================================================== */
+:root{
+  --nd-theme-orange:#ff6500;
+  --nd-theme-orange2:#ff9a2f;
+  --nd-theme-black:#000;
+  --nd-theme-panel:#0b0b0b;
+}
+html,body{
+  background:#000!important;
+  color:#fff!important;
+}
+body{
+  background:#000!important;
+}
+header{
+  background:#000!important;
+  border-bottom:2px solid var(--nd-theme-orange)!important;
+}
+.horarios{
+  background:#000!important;
+}
+.horarios-box{
+  background:#090909!important;
+  border-color:rgba(255,101,0,.55)!important;
+}
+.horarios-titulo,
+.preco,
+.total,
+.carrinho-flutuante-total,
+.modal-total strong:last-child,
+#total,
+#totalCarrinhoModal,
+#totalFinalizarModal{
+  color:var(--nd-theme-orange2)!important;
+}
+.categoria-titulo{
+  color:#fff!important;
+}
+.categoria-titulo:after{
+  background:linear-gradient(90deg,var(--nd-theme-orange),var(--nd-theme-orange2))!important;
+  box-shadow:0 0 18px rgba(255,101,0,.5)!important;
+}
+.produto,
+.carrinho,
+.formulario,
+.painel-carrinho,
+.painel-finalizar,
+.modal-box,
+.suggestions-panel{
+  background:linear-gradient(145deg,#111,#050505)!important;
+  border-color:#242424!important;
+}
+.produto:hover{
+  border-color:rgba(255,101,0,.7)!important;
+}
+.produto-imagem,
+.produto img{
+  background:#000!important;
+}
+input,select,textarea{
+  background:#080808!important;
+  border-color:#303030!important;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:rgba(255,101,0,.8)!important;
+  box-shadow:0 0 0 3px rgba(255,101,0,.10)!important;
+}
+
+/* BOTÕES PRINCIPAIS */
+.btn,
+.btn-add,
+.btn-confirmar-personalizacao,
+.btn-ver-carrinho,
+.btn-finalizar-pedido,
+.btn-finalizar-modal,
+.btn-whatsapp,
+.nd-fx-add,
+.nd-fx-cart-open,
+.nd-v4-primary,
+.nd-v4-next,
+.ndFx-review-send{
+  background:linear-gradient(135deg,#ff6500 0%,#ff8a1f 55%,#ffb347 100%)!important;
+  color:#050505!important;
+  border:none!important;
+  font-weight:900!important;
+  box-shadow:0 8px 22px rgba(255,101,0,.20)!important;
+}
+.btn:hover,
+.btn-add:hover,
+.btn-confirmar-personalizacao:hover,
+.btn-ver-carrinho:hover,
+.btn-finalizar-pedido:hover,
+.btn-finalizar-modal:hover,
+.btn-whatsapp:hover,
+.nd-fx-add:hover,
+.nd-fx-cart-open:hover,
+.nd-v4-primary:hover,
+.nd-v4-next:hover,
+.ndFx-review-send:hover{
+  filter:brightness(1.08)!important;
+  transform:translateY(-1px);
+}
+
+/* BOTÕES DE CATEGORIA */
+.categoria-btn{
+  background:linear-gradient(135deg,#ff6500,#ff9a2f)!important;
+  color:#050505!important;
+  border:1px solid #ff6500!important;
+  font-weight:900!important;
+}
+.categoria-btn:hover,
+.categoria-btn:focus{
+  background:linear-gradient(135deg,#ff7a00,#ffb347)!important;
+  color:#050505!important;
+  border-color:#ff9a2f!important;
+}
+
+/* BOTÕES DE FECHAR/REMOVER: preserva função visual de segurança */
+.fechar-carrinho,
+.modal-fechar,
+.btn-fechar-finalizar,
+.suggestions-close{
+  background:#171717!important;
+  color:#fff!important;
+  border:1px solid #333!important;
+}
+.remover{
+  background:#7a1710!important;
+  color:#fff!important;
+}
+
+/* CARRINHO FLUTUANTE */
+.carrinho-flutuante,
+.nd-fx-cartbar{
+  background:#080808!important;
+  border-color:rgba(255,101,0,.65)!important;
+}
+.carrinho-flutuante-total,
+.nd-fx-cart-total{
+  color:var(--nd-theme-orange2)!important;
+}
+
+/* STATUS */
+.status-aberto{
+  background:rgba(255,101,0,.08)!important;
+  border:1px solid rgba(255,101,0,.35)!important;
+  color:var(--nd-theme-orange2)!important;
+}
+.status-fechado{
+  display:none!important;
+}
+
+/* BARRAS / DESTAQUES */
+.nd-v3-strip{
+  background:#000!important;
+  border-bottom:1px solid rgba(255,101,0,.35)!important;
+}
+.nd-v3-strip b{
+  color:var(--nd-theme-orange2)!important;
+}
+.nd-v3-progress span{
+  background:linear-gradient(90deg,#ff6500,#ffb347)!important;
+}
+.nd-v3-upsell{
+  border-color:rgba(255,101,0,.25)!important;
+}
+.nd-v3-up button{
+  background:linear-gradient(135deg,#ff6500,#ff9a2f)!important;
+  color:#050505!important;
+}
+
+/* INSTAGRAM */
+.instagram-botao{
+  background:linear-gradient(135deg,#ff6500,#ff9a2f)!important;
+  color:#050505!important;
+}
+
+/* GARANTE FUNDO PRETO NAS ÁREAS EXTERNAS */
+footer,
+.rodape-instagram,
+.rodape-final{
+  background:#000!important;
+}
+</style>
+
 </head>
 
 <body>
@@ -370,7 +560,7 @@ html{scroll-behavior:smooth}.categoria{scroll-margin-top:145px}
 <p>
 A ND BURGS está fechada no momento.
 <br>
-Volte durante nosso horário de atendimento.
+Estamos atendendo normalmente. Faça seu pedido a qualquer hora.
 </p>
 
 <div class="bloqueio-horarios">
@@ -379,18 +569,18 @@ Volte durante nosso horário de atendimento.
 
 <br>
 
-TERÇA A SÁBADO -
-<strong>18:00 às 00:30</strong>
+TODOS OS DIAS -
+<strong>24 HORAS</strong>
 
 <br>
 
-DOMINGO -
-<strong>18:00 às 00:00</strong>
+TODOS OS DIAS -
+<strong>24 HORAS</strong>
 
 <br>
 
-SEGUNDA FEIRA -
-<strong style="color:#ff4444;">FECHADO</strong>
+ATENDIMENTO -
+<strong>24 HORAS</strong>
 
 </div>
 
@@ -440,18 +630,17 @@ SEGUNDA FEIRA -
 
 <div class="horarios-linha">
 
-📅 TERÇA A SÁBADO -
-<strong>18:00 às 00:30</strong>
+📅 TODOS OS DIAS -
+<strong>24 HORAS</strong>
 
 <br>
 
-📅 DOMINGO -
-<strong>18:00 às 00:00</strong>
+📅 TODOS OS DIAS -
+<strong>24 HORAS</strong>
 
 <br>
 
-📅 SEGUNDA-FEIRA -
-<strong>FECHADO</strong>
+
 
 </div>
 
@@ -4136,20 +4325,14 @@ block:"start"
 ========================= */
 
 function verificarHorario(){
- const agora=new Date();
- const dia=agora.getDay();
- const minutos=agora.getHours()*60+agora.getMinutes();
- let aberto=false;
- // Terça a sábado: 18:00–00:30. Domingo: 18:00–00:00. Segunda: fechado.
- if(dia>=2 && dia<=6 && minutos>=1080) aberto=true;
- // A madrugada até 00:30 pertence ao atendimento iniciado na noite anterior.
- if(dia>=3 && dia<=6 && minutos<30) aberto=true;
- // Domingo encerra exatamente à meia-noite; não abre na madrugada de segunda.
- if(dia===0 && minutos>=1080) aberto=true;
+ const aberto=true;
  const bloqueio=document.getElementById("bloqueioHorario");
  const status=document.getElementById("statusHorario");
- if(aberto){if(bloqueio)bloqueio.style.display="none";if(status){status.className="status-aberto";status.innerHTML="🟠 ESTAMOS ACEITANDO PEDIDOS • #BORADENDBURGS";}}
- else{if(bloqueio)bloqueio.style.display="flex";if(status){status.className="status-fechado";status.innerHTML="🔴 PEDIDOS FECHADOS NO MOMENTO";}}
+ if(bloqueio)bloqueio.style.display="none";
+ if(status){
+   status.className="status-aberto";
+   status.innerHTML="🟠 ESTAMOS ACEITANDO PEDIDOS • ATENDIMENTO 24 HORAS";
+ }
 }
 
 /* =========================
@@ -4697,7 +4880,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
   function createUI(){
     if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
-    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🔥 <b>ND BURGS</b> • PEÇA PELO SITE • TERÇA A SÁBADO DAS <b>18:00 ÀS 00:30</b> • DOMINGO DAS <b>18:00 ÀS 00:00</b>';document.body.prepend(x)}
+    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🔥 <b>ND BURGS</b> • PEÇA PELO SITE • ATENDIMENTO <b>24 HORAS • TODOS OS DIAS</b>';document.body.prepend(x)}
     if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
     addTrust(); addLastOrder();
   }
@@ -5255,4 +5438,4 @@ setTimeout(init,900);
 
 </body>
 </html>
-<!-- ND BURGS VERSION: 20260903-01 -->
+<!-- ND BURGS VERSION: 20260904-01 -->
