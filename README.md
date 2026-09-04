@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R22A">
+<meta name="nd-site-version" content="20260904-R8">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260904-R22A";
+  const ND_SITE_VERSION = "20260904-R8";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -1988,7 +1988,7 @@ const taxas = {
 "RUA PADRE LUIZ MARTINE":5,
 "RUA MADRESSILVAS":6,
 "RUA MARIO ANDREATINI":4,
-"RUA METAL LEVER":5,
+"RUA METAL LEVE":5,
 "RUA MIL FOLHAS":9,
 "RUA MIRAMAR":5,
 "RUA MOÇAMBIQUE":9,
@@ -2038,9 +2038,7 @@ const taxas = {
 "RUA ZIEMBINSKI":7,
 "VIELA DOS FISCHERS":9,
 "ESTRADA DAS GRAÇAS":4,
-"IFOOD":0,
 "RUA NOVA TRINDADE":6,
-"99FOOD":0,
 "RUA APENINOS":12,
 "RUA VERA CRUZ":5,
 "MERCADO LIVRE":15,
@@ -2329,6 +2327,7 @@ let produtoModalAtual=null;
 let toastTimer=null;
 
 function mostrarToast(texto){ /* feedback antigo desativado para evitar mensagens duplicadas */ }
+
 
 /* =========================
    FECHAR MODAL DE PERSONALIZAÇÃO
@@ -6214,7 +6213,13 @@ header .logo{display:none!important}
    const f=tipo==='ENTREGA'?Number((window.taxas||{})[aStreet]||0):0,sub=subtotal(),total=sub+f;if(sub<11.90)return alert('O pedido mínimo é R$ 11,90. Faltam '+money(11.90-sub)+'.');
    const lines=['NOVO PEDIDO - ND BURGS','CLIENTE: '+nome,'WHATSAPP: '+tel,'TIPO: '+(tipo==='ENTREGA'?'DELIVERY':'RETIRADA')];
    if(tipo==='ENTREGA'){lines.push('ENDEREÇO: '+aStreet+', Nº '+numero);if(comp)lines.push('COMPLEMENTO: '+comp)}
-   lines.push('','ITENS DO PEDIDO');cart().forEach(i=>{lines.push((Number(i.quantidade)||1)+'x '+i.nome+' - '+money((Number(i.preco)||0)*(Number(i.quantidade)||1)));if(i.detalhes?.length)lines.push('  '+i.detalhes.join(', '));});
+   lines.push('', 'ITENS DO PEDIDO');
+   cart().forEach(i=>{
+     const qty=Number(i.quantidade)||1;
+     const itemTotal=(Number(i.preco)||0)*qty;
+     lines.push(qty+'x '+i.nome+' - '+money(itemTotal));
+     if(Array.isArray(i.detalhes)&&i.detalhes.length) lines.push('  '+i.detalhes.join(', '));
+   });
    lines.push('','SUBTOTAL: '+money(sub),'TAXA DE ENTREGA: '+money(f),'TOTAL DO PEDIDO: '+money(total),'PAGAMENTO: '+pagamento);if(pagamento==='DINHEIRO'&&troco)lines.push('TROCO PARA: '+money(Number(troco)));if(obs)lines.push('OBSERVAÇÃO: '+obs);lines.push('','ND BURGS');
    try{localStorage.setItem('ndburgs_ultimo_pedido',JSON.stringify(cart()))}catch(e){}
    try{if(Array.isArray(window.carrinho))window.carrinho.length=0;localStorage.removeItem('carrinho');localStorage.removeItem('ndburgs_carrinho')}catch(e){}
@@ -6372,374 +6377,201 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
 
 
 
-<!-- ETAPA 22 — BOTÕES FUTURISTAS ND BURGS | camada visual, sem alterar funções -->
-<style id="nd-etapa-22-buttons">
-:root{--nd22-blue:#168cff;--nd22-blue2:#0066ff;--nd22-dark:#080b10;--nd22-border:rgba(22,140,255,.55)}
-/* Botões de produto */
-.btn.btn-add,
-.nd-r3-add,
-.nd-r7-add,
-.r11-add,
-button[data-add],
-button[data-batata]{
-  position:relative!important; overflow:hidden!important; isolation:isolate;
-  background:linear-gradient(180deg,#111923 0%,#0a0f16 100%)!important;
-  color:#fff!important; border:1px solid rgba(22,140,255,.48)!important;
-  border-radius:14px!important; box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 4px 14px rgba(0,0,0,.42)!important;
-  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
-}
-.btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before{
-  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 15%,rgba(255,255,255,.13) 42%,transparent 68%);
-  transform:translateX(-120%);transition:transform .55s ease;
-}
-.btn.btn-add::after,.nd-r3-add::after,.nd-r7-add::after,.r11-add::after,button[data-add]::after,button[data-batata]::after{
-  content:"";position:absolute;left:12%;right:12%;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,transparent,var(--nd22-blue),transparent);opacity:.7;transition:opacity .2s ease,transform .2s ease;
-}
-.btn.btn-add:hover,.nd-r3-add:hover,.nd-r7-add:hover,.r11-add:hover,button[data-add]:hover,button[data-batata]:hover{
-  background:linear-gradient(180deg,#0b8cff 0%,#005ee8 100%)!important;
-  border-color:#49a9ff!important;transform:translateY(-2px)!important;
-  box-shadow:0 8px 24px rgba(0,110,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
-}
-.btn.btn-add:hover::before,.nd-r3-add:hover::before,.nd-r7-add:hover::before,.r11-add:hover::before,button[data-add]:hover::before,button[data-batata]:hover::before{transform:translateX(120%)}
-.btn.btn-add:active,.nd-r3-add:active,.nd-r7-add:active,.r11-add:active,button[data-add]:active,button[data-batata]:active{transform:translateY(0) scale(.975)!important}
-/* CTA principal / WhatsApp */
-.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,
-button[onclick*="finalizarPedido"],button[onclick*="finalizarPedidoModal"],button[onclick*="WhatsApp"],button[onclick*="whatsapp"]{
-  position:relative!important;overflow:hidden!important;isolation:isolate;
-  background:linear-gradient(135deg,#087dff 0%,#0057d9 55%,#003fa8 100%)!important;
-  color:#fff!important;border:1px solid #4aaaff!important;border-radius:15px!important;
-  box-shadow:0 8px 26px rgba(0,105,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
-  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease!important;
-}
-.nd-v4-primary:hover,.nd-v4-next:hover,.nd17-gate-main:hover,.btn-finalizar-pedido:hover,.nd-fx-cart-open:hover,.ndFx-action.primary:hover,#ndFxSendReview:hover,
-button[onclick*="finalizarPedido"]:hover,button[onclick*="finalizarPedidoModal"]:hover,button[onclick*="WhatsApp"]:hover,button[onclick*="whatsapp"]:hover{
-  filter:brightness(1.13);transform:translateY(-2px)!important;box-shadow:0 12px 32px rgba(0,105,255,.38),inset 0 1px 0 rgba(255,255,255,.32)!important;
-}
-/* Varredura futurista */
-.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after,
-button[onclick*="finalizarPedido"]::after,button[onclick*="finalizarPedidoModal"]::after,button[onclick*="WhatsApp"]::after,button[onclick*="whatsapp"]::after{
-  content:"";position:absolute;top:0;bottom:0;width:45%;left:-55%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.24),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none;
-}
-.nd-v4-primary:hover::after,.nd-v4-next:hover::after,.nd17-gate-main:hover::after,.btn-finalizar-pedido:hover::after,.nd-fx-cart-open:hover::after,.ndFx-action.primary:hover::after,#ndFxSendReview:hover::after,
-button[onclick*="finalizarPedido"]:hover::after,button[onclick*="finalizarPedidoModal"]:hover::after,button[onclick*="WhatsApp"]:hover::after,button[onclick*="whatsapp"]:hover::after{left:115%}
-/* Categorias: premium, sem mudar posição/funcionalidade */
-.categoria-btn{transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important}
-.categoria-btn:hover{transform:translateX(4px)!important;background:linear-gradient(90deg,rgba(0,102,255,.22),rgba(0,102,255,.06))!important;border-color:rgba(22,140,255,.65)!important;box-shadow:0 5px 18px rgba(0,80,220,.16)!important}
-/* Preços continuam brilhando, sem alterar o texto */
-.preco{ text-shadow:0 0 7px rgba(22,140,255,.7),0 0 18px rgba(22,140,255,.28)!important; }
-/* Acessibilidade */
-button:focus-visible{outline:2px solid #49a9ff!important;outline-offset:3px!important}
-@media (prefers-reduced-motion:reduce){
-  .btn.btn-add,.nd-r3-add,.nd-r7-add,.r11-add,button[data-add],button[data-batata],.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,.categoria-btn{transition:none!important}
-  .btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before,.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after{display:none!important}
-}
-</style>
-<script>
-(function(){
-  'use strict';
-  /* Apenas feedback visual. Não intercepta onclicks nem funções do sistema. */
-  document.addEventListener('pointerdown',function(e){
-    const b=e.target.closest('button'); if(!b) return;
-    b.classList.remove('nd22-pressed'); void b.offsetWidth; b.classList.add('nd22-pressed');
-    setTimeout(()=>b.classList.remove('nd22-pressed'),180);
-  },{passive:true});
-})();
-</script>
-
-
-
-<!-- ETAPA 22A — CORREÇÕES SOLICITADAS | carrinho + sidebar integral + preços vermelhos + entrada com endereço -->
-<style id="nd-etapa-22a-fixes">
-html,body{background:#000!important;background-image:none!important}
-/* PREÇOS: vermelho sólido, SEM NEON */
-.produto .preco,.produto .preco-produto,.produto [class*="preco"],.preco{color:#ff2b2b!important;text-shadow:none!important;filter:none!important}
-#nd17CartAddress strong,#nd17CartAddress{ }
-/* CARRINHO FLUTUANTE — reativado (uma camada antiga estava escondendo) */
-.carrinho-flutuante{display:flex!important;opacity:0;pointer-events:none;transform:translateX(-50%) translateY(150px);visibility:hidden;}
-.carrinho-flutuante.ativo{display:flex!important;opacity:1!important;pointer-events:auto!important;transform:translateX(-50%) translateY(0)!important;visibility:visible!important}
-.btn-ver-carrinho{background:linear-gradient(135deg,#087dff,#0057d9)!important;color:#fff!important;border:1px solid #49a9ff!important;box-shadow:0 7px 22px rgba(0,105,255,.28)!important}
-/* CATEGORIAS — coluna lateral fixa do topo ao fim da tela, com rolagem própria */
-@media(min-width:901px){
- body{padding-left:230px!important}
- #nd18Sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:215px!important;height:100vh!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;transform:none!important;margin:0!important;padding:22px 12px 22px!important;border-radius:0!important;border:0!important;border-right:1px solid #222!important;background:#050505!important;z-index:99999!important;box-shadow:8px 0 30px rgba(0,0,0,.45)!important}
- #nd18Sidebar .nd18-title{padding:8px 10px 14px!important;margin-bottom:8px!important;color:#fff!important;border-bottom:1px solid #222!important}
- #nd18Sidebar button{width:100%!important;margin:4px 0!important;padding:12px 12px!important;border-radius:10px!important;background:#101010!important;color:#d7d7d7!important;border:1px solid #222!important;text-align:left!important;transform:none!important}
- #nd18Sidebar button:hover,#nd18Sidebar button.ativo{background:#1677ff!important;color:#fff!important;border-color:#1677ff!important;transform:translateX(3px)!important}
-}
-@media(max-width:900px){
- #nd18Sidebar{position:sticky!important;top:0!important;width:100%!important;max-height:none!important;height:auto!important;transform:none!important;margin:0!important;border-radius:0 0 12px 12px!important}
-}
-/* Favoritos nunca recebem o estilo azul dos botões */
-.nd-fav,.nd-fav:hover,.nd-fav:active{background:transparent!important;color:inherit!important;border-color:transparent!important;box-shadow:none!important;transform:none!important;filter:none!important}
-/* botão de fechar permanece vermelho */
-.fechar-carrinho,.btn-fechar-finalizar,.modal-fechar{background:#8b0000!important;color:#fff!important}
-</style>
-<script id="nd-etapa-22a-entry">
-(function(){
- 'use strict';
- function money(v){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}
- function norm(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
- function rates(){return window.taxas||{}}
- function getAddr(){return {type:localStorage.getItem('nd17_tipo')||'',street:localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd17_numero')||''}}
- function setForm(a){
-   const t=document.getElementById('tipoPedido');if(t)t.value=a.type==='RETIRADA'?'RETIRADA':'ENTREGA';
-   const r=document.getElementById('rua');if(r&&a.street&&[...r.options].some(o=>o.value===a.street))r.value=a.street;
-   const n=document.getElementById('numero');if(n)n.value=a.number||'';
-   const tm=document.getElementById('tipoPedidoModal');if(tm)tm.value=a.type==='RETIRADA'?'RETIRADA':'ENTREGA';
-   const rm=document.getElementById('ruaModal');if(rm&&a.street&&[...rm.options].some(o=>o.value===a.street))rm.value=a.street;
-   const nm=document.getElementById('numeroModal');if(nm)nm.value=a.number||'';
- }
- function refreshGate(){
-   const g=document.getElementById('nd17Gate');if(!g)return;
-   const title=g.querySelector('h2'), p=g.querySelector('p'), kicker=g.querySelector('.nd17-kicker');
-   if(kicker)kicker.textContent='BEM-VINDO À ND BURGS';
-   if(title)title.textContent='Antes de começar, onde vamos entregar?';
-   if(p)p.textContent='Olá! Seja bem-vindo. Selecione seu endereço agora para salvar sua taxa de entrega e deixar tudo pronto. Se preferir, escolha retirada no local.';
-   const save=document.getElementById('nd17GateSave');if(save)save.textContent='ENTRAR NO SITE — DELIVERY';
-   const pick=document.getElementById('nd17GatePickup');if(pick)pick.textContent='ENTRAR NO SITE — VOU RETIRAR';
-   const a=getAddr();
-   const st=document.getElementById('nd17GateStreet'), num=document.getElementById('nd17GateNumber');
-   if(st&&a.street)st.value=a.street;
-   if(num&&a.number)num.value=a.number;
-   if(a.type==='RETIRADA'){if(st)st.value='';if(num)num.value='';}
- }
- function showGate(){
-   const g=document.getElementById('nd17Gate');if(!g)return;
-   refreshGate();g.classList.add('show');document.body.style.overflow='hidden';
-   setTimeout(()=>document.getElementById('nd17GateStreet')?.focus(),120);
- }
- function hideGate(){const g=document.getElementById('nd17Gate');if(g)g.classList.remove('show');document.body.style.overflow='';}
- function saveDelivery(){
-   const st=document.getElementById('nd17GateStreet'), num=document.getElementById('nd17GateNumber');
-   const typed=st?.value||'', key=Object.keys(rates()).find(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k)&&norm(k)===norm(typed));
-   if(!key){alert('Selecione sua rua na lista de sugestões.');return false}
-   if(!String(num?.value||'').trim()){alert('Digite o número do endereço.');return false}
-   localStorage.setItem('nd17_tipo','ENTREGA');localStorage.setItem('nd17_rua',key);localStorage.setItem('nd17_numero',String(num.value).trim());setForm(getAddr());hideGate();
-   document.getElementById('tipoPedido')?.dispatchEvent(new Event('change',{bubbles:true}));
-   document.getElementById('tipoPedidoModal')?.dispatchEvent(new Event('change',{bubbles:true}));
-   return true;
- }
- function savePickup(){localStorage.setItem('nd17_tipo','RETIRADA');localStorage.setItem('nd17_rua','');localStorage.setItem('nd17_numero','');setForm(getAddr());hideGate();document.getElementById('tipoPedido')?.dispatchEvent(new Event('change',{bubbles:true}));document.getElementById('tipoPedidoModal')?.dispatchEvent(new Event('change',{bubbles:true}));}
- function bind(){
-   refreshGate();
-   const save=document.getElementById('nd17GateSave'),pick=document.getElementById('nd17GatePickup');
-   if(save&&!save.dataset.nd22a){save.dataset.nd22a='1';save.addEventListener('click',saveDelivery)}
-   if(pick&&!pick.dataset.nd22a){pick.dataset.nd22a='1';pick.addEventListener('click',savePickup)}
-   setForm(getAddr());
-   /* Sempre apresenta a saudação e a confirmação de endereço ao abrir. O endereço salvo vem preenchido. */
-   showGate();
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,80),{once:true});else setTimeout(bind,80);
-})();
-</script>
-
 
 <!-- =========================================================
-     ND BURGS — ETAPA 23: RECONSTRUÇÃO DO CARRINHO + ENDEREÇO + LAYOUT FINAL
-     Camada isolada: não altera favoritos nem catálogo.
+     ND BURGS — ETAPA 23 — RECONSTRUÇÃO FINAL DA EXPERIÊNCIA
+     Corrige carrinho, checkout, endereço, categorias e visual.
+     Camada isolada: não substitui a lógica de produtos.
      ========================================================= -->
-<style id="nd-etapa23-css">
-html,body{background:#000!important;background-image:none!important}
-body{overflow-x:hidden!important}
-
+<style id="nd-etapa-23-final">
 /* ===== LOGO NO TOPO ===== */
-header{position:relative!important;min-height:92px!important;padding:8px 12px!important;background:#000!important;border:0!important;box-shadow:none!important;display:flex!important;align-items:center!important;justify-content:center!important;z-index:9500!important}
-header .logo{display:block!important;width:min(180px,34vw)!important;max-height:72px!important;height:auto!important;object-fit:contain!important;border:0!important;outline:0!important;box-shadow:none!important;border-radius:0!important;background:transparent!important;filter:none!important}
+header{display:flex!important;align-items:center!important;justify-content:center!important;min-height:82px!important;padding:8px 14px!important;background:#000!important;border-bottom:1px solid #171717!important;box-shadow:none!important}
+header .logo{display:block!important;width:min(175px,46vw)!important;height:auto!important;max-height:68px!important;object-fit:contain!important;filter:none!important;border:0!important;box-shadow:none!important;background:transparent!important;border-radius:0!important}
 .nd17-brand{display:none!important}
-
-/* ===== ESPAÇO PARA AS DUAS COLUNAS ===== */
-@media(min-width:1101px){
- body{padding-left:235px!important;padding-right:335px!important}
- .container{max-width:calc(100vw - 600px)!important;width:auto!important}
+/* ===== PREÇOS: VERDE 3D, MENORES E SEM NEON ===== */
+.produto .preco,.preco,.produto .preco-produto,.produto [class*="preco"]{
+  display:inline-block!important;color:#39d353!important;font-size:clamp(16px,1.55vw,20px)!important;font-weight:900!important;line-height:1!important;
+  padding:7px 11px!important;margin:7px auto!important;border-radius:9px!important;
+  background:linear-gradient(180deg,#12351b 0%,#08170c 100%)!important;
+  border:1px solid #2da34a!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -3px 0 rgba(0,0,0,.45),0 3px 0 #0a2410,0 5px 10px rgba(0,0,0,.45)!important;
+  text-shadow:none!important;letter-spacing:.2px!important;
 }
-
-/* ===== CATEGORIAS: ESQUERDA, DO INÍCIO AO FIM ===== */
+#totalCarrinhoModal,#ndV4Total,#totalFinalizarModal,#total{color:#39d353!important;text-shadow:none!important}
+/* ===== CATEGORIAS LATERAIS DO TOPO AO FIM ===== */
 @media(min-width:901px){
- #nd18Sidebar{position:fixed!important;left:12px!important;top:10px!important;bottom:10px!important;transform:none!important;width:205px!important;max-height:none!important;height:calc(100vh - 20px)!important;overflow-y:auto!important;overflow-x:hidden!important;background:#050505!important;border:1px solid #252525!important;border-radius:16px!important;padding:12px!important;z-index:9400!important;box-sizing:border-box!important}
- #nd18Sidebar .nd18-title{position:sticky!important;top:0!important;background:#050505!important;z-index:2!important}
+ body{padding-left:225px!important}
+ #nd18Sidebar{
+   position:fixed!important;left:0!important;top:82px!important;bottom:0!important;width:205px!important;height:calc(100vh - 82px)!important;max-height:none!important;
+   overflow-y:auto!important;overflow-x:hidden!important;transform:none!important;margin:0!important;padding:14px 10px 20px!important;
+   background:#050505!important;border:0!important;border-right:1px solid #202020!important;border-radius:0!important;box-shadow:8px 0 24px rgba(0,0,0,.35)!important;z-index:9500!important;box-sizing:border-box!important;
+ }
+ #nd18Sidebar .nd18-title{position:sticky!important;top:0!important;background:#050505!important;padding:7px 8px 12px!important;z-index:2!important}
+ #nd18Sidebar button{width:100%!important;margin:4px 0!important}
 }
-
-/* ===== CARRINHO FIXO À DIREITA ===== */
-#nd23CartDock{position:fixed;right:12px;top:10px;bottom:10px;width:310px;background:#070707;border:1px solid #242424;border-radius:16px;z-index:9400;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.7)}
-.nd23-cart-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 14px 12px;border-bottom:1px solid #242424;background:#090909;flex:0 0 auto}
-.nd23-cart-title{font-size:15px;font-weight:900;letter-spacing:.7px;color:#fff}
-.nd23-cart-count{font-size:11px;color:#aaa;margin-top:3px}
-.nd23-cart-body{flex:1 1 auto;overflow:auto;padding:10px}
-.nd23-empty{text-align:center;color:#888;padding:40px 12px;line-height:1.6}
-.nd23-item{display:grid;grid-template-columns:58px 1fr;gap:9px;padding:9px;margin-bottom:8px;background:#101010;border:1px solid #202020;border-radius:12px}
-.nd23-item-img{width:58px;height:58px;object-fit:cover;border-radius:9px;background:#050505;border:1px solid #262626}
-.nd23-item-info{min-width:0}
-.nd23-item-name{font-size:13px;font-weight:700;color:#fff;line-height:1.2}
-.nd23-item-price{font-size:11px;color:#aaa;margin-top:4px}
-.nd23-item-total{font-size:13px;font-weight:900;color:#49d17d;margin-top:3px}
-.nd23-details{font-size:10px;color:#b9b9b9;line-height:1.35;margin-top:4px}
-.nd23-controls{display:flex;align-items:center;gap:5px;margin-top:7px}
-.nd23-controls button{width:27px;height:27px;border-radius:7px;border:1px solid #303030;background:#171717;color:#fff;cursor:pointer;font-weight:900}
-.nd23-controls button:hover{background:#1677ff;border-color:#1677ff}
-.nd23-qty{min-width:22px;text-align:center;font-size:12px;font-weight:900}
-.nd23-remove{margin-left:auto!important;color:#ff5b5b!important}
-.nd23-summary{border-top:1px solid #242424;padding:11px 13px;background:#090909;flex:0 0 auto}
-.nd23-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#aaa;margin:5px 0}
-.nd23-row strong{color:#fff}
-.nd23-row.total{font-size:16px;color:#fff;margin-top:8px;padding-top:8px;border-top:1px solid #222}
-.nd23-row.total strong{color:#49d17d;font-size:19px}
-.nd23-address{font-size:10px;color:#aaa;padding:8px 10px;background:#0d0d0d;border:1px solid #202020;border-radius:9px;margin-bottom:9px;line-height:1.45}
-.nd23-final{width:100%;border:1px solid #49d17d;border-radius:11px;padding:12px;background:linear-gradient(180deg,#159447,#0d6c34);color:#fff;font-weight:900;cursor:pointer;letter-spacing:.2px;margin-top:8px}
-.nd23-final:hover{filter:brightness(1.08);transform:translateY(-1px)}
-.nd23-continue{width:100%;border:1px solid #333;border-radius:11px;padding:9px;background:#151515;color:#ddd;font-weight:800;cursor:pointer;margin-top:7px}
-.nd23-cart-body::-webkit-scrollbar,#nd18Sidebar::-webkit-scrollbar{width:5px}
-.nd23-cart-body::-webkit-scrollbar-thumb,#nd18Sidebar::-webkit-scrollbar-thumb{background:#333;border-radius:10px}
-
-/* ===== PREÇOS: VERDE, 3D DISCRETO, MENOR ===== */
-.produto .preco,.produto .preco-produto,.produto [class*="preco"]{
- color:#49d17d!important;font-size:18px!important;font-weight:900!important;letter-spacing:.2px!important;text-shadow:none!important;
- display:inline-block!important;padding:5px 10px!important;margin:7px 2px!important;border:1px solid #2b9c59!important;border-radius:8px!important;
- background:linear-gradient(180deg,#122519,#0b170f)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.55),3px 3px 0 #07150d,0 4px 10px rgba(0,0,0,.4)!important;
+@media(max-width:900px){
+ body{padding-left:0!important}
+ #nd18Sidebar{position:sticky!important;top:0!important;width:100%!important;max-height:none!important;height:auto!important;transform:none!important;margin:0!important;border-radius:0!important;z-index:9500!important}
 }
-.preco-adicional{color:#49d17d!important;text-shadow:none!important}
-#subtotalCarrinhoModal,#taxaCarrinhoModal,#totalCarrinhoModal,#ndV4Sub,#ndV4Fee,#ndV4Total,#subtotalFinalizarModal,#taxaFinalizarModal,#totalFinalizarModal{color:#49d17d!important;text-shadow:none!important}
-
-
-/* ETAPA 23 — no checkout, o subtotal duplicado não aparece; o total permanece. */
-#modalFinalizar #ndV4Sub{display:none!important}
-#modalFinalizar #ndV4Sub{font-size:0!important}
-
-#modalFinalizar #subtotalFinalizarModal{display:none!important}
-
+/* ===== CARRINHO: SOMENTE ÍCONE FIXO + CONTADOR ===== */
+#carrinhoFlutuante{
+  left:auto!important;right:18px!important;bottom:18px!important;transform:none!important;width:62px!important;height:62px!important;max-width:none!important;
+  padding:0!important;border:1px solid #2d8cff!important;border-radius:50%!important;background:#08111f!important;box-shadow:0 8px 25px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.12)!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;opacity:0!important;pointer-events:none!important;z-index:10000!important;
+}
+#carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important;transform:none!important}
+#carrinhoFlutuante .carrinho-flutuante-info{display:block!important;min-width:0!important}
+#carrinhoFlutuante .carrinho-flutuante-info strong{font-size:0!important;display:block!important;line-height:1!important}
+#carrinhoFlutuante .carrinho-flutuante-info strong:after{content:'🛒';font-size:27px!important;display:block;line-height:1}
+#carrinhoFlutuante .carrinho-flutuante-info span{position:absolute!important;top:-5px!important;right:-5px!important;min-width:21px!important;height:21px!important;padding:0 5px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#e50914!important;color:#fff!important;border:2px solid #000!important;border-radius:99px!important;font-size:10px!important;font-weight:900!important;box-sizing:border-box!important}
+#carrinhoFlutuante .carrinho-flutuante-direita{display:none!important}
 /* ===== MODAL DO CARRINHO ===== */
-#modalCarrinho .painel-carrinho{width:min(560px,94vw)!important;max-height:88vh!important;overflow:auto!important}
-.item-carrinho-modal{background:#101010!important;border:1px solid #222!important;border-radius:12px!important;padding:10px!important;margin:7px 0!important}
-.item-carrinho-modal img{width:58px!important;height:58px!important;object-fit:cover!important;border-radius:8px!important}
-
-/* ===== ENDEREÇO / AUTOCOMPLETE ===== */
+#modalCarrinho{z-index:100001!important}
+#modalCarrinho .painel-carrinho{max-height:92vh!important;background:#0b0b0b!important;border:1px solid #303030!important;border-radius:22px 22px 0 0!important}
+#itensCarrinhoModal{display:flex!important;flex-direction:column!important;gap:8px!important}
+.nd23-cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:11px;align-items:center;padding:10px;border:1px solid #242424;border-radius:14px;background:#111}
+.nd23-cart-item img{width:72px;height:72px;object-fit:cover;border-radius:10px;background:#050505;display:block}
+.nd23-cart-item .nd23-cart-info{min-width:0}
+.nd23-cart-item .nd23-cart-name{display:block;color:#fff;font-size:14px;font-weight:800;line-height:1.2}
+.nd23-cart-item .nd23-cart-unit{display:block;color:#aaa;font-size:11px;margin-top:5px}
+.nd23-cart-item .nd23-cart-detail{display:block;color:#aaa;font-size:10px;line-height:1.4;margin-top:4px}
+.nd23-cart-item .nd23-cart-total{color:#39d353;font-size:13px;font-weight:900;white-space:nowrap;align-self:start;margin-top:3px}
+@media(max-width:520px){.nd23-cart-item{grid-template-columns:58px 1fr auto}.nd23-cart-item img{width:58px;height:58px}.nd23-cart-item .nd23-cart-name{font-size:12px}.nd23-cart-item .nd23-cart-total{font-size:12px}}
+/* ===== AUTOCOMPLETE DE ENDEREÇO: SEMPRE VISÍVEL E ACIMA DOS OUTROS ELEMENTOS ===== */
+.nd17-list,.nd17-inline-list{position:absolute!important;left:0!important;right:0!important;top:calc(100% + 5px)!important;max-height:310px!important;overflow-y:auto!important;background:#101010!important;border:1px solid #333!important;border-radius:12px!important;box-shadow:0 18px 40px rgba(0,0,0,.8)!important;z-index:100020!important;padding:5px!important;box-sizing:border-box!important}
+.nd17-option{display:flex!important;justify-content:space-between!important;gap:10px!important;padding:11px 10px!important;color:#fff!important;border-radius:8px!important;cursor:pointer!important;font-size:12px!important}
+.nd17-option:hover{background:#1b5fae!important}
+.nd17-suggest,.nd17-inline-suggest,.address-search-wrap{position:relative!important;z-index:100010!important}
 #nd17Gate{z-index:200000!important}
-#nd17Gate .nd17-gate-panel{position:relative!important;z-index:2!important}
-.nd23-welcome{font-size:11px;color:#49d17d;font-weight:900;letter-spacing:1.5px;margin-bottom:5px}
-.nd17-list,.nd17-inline-list{position:absolute!important;left:0!important;right:0!important;top:100%!important;max-height:260px!important;overflow:auto!important;background:#111!important;border:1px solid #303030!important;border-radius:0 0 12px 12px!important;z-index:210000!important;box-shadow:0 15px 35px rgba(0,0,0,.75)!important}
-.nd17-suggest,.nd17-inline-suggest{position:relative!important}
-.nd17-option{padding:11px 12px!important;color:#fff!important;border-bottom:1px solid #222!important;cursor:pointer!important;font-size:12px!important;background:#111!important}
-.nd17-option:hover{background:#1677ff!important;color:#fff!important}
-.nd17-inline-list{top:calc(100% + 2px)!important}
-.nd23-search-list{position:absolute;left:0;right:0;top:calc(100% + 3px);max-height:260px;overflow:auto;background:#101010;border:1px solid #303030;border-radius:0 0 12px 12px;z-index:100000;box-shadow:0 15px 35px rgba(0,0,0,.7)}
-
-/* ===== NÃO ESCONDER CARRINHO / CHECKOUT ===== */
-#carrinhoFlutuante{display:none!important}
-#modalCarrinho,#modalFinalizar{z-index:150000!important}
-
-@media(max-width:1100px){
- body{padding-left:0!important;padding-right:0!important}
- #nd18Sidebar{position:sticky!important;left:auto!important;top:0!important;bottom:auto!important;width:100%!important;height:auto!important;max-height:none!important;transform:none!important;border-radius:0 0 13px 13px!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;margin:0!important;z-index:9400!important}
- #nd18Sidebar .nd18-title{display:none!important}
- #nd18Sidebar button{flex:0 0 auto!important;width:auto!important;margin:0!important;white-space:nowrap!important}
- #nd23CartDock{right:8px;left:8px;top:auto;bottom:8px;width:auto;height:min(47vh,430px);border-radius:16px}
- .nd23-cart-body{padding-bottom:4px}
- .container{width:auto!important;max-width:none!important}
-}
+#nd17Gate .nd17-gate-panel{background:#080808!important;border:1px solid #292929!important}
+#nd17Gate .nd17-gate-panel h2{font-size:26px!important}
+#nd17Gate .nd17-kicker{color:#e50914!important}
+/* ===== FINALIZAÇÃO: SUBTOTAL OCULTO APENAS NA ETAPA FINAL ===== */
+#modalFinalizar .nd-v4-step-content[data-content="4"] .nd-v4-summary:nth-of-type(2)>div:first-child{display:none!important}
+/* ===== BOTÕES ===== */
+.btn.btn-add,.btn-finalizar-pedido,.nd-v4-next,.nd17-gate-main{border-radius:12px!important}
+/* reduz qualquer neon herdado */
+.produto .preco,.preco,.produto .preco-produto,.produto [class*="preco"]{filter:none!important}
 @media(max-width:600px){
- header{min-height:76px!important}
- header .logo{width:150px!important;max-height:58px!important}
- .produto .preco,.produto .preco-produto,.produto [class*="preco"]{font-size:16px!important;padding:4px 8px!important}
- #nd23CartDock{height:42vh}
+ header{min-height:70px!important}
+ header .logo{width:min(150px,48vw)!important;max-height:58px!important}
+ #carrinhoFlutuante{right:13px!important;bottom:13px!important;width:58px!important;height:58px!important}
+ #carrinhoFlutuante .carrinho-flutuante-info strong:after{font-size:25px!important}
+ .produto .preco,.preco,.produto .preco-produto,.produto [class*="preco"]{font-size:15px!important;padding:6px 9px!important}
 }
-@media(prefers-reduced-motion:reduce){.nd23-final,.nd23-controls button{transition:none!important}.nd23-final:hover{transform:none!important}}
 </style>
 
-<script id="nd-etapa23-js">
+<script id="nd-etapa-23-final-js">
 (function(){
 'use strict';
-const $=s=>document.querySelector(s);
-const $$=s=>Array.from(document.querySelectorAll(s));
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
 const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(e){return[]}}
-function subtotal(){return getCart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
-function getAddress(){return {type:localStorage.getItem('nd17_tipo')||'ENTREGA',street:localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd17_numero')||''}}
-function getFee(){const a=getAddress();if(a.type!=='ENTREGA'||!a.street)return 0;const t=window.taxas||{};return Number(t[a.street]||0)}
-function findImg(item){
- const n=norm(item?.nome);
- let card=$$('.produto').find(c=>norm(c.querySelector('h3')?.textContent)===n);
- if(!card) card=$$('.produto').find(c=>{const x=norm(c.querySelector('h3')?.textContent);return n.startsWith(x)||x.startsWith(n)});
- return card?.querySelector('img.produto-imagem,img')?.src||'';
+function cart(){return Array.isArray(window.carrinho)?window.carrinho:[]}
+function getTaxes(){try{return typeof taxas!=='undefined'?taxas:(window.taxas||{})}catch(e){return window.taxas||{}}}
+function subtotal(){return cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
+function addr(){return {type:localStorage.getItem('nd17_tipo')||'ENTREGA',street:localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd17_numero')||''}}
+function fee(){const a=addr();return a.type==='ENTREGA'&&a.street?Number(getTaxes()[a.street]||0):0}
+function imageFor(item){
+ const n=norm(item&&item.nome);
+ const cards=$$('.produto');
+ let best=null,bestScore=-1;
+ cards.forEach(card=>{
+   const h=norm(card.querySelector('h3')?.textContent);
+   const im=card.querySelector('img.produto-imagem, img');
+   if(!im||!im.src||!h)return;
+   let score=-1;
+   if(h===n)score=100;
+   else if(n.startsWith(h))score=90+h.length;
+   else if(h.startsWith(n))score=80+n.length;
+   else if(n.includes(h))score=60+h.length;
+   if(score>bestScore){bestScore=score;best=im.src}
+ });
+ return best||'';
 }
-function buildDock(){
- if($('#nd23CartDock'))return $('#nd23CartDock');
- const d=document.createElement('aside');d.id='nd23CartDock';d.innerHTML=`<div class="nd23-cart-head"><div><div class="nd23-cart-title">🛒 SEU PEDIDO</div><div class="nd23-cart-count" id="nd23Count">0 itens</div></div></div><div class="nd23-cart-body" id="nd23Body"></div><div class="nd23-summary"><div class="nd23-address" id="nd23Address"></div><div class="nd23-row"><span>Subtotal</span><strong id="nd23Sub">R$ 0,00</strong></div><div class="nd23-row"><span>Taxa de entrega</span><strong id="nd23Fee">R$ 0,00</strong></div><div class="nd23-row total"><span>TOTAL</span><strong id="nd23Total">R$ 0,00</strong></div><button class="nd23-final" type="button" id="nd23Finish">FINALIZAR PEDIDO</button><button class="nd23-continue" type="button" id="nd23Continue">CONTINUAR COMPRANDO</button></div>`;
- document.body.appendChild(d);
- $('#nd23Finish').onclick=()=>{if(!getCart().length)return alert('Seu carrinho está vazio.');try{window.irParaFinalizarPedido()}catch(e){$('#modalFinalizar')?.classList.add('ativo')}};
- $('#nd23Continue').onclick=()=>document.querySelector('.categoria')?.scrollIntoView({behavior:'smooth',block:'start'});
- return d;
+function decorateModalCart(){
+ const area=$('#itensCarrinhoModal'); if(!area)return;
+ const rows=Array.from(area.querySelectorAll('.item-carrinho-modal'));
+ rows.forEach((row,index)=>{
+   const item=cart()[index]; if(!item||row.dataset.nd23==='1')return;
+   row.dataset.nd23='1';
+   const img=imageFor(item);
+   if(img){const oldTop=row.querySelector('.item-carrinho-modal-topo'); if(oldTop){oldTop.style.gridColumn='2'; const wrap=document.createElement('div');wrap.className='nd23-cart-image';wrap.style.gridColumn='1';wrap.style.gridRow='1 / span 2';const im=document.createElement('img');im.src=img;im.alt=item.nome;im.loading='lazy';im.style.cssText='width:72px;height:72px;object-fit:cover;border-radius:10px;background:#050505;display:block';wrap.appendChild(im);row.style.display='grid';row.style.gridTemplateColumns='72px 1fr';row.style.gap='10px';row.insertBefore(wrap,row.firstChild)}}
+   const price=money((Number(item.preco)||0)*(Number(item.quantidade)||1));
+   let totalEl=row.querySelector('.nd23-injected-total');
+   if(!totalEl){totalEl=document.createElement('div');totalEl.className='nd23-injected-total';totalEl.style.cssText='color:#39d353;font-size:13px;font-weight:900;margin-top:7px';totalEl.textContent='Total do item: '+price;const top=row.querySelector('.item-carrinho-modal-topo');if(top)top.appendChild(totalEl)}
+ });
 }
-function renderDock(){
- const d=buildDock();const body=$('#nd23Body');if(!body)return;
- const cart=getCart();const count=cart.reduce((s,i)=>s+(Number(i.quantidade)||1),0);const sub=subtotal(),fee=getFee(),total=sub+fee;
- $('#nd23Count').textContent=count+(count===1?' item':' itens');
- $('#nd23Sub').textContent=money(sub);$('#nd23Fee').textContent=money(fee);$('#nd23Total').textContent=money(total);
- const a=getAddress();$('#nd23Address').innerHTML=a.type==='RETIRADA'?'<b>RETIRADA</b><br>Sem taxa de entrega.':'<b>DELIVERY</b><br>'+(a.street||'Endereço não selecionado')+(a.number?', Nº '+a.number:'')+'<br>Taxa: <strong>'+money(fee)+'</strong>';
- if(!cart.length){body.innerHTML='<div class="nd23-empty">Seu carrinho está vazio.<br><small>Adicione produtos para começar seu pedido.</small></div>';return}
- body.innerHTML=cart.map((item,index)=>{
-  const q=Math.max(1,Number(item.quantidade)||1), unit=Number(item.preco)||0, totalItem=unit*q, img=findImg(item);
-  return `<div class="nd23-item"><div>${img?`<img class="nd23-item-img" src="${img}" alt="">`:'<div class="nd23-item-img"></div>'}</div><div class="nd23-item-info"><div class="nd23-item-name">${item.nome||'Produto'}</div><div class="nd23-item-price">${money(unit)} cada</div><div class="nd23-item-total">${money(totalItem)}</div>${item.detalhes?.length?`<div class="nd23-details">↳ ${item.detalhes.join(', ')}</div>`:''}<div class="nd23-controls"><button type="button" data-act="minus" data-i="${index}">−</button><span class="nd23-qty">${q}</span><button type="button" data-act="plus" data-i="${index}">+</button><button type="button" class="nd23-remove" data-act="remove" data-i="${index}">REMOVER</button></div></div></div>`;
- }).join('');
- body.querySelectorAll('button[data-act]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.i);const act=b.dataset.act;if(act==='minus')window.alterarQuantidade?.(i,-1);if(act==='plus')window.alterarQuantidade?.(i,1);if(act==='remove')window.removerItem?.(i);setTimeout(renderAll,30)});
+function forceCart(){
+ const bar=$('#carrinhoFlutuante');if(!bar)return;
+ const count=cart().reduce((s,i)=>s+(Number(i.quantidade)||1),0);
+ bar.classList.toggle('ativo',count>0);
+ const c=$('#contadorCarrinho');if(c)c.textContent=String(count);
+ const t=$('#totalCarrinhoFlutuante');if(t)t.textContent=money(subtotal()+fee());
 }
-function renderModal(){
- try{window.atualizarModalCarrinho?.()}catch(e){}
- const area=$('#itensCarrinhoModal');if(!area)return;const cart=getCart();
- if(!cart.length){area.innerHTML='<div class="vazio">Seu carrinho está vazio.</div>';return}
- area.innerHTML=cart.map((item,index)=>{const q=Math.max(1,Number(item.quantidade)||1),unit=Number(item.preco)||0,total=unit*q,img=findImg(item);return `<div class="item-carrinho-modal"><div style="display:grid;grid-template-columns:58px 1fr auto;gap:10px;align-items:start">${img?`<img src="${img}" alt="">`:'<div style="width:58px;height:58px"></div>'}<div><strong>${item.nome}</strong><small style="display:block;color:#aaa;margin-top:4px">${money(unit)} cada</small>${item.detalhes?.length?`<small style="display:block;color:#bbb;margin-top:4px">↳ ${item.detalhes.join(', ')}</small>`:''}</div><strong style="color:#49d17d">${money(total)}</strong></div><div class="controles-modal"><button type="button" onclick="alterarQuantidade(${index},-1)">−</button><strong>${q}</strong><button type="button" onclick="alterarQuantidade(${index},1)">+</button><button type="button" class="remover" onclick="removerItem(${index})">X</button></div></div>`}).join('');
+function patchFunction(name,after){
+ const old=window[name]; if(typeof old!=='function'||old.__nd23)return;
+ const wrapped=function(){const r=old.apply(this,arguments);try{after()}catch(e){}return r};
+ wrapped.__nd23=true;wrapped.__nd23Original=old;window[name]=wrapped;
 }
-function renderCheckoutSummary(){
- const area=$('#ndV4Items'); if(!area)return; const cart=getCart();
- area.innerHTML=cart.map(i=>{const q=Math.max(1,Number(i.quantidade)||1),unit=Number(i.preco)||0,total=unit*q,img=findImg(i);return `<div style=\"display:grid;grid-template-columns:48px 1fr auto;gap:9px;align-items:start;padding:8px 0;border-bottom:1px solid #222\">${img?`<img src=\"${img}\" alt=\"\" style=\"width:48px;height:48px;object-fit:cover;border-radius:8px\">`:'<div></div>'}<span><b>${i.nome||'Produto'}</b><small style=\"display:block;color:#999;margin-top:3px\">${q}x ${money(unit)}${i.detalhes?.length?'<br>↳ '+i.detalhes.join(', '):''}</small></span><b style=\"color:#49d17d\">${money(total)}</b></div>`}).join('') || '<div class=\"nd23-empty\">Nenhum item.</div>';
-}
-function renderAll(){renderDock();renderModal();renderCheckoutSummary();try{window.cartTotalSync?.()}catch(e){}}
-
 function patchCart(){
- if(window.__nd23CartPatched)return;
- const old=window.atualizarCarrinho;
- if(typeof old==='function'){
-  window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(renderAll,0);return r};
- }
- const oldOpen=window.abrirCarrinho;
- if(typeof oldOpen==='function'){
-  window.abrirCarrinho=function(){renderAll();const r=oldOpen.apply(this,arguments);setTimeout(renderAll,20);return r};
- }
- window.__nd23CartPatched=true;
- renderAll();
+ patchFunction('atualizarCarrinho',()=>{forceCart();setTimeout(decorateModalCart,0);setTimeout(syncTotals,10)});
+ patchFunction('atualizarModalCarrinho',()=>{setTimeout(decorateModalCart,0);syncTotals()});
+ patchFunction('abrirCarrinho',()=>{setTimeout(()=>{forceCart();syncTotals();decorateModalCart()},20)});
+ patchFunction('irParaFinalizarPedido',()=>{setTimeout(()=>{syncTotals();setupAddressInputs();decorateCheckout()},20)});
+ patchFunction('buildCheckout',()=>{setTimeout(()=>{syncTotals();setupAddressInputs();decorateCheckout()},20)});
+ patchFunction('ndSummary',()=>{setTimeout(decorateCheckout,0)});
 }
-function populateStreets(){
- const rates=window.taxas||{};const names=Object.keys(rates);
- ['ruaModal','rua'].forEach(id=>{const s=$('#'+id);if(!s)return;const current=s.value;const keep=s.options.length>1?s.options[0]:null;s.innerHTML='';const opt=document.createElement('option');opt.value='';opt.textContent='Selecione sua rua';s.appendChild(opt);names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n+' — '+money(rates[n]);s.appendChild(o)});if(current&&names.includes(current))s.value=current});
+function syncTotals(){
+ const sub=subtotal(),f=fee(),total=sub+f;
+ [['subtotalCarrinhoModal',sub],['taxaCarrinhoModal',f],['totalCarrinhoModal',total],['ndV4Sub',sub],['ndV4Fee',f],['ndV4Total',total],['subtotal',sub],['taxa',f],['total',total]].forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=money(v)});
+ forceCart();
 }
-function makeList(input,list){if(!input||!list)return;const q=norm(input.value);const rates=window.taxas||{};const arr=Object.keys(rates).filter(n=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(n)&&(!q||norm(n).includes(q))).slice(0,15);list.innerHTML=arr.map(n=>`<div class="nd17-option" data-street="${n.replace(/"/g,'&quot;')}">${n} <span style="color:#49d17d">— ${money(rates[n])}</span></div>`).join('');list.classList.toggle('show',!!arr.length&&!!q);list.querySelectorAll('[data-street]').forEach(o=>o.onclick=()=>{input.value=o.dataset.street;input.dataset.value=o.dataset.street;list.classList.remove('show');input.dispatchEvent(new Event('change',{bubbles:true}));if(input.id==='nd17GateStreet'){$('#nd17GateNumber')?.focus()}else{const sel=input.id==='ruaBuscaModal'?$('#ruaModal'):$('#rua');if(sel){sel.value=o.dataset.street;sel.dispatchEvent(new Event('change',{bubbles:true}))}}renderAll()});}
-function setupAddressSearch(){
- populateStreets();
- const gate=$('#nd17GateStreet'),gateList=$('#nd17GateList');
- if(gate&&!gate.dataset.nd23){gate.dataset.nd23='1';gate.addEventListener('input',()=>makeList(gate,gateList));gate.addEventListener('focus',()=>makeList(gate,gateList));}
- [['ruaBuscaModal','ruaModal'],['ruaBusca','rua']].forEach(([iid,sid])=>{const input=$('#'+iid);if(!input)return;let wrap=input.parentElement;if(!wrap.classList.contains('nd23-search-wrap')){wrap=document.createElement('div');wrap.className='nd23-search-wrap';wrap.style.position='relative';input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);const list=document.createElement('div');list.className='nd23-search-list';wrap.appendChild(list)}const list=wrap.querySelector('.nd23-search-list');if(input.dataset.nd23)return;input.dataset.nd23='1';input.addEventListener('input',()=>makeList(input,list));input.addEventListener('focus',()=>makeList(input,list));});
+function setupAddressInputs(){
+ const saved=addr();
+ const type=$('#tipoPedidoModal');if(type)type.value=saved.type==='RETIRADA'?'RETIRADA':'ENTREGA';
+ const rua=$('#ruaModal');if(rua&&saved.street)rua.value=saved.street;
+ const num=$('#numeroModal');if(num&&saved.number)num.value=saved.number;
+ const type2=$('#tipoPedido');if(type2)type2.value=saved.type==='RETIRADA'?'RETIRADA':'ENTREGA';
+ const rua2=$('#rua');if(rua2&&saved.street)rua2.value=saved.street;
+ const num2=$('#numero');if(num2&&saved.number)num2.value=saved.number;
 }
-function setupWelcome(){
+function renderSuggestions(input,list){
+ if(!input||!list)return;
+ const q=norm(input.value);
+ const entries=Object.keys(getTaxes()).filter(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k));
+ const found=entries.filter(k=>!q||norm(k).includes(q)).slice(0,20);
+ list.innerHTML='';
+ found.forEach(street=>{const d=document.createElement('div');d.className='nd17-option';d.innerHTML='<span>'+street+'</span><strong>'+money(getTaxes()[street])+'</strong>';d.addEventListener('mousedown',e=>{e.preventDefault();input.value=street;input.dataset.value=street;list.classList.remove('show');input.dispatchEvent(new Event('change',{bubbles:true}));syncTotals()});list.appendChild(d)});
+ list.classList.toggle('show',found.length>0 && (q.length>0 || document.activeElement===input));
+}
+function bindAddr(input,list){if(!input||!list||input.dataset.nd23addr)return;input.dataset.nd23addr='1';input.addEventListener('input',()=>renderSuggestions(input,list));input.addEventListener('focus',()=>renderSuggestions(input,list));input.addEventListener('keydown',e=>{if(e.key==='Escape')list.classList.remove('show')});}
+function ensureList(input){if(!input)return null;let list=input.parentElement.querySelector('.nd17-inline-list');if(!list){const wrap=input.parentElement;wrap.style.position='relative';list=document.createElement('div');list.className='nd17-inline-list';wrap.appendChild(list)}return list}
+function setupAddressInputs(){
+ const saved=addr();
+ ['#tipoPedidoModal','#tipoPedido'].forEach(sel=>{const e=$(sel);if(e)e.value=saved.type==='RETIRADA'?'RETIRADA':'ENTREGA'});
+ ['#ruaModal','#rua'].forEach(sel=>{const e=$(sel);if(e&&saved.street)e.value=saved.street});
+ ['#numeroModal','#numero'].forEach(sel=>{const e=$(sel);if(e&&saved.number)e.value=saved.number});
+ bindAddr($('#nd17GateStreet'),$('#nd17GateList'));bindAddr($('#ruaBuscaModal'),ensureList($('#ruaBuscaModal')));bindAddr($('#ruaBusca'),ensureList($('#ruaBusca')));
+}
+function decorateCheckout(){
+ const items=$('#ndV4Items');if(!items)return;
+ // O resumo já tem os valores; esta camada só garante o preço individual/total de cada item.
+ cart().forEach((it,i)=>{
+   const rows=Array.from(items.children);const row=rows[i];if(!row)return;
+   if(!row.querySelector('.nd23-check-price')){const s=document.createElement('div');s.className='nd23-check-price';s.style.cssText='color:#39d353;font-weight:800;font-size:12px;margin-top:3px';s.textContent=money((Number(it.preco)||0)*(Number(it.quantidade)||1));row.appendChild(s)}
+ });
+}
+function welcomeGate(){
  const g=$('#nd17Gate');if(!g)return;
- const panel=g.querySelector('.nd17-gate-panel');if(panel&&!panel.querySelector('.nd23-welcome')){const w=document.createElement('div');w.className='nd23-welcome';w.textContent='BEM-VINDO À ND BURGS';panel.prepend(w);const h=panel.querySelector('h2');if(h)h.textContent='Antes de começar, onde vamos entregar?';}
- const a=getAddress();const street=$('#nd17GateStreet'),num=$('#nd17GateNumber');if(street&&a.street)street.value=a.street;if(num&&a.number)num.value=a.number;
- if(!sessionStorage.getItem('nd23_welcome_seen')){sessionStorage.setItem('nd23_welcome_seen','1');setTimeout(()=>{g.classList.add('show');document.body.style.overflow='hidden';street?.focus()},80)}
+ const h=g.querySelector('h2'),p=g.querySelector('p');
+ if(h)h.textContent='BEM-VINDO À ND BURGS';
+ if(p)p.textContent='Antes de começar, informe onde deseja receber seu pedido. Assim já calculamos sua taxa de entrega. Se preferir, escolha retirada no local.';
 }
-function patchGateButtons(){
- const save=$('#nd17GateSave'),pickup=$('#nd17GatePickup');
- if(save&&!save.dataset.nd23){save.dataset.nd23='1';save.onclick=()=>{const street=norm($('#nd17GateStreet')?.value),num=$('#nd17GateNumber')?.value.trim()||'';const key=Object.keys(window.taxas||{}).find(x=>norm(x)===street);if(!key)return alert('Selecione uma rua da lista de endereços.');if(!num)return alert('Digite o número do endereço.');localStorage.setItem('nd17_tipo','ENTREGA');localStorage.setItem('nd17_rua',key);localStorage.setItem('nd17_numero',num);$('#nd17Gate')?.classList.remove('show');document.body.style.overflow='';try{window.ensureMainForms?.()}catch(e){};renderAll();}}
- if(pickup&&!pickup.dataset.nd23){pickup.dataset.nd23='1';pickup.onclick=()=>{localStorage.setItem('nd17_tipo','RETIRADA');localStorage.setItem('nd17_rua','');localStorage.setItem('nd17_numero','');$('#nd17Gate')?.classList.remove('show');document.body.style.overflow='';renderAll();}}
-}
-function updateAddressBar(){
- const a=getAddress(),b=$('#nd17AddressBar');if(!b)return;
- const f=getFee();b.innerHTML=a.type==='RETIRADA'?'<span><strong>RETIRADA NO LOCAL</strong><br><small>Taxa: R$ 0,00</small></span><button class="nd17-address-edit" type="button">ALTERAR</button>':'<span><strong>'+a.street+(a.number?', Nº '+a.number:'')+'</strong><br><small>Taxa de entrega: '+money(f)+'</small></span><button class="nd17-address-edit" type="button">ALTERAR</button>';
- b.querySelector('button')?.addEventListener('click',()=>{$('#nd17Gate')?.classList.add('show');setupWelcome()},{once:true});
-}
-function init(){
- patchCart();setupAddressSearch();patchGateButtons();setupWelcome();updateAddressBar();renderAll();
- setTimeout(()=>{patchCart();setupAddressSearch();patchGateButtons();updateAddressBar();renderAll()},500);
- setInterval(()=>{setupAddressSearch();patchGateButtons();updateAddressBar();renderDock()},1500);
-}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+function refresh(){patchCart();setupAddressInputs();syncTotals();decorateCheckout();decorateModalCart();welcomeGate();forceCart();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)});else{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)}
+// Atualização leve quando o carrinho/checkout muda, sem setInterval agressivo.
+let timer=0;const obs=new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{forceCart();syncTotals();decorateModalCart()},80)});obs.observe(document.body,{subtree:true,childList:true,characterData:true});
 })();
 </script>
 
