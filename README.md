@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R8">
+<meta name="nd-site-version" content="20260904-R9">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260904-R8";
+  const ND_SITE_VERSION = "20260904-R9";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -6374,79 +6374,94 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
 
 
 
-<!-- ETAPA 22 — BOTÕES FUTURISTAS ND BURGS | camada visual, sem alterar funções -->
-<style id="nd-etapa-22-buttons">
-:root{--nd22-blue:#168cff;--nd22-blue2:#0066ff;--nd22-dark:#080b10;--nd22-border:rgba(22,140,255,.55)}
-/* Botões de produto */
-.btn.btn-add,
-.nd-r3-add,
-.nd-r7-add,
-.r11-add,
-button[data-add],
-button[data-batata]{
-  position:relative!important; overflow:hidden!important; isolation:isolate;
-  background:linear-gradient(180deg,#111923 0%,#0a0f16 100%)!important;
-  color:#fff!important; border:1px solid rgba(22,140,255,.48)!important;
-  border-radius:14px!important; box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 4px 14px rgba(0,0,0,.42)!important;
-  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+<!-- ETAPA 22 CORRIGIDA — VISUAL + CARRINHO + ENDEREÇO INICIAL -->
+<style id="nd-etapa-22-corrigida">
+:root{--nd22-red:#e50914;--nd22-red2:#ff3038;--nd22-dark:#090909}
+/* PREÇOS: somente vermelho, sem neon */
+.preco,.produto .preco,.produto .preco-produto,.produto [class*="preco"],#subtotalCarrinhoModal,#taxaCarrinhoModal,#totalCarrinhoModal,#ndV4Sub,#ndV4Fee,#ndV4Total{
+  color:var(--nd22-red2)!important;text-shadow:none!important;filter:none!important;
 }
-.btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before{
-  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 15%,rgba(255,255,255,.13) 42%,transparent 68%);
-  transform:translateX(-120%);transition:transform .55s ease;
+/* CARRINHO: sempre acessível e visível */
+#carrinhoFlutuante{
+  z-index:10050!important;opacity:1!important;pointer-events:auto!important;
+  transform:translateX(-50%) translateY(0)!important;
+  border-color:var(--nd22-red)!important;background:#0b0b0c!important;
 }
-.btn.btn-add::after,.nd-r3-add::after,.nd-r7-add::after,.r11-add::after,button[data-add]::after,button[data-batata]::after{
-  content:"";position:absolute;left:12%;right:12%;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,transparent,var(--nd22-blue),transparent);opacity:.7;transition:opacity .2s ease,transform .2s ease;
+#carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important;transform:translateX(-50%) translateY(0)!important}
+#carrinhoFlutuante .carrinho-flutuante-total{color:var(--nd22-red2)!important;text-shadow:none!important}
+.btn-ver-carrinho{background:linear-gradient(180deg,#e50914,#b80712)!important;color:#fff!important;border:1px solid #ff4b51!important;box-shadow:0 6px 18px rgba(229,9,20,.20)!important}
+/* BOTÕES PRINCIPAIS FUTURISTAS, SEM AFETAR FAVORITOS */
+.produto .btn-add,.produto button[onclick*="adicionar("],.produto button[onclick*="abrirPersonalizacao"]{
+ position:relative!important;overflow:hidden!important;background:linear-gradient(180deg,#ff3038,#c80712)!important;color:#fff!important;border:1px solid #ff6268!important;border-radius:13px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 7px 20px rgba(229,9,20,.20)!important;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease!important;
 }
-.btn.btn-add:hover,.nd-r3-add:hover,.nd-r7-add:hover,.r11-add:hover,button[data-add]:hover,button[data-batata]:hover{
-  background:linear-gradient(180deg,#0b8cff 0%,#005ee8 100%)!important;
-  border-color:#49a9ff!important;transform:translateY(-2px)!important;
-  box-shadow:0 8px 24px rgba(0,110,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
+.produto .btn-add:hover,.produto button[onclick*="adicionar("]:hover,.produto button[onclick*="abrirPersonalizacao"]:hover{transform:translateY(-2px)!important;filter:brightness(1.08)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 25px rgba(229,9,20,.30)!important}
+.produto .btn-add:active,.produto button[onclick*="adicionar("]:active,.produto button[onclick*="abrirPersonalizacao"]:active{transform:scale(.97)!important}
+/* não mexer nos corações */
+.produto .nd-fav,.produto button[aria-label*="favor" i],.produto button[title*="favor" i]{background:initial!important;border-color:initial!important;box-shadow:none!important;transform:none!important}
+/* CTA FINAL / WHATSAPP */
+#modalCarrinho .btn-finalizar-pedido,#modalFinalizar .nd-v4-next,#modalFinalizar .btn-finalizar-modal,#modalFinalizar button[onclick*="finalizarPedido"],#modalFinalizar button[onclick*="WhatsApp"],#modalFinalizar button[onclick*="whatsapp"],.nd17-gate-main{
+ position:relative!important;overflow:hidden!important;background:linear-gradient(180deg,#ff3038,#c80712)!important;color:#fff!important;border:1px solid #ff6268!important;border-radius:14px!important;box-shadow:0 9px 26px rgba(229,9,20,.25)!important;
 }
-.btn.btn-add:hover::before,.nd-r3-add:hover::before,.nd-r7-add:hover::before,.r11-add:hover::before,button[data-add]:hover::before,button[data-batata]:hover::before{transform:translateX(120%)}
-.btn.btn-add:active,.nd-r3-add:active,.nd-r7-add:active,.r11-add:active,button[data-add]:active,button[data-batata]:active{transform:translateY(0) scale(.975)!important}
-/* CTA principal / WhatsApp */
-.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,
-button[onclick*="finalizarPedido"],button[onclick*="finalizarPedidoModal"],button[onclick*="WhatsApp"],button[onclick*="whatsapp"]{
-  position:relative!important;overflow:hidden!important;isolation:isolate;
-  background:linear-gradient(135deg,#087dff 0%,#0057d9 55%,#003fa8 100%)!important;
-  color:#fff!important;border:1px solid #4aaaff!important;border-radius:15px!important;
-  box-shadow:0 8px 26px rgba(0,105,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
-  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease!important;
+#modalCarrinho .btn-finalizar-pedido:hover,#modalFinalizar .nd-v4-next:hover,#modalFinalizar .btn-finalizar-modal:hover,#modalFinalizar button[onclick*="finalizarPedido"]:hover,.nd17-gate-main:hover{filter:brightness(1.08)!important;transform:translateY(-2px)!important}
+/* CATEGORIAS LATERAIS: do topo ao fim da página */
+@media(min-width:901px){
+ body{padding-left:235px!important}
+ #nd18Sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;transform:none!important;width:215px!important;max-height:none!important;height:100vh!important;overflow-y:auto!important;overflow-x:hidden!important;border-radius:0 18px 18px 0!important;border:0!important;border-right:1px solid #252525!important;background:#050505!important;padding:88px 12px 22px!important;box-shadow:12px 0 35px rgba(0,0,0,.55)!important;z-index:99990!important}
+ #nd18Sidebar .nd18-title{font-size:12px!important;color:#888!important;padding:8px 10px 12px!important}
+ #nd18Sidebar button{width:100%!important;margin:4px 0!important;padding:12px!important;background:#101010!important;color:#ddd!important;border:1px solid #242424!important;border-radius:11px!important}
+ #nd18Sidebar button:hover,#nd18Sidebar button.ativo{background:linear-gradient(90deg,#2a0b0d,#14090a)!important;border-color:var(--nd22-red)!important;color:#fff!important;transform:translateX(3px)!important}
 }
-.nd-v4-primary:hover,.nd-v4-next:hover,.nd17-gate-main:hover,.btn-finalizar-pedido:hover,.nd-fx-cart-open:hover,.ndFx-action.primary:hover,#ndFxSendReview:hover,
-button[onclick*="finalizarPedido"]:hover,button[onclick*="finalizarPedidoModal"]:hover,button[onclick*="WhatsApp"]:hover,button[onclick*="whatsapp"]:hover{
-  filter:brightness(1.13);transform:translateY(-2px)!important;box-shadow:0 12px 32px rgba(0,105,255,.38),inset 0 1px 0 rgba(255,255,255,.32)!important;
+@media(max-width:900px){
+ #nd18Sidebar{position:sticky!important;top:0!important;width:100%!important;max-height:none!important;height:auto!important;transform:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;padding:8px!important;border-radius:0!important;z-index:99990!important}
+ #nd18Sidebar .nd18-title{display:none!important}
+ #nd18Sidebar button{flex:0 0 auto!important;width:auto!important;margin:0 3px!important;white-space:nowrap!important}
 }
-/* Varredura futurista */
-.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after,
-button[onclick*="finalizarPedido"]::after,button[onclick*="finalizarPedidoModal"]::after,button[onclick*="WhatsApp"]::after,button[onclick*="whatsapp"]::after{
-  content:"";position:absolute;top:0;bottom:0;width:45%;left:-55%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.24),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none;
-}
-.nd-v4-primary:hover::after,.nd-v4-next:hover::after,.nd17-gate-main:hover::after,.btn-finalizar-pedido:hover::after,.nd-fx-cart-open:hover::after,.ndFx-action.primary:hover::after,#ndFxSendReview:hover::after,
-button[onclick*="finalizarPedido"]:hover::after,button[onclick*="finalizarPedidoModal"]:hover::after,button[onclick*="WhatsApp"]:hover::after,button[onclick*="whatsapp"]:hover::after{left:115%}
-/* Categorias: premium, sem mudar posição/funcionalidade */
-.categoria-btn{transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important}
-.categoria-btn:hover{transform:translateX(4px)!important;background:linear-gradient(90deg,rgba(0,102,255,.22),rgba(0,102,255,.06))!important;border-color:rgba(22,140,255,.65)!important;box-shadow:0 5px 18px rgba(0,80,220,.16)!important}
-/* Preços continuam brilhando, sem alterar o texto */
-.preco{ text-shadow:0 0 7px rgba(22,140,255,.7),0 0 18px rgba(22,140,255,.28)!important; }
-/* Acessibilidade */
-button:focus-visible{outline:2px solid #49a9ff!important;outline-offset:3px!important}
-@media (prefers-reduced-motion:reduce){
-  .btn.btn-add,.nd-r3-add,.nd-r7-add,.r11-add,button[data-add],button[data-batata],.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,.categoria-btn{transition:none!important}
-  .btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before,.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after{display:none!important}
-}
+/* WELCOME + ENDEREÇO */
+#nd17Gate{z-index:100000!important;background:rgba(0,0,0,.97)!important}
+.nd17-gate-panel{border:1px solid var(--nd22-red)!important;background:#080808!important;box-shadow:0 25px 80px rgba(0,0,0,.85)!important}
+.nd17-gate-panel h2{color:#fff!important}
+.nd17-gate-panel p{color:#aaa!important}
+.nd17-field input{border-color:#292929!important;background:#111!important}
+.nd17-field input:focus{border-color:var(--nd22-red)!important;box-shadow:0 0 0 2px rgba(229,9,20,.10)!important}
+.nd17-gate-retirada{width:100%!important;margin-top:9px!important;padding:13px!important;border-radius:12px!important;background:#171717!important;color:#fff!important;border:1px solid #333!important;font-weight:900!important;cursor:pointer!important}
+.nd17-gate-retirada:hover{border-color:var(--nd22-red)!important;background:#211012!important}
+#nd17AddressBar{border-color:#292929!important;background:#090909!important}
+#nd17AddressBar small{color:#ff5a60!important}
+/* nada de neon nos preços */
+@media(prefers-reduced-motion:reduce){.produto .btn-add,.produto button[onclick*="adicionar("],.produto button[onclick*="abrirPersonalizacao"],#modalCarrinho .btn-finalizar-pedido,#modalFinalizar .nd-v4-next,.nd17-gate-main{transition:none!important}}
 </style>
-<script>
+<script id="nd-etapa-22-corrigida-js">
 (function(){
-  'use strict';
-  /* Apenas feedback visual. Não intercepta onclicks nem funções do sistema. */
-  document.addEventListener('pointerdown',function(e){
-    const b=e.target.closest('button'); if(!b) return;
-    b.classList.remove('nd22-pressed'); void b.offsetWidth; b.classList.add('nd22-pressed');
-    setTimeout(()=>b.classList.remove('nd22-pressed'),180);
-  },{passive:true});
+ 'use strict';
+ function ready(){
+   /* Mensagem de boas-vindas + endereço obrigatório antes de iniciar.
+      O endereço salvo é reaproveitado e a taxa fica calculada automaticamente. */
+   const gate=document.getElementById('nd17Gate');
+   const title=gate?.querySelector('.nd17-gate-panel h2');
+   const p=gate?.querySelector('.nd17-gate-panel p');
+   const kicker=gate?.querySelector('.nd17-kicker');
+   const save=document.getElementById('nd17GateSave');
+   const pickup=document.getElementById('nd17GatePickup');
+   if(kicker) kicker.textContent='BEM-VINDO À ND BURGS';
+   if(title) title.textContent='Olá! Vamos preparar seu pedido?';
+   if(p) p.textContent='Antes de começar, informe seu endereço para calcularmos a taxa de entrega. Se preferir, escolha retirada no local.';
+   if(save) save.textContent='SALVAR ENDEREÇO E COMEÇAR';
+   if(pickup) pickup.textContent='VOU RETIRAR NO LOCAL';
+   const street=document.getElementById('nd17GateStreet');
+   const num=document.getElementById('nd17GateNumber');
+   const tipo=localStorage.getItem('nd17_tipo');
+   if(tipo==='ENTREGA'){if(street)street.value=localStorage.getItem('nd17_rua')||'';if(num)num.value=localStorage.getItem('nd17_numero')||'';}
+   /* Sempre mostra a tela inicial ao abrir. O cliente pode confirmar o endereço salvo ou alterar. */
+   if(gate){gate.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{if(street && !street.value)street.focus();else street?.focus()},100)}
+   /* Se houver endereço salvo, atualiza a taxa e a barra imediatamente. */
+   try{if(typeof window.cartTotalSync==='function')window.cartTotalSync();}catch(e){}
+   /* Garantia visual do carrinho mesmo vazio. */
+   const cart=document.getElementById('carrinhoFlutuante');
+   if(cart){cart.style.opacity='1';cart.style.pointerEvents='auto';cart.style.transform='translateX(-50%) translateY(0)';}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();
 })();
 </script>
-
 </body>
 </html>
