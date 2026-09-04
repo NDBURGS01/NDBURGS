@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R22A">
+<meta name="nd-site-version" content="20260904-R8">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260904-R22A";
+  const ND_SITE_VERSION = "20260904-R8";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -1988,7 +1988,7 @@ const taxas = {
 "RUA PADRE LUIZ MARTINE":5,
 "RUA MADRESSILVAS":6,
 "RUA MARIO ANDREATINI":4,
-"RUA METAL LEVER":5,
+"RUA METAL LEVE":5,
 "RUA MIL FOLHAS":9,
 "RUA MIRAMAR":5,
 "RUA MOÇAMBIQUE":9,
@@ -2038,9 +2038,7 @@ const taxas = {
 "RUA ZIEMBINSKI":7,
 "VIELA DOS FISCHERS":9,
 "ESTRADA DAS GRAÇAS":4,
-"IFOOD":0,
 "RUA NOVA TRINDADE":6,
-"99FOOD":0,
 "RUA APENINOS":12,
 "RUA VERA CRUZ":5,
 "MERCADO LIVRE":15,
@@ -2328,7 +2326,11 @@ doces:[
 let produtoModalAtual=null;
 let toastTimer=null;
 
-function mostrarToast(texto){ /* feedback antigo desativado para evitar mensagens duplicadas */ }
+function mostrarToast(texto){ /* feedback antigo desativado para evitar mensagens duplicadas */ },
+1600
+);
+
+}
 
 /* =========================
    FECHAR MODAL DE PERSONALIZAÇÃO
@@ -6214,7 +6216,7 @@ header .logo{display:none!important}
    const f=tipo==='ENTREGA'?Number((window.taxas||{})[aStreet]||0):0,sub=subtotal(),total=sub+f;if(sub<11.90)return alert('O pedido mínimo é R$ 11,90. Faltam '+money(11.90-sub)+'.');
    const lines=['NOVO PEDIDO - ND BURGS','CLIENTE: '+nome,'WHATSAPP: '+tel,'TIPO: '+(tipo==='ENTREGA'?'DELIVERY':'RETIRADA')];
    if(tipo==='ENTREGA'){lines.push('ENDEREÇO: '+aStreet+', Nº '+numero);if(comp)lines.push('COMPLEMENTO: '+comp)}
-   lines.push('','ITENS DO PEDIDO');cart().forEach(i=>{lines.push((Number(i.quantidade)||1)+'x '+i.nome+' - '+money((Number(i.preco)||0)*(Number(i.quantidade)||1)));if(i.detalhes?.length)lines.push('  '+i.detalhes.join(', '))});
+   lines.push('','ITENS DO PEDIDO');cart().forEach(i=>{lines.push((Number(i.quantidade)||1)+'x '+i.nome+' - '+money((Number(i.preco)||0)*(Number(i.quantidade)||1));if(i.detalhes?.length)lines.push('  '+i.detalhes.join(', '))});
    lines.push('','SUBTOTAL: '+money(sub),'TAXA DE ENTREGA: '+money(f),'TOTAL DO PEDIDO: '+money(total),'PAGAMENTO: '+pagamento);if(pagamento==='DINHEIRO'&&troco)lines.push('TROCO PARA: '+money(Number(troco)));if(obs)lines.push('OBSERVAÇÃO: '+obs);lines.push('','ND BURGS');
    try{localStorage.setItem('ndburgs_ultimo_pedido',JSON.stringify(cart()))}catch(e){}
    try{if(Array.isArray(window.carrinho))window.carrinho.length=0;localStorage.removeItem('carrinho');localStorage.removeItem('ndburgs_carrinho')}catch(e){}
@@ -6447,151 +6449,178 @@ button:focus-visible{outline:2px solid #49a9ff!important;outline-offset:3px!impo
 </script>
 
 
-
-<!-- ETAPA 22A — CORREÇÕES SOLICITADAS | carrinho + sidebar integral + preços vermelhos + entrada com endereço -->
-<style id="nd-etapa-22a-fixes">
+<style id="nd-etapa23-final-fix">
+:root{--nd23-blue:#1677ff;--nd23-green:#25d366;--nd23-red:#ff3b30;--nd23-panel:#080808;--nd23-line:#25252a}
 html,body{background:#000!important;background-image:none!important}
-/* PREÇOS: vermelho sólido, SEM NEON */
-.produto .preco,.produto .preco-produto,.produto [class*="preco"],.preco{color:#ff2b2b!important;text-shadow:none!important;filter:none!important}
-#nd17CartAddress strong,#nd17CartAddress{ }
-/* CARRINHO FLUTUANTE — reativado (uma camada antiga estava escondendo) */
-.carrinho-flutuante{display:flex!important;opacity:0;pointer-events:none;transform:translateX(-50%) translateY(150px);visibility:hidden;}
-.carrinho-flutuante.ativo{display:flex!important;opacity:1!important;pointer-events:auto!important;transform:translateX(-50%) translateY(0)!important;visibility:visible!important}
-.btn-ver-carrinho{background:linear-gradient(135deg,#087dff,#0057d9)!important;color:#fff!important;border:1px solid #49a9ff!important;box-shadow:0 7px 22px rgba(0,105,255,.28)!important}
-/* CATEGORIAS — coluna lateral fixa do topo ao fim da tela, com rolagem própria */
+/* LOGO */
+header .logo{display:none!important}
+.nd17-brand{display:flex!important;justify-content:center!important;align-items:center!important;padding:8px 0 4px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.nd17-brand img{width:150px!important;height:auto!important;max-height:70px!important;object-fit:contain!important;border:0!important;border-radius:0!important;filter:none!important;box-shadow:none!important;background:transparent!important}
+/* PREÇOS: verde, destaque controlado, sem neon */
+.produto .preco,.produto .preco-produto,.produto [class*="preco"],.preco{color:#39d353!important;font-size:18px!important;font-weight:800!important;letter-spacing:.2px!important;text-shadow:none!important;filter:none!important}
+@media(max-width:900px){.produto .preco,.produto .preco-produto,.produto [class*="preco"],.preco{font-size:17px!important}}
+/* SIDEBAR ESQUERDA — fixa e acompanha toda a página */
 @media(min-width:901px){
- body{padding-left:230px!important}
- #nd18Sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:215px!important;height:100vh!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;transform:none!important;margin:0!important;padding:22px 12px 22px!important;border-radius:0!important;border:0!important;border-right:1px solid #222!important;background:#050505!important;z-index:99999!important;box-shadow:8px 0 30px rgba(0,0,0,.45)!important}
- #nd18Sidebar .nd18-title{padding:8px 10px 14px!important;margin-bottom:8px!important;color:#fff!important;border-bottom:1px solid #222!important}
- #nd18Sidebar button{width:100%!important;margin:4px 0!important;padding:12px 12px!important;border-radius:10px!important;background:#101010!important;color:#d7d7d7!important;border:1px solid #222!important;text-align:left!important;transform:none!important}
- #nd18Sidebar button:hover,#nd18Sidebar button.ativo{background:#1677ff!important;color:#fff!important;border-color:#1677ff!important;transform:translateX(3px)!important}
+ body{padding-left:225px!important;padding-right:300px!important}
+ #nd18Sidebar{position:fixed!important;left:14px!important;top:96px!important;bottom:14px!important;transform:none!important;width:195px!important;height:auto!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;background:#050505!important;border:1px solid #222!important;border-radius:16px!important;padding:10px!important;z-index:9998!important;box-sizing:border-box!important}
+ #nd18Sidebar .nd18-title{display:block!important}
+ #nd18Sidebar button{width:100%!important;flex:0 0 auto!important}
 }
+/* CARRINHO FIXO À DIREITA */
+@media(min-width:901px){
+ #carrinhoFlutuante{position:fixed!important;right:14px!important;left:auto!important;top:96px!important;bottom:14px!important;transform:none!important;width:270px!important;max-width:270px!important;height:auto!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:9px!important;padding:14px!important;box-sizing:border-box!important;background:#070707!important;border:1px solid #242424!important;border-radius:16px!important;box-shadow:0 15px 45px rgba(0,0,0,.7)!important;opacity:1!important;pointer-events:auto!important;z-index:9997!important;overflow:hidden!important}
+ #carrinhoFlutuante .carrinho-flutuante-info{display:block!important;flex:none!important;padding-bottom:9px!important;border-bottom:1px solid #222!important}
+ #carrinhoFlutuante .carrinho-flutuante-info strong{font-size:15px!important;color:#fff!important}
+ #carrinhoFlutuante .carrinho-flutuante-info span{font-size:11px!important;color:#999!important}
+ #carrinhoFlutuante .carrinho-flutuante-direita{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:7px!important;margin-top:auto!important}
+ #carrinhoFlutuante .carrinho-flutuante-total{color:#39d353!important;font-size:18px!important;text-align:center!important}
+ #carrinhoFlutuante .btn-ver-carrinho{width:100%!important;min-height:44px!important;background:#1677ff!important;color:#fff!important;border:0!important;border-radius:11px!important}
+ #nd23SideItems{display:block!important;flex:1 1 auto!important;overflow-y:auto!important;min-height:70px!important;padding:2px 1px!important}
+}
+#nd23SideItems{display:none}
+.nd23-side-empty{color:#777;text-align:center;font-size:11px;padding:20px 8px}
+.nd23-side-item{padding:10px 2px;border-bottom:1px solid #1e1e22}
+.nd23-side-name{font-size:12px;font-weight:700;color:#fff;line-height:1.25}
+.nd23-side-meta{font-size:10px;color:#888;margin-top:4px;line-height:1.35}
+.nd23-side-row{display:flex;justify-content:space-between;gap:8px;margin-top:5px;font-size:11px}
+.nd23-side-row strong{color:#39d353}
+.nd23-side-address{padding:8px 9px;background:#0d0d0f;border:1px solid #1f1f22;border-radius:9px;color:#aaa;font-size:10px;line-height:1.35}
+.nd23-side-address strong{color:#fff}
+/* modal e checkout sempre visíveis quando ativados */
+#modalCarrinho.ativo,#modalFinalizar.ativo{display:flex!important;visibility:visible!important;opacity:1!important}
+#modalCarrinho:not(.ativo),#modalFinalizar:not(.ativo){visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+#modalCarrinho .painel-carrinho,#modalFinalizar .painel-finalizar{max-height:94vh!important;overflow-y:auto!important}
+/* Valores de todos os itens */
+.item-carrinho-modal-topo>strong,.item-carrinho .item-info>strong{color:#fff!important}
+.item-carrinho-modal-topo>small,.item-carrinho .item-info>small{display:block!important}
+#subtotalCarrinhoModal,#taxaCarrinhoModal,#totalCarrinhoModal,#ndV4Sub,#ndV4Fee,#ndV4Total{font-variant-numeric:tabular-nums!important;text-shadow:none!important}
+#totalCarrinhoModal,#ndV4Total{color:#39d353!important;text-shadow:none!important}
+/* busca de ruas */
+.nd23-suggest-wrap{position:relative!important;width:100%!important}
+.nd23-suggest-list{position:absolute!important;left:0!important;right:0!important;top:calc(100% + 4px)!important;z-index:100003!important;display:none;background:#0b0b0c!important;border:1px solid #303036!important;border-radius:11px!important;max-height:230px!important;overflow-y:auto!important;box-shadow:0 15px 35px rgba(0,0,0,.8)!important}
+.nd23-suggest-list.show{display:block!important}
+.nd23-suggest-option{padding:11px 12px!important;color:#eee!important;border-bottom:1px solid #202024!important;font-size:12px!important;cursor:pointer!important;display:flex!important;justify-content:space-between!important;gap:10px!important}
+.nd23-suggest-option:hover{background:#1677ff!important;color:#fff!important}
+.nd23-suggest-option b{color:#39d353!important;white-space:nowrap!important}
+/* boas-vindas */
+#nd17Gate{background:rgba(0,0,0,.97)!important}
+#nd17Gate .nd17-gate-panel{border:1px solid #292929!important;background:#070707!important}
+.nd23-welcome{font-size:10px;font-weight:900;letter-spacing:1.5px;color:#1677ff;margin-bottom:7px}
+.nd23-saved{display:none;margin:0 0 12px;padding:9px 10px;border:1px solid #1f1f22;border-radius:10px;background:#0d0d0f;color:#aaa;font-size:11px;line-height:1.35}
+.nd23-saved strong{color:#39d353}
 @media(max-width:900px){
- #nd18Sidebar{position:sticky!important;top:0!important;width:100%!important;max-height:none!important;height:auto!important;transform:none!important;margin:0!important;border-radius:0 0 12px 12px!important}
+ body{padding-left:0!important;padding-right:0!important;padding-bottom:90px!important}
+ #nd18Sidebar{position:sticky!important;top:0!important;bottom:auto!important;left:auto!important;transform:none!important;width:100%!important;max-height:none!important;overflow-x:auto!important;overflow-y:hidden!important;display:flex!important;flex-direction:row!important}
+ #nd18Sidebar button{flex:0 0 auto!important;width:auto!important;white-space:nowrap!important}
+ #carrinhoFlutuante{display:none!important}
+ #nd23SideItems{display:none!important}
 }
-/* Favoritos nunca recebem o estilo azul dos botões */
-.nd-fav,.nd-fav:hover,.nd-fav:active{background:transparent!important;color:inherit!important;border-color:transparent!important;box-shadow:none!important;transform:none!important;filter:none!important}
-/* botão de fechar permanece vermelho */
-.fechar-carrinho,.btn-fechar-finalizar,.modal-fechar{background:#8b0000!important;color:#fff!important}
+@media(prefers-reduced-motion:reduce){.nd23-suggest-list,.nd23-suggest-option{transition:none!important}}
 </style>
-<script id="nd-etapa-22a-entry">
+<script id="nd-etapa23-final-js">
 (function(){
- 'use strict';
- function money(v){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}
- function norm(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
- function rates(){return window.taxas||{}}
- function getAddr(){return {type:localStorage.getItem('nd17_tipo')||'',street:localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd17_numero')||''}}
- function setForm(a){
-   const t=document.getElementById('tipoPedido');if(t)t.value=a.type==='RETIRADA'?'RETIRADA':'ENTREGA';
-   const r=document.getElementById('rua');if(r&&a.street&&[...r.options].some(o=>o.value===a.street))r.value=a.street;
-   const n=document.getElementById('numero');if(n)n.value=a.number||'';
-   const tm=document.getElementById('tipoPedidoModal');if(tm)tm.value=a.type==='RETIRADA'?'RETIRADA':'ENTREGA';
-   const rm=document.getElementById('ruaModal');if(rm&&a.street&&[...rm.options].some(o=>o.value===a.street))rm.value=a.street;
-   const nm=document.getElementById('numeroModal');if(nm)nm.value=a.number||'';
- }
- function refreshGate(){
-   const g=document.getElementById('nd17Gate');if(!g)return;
-   const title=g.querySelector('h2'), p=g.querySelector('p'), kicker=g.querySelector('.nd17-kicker');
-   if(kicker)kicker.textContent='BEM-VINDO À ND BURGS';
-   if(title)title.textContent='Antes de começar, onde vamos entregar?';
-   if(p)p.textContent='Olá! Seja bem-vindo. Selecione seu endereço agora para salvar sua taxa de entrega e deixar tudo pronto. Se preferir, escolha retirada no local.';
-   const save=document.getElementById('nd17GateSave');if(save)save.textContent='ENTRAR NO SITE — DELIVERY';
-   const pick=document.getElementById('nd17GatePickup');if(pick)pick.textContent='ENTRAR NO SITE — VOU RETIRAR';
-   const a=getAddr();
-   const st=document.getElementById('nd17GateStreet'), num=document.getElementById('nd17GateNumber');
-   if(st&&a.street)st.value=a.street;
-   if(num&&a.number)num.value=a.number;
-   if(a.type==='RETIRADA'){if(st)st.value='';if(num)num.value='';}
- }
- function showGate(){
-   const g=document.getElementById('nd17Gate');if(!g)return;
-   refreshGate();g.classList.add('show');document.body.style.overflow='hidden';
-   setTimeout(()=>document.getElementById('nd17GateStreet')?.focus(),120);
- }
- function hideGate(){const g=document.getElementById('nd17Gate');if(g)g.classList.remove('show');document.body.style.overflow='';}
- function saveDelivery(){
-   const st=document.getElementById('nd17GateStreet'), num=document.getElementById('nd17GateNumber');
-   const typed=st?.value||'', key=Object.keys(rates()).find(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k)&&norm(k)===norm(typed));
-   if(!key){alert('Selecione sua rua na lista de sugestões.');return false}
-   if(!String(num?.value||'').trim()){alert('Digite o número do endereço.');return false}
-   localStorage.setItem('nd17_tipo','ENTREGA');localStorage.setItem('nd17_rua',key);localStorage.setItem('nd17_numero',String(num.value).trim());setForm(getAddr());hideGate();
-   document.getElementById('tipoPedido')?.dispatchEvent(new Event('change',{bubbles:true}));
-   document.getElementById('tipoPedidoModal')?.dispatchEvent(new Event('change',{bubbles:true}));
-   return true;
- }
- function savePickup(){localStorage.setItem('nd17_tipo','RETIRADA');localStorage.setItem('nd17_rua','');localStorage.setItem('nd17_numero','');setForm(getAddr());hideGate();document.getElementById('tipoPedido')?.dispatchEvent(new Event('change',{bubbles:true}));document.getElementById('tipoPedidoModal')?.dispatchEvent(new Event('change',{bubbles:true}));}
- function bind(){
-   refreshGate();
-   const save=document.getElementById('nd17GateSave'),pick=document.getElementById('nd17GatePickup');
-   if(save&&!save.dataset.nd22a){save.dataset.nd22a='1';save.addEventListener('click',saveDelivery)}
-   if(pick&&!pick.dataset.nd22a){pick.dataset.nd22a='1';pick.addEventListener('click',savePickup)}
-   setForm(getAddr());
-   /* Sempre apresenta a saudação e a confirmação de endereço ao abrir. O endereço salvo vem preenchido. */
-   showGate();
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,80),{once:true});else setTimeout(bind,80);
-})();
-</script>
-
-
-<!-- ETAPA 23 — CORREÇÃO DEFINITIVA: CARRINHO + ENDEREÇO + SIDEBAR + PREÇOS + LOGO -->
-<style id="nd-etapa-23-final">
-html,body{background:#000!important;background-image:none!important}
-/* PREÇOS VERDES COM DESTAQUE, SEM NEON */
-.produto .preco,.produto .preco-produto,.produto [class*="preco"],.preco{color:#18d66b!important;text-shadow:none!important;filter:none!important;font-weight:1000!important;letter-spacing:.2px!important;background:linear-gradient(180deg,rgba(24,214,107,.12),rgba(24,214,107,.035))!important;border:1px solid rgba(24,214,107,.30)!important;border-radius:10px!important;padding:6px 10px!important;display:inline-block!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 5px 16px rgba(0,0,0,.22)!important}
-/* LOGO: sem fundo, sem moldura */
-.nd17-brand{display:flex!important;justify-content:center!important;align-items:center!important;padding:8px 0 5px!important;background:transparent!important;border:0!important;box-shadow:none!important}
-.nd17-brand img,.nd17-brand .logo,.nd17-brand img.logo{width:min(205px,48vw)!important;max-height:82px!important;height:auto!important;object-fit:contain!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important}
-/* CATEGORIAS: lateral do início ao fim */
-@media(min-width:901px){
- body{padding-left:225px!important}
- #nd18Sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:215px!important;height:100vh!important;max-height:100vh!important;overflow-y:auto!important;overflow-x:hidden!important;display:flex!important;flex-direction:column!important;box-sizing:border-box!important;margin:0!important;padding:18px 11px 24px!important;border:0!important;border-right:1px solid #242424!important;border-radius:0!important;background:#050505!important;z-index:99999!important}
- #nd18Sidebar button{flex:0 0 auto!important;width:100%!important;margin:4px 0!important;text-align:left!important}
+'use strict';
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+const $=s=>document.querySelector(s);
+const cart=()=>Array.isArray(window.carrinho)?window.carrinho:[];
+const subtotal=()=>cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0);
+const fee=()=>{
+ const type=$('#tipoPedido')?.value||localStorage.getItem('nd17_tipo')||'ENTREGA';
+ if(type!=='ENTREGA')return 0;
+ const street=$('#rua')?.value||localStorage.getItem('nd17_street')||'';
+ return Number((window.taxas||{})[street]||0);
+};
+function addSideItems(){
+ const bar=$('#carrinhoFlutuante');if(!bar)return;
+ let box=$('#nd23SideItems');
+ if(!box){box=document.createElement('div');box.id='nd23SideItems';bar.insertBefore(box,bar.querySelector('.carrinho-flutuante-direita')||null)}
+ const a=cart();
+ if(!a.length){box.innerHTML='<div class="nd23-side-empty">Seu carrinho está vazio.<br>Escolha um produto para começar.</div>';return}
+ box.innerHTML=a.map(i=>{
+   const q=Math.max(1,Number(i.quantidade)||1), p=Number(i.preco)||0, t=p*q;
+   return '<div class="nd23-side-item"><div class="nd23-side-name">'+String(i.nome||'')+'</div><div class="nd23-side-meta">'+q+' × '+money(p)+(i.detalhes?.length?' • '+i.detalhes.join(', '):'')+'</div><div class="nd23-side-row"><span>Total do item</span><strong>'+money(t)+'</strong></div></div>';
+ }).join('');
 }
-/* CARRINHO FLUTUANTE VISÍVEL QUANDO HOUVER ITEM */
-.carrinho-flutuante{display:flex!important}
-.carrinho-flutuante:not(.ativo){opacity:0!important;pointer-events:none!important;visibility:hidden!important;transform:translateX(-50%) translateY(150px)!important}
-.carrinho-flutuante.ativo{opacity:1!important;pointer-events:auto!important;visibility:visible!important;transform:translateX(-50%) translateY(0)!important}
-/* Barra nova também fica disponível */
-#ndFxCartbar{display:none!important}
-#ndFxCartbar.show{display:flex!important}
-/* nunca pintar favorito */
-.nd-fav,.nd-fav:hover,.nd-fav:active{background:transparent!important;border-color:transparent!important;box-shadow:none!important;transform:none!important;color:inherit!important}
-</style>
-<script id="nd-etapa-23-final-logic">
-(function(){
- 'use strict';
- const $=s=>document.querySelector(s);
- const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
- const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
- function cart(){return Array.isArray(window.carrinho)?window.carrinho:[]}
- function sub(){return cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
- function getAddr(){return {type:localStorage.getItem('nd17_tipo')||'',street:localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd17_numero')||''}}
- function fee(){const a=getAddr();return a.type==='RETIRADA'?0:Number((window.taxas||{})[a.street]||0)}
- function syncCart(){
-   const c=cart(), q=c.reduce((s,i)=>s+(Number(i.quantidade)||1),0), s=sub(), f=fee(), t=s+f;
-   const bar=$('#carrinhoFlutuante');
-   if(bar){bar.classList.toggle('ativo',q>0);const n=$('#contadorCarrinho'),v=$('#totalCarrinhoFlutuante');if(n)n.textContent=q+' '+(q===1?'item':'itens');if(v)v.textContent=money(t)}
-   const fb=$('#ndFxCartbar');if(fb){fb.classList.toggle('show',q>0);const n=$('#ndFxCartQty'),v=$('#ndFxCartTotal');if(n)n.textContent=q+' '+(q===1?'item':'itens');if(v)v.textContent=money(t)}
-   const a=$('#nd17CartAddress');if(a){const x=getAddr();a.innerHTML=x.type==='RETIRADA'?'<b>Retirada no local</b><br>Sem taxa de entrega.':'<b>Entrega:</b> '+(x.street||'Endereço não informado')+(x.number?', Nº '+x.number:'')+'<br><strong>Taxa de entrega: '+money(f)+'</strong> · Total com taxa: <strong>'+money(t)+'</strong>'}
-   ['#subtotalCarrinhoModal','#ndV4Sub'].forEach(x=>{const e=$(x);if(e)e.textContent=money(s)});
-   ['#taxaCarrinhoModal','#ndV4Fee'].forEach(x=>{const e=$(x);if(e)e.textContent=money(f)});
-   ['#totalCarrinhoModal','#ndV4Total'].forEach(x=>{const e=$(x);if(e)e.textContent=money(t)});
- }
- function bindAddress(){
-   const input=$('#nd17GateStreet'), list=$('#nd17GateList');if(!input||!list||input.dataset.nd23)return;
-   input.dataset.nd23='1';
-   function streets(){return Object.keys(window.taxas||{}).filter(x=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(x))}
-   function render(){const q=norm(input.value);const arr=streets().filter(x=>!q||norm(x).includes(q)).slice(0,15);list.innerHTML='';arr.forEach(x=>{const d=document.createElement('div');d.className='nd17-option';d.textContent=x+' — '+money((window.taxas||{})[x]);d.onclick=()=>{input.value=x;input.dataset.value=x;list.classList.remove('show')};list.appendChild(d)});list.classList.toggle('show',arr.length>0&&q.length>0)}
-   input.addEventListener('input',render);input.addEventListener('focus',()=>{if(input.value)render()});
- }
- function patchCart(){
-   if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__nd23){const old=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(syncCart,0);return r};window.atualizarCarrinho.__nd23=true}
-   if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__nd23){const old=window.abrirCarrinho;window.abrirCarrinho=function(){syncCart();return old.apply(this,arguments)};window.abrirCarrinho.__nd23=true}
- }
- function start(){patchCart();bindAddress();syncCart();setTimeout(()=>{patchCart();bindAddress();syncCart()},600);setTimeout(()=>{patchCart();syncCart()},1500)}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
- window.addEventListener('storage',syncCart);
+function addSideAddress(){
+ const bar=$('#carrinhoFlutuante');if(!bar)return;
+ let box=$('#nd23SideAddress');
+ if(!box){box=document.createElement('div');box.id='nd23SideAddress';box.className='nd23-side-address';const info=bar.querySelector('.carrinho-flutuante-info');if(info)info.insertAdjacentElement('afterend',box);}
+ const type=localStorage.getItem('nd17_tipo')||$('#tipoPedido')?.value||'ENTREGA';
+ const st=localStorage.getItem('nd17_street')||$('#rua')?.value||'';
+ const num=localStorage.getItem('nd17_number')||$('#numero')?.value||'';
+ const f=type==='ENTREGA'?Number((window.taxas||{})[st]||0):0;
+ box.innerHTML=type==='RETIRADA'?'<strong>Retirada no local</strong><br>Taxa: '+money(0):'<strong>Entrega</strong><br>'+ (st?(st+(num?', Nº '+num:'')):'Endereço não informado')+'<br>Taxa: <strong>'+money(f)+'</strong>';
+}
+function refreshSide(){
+ const bar=$('#carrinhoFlutuante');if(!bar)return;
+ const n=cart().reduce((s,i)=>s+(Number(i.quantidade)||1),0), sub=subtotal(), total=sub+fee();
+ const c=bar.querySelector('#contadorCarrinho'),t=bar.querySelector('#totalCarrinhoFlutuante');
+ if(c)c.textContent=n+(n===1?' item':' itens');
+ if(t)t.textContent=money(total);
+ addSideItems();addSideAddress();
+}
+function patchCart(){
+ if(window.__nd23CartPatch)return true;
+ if(typeof window.atualizarCarrinho!=='function')return false;
+ const original=window.atualizarCarrinho;
+ window.atualizarCarrinho=function(){const r=original.apply(this,arguments);setTimeout(refreshSide,0);return r};
+ window.__nd23CartPatch=true;
+ refreshSide();return true;
+}
+function populateSelect(sel){
+ if(!sel)return;
+ const current=sel.value;
+ sel.innerHTML='<option value="">Selecione sua rua</option>';
+ Object.keys(window.taxas||{}).filter(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k)).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=k+' — '+money(window.taxas[k]);sel.appendChild(o)});
+ if(current && (window.taxas||{})[current]!==undefined)sel.value=current;
+}
+function suggestionFor(input,select){
+ if(!input||input.dataset.nd23)return;input.dataset.nd23='1';
+ let wrap=input.parentElement;
+ if(!wrap.classList.contains('nd23-suggest-wrap')){const nw=document.createElement('div');nw.className='nd23-suggest-wrap';input.parentNode.insertBefore(nw,input);nw.appendChild(input);wrap=nw}
+ let list=wrap.querySelector('.nd23-suggest-list');if(!list){list=document.createElement('div');list.className='nd23-suggest-list';wrap.appendChild(list)}
+ function render(){const q=norm(input.value);const streets=Object.keys(window.taxas||{}).filter(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k));const arr=streets.filter(s=>!q||norm(s).includes(q)).slice(0,15);list.innerHTML='';arr.forEach(s=>{const d=document.createElement('div');d.className='nd23-suggest-option';d.innerHTML='<span>'+s+'</span><b>'+money(window.taxas[s])+'</b>';d.onclick=()=>{input.value=s; if(select){select.value=s;select.dispatchEvent(new Event('change',{bubbles:true}))}list.classList.remove('show');refreshSide()};list.appendChild(d)});list.classList.toggle('show',!!arr.length && !!q)}
+ input.addEventListener('input',render);input.addEventListener('focus',()=>{if(input.value)render()});
+ document.addEventListener('click',e=>{if(!wrap.contains(e.target))list.classList.remove('show')});
+}
+function setupStreetFields(){
+ populateSelect($('#ruaModal'));populateSelect($('#rua'));
+ suggestionFor($('#nd17GateStreet'),null);
+ suggestionFor($('#ruaBuscaModal'),$('#ruaModal'));
+ suggestionFor($('#ruaBusca'),$('#rua'));
+ const saved=localStorage.getItem('nd17_street');
+ const n=localStorage.getItem('nd17_number');
+ if(saved){['#ruaModal','#rua'].forEach(s=>{const e=$(s);if(e)e.value=saved});['#ruaBuscaModal','#ruaBusca'].forEach(s=>{const e=$(s);if(e)e.value=saved});}
+ if(n){['#numeroModal','#numero'].forEach(s=>{const e=$(s);if(e)e.value=n})}
+}
+function welcome(){
+ const panel=$('#nd17Gate .nd17-gate-panel');if(!panel)return;
+ if(!panel.querySelector('.nd23-welcome')){const k=document.createElement('div');k.className='nd23-welcome';k.textContent='BEM-VINDO À ND BURGS';panel.insertBefore(k,panel.firstChild)}
+ const h=panel.querySelector('h2');if(h)h.textContent='Antes de começar, informe seu endereço';
+ const p=panel.querySelector('p');if(p)p.textContent='Escolha entre receber em casa ou retirar no local. Vamos salvar sua escolha e deixar a taxa de entrega pronta no seu pedido.';
+ let saved=panel.querySelector('.nd23-saved');if(!saved){saved=document.createElement('div');saved.className='nd23-saved';panel.querySelector('p')?.after(saved)}
+ const st=localStorage.getItem('nd17_street'),num=localStorage.getItem('nd17_number'),type=localStorage.getItem('nd17_tipo');
+ if(st&&type==='ENTREGA'){saved.style.display='block';saved.innerHTML='Endereço salvo: <strong>'+st+(num?', Nº '+num:'')+'</strong><br>Taxa: <strong>'+money((window.taxas||{})[st]||0)+'</strong>'}
+ else if(type==='RETIRADA'){saved.style.display='block';saved.innerHTML='<strong>Retirada no local</strong><br>Taxa: <strong>R$ 0,00</strong>'}
+ else saved.style.display='none';
+ const street=$('#nd17GateStreet'),number=$('#nd17GateNumber');
+ if(street&&st)street.value=st;if(number&&num)number.value=num;
+}
+function forceGate(){const g=$('#nd17Gate');if(!g)return;welcome();g.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>$('#nd17GateStreet')?.focus(),100)}
+function patchGateButtons(){
+ const save=$('#nd17GateSave'),pick=$('#nd17GatePickup');
+ if(save&&!save.dataset.nd23){save.dataset.nd23='1';save.textContent='ENTRAR NO SITE COM DELIVERY';save.onclick=function(){const street=norm($('#nd17GateStreet')?.value),num=$('#nd17GateNumber')?.value.trim()||'';const key=Object.keys(window.taxas||{}).find(k=>norm(k)===street);if(!key){alert('Selecione uma rua da lista de endereços.');return}if(!num){alert('Digite o número do endereço.');return}localStorage.setItem('nd17_tipo','ENTREGA');localStorage.setItem('nd17_street',key);localStorage.setItem('nd17_number',num);try{if(typeof ensureMainForms==='function')ensureMainForms()}catch(e){};try{if(typeof updateBar==='function')updateBar()}catch(e){};document.getElementById('nd17Gate').classList.remove('show');document.body.style.overflow='';setupStreetFields();refreshSide()}}
+ if(pick&&!pick.dataset.nd23){pick.dataset.nd23='1';pick.textContent='ENTRAR NO SITE COM RETIRADA';pick.onclick=function(){localStorage.setItem('nd17_tipo','RETIRADA');localStorage.removeItem('nd17_street');localStorage.removeItem('nd17_number');try{if(typeof ensureMainForms==='function')ensureMainForms()}catch(e){};try{if(typeof updateBar==='function')updateBar()}catch(e){};document.getElementById('nd17Gate').classList.remove('show');document.body.style.overflow='';setupStreetFields();refreshSide()}}
+}
+function init(){
+ patchCart();setupStreetFields();patchGateButtons();welcome();refreshSide();
+ /* O cliente sempre recebe a tela de boas-vindas antes de entrar; dados anteriores ficam pré-preenchidos. */
+ forceGate();
+ setTimeout(()=>{patchCart();setupStreetFields();patchGateButtons();refreshSide()},400);
+ setTimeout(()=>{patchCart();setupStreetFields();patchGateButtons();refreshSide()},1200);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 
