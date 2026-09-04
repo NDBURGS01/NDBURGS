@@ -379,17 +379,17 @@ Volte durante nosso horário de atendimento.
 
 <br>
 
-TERÇA A SÁBADO :
+TERÇA A SÁBADO -
 <strong>18:00 às 00:30</strong>
 
 <br>
 
-DOMINGO :
+DOMINGO -
 <strong>18:00 às 00:00</strong>
 
 <br>
 
-SEGUNDA FEIRA :
+SEGUNDA FEIRA -
 <strong style="color:#ff4444;">FECHADO</strong>
 
 </div>
@@ -440,17 +440,17 @@ SEGUNDA FEIRA :
 
 <div class="horarios-linha">
 
-📅 TERÇA A SÁBADO :
+📅 TERÇA A SÁBADO -
 <strong>18:00 às 00:30</strong>
 
 <br>
 
-📅 DOMINGO :
+📅 DOMINGO -
 <strong>18:00 às 00:00</strong>
 
 <br>
 
-📅 SEGUNDA-FEIRA :
+📅 SEGUNDA-FEIRA -
 <strong>FECHADO</strong>
 
 </div>
