@@ -6666,5 +6666,343 @@ let timer=0;const obs=new MutationObserver(()=>{clearTimeout(timer);timer=setTim
 })();
 </script>
 
+
+<!-- ============================================================
+     ND BURGS — ATUALIZAÇÃO SOLICITADA 04/09/2026
+     HORÁRIOS + CARRINHO ÚNICO + BOTÃO VERDE PISCANTE
+     + FILTRO DE AVALIAÇÕES 5 ESTRELAS
+     ============================================================ -->
+<style id="nd-update-20260904">
+/* =========================
+   HORÁRIO OFICIAL
+   TERÇA A SÁBADO: 18:00–00:30
+   DOMINGO: 18:00–00:00
+   SEGUNDA: FECHADO
+   ========================= */
+#bloqueioHorario.nd-horario-ativo{
+  display:flex!important;
+}
+#ndHorarioBloqueioExtra{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#000;
+}
+#ndHorarioBloqueioExtra.show{display:flex}
+#ndHorarioBloqueioExtra .box{
+  width:min(520px,100%);
+  padding:28px 22px;
+  text-align:center;
+  background:#090909;
+  border:1px solid #333;
+  border-radius:20px;
+  box-shadow:0 20px 70px rgba(0,0,0,.8);
+}
+#ndHorarioBloqueioExtra h2{
+  margin:0 0 10px;
+  color:#fff;
+  border:0;
+  padding:0;
+}
+#ndHorarioBloqueioExtra p{color:#aaa;line-height:1.6}
+#ndHorarioBloqueioExtra .horas{
+  margin-top:16px;
+  padding:14px;
+  border-radius:13px;
+  background:#111;
+  color:#fff;
+  line-height:1.8;
+}
+#ndHorarioBloqueioExtra b{color:#25d366}
+
+/* Corrige todas as mensagens/status antigos de 24h */
+.nd-v3-strip,
+#ndR8Status{display:none!important}
+
+/* =========================
+   CARRINHO ÚNICO
+   Mantém somente o botão circular + modal oficial.
+   ========================= */
+#checkout.carrinho,
+.carrinho-flutuante,
+#ndFxCartbar,
+.nd-v3-buybar{
+  display:none!important;
+}
+#ndCartFloatingButton{
+  background:linear-gradient(145deg,#19e66b,#0b7d39)!important;
+  box-shadow:0 12px 32px rgba(37,211,102,.30),0 3px 10px rgba(0,0,0,.55)!important;
+}
+#ndCartFloatingButton:hover{
+  background:linear-gradient(145deg,#25d366,#111)!important;
+}
+#ndCartBadge{
+  background:#000!important;
+  color:#25d366!important;
+  border-color:#25d366!important;
+}
+
+/* =========================
+   BOTÃO CONCLUIR / ENVIAR
+   VERDE + PRETO PISCANDO
+   ========================= */
+@keyframes ndGreenBlackPulse{
+  0%,100%{
+    background:linear-gradient(135deg,#25d366,#0d8f42)!important;
+    color:#fff!important;
+    box-shadow:0 0 0 0 rgba(37,211,102,.45),0 10px 28px rgba(37,211,102,.22)!important;
+  }
+  50%{
+    background:linear-gradient(135deg,#050505,#111)!important;
+    color:#25d366!important;
+    box-shadow:0 0 0 5px rgba(37,211,102,.12),0 10px 28px rgba(0,0,0,.55)!important;
+  }
+}
+#modalCarrinho .btn-finalizar-pedido,
+#modalCarrinho .btn-whatsapp,
+#modalFinalizar .btn-finalizar-modal,
+#modalFinalizar .nd-v4-next{
+  background:#25d366!important;
+  color:#fff!important;
+  border:1px solid #25d366!important;
+  animation:ndGreenBlackPulse 1.25s ease-in-out infinite!important;
+}
+#modalCarrinho .btn-finalizar-pedido:hover,
+#modalCarrinho .btn-whatsapp:hover,
+#modalFinalizar .btn-finalizar-modal:hover,
+#modalFinalizar .nd-v4-next:hover{
+  animation:none!important;
+  background:#050505!important;
+  color:#25d366!important;
+  border-color:#25d366!important;
+}
+@media(prefers-reduced-motion:reduce){
+  #modalCarrinho .btn-finalizar-pedido,
+  #modalCarrinho .btn-whatsapp,
+  #modalFinalizar .btn-finalizar-modal,
+  #modalFinalizar .nd-v4-next{
+    animation:none!important;
+  }
+}
+
+/* =========================
+   AVALIAÇÕES
+   Mostrar somente avaliações 5 estrelas.
+   ========================= */
+#ndFxReviews .ndFx-review{display:none!important}
+#ndFxReviews .ndFx-review[data-stars="5"]{display:block!important}
+#ndFxReviewList:empty:after{
+  content:"Ainda não há avaliações de 5 estrelas publicadas.";
+  display:block;
+  padding:14px;
+  color:#777;
+  text-align:center;
+}
+</style>
+
+<div id="ndHorarioBloqueioExtra" aria-hidden="true">
+  <div class="box">
+    <div style="font-size:42px;margin-bottom:8px">🔒</div>
+    <h2>ND BURGS FECHADA</h2>
+    <p id="ndHorarioMensagem">No momento não estamos recebendo pedidos.</p>
+    <div class="horas">
+      <b>HORÁRIO DE ATENDIMENTO</b><br>
+      TERÇA A SÁBADO: 18:00 às 00:30<br>
+      DOMINGO: 18:00 às 00:00<br>
+      SEGUNDA: FECHADO
+    </div>
+  </div>
+</div>
+
+<script id="nd-update-20260904-js">
+(function(){
+  'use strict';
+
+  /* ============================================================
+     HORÁRIO
+     ============================================================ */
+  function ndIsOpenNow(){
+    const d = new Date();
+    const day = d.getDay(); // 0 domingo, 1 segunda ... 6 sábado
+    const minutes = d.getHours()*60 + d.getMinutes();
+
+    /*
+      00:00–00:29 de quarta a domingo ainda pertence ao expediente
+      iniciado no dia anterior (terça a sábado).
+    */
+    if(day >= 2 && day <= 6 && minutes < 30) return true;
+
+    /* Expediente principal */
+    if(day >= 2 && day <= 6 && minutes >= 18*60) return true;
+    if(day === 0 && minutes >= 18*60) return true;
+
+    return false;
+  }
+
+  function ndHorarioTexto(){
+    const d = new Date();
+    const day = d.getDay();
+    const minutes = d.getHours()*60 + d.getMinutes();
+
+    if(ndIsOpenNow()){
+      if(day >= 2 && day <= 6 && minutes < 30)
+        return '🟢 ABERTO AGORA • atendimento até 00:30';
+      if(day === 0)
+        return '🟢 ABERTO AGORA • atendimento até 00:00';
+      return '🟢 ABERTO AGORA • atendimento até 00:30';
+    }
+
+    if(day === 1) return '🔴 FECHADO AGORA • abrimos terça às 18:00';
+    if(day === 0 && minutes < 18*60) return '🔴 FECHADO AGORA • abrimos domingo às 18:00';
+    if(day >= 2 && day <= 6 && minutes < 18*60)
+      return '🔴 FECHADO AGORA • abrimos hoje às 18:00';
+
+    return '🔴 FECHADO AGORA • abrimos às 18:00';
+  }
+
+  function ndApplyHorario(){
+    const aberto = ndIsOpenNow();
+    const status = document.getElementById('statusHorario');
+    const titulo = document.querySelector('.horarios-titulo');
+    const linha = document.querySelector('.horarios-linha');
+    const bloqueio = document.getElementById('ndHorarioBloqueioExtra');
+
+    if(status){
+      status.className = aberto ? 'status-aberto' : 'status-fechado';
+      status.textContent = ndHorarioTexto();
+    }
+
+    if(titulo) titulo.textContent = aberto ? '🟢 ATENDIMENTO' : '🔴 ATENDIMENTO ENCERRADO';
+    if(linha) linha.innerHTML = '📅 TERÇA A SÁBADO • 18:00 ÀS 00:30<br>📅 DOMINGO • 18:00 ÀS 00:00';
+
+    if(bloqueio){
+      bloqueio.classList.toggle('show', !aberto);
+      bloqueio.setAttribute('aria-hidden', aberto ? 'true' : 'false');
+    }
+
+    document.body.dataset.ndAberto = aberto ? '1' : '0';
+    return aberto;
+  }
+
+  /* Impede adicionar itens fora do horário */
+  function ndPatchAdicionar(){
+    if(typeof window.adicionar === 'function' && !window.adicionar.__ndHorario){
+      const original = window.adicionar;
+      window.adicionar = function(){
+        if(!ndIsOpenNow()){
+          ndApplyHorario();
+          alert('🔒 A ND BURGS está fechada no momento.\\n\\nTERÇA A SÁBADO: 18:00 às 00:30\\nDOMINGO: 18:00 às 00:00');
+          return;
+        }
+        return original.apply(this, arguments);
+      };
+      window.adicionar.__ndHorario = true;
+    }
+  }
+
+  /* Impede concluir/enviar fora do horário */
+  function ndPatchFinalizacao(){
+    ['finalizarPedido','finalizarPedidoModal','ndFinish'].forEach(function(nome){
+      if(typeof window[nome] === 'function' && !window[nome].__ndHorario){
+        const original = window[nome];
+        window[nome] = function(){
+          if(!ndIsOpenNow()){
+            ndApplyHorario();
+            alert('🔒 A ND BURGS está fechada no momento. O pedido não pode ser enviado agora.');
+            return;
+          }
+          return original.apply(this, arguments);
+        };
+        window[nome].__ndHorario = true;
+      }
+    });
+  }
+
+  /* Fecha qualquer modal de checkout se o horário terminar */
+  function ndCloseCheckoutIfClosed(){
+    if(ndIsOpenNow()) return;
+    ['modalCarrinho','modalFinalizar','modalPersonalizacao'].forEach(function(id){
+      const el=document.getElementById(id);
+      if(el) el.classList.remove('ativo');
+    });
+  }
+
+  /* ============================================================
+     AVALIAÇÕES — APENAS 5 ESTRELAS
+     ============================================================ */
+  function ndFilterReviews(){
+    const list=document.getElementById('ndFxReviewList');
+    if(!list) return;
+
+    Array.from(list.querySelectorAll('.ndFx-review')).forEach(function(card){
+      const starEl=card.querySelector('strong');
+      const stars=(starEl?.textContent.match(/★/g)||[]).length;
+      card.dataset.stars=String(stars);
+      card.style.display = stars === 5 ? 'block' : 'none';
+    });
+  }
+
+  function ndPatchReviewRender(){
+    if(typeof window.renderReviews === 'function' && !window.renderReviews.__nd5){
+      const original=window.renderReviews;
+      window.renderReviews=function(){
+        const r=original.apply(this,arguments);
+        setTimeout(ndFilterReviews,0);
+        return r;
+      };
+      window.renderReviews.__nd5=true;
+    }
+  }
+
+  /* ============================================================
+     INICIALIZAÇÃO
+     ============================================================ */
+  function init(){
+    ndApplyHorario();
+    ndPatchAdicionar();
+    ndPatchFinalizacao();
+    ndPatchReviewRender();
+    ndFilterReviews();
+
+    /* Se alguma camada antiga tentar reaparecer, mantém apenas um carrinho */
+    document.querySelectorAll('.carrinho-flutuante,.nd-v3-buybar,#ndFxCartbar').forEach(function(el){
+      el.style.display='none';
+    });
+
+    /* Reforça o botão único */
+    const cart=document.getElementById('ndCartFloatingButton');
+    if(cart) cart.style.display = 'none'; // será mostrado pelo script oficial somente quando houver itens
+
+    setTimeout(function(){
+      ndPatchAdicionar();
+      ndPatchFinalizacao();
+      ndPatchReviewRender();
+      ndFilterReviews();
+      ndApplyHorario();
+    },500);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init,{once:true});
+  }else{
+    init();
+  }
+
+  setInterval(function(){
+    ndApplyHorario();
+    ndPatchAdicionar();
+    ndPatchFinalizacao();
+    ndPatchReviewRender();
+    ndFilterReviews();
+    ndCloseCheckoutIfClosed();
+  },1000);
+
+})();
+</script>
+
 </body>
 </html>
