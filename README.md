@@ -6537,5 +6537,186 @@ html,body{background:#000!important;background-image:none!important}
 })();
 </script>
 
+
+<!-- =========================================================
+     ND BURGS — ETAPA 23 — EXPERIÊNCIA DO CLIENTE
+     Camada isolada: preserva a lógica existente e corrige conflitos.
+========================================================= -->
+<style id="nd-etapa23-client">
+/* 1) CARRINHO: restaura o carrinho flutuante original e evita duplicidade */
+#carrinhoFlutuante{display:flex!important;visibility:visible!important}
+#carrinhoFlutuante:not(.ativo){opacity:0!important;pointer-events:none!important;transform:translateX(-50%) translateY(150px)!important}
+#carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important;visibility:visible!important;transform:translateX(-50%) translateY(0)!important}
+#ndFxCartbar{display:none!important}
+
+/* 2) PREÇOS: somente vermelho, sem neon */
+.preco,.produto .preco,.carrinho-flutuante-total,#totalCarrinhoFlutuante,
+.modal-total strong:last-child,.nd17-total-value,.nd-v4-final-total{
+  color:#ff3030!important;
+  text-shadow:none!important;
+  filter:none!important;
+  box-shadow:none!important;
+}
+
+/* 3) BOTÕES continuam tecnológicos, mas sem transformar favoritos/fechar */
+.produto .btn-add,.produto button[onclick*="adicionar("]{
+  background:linear-gradient(180deg,#1685ff,#075ed7)!important;
+  color:#fff!important;
+  border:1px solid rgba(103,188,255,.72)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 7px 20px rgba(0,90,220,.20)!important;
+}
+.produto .btn-add:hover,.produto button[onclick*="adicionar("]:hover{
+  background:linear-gradient(180deg,#2494ff,#0868e8)!important;
+  transform:translateY(-2px)!important;
+}
+.produto .nd-fav,.produto button[aria-label*="favor" i]{
+  background:inherit!important;color:inherit!important;border:inherit!important;box-shadow:inherit!important;transform:none!important;
+}
+
+/* 4) BARRA DE ENDEREÇO salva */
+#nd17AddressBar{position:relative}
+#nd17AddressBar .nd23-address-ok{color:#42d77d;font-size:10px;font-weight:900;letter-spacing:.5px;display:block;margin-bottom:3px}
+
+/* 5) GATE inicial mais acolhedor */
+#nd17Gate{background:rgba(0,0,0,.975)!important}
+#nd17Gate .nd17-gate-panel{box-shadow:0 30px 100px rgba(0,0,0,.9)!important}
+#nd17Gate .nd23-welcome-icon{width:58px;height:58px;border-radius:16px;background:#111;border:1px solid #292929;display:grid;place-items:center;font-size:27px;margin-bottom:14px}
+#nd17Gate .nd23-saved{display:none;margin:0 0 14px;padding:10px 12px;border:1px solid #243a2d;border-radius:11px;background:#0b120e;color:#b9d7c2;font-size:11px;line-height:1.45}
+#nd17Gate .nd23-saved.show{display:block}
+#nd17Gate .nd23-saved b{color:#fff}
+
+/* 6) Mensagem de pedido mínimo */
+.nd23-minimum{display:none;margin-top:8px;padding:9px 11px;border:1px solid #303030;border-radius:10px;background:#0d0d0d;color:#aaa;font-size:11px}
+.nd23-minimum.show{display:block}
+.nd23-minimum strong{color:#ff3030}
+
+/* 7) Melhor comportamento no mobile */
+@media(max-width:760px){
+  #carrinhoFlutuante{bottom:8px!important;width:calc(100% - 16px)!important}
+  #nd17Gate .nd17-gate-panel{max-height:calc(100vh - 28px);overflow:auto}
+}
+</style>
+
+<script id="nd-etapa23-client-js">
+(function(){
+  'use strict';
+  const $=s=>document.querySelector(s);
+  const $$=s=>Array.from(document.querySelectorAll(s));
+  const KEY='ndburgs_cliente_v23';
+  const CART_KEY='ndburgs_carrinho';
+  const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+
+  function getCart(){
+    try{
+      if(Array.isArray(window.carrinho)) return window.carrinho;
+      const raw=localStorage.getItem(CART_KEY)||localStorage.getItem('carrinho');
+      const a=raw?JSON.parse(raw):[];
+      return Array.isArray(a)?a:[];
+    }catch(e){return []}
+  }
+  function cartSubtotal(){return getCart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
+  function cartQty(){return getCart().reduce((s,i)=>s+(Number(i.quantidade)||1),0)}
+
+  /* Carrinho: a barra original volta a ser a principal. */
+  function forceCartBar(){
+    const b=$('#carrinhoFlutuante');
+    if(!b)return;
+    const qty=cartQty();
+    b.classList.toggle('ativo',qty>0);
+    const c=$('#contadorCarrinho'); if(c)c.textContent=qty+' '+(qty===1?'item':'itens');
+    const t=$('#totalCarrinhoFlutuante'); if(t)t.textContent=money(cartSubtotal());
+  }
+
+  /* Dados do cliente ficam apenas neste navegador. */
+  function loadClient(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+  function saveField(id){
+    const el=document.getElementById(id); if(!el)return;
+    const d=loadClient(); d[id]=el.value||'';
+    try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}
+  }
+  function restoreClient(){
+    const d=loadClient();
+    ['nomeModal','telefoneModal','complementoModal','trocoModal','observacaoModal'].forEach(id=>{
+      const e=document.getElementById(id);if(e&&d[id])e.value=d[id];
+    });
+    if(d.pagamentoModal){const e=document.getElementById('pagamentoModal');if(e)e.value=d.pagamentoModal}
+  }
+  function bindClientMemory(){
+    ['nomeModal','telefoneModal','complementoModal','trocoModal','observacaoModal','pagamentoModal'].forEach(id=>{
+      const e=document.getElementById(id);if(e&&!e.dataset.nd23mem){e.dataset.nd23mem='1';e.addEventListener('input',()=>saveField(id));e.addEventListener('change',()=>saveField(id))}
+    });
+    restoreClient();
+  }
+
+  /* Mensagem de pedido mínimo sem popup. */
+  function minimumHint(){
+    const cart=$('#modalCarrinho'); if(!cart)return;
+    const sub=cartSubtotal(), min=11.90, left=Math.max(0,min-sub);
+    let box=cart.querySelector('.nd23-minimum');
+    if(!box){
+      box=document.createElement('div');box.className='nd23-minimum';
+      const anchor=cart.querySelector('.resumo-modal')||cart.querySelector('.itens-carrinho-modal')||cart.firstElementChild;
+      if(anchor)anchor.parentNode.insertBefore(box,anchor.nextSibling); else cart.appendChild(box);
+    }
+    if(sub>0&&sub<min){box.classList.add('show');box.innerHTML='Falta <strong>'+money(left)+'</strong> para atingir o pedido mínimo de '+money(min)+'.'}
+    else box.classList.remove('show');
+  }
+
+  /* Evita duplicação de notificações: apenas feedback no próprio botão. */
+  function bindAddFeedback(){
+    $$('.produto .btn-add,.produto button[onclick*="adicionar("]').forEach(btn=>{
+      if(btn.dataset.nd23feedback)return;
+      btn.dataset.nd23feedback='1';
+      btn.addEventListener('click',function(){
+        const old=this.dataset.nd23old||this.textContent.trim()||'ADICIONAR';
+        this.dataset.nd23old=old;
+        clearTimeout(this.__nd23timer);
+        setTimeout(()=>{
+          this.textContent='ADICIONADO ✓';
+          this.classList.add('nd23-added');
+          this.__nd23timer=setTimeout(()=>{this.textContent=old;this.classList.remove('nd23-added')},750);
+        },20);
+      },{passive:true});
+    });
+  }
+
+  /* Gate: saudação + endereço salvo. Não apaga dados anteriores. */
+  function enhanceGate(){
+    const panel=$('#nd17Gate .nd17-gate-panel');
+    if(!panel)return;
+    if(!panel.querySelector('.nd23-welcome-icon')){
+      const icon=document.createElement('div');icon.className='nd23-welcome-icon';icon.textContent='🍔';panel.insertBefore(icon,panel.firstChild);
+    }
+    const kicker=panel.querySelector('.nd17-kicker'); if(kicker)kicker.textContent='BEM-VINDO À ND BURGS';
+    const title=panel.querySelector('h2'); if(title)title.textContent='Antes de começar, onde vamos entregar?';
+    const p=panel.querySelector('p'); if(p)p.textContent='Olá! Seja muito bem-vindo. Escolha entrega ou retirada para deixarmos seu pedido pronto desde o início.';
+    let saved=panel.querySelector('.nd23-saved');
+    if(!saved){saved=document.createElement('div');saved.className='nd23-saved';const firstField=panel.querySelector('.nd17-field');if(firstField)panel.insertBefore(saved,firstField)}
+    const tipo=localStorage.getItem('nd17_tipo')||'', rua=localStorage.getItem('nd17_rua')||'', num=localStorage.getItem('nd17_numero')||'';
+    if(tipo==='RETIRADA'){
+      saved.classList.add('show');saved.innerHTML='<b>Seu último modo:</b> Retirada no local · taxa R$ 0,00';
+    }else if(rua){
+      const taxas=window.taxas||{};saved.classList.add('show');saved.innerHTML='<b>Endereço salvo:</b> '+rua+(num?', Nº '+num:'')+'<br>Taxa de entrega: <b>'+money(taxas[rua]||0)+'</b>';
+    }else saved.classList.remove('show');
+  }
+
+  function sync(){
+    forceCartBar();minimumHint();bindClientMemory();bindAddFeedback();enhanceGate();
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    sync();
+    setTimeout(sync,250);
+    setTimeout(sync,900);
+    /* Não usar interval de 1 segundo: somente eventos relevantes. */
+    document.addEventListener('click',e=>{
+      if(e.target.closest('.btn-add,button[onclick*="adicionar("]'))setTimeout(sync,80);
+      if(e.target.closest('#nd17GateSave,#nd17GatePickup,.nd17-address-edit,#btnAbrirCarrinho,.btn-ver-carrinho'))setTimeout(sync,100);
+    },true);
+    window.addEventListener('storage',sync);
+  });
+})();
+</script>
+
 </body>
 </html>
