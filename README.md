@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R10">
+<meta name="nd-site-version" content="20260904-R8">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260904-R10";
+  const ND_SITE_VERSION = "20260904-R8";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -530,56 +530,6 @@ window.addEventListener('DOMContentLoaded',()=>{enhance();restore();obs.observe(
   .categoria-menu{display:none!important;}
 }
 </style>
-
-<style id="nd-r9-cart-upgrade">
-/* ND BURGS R9 — carrinho único com ícone e contador */
-.nd-cart-fab{position:fixed;right:18px;bottom:18px;z-index:120000;width:64px;height:64px;border:0;border-radius:50%;cursor:pointer;background:linear-gradient(135deg,#e50914,#ff3038);color:#fff;box-shadow:0 14px 40px rgba(229,9,20,.38);display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform .2s,box-shadow .2s}.nd-cart-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 20px 50px rgba(229,9,20,.5)}.nd-cart-badge{position:absolute;right:-5px;top:-5px;min-width:25px;height:25px;padding:0 6px;border-radius:999px;background:#fff;color:#111;border:3px solid #111;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:950}.nd-cart-fab.empty{opacity:.88}.nd-cart-fab.empty .nd-cart-badge{background:#27272b;color:#aaa}.nd-cart-label{position:fixed;right:16px;bottom:90px;z-index:119999;background:#151519;border:1px solid #303038;border-radius:999px;padding:8px 12px;color:#fff;font-size:11px;font-weight:900;box-shadow:0 8px 25px rgba(0,0,0,.35)}.carrinho-flutuante,#ndFxCartbar,.nd-v3-buybar{display:none!important}.painel-carrinho{border-radius:24px 24px 0 0!important}.cabecalho-carrinho h2{font-size:24px!important}.nd-cart-countline{font-size:12px;color:#999;margin-top:3px}.nd-cart-empty-tip{margin-top:8px;color:#888;font-size:12px}@media(max-width:600px){.nd-cart-fab{width:60px;height:60px;right:14px;bottom:14px;font-size:26px}.nd-cart-label{right:12px;bottom:82px;font-size:10px}}
-</style>
-<script id="nd-r9-cart-upgrade-script">
-(function(){
-'use strict';
-function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:(typeof carrinho!=='undefined'&&Array.isArray(carrinho)?carrinho:[])}catch(e){return []}}
-function qty(){return getCart().reduce((s,i)=>s+(Number(i.quantidade)||0),0)}
-function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
-function total(){return getCart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||0),0)}
-function update(){const q=qty(),b=document.getElementById('ndCartBadge'),f=document.getElementById('ndCartFab'),l=document.getElementById('ndCartLabel');if(b)b.textContent=q;if(f)f.classList.toggle('empty',q===0);if(l)l.textContent=q?`${q} ${q===1?'item':'itens'} • ${money(total())}`:'Seu carrinho está vazio'}
-}
-function build(){if(document.getElementById('ndCartFab'))return;const f=document.createElement('button');f.type='button';f.id='ndCartFab';f.className='nd-cart-fab empty';f.setAttribute('aria-label','Abrir carrinho');f.innerHTML='🛒<span id="ndCartBadge" class="nd-cart-badge">0</span>';f.onclick=function(){if(typeof window.abrirCarrinho==='function'){window.abrirCarrinho();setTimeout(()=>{const m=document.getElementById('modalCarrinho');if(m&&!m.classList.contains('ativo')&&typeof window.atualizarModalCarrinho==='function'){window.atualizarModalCarrinho();m.classList.add('ativo');document.body.style.overflow='hidden'}},0)}};document.body.appendChild(f);const l=document.createElement('div');l.id='ndCartLabel';l.className='nd-cart-label';l.textContent='Seu carrinho está vazio';document.body.appendChild(l);update()}
-function patch(){if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__r9cart){const old=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(update,0);return r};window.atualizarCarrinho.__r9cart=true}if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__r9cart){const old=window.abrirCarrinho;window.abrirCarrinho=function(){if(getCart().length===0){if(typeof window.atualizarModalCarrinho==='function')window.atualizarModalCarrinho();const m=document.getElementById('modalCarrinho');if(m){m.classList.add('ativo');document.body.style.overflow='hidden'}return}return old.apply(this,arguments)};window.abrirCarrinho.__r9cart=true}}
-window.addEventListener('DOMContentLoaded',()=>{build();patch();update();setInterval(()=>{patch();update()},700)});
-})();
-</script>
-
-
-<!-- ND BURGS R10 - MELHORIAS GERAIS -->
-<style>
-:root{--nd-accent:#ff4d00;--nd-accent2:#ffb000;--nd-card:#121212;--nd-soft:#1b1b1b;--nd-muted:#a9a9a9}
-body{background:radial-gradient(circle at 50% -20%,#2b1205 0,#090909 42%)!important}
-.produto{transition:transform .2s ease,box-shadow .2s ease;border:1px solid rgba(255,255,255,.06)!important;overflow:hidden}
-.produto:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.35)}
-.produto h3{letter-spacing:.2px}.produto .preco{font-weight:900!important;color:#ffb000!important;font-size:1.12em!important}
-.btn-add{min-height:48px;border-radius:14px!important;font-weight:900!important;letter-spacing:.4px;box-shadow:0 8px 20px rgba(255,77,0,.16)}
-.btn-add:active{transform:scale(.98)}
-/* carrinho oficial */
-#carrinhoFlutuante{position:fixed!important;left:50%!important;bottom:calc(16px + env(safe-area-inset-bottom))!important;transform:translateX(-50%) translateY(130%)!important;width:min(680px,calc(100% - 24px))!important;z-index:9998!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:22px!important;background:linear-gradient(135deg,#ff4d00,#b51f00)!important;box-shadow:0 18px 45px rgba(0,0,0,.48)!important;padding:12px 14px!important;transition:transform .28s ease!important}
-#carrinhoFlutuante.ativo{transform:translateX(-50%) translateY(0)!important}
-#carrinhoFlutuante{cursor:pointer}
-#carrinhoFlutuante::before{content:'🛒';display:grid;place-items:center;width:46px;height:46px;border-radius:15px;background:rgba(0,0,0,.2);font-size:23px;margin-right:10px;flex:none}
-#carrinhoFlutuante .carrinho-flutuante-info{min-width:0}
-#contadorCarrinho{font-weight:800!important;color:#fff!important}
-#totalCarrinhoFlutuante{font-size:1.05rem!important}
-.btn-ver-carrinho{border-radius:14px!important;background:#fff!important;color:#111!important;font-weight:950!important;padding:12px 14px!important}
-#contadorCarrinho::after{content:' ';display:inline-block;width:7px;height:7px;background:#fff;border-radius:50%;margin-left:7px;vertical-align:middle}
-/* checkout mais limpo */
-#checkout,.formulario{border-radius:22px!important;border:1px solid rgba(255,255,255,.07)!important;box-shadow:0 12px 35px rgba(0,0,0,.22)}
-input,select,textarea{border-radius:12px!important}
-.modal-carrinho .modal-content,.modal-carrinho > div{border-radius:24px!important}
-.vazio{text-align:center;padding:28px 14px!important;color:var(--nd-muted)}
-/* acessibilidade */
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(255,176,0,.55)!important;outline-offset:2px}
-@media(max-width:600px){body{padding-bottom:105px!important}.produto:hover{transform:none}#carrinhoFlutuante{bottom:10px!important;width:calc(100% - 16px)!important;padding:10px!important;border-radius:18px!important}.btn-ver-carrinho{padding:11px!important;font-size:12px!important}#carrinhoFlutuante::before{width:40px;height:40px;font-size:20px}.carrinho-flutuante-info strong{font-size:13px!important}.carrinho-flutuante-total{font-size:.95rem!important}}
-</style>
-
 </head>
 
 <body>
@@ -5772,7 +5722,7 @@ button{font-family:inherit}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- ND BURGS VERSION: 20260904-R10 -->
+<!-- ND BURGS VERSION: 20260904-R9 -->
 
 
 <!-- =========================================================
@@ -6628,25 +6578,92 @@ let timer=0;const obs=new MutationObserver(()=>{clearTimeout(timer);timer=setTim
 </script>
 
 
-<script>
-/* ND BURGS R10 - experiência do carrinho e melhorias de navegação */
-document.addEventListener('DOMContentLoaded',function(){
-  const barra=document.getElementById('carrinhoFlutuante');
-  if(barra){
-    barra.addEventListener('click',function(e){
-      if(e.target.closest('button')) return;
-      abrirCarrinho();
-    });
-  }
-  const busca=document.getElementById('busca');
-  if(busca){busca.setAttribute('aria-label','Buscar produtos');}
-});
-const abrirCarrinhoOriginal=abrirCarrinho;
-abrirCarrinho=function(){
-  atualizarModalCarrinho();
-  const modal=document.getElementById('modalCarrinho');
-  if(modal){modal.classList.add('ativo');document.body.style.overflow='hidden';}
-};
+<!-- ND BURGS — CARRINHO UX FINAL -->
+<style id="nd-cart-ux-final">
+/* Carrinho circular fixo */
+#ndCartFloatingButton{
+ position:fixed;right:18px;bottom:96px;z-index:100020;
+ width:62px;height:62px;border:0;border-radius:50%;
+ background:linear-gradient(145deg,#e50914,#9f0007);color:#fff;
+ display:none;align-items:center;justify-content:center;
+ box-shadow:0 12px 32px rgba(229,9,20,.42),0 3px 10px rgba(0,0,0,.35);
+ cursor:pointer;transition:transform .2s ease,filter .2s ease;
+}
+#ndCartFloatingButton.show{display:flex}
+#ndCartFloatingButton:hover{transform:translateY(-3px);filter:brightness(1.08)}
+#ndCartFloatingButton:active{transform:scale(.94)}
+#ndCartFloatingButton svg{width:28px;height:28px;fill:currentColor}
+#ndCartBadge{
+ position:absolute;right:-5px;top:-5px;min-width:24px;height:24px;padding:0 6px;
+ border-radius:999px;background:#fff;color:#111;border:3px solid #e50914;
+ display:grid;place-items:center;font-size:11px;font-weight:1000;
+}
+@media(max-width:600px){
+ #ndCartFloatingButton{right:13px;bottom:86px;width:58px;height:58px}
+ #ndCartFloatingButton svg{width:26px;height:26px}
+}
+/* Evita duplicidade visual: usa apenas o novo botão flutuante */
+#ndFxCartbar{display:none!important}
+/* Modal do carrinho mais objetivo */
+#modalCarrinho .btn-finalizar,#modalCarrinho [onclick*="irParaFinalizarPedido"]{
+ position:sticky;bottom:0;width:100%;min-height:52px;border-radius:14px;
+ font-weight:1000;letter-spacing:.4px;
+}
+</style>
+
+<button id="ndCartFloatingButton" type="button" aria-label="Abrir carrinho">
+ <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2ZM1 2v2h2l3.6 7.59-1.35 2.45C5.09 14.32 5 14.65 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03L20.88 5H5.21l-.94-2H1Zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2Z"/></svg>
+ <span id="ndCartBadge">0</span>
+</button>
+
+<script id="nd-cart-ux-final-script">
+(function(){
+ 'use strict';
+ function getCart(){
+   try{return Array.isArray(carrinho)?carrinho:[];}catch(e){return [];}
+ }
+ function qty(){
+   return getCart().reduce(function(n,item){return n+Math.max(0,Number(item.quantidade)||0);},0);
+ }
+ function refresh(){
+   var b=document.getElementById('ndCartFloatingButton');
+   var badge=document.getElementById('ndCartBadge');
+   if(!b||!badge)return;
+   var n=qty();
+   badge.textContent=n>99?'99+':String(n);
+   b.classList.toggle('show',n>0);
+ }
+ function openCart(){
+   if(qty()<=0)return;
+   if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();
+ }
+ document.addEventListener('DOMContentLoaded',function(){
+   var b=document.getElementById('ndCartFloatingButton');
+   if(b)b.addEventListener('click',openCart);
+   refresh();
+   setTimeout(refresh,300);setTimeout(refresh,1000);
+ });
+ /* Atualiza imediatamente depois da função oficial de atualização do carrinho */
+ function patch(){
+   if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__ndCartFinal){
+     var original=window.atualizarCarrinho;
+     window.atualizarCarrinho=function(){
+       var result=original.apply(this,arguments);
+       refresh();
+       return result;
+     };
+     window.atualizarCarrinho.__ndCartFinal=true;
+   }
+ }
+ patch();
+ setTimeout(patch,300);setTimeout(patch,1000);
+ var timer;
+ var obs=new MutationObserver(function(){
+   clearTimeout(timer);
+   timer=setTimeout(refresh,80);
+ });
+ if(document.body)obs.observe(document.body,{subtree:true,childList:true,characterData:true});
+})();
 </script>
 
 </body>
