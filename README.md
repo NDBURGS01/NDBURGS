@@ -1,6 +1,28 @@
+[atual.html](https://github.com/user-attachments/files/31814618/atual.html)
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
+<meta name="nd-site-version" content="20260903-01">
+<script>
+(function () {
+  const ND_SITE_VERSION = "20260903-01";
+  const KEY = "ndburgs_site_version";
+  try {
+    const old = localStorage.getItem(KEY);
+    if (old && old !== ND_SITE_VERSION) {
+      localStorage.setItem(KEY, ND_SITE_VERSION);
+      // Recarrega uma única vez quando a versão do site mudar.
+      const u = new URL(window.location.href);
+      u.searchParams.set("_ndv", ND_SITE_VERSION);
+      window.location.replace(u.toString());
+      return;
+    }
+    localStorage.setItem(KEY, ND_SITE_VERSION);
+  } catch (e) {}
+})();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ND BURGS | Faça seu pedido</title>
@@ -304,7 +326,7 @@ body{background:radial-gradient(circle at 50% -10%,rgba(245,196,0,.10),transpare
 header{padding:10px 16px 8px;background:rgba(4,4,4,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(245,196,0,.35);box-shadow:0 8px 30px rgba(0,0,0,.35)}
 .logo{width:125px;filter:drop-shadow(0 5px 16px rgba(245,196,0,.12))}
 .horarios{margin:12px auto 0}.horarios-box{border:1px solid rgba(245,196,0,.45);background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018));backdrop-filter:blur(14px);border-radius:18px;box-shadow:var(--shadow);padding:13px 16px}.status-aberto{font-size:14px;background:rgba(37,211,102,.10);border:1px solid rgba(37,211,102,.22);display:inline-block;padding:6px 11px;border-radius:999px}.status-fechado{font-size:14px;background:rgba(255,75,75,.08);border:1px solid rgba(255,75,75,.22);display:inline-block;padding:6px 11px;border-radius:999px}
-.container{max-width:1180px;padding:12px 16px 30px}.container>h1{font-size:clamp(28px,5vw,46px);letter-spacing:-1.5px;margin:22px 0 10px;background:linear-gradient(90deg,#fff,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}.container>h1:after{content:"PEDA PELO SITE • RÁPIDO, FÁCIL E DIRETO";display:block;color:#858890;font-size:11px;letter-spacing:2px;margin-top:8px;font-weight:800}
+.container{max-width:1180px;padding:12px 16px 30px}.container>h1{font-size:clamp(28px,5vw,46px);letter-spacing:-1.5px;margin:22px 0 10px;background:linear-gradient(90deg,#fff,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}.container>h1:after{content:"PEÇA PELO SITE • RÁPIDO, FÁCIL E DIRETO";display:block;color:#858890;font-size:11px;letter-spacing:2px;margin-top:8px;font-weight:800}
 .modern-search{position:sticky;top:68px;z-index:800;display:flex;gap:10px;align-items:center;margin:16px 0 13px;padding:10px;border:1px solid var(--line);background:rgba(12,13,15,.88);backdrop-filter:blur(18px);border-radius:16px;box-shadow:0 10px 35px rgba(0,0,0,.28)}.modern-search input{margin:0!important;background:#08090a!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:12px!important;padding:14px 15px!important}.search-count{white-space:nowrap;color:#888;font-size:12px;font-weight:700}
 .categoria-menu{display:flex;overflow-x:auto;gap:8px;padding:3px 1px 12px;margin:0 0 10px;scrollbar-width:none;position:sticky;top:126px;z-index:700;background:linear-gradient(180deg,#0b0c0e 75%,transparent)}.categoria-menu::-webkit-scrollbar{display:none}.categoria-btn{flex:0 0 auto;border:1px solid var(--line);background:rgba(255,255,255,.045);padding:11px 14px;border-radius:999px;transition:.2s}.categoria-btn:hover,.categoria-btn:focus{background:rgba(245,196,0,.10);border-color:rgba(245,196,0,.55);color:var(--gold)}
 .categoria{margin-top:26px;scroll-margin-top:150px}.categoria-titulo{font-size:22px;padding:0 0 10px;border-bottom:1px solid var(--line);position:relative}.categoria-titulo:after{content:"";position:absolute;left:0;bottom:-1px;width:70px;height:2px;background:var(--gold);box-shadow:0 0 16px rgba(245,196,0,.45)}
@@ -354,13 +376,12 @@ Volte durante nosso horário de atendimento.
 
 <br>
 
-Terça a domingo:
-<strong>18:00 às 00:30</strong>
+Terça a sábado:<br><strong>18:00 às 00:30</strong>
 
 <br>
 
 Domingo:
-<strong>18:00 às 00:30</strong>
+<strong>18:00 às 00:00</strong>
 
 <br>
 
@@ -379,28 +400,16 @@ Segunda-feira:
 
 </header>
 
-<section class="nd-v4-hero">
-  <div class="nd-v4-hero-glow"></div>
-  <div class="nd-v4-hero-content">
-    <span class="nd-v4-kicker">🔥 PEDIDOS ONLINE</span>
-    <h1>EAI,<br><em>BORA DE #NDBURGS.</em></h1>
-    <p>Escolha seus favoritos, monte seu pedido e envie direto para a ND BURGS.</p>
-    <div class="nd-v4-hero-actions">
-      <button type="button" class="nd-v4-primary" onclick="document.getElementById('combos')?.scrollIntoView({behavior:'smooth'})">PEDIR AGORA <span>→</span></button>
-      <button type="button" class="nd-v4-secondary" onclick="document.getElementById('combos')?.scrollIntoView({behavior:'smooth'})">VER CARDÁPIO</button>
-    </div>
-    <div class="nd-v4-trustline">
-      <span>🛵 DELIVERY</span><span>🏪 RETIRADA</span><span>📲 WHATSAPP</span>
-   </div>
+<section class="nd-new-top">
+  <div class="nd-new-top-main">
+    <div class="nd-new-kicker">🔥 PEDIDOS ONLINE</div>
+    <h1>SEU PEDIDO.<br><span>DO SEU JEITO.</span></h1>
+    <p>Escolha os produtos, ajuste a quantidade e monte seu pedido sem complicação.</p>
   </div>
-  <div class="nd-v4-hero-art" aria-hidden="true">
-    <div class="nd-v4-art-ring"></div>
-    <img
-      src="https://i.ibb.co/nMmfSSt1/Chat-GPT-Image-28-de-jul-de-2026-22-33-11.png"
-      alt="Hambúrguer ND BURGS"
-      class="nd-v4-art-burger"
-    >
-    <div class="nd-v4-art-price">PEÇA<br><strong>AGORA</strong></div>
+  <div class="nd-new-top-info">
+    <div class="nd-info-pill">🛵 <b>DELIVERY</b><small>Taxa por região</small></div>
+    <div class="nd-info-pill">🏪 <b>RETIRADA</b><small>Pedido pelo site</small></div>
+    <div class="nd-info-pill">📲 <b>WHATSAPP</b><small>Envio rápido</small></div>
   </div>
 </section>
 
@@ -415,13 +424,12 @@ Segunda-feira:
 
 <div class="horarios-linha">
 
-📅 Terça a domingo:
-<strong>18:00 às 00:30</strong>
+📅 Terça a sábado:<br><strong>18:00 às 00:30</strong>
 
 <br>
 
 📅 Domingo:
-<strong>18:00 às 00:30</strong>
+<strong>18:00 às 00:00</strong>
 
 <br>
 
@@ -4114,7 +4122,7 @@ const agora=new Date();
 const dia=agora.getDay();
 const minutos=agora.getHours()*60+agora.getMinutes();
 let aberto=false;
-// Terça a domingo: 18:00 até 00:30. Segunda: fechado.
+// Terça a sábado: 18:00 até 00:30. Segunda: fechado.
 if(dia>=2 && dia<=6 && minutos>=1080) aberto=true;
 if(dia===0 && minutos>=1080) aberto=true;
 if(dia>=3 && dia<=0 && minutos<30) aberto=true;
@@ -4989,5 +4997,233 @@ window.addEventListener('DOMContentLoaded',()=>{
 })();
 </script>
 
+
+<style id="nd-layout-final">
+/* =========================================================
+   ND BURGS — NOVO LAYOUT / PRETO + LARANJA
+   Estrutura nova sem alterar a lógica dos produtos/carrinho.
+   ========================================================= */
+:root{
+  --nd-orange:#ff6a00;
+  --nd-orange2:#ff8a1f;
+  --nd-black:#050505;
+  --nd-panel:#0d0d0d;
+  --nd-panel2:#121212;
+  --nd-line:#262626;
+  --nd-text:#f4f4f4;
+  --nd-muted:#8e8e8e;
+}
+html,body{background:var(--nd-black)!important;color:var(--nd-text)!important}
+body{padding-bottom:105px!important;overflow-x:hidden}
+header{position:sticky!important;top:0!important;z-index:5000!important;height:78px!important;padding:8px 16px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(5,5,5,.96)!important;border-bottom:1px solid #ff6a00!important}
+header .logo{width:auto!important;height:60px!important;max-width:180px!important;object-fit:contain!important}
+/* remove the old visual hero; the new top is compact and text-first */
+.nd-v4-hero{display:none!important}
+.nd-new-top{max-width:1180px;margin:0 auto;padding:30px 18px 22px;display:grid;grid-template-columns:1.35fr 1fr;gap:22px;align-items:end;border-bottom:1px solid #181818;background:linear-gradient(180deg,#080808,#050505)}
+.nd-new-kicker{display:inline-flex;width:max-content;padding:7px 10px;border:1px solid #ff6a0050;border-radius:999px;color:var(--nd-orange2);font-size:11px;font-weight:1000;letter-spacing:1px;background:#ff6a000b}
+.nd-new-top h1{font-size:clamp(34px,6vw,66px)!important;line-height:.92!important;letter-spacing:-2.5px!important;margin:14px 0 10px!important;color:#fff!important;text-align:left!important}
+.nd-new-top h1 span{color:var(--nd-orange)!important}
+.nd-new-top p{max-width:620px;color:#999;font-size:14px;line-height:1.5;margin:0}
+.nd-new-top-info{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.nd-info-pill{min-height:74px;padding:12px 10px;border:1px solid #242424;border-radius:14px;background:#0d0d0d;display:flex;flex-direction:column;justify-content:center;gap:3px;font-size:17px}
+.nd-info-pill b{font-size:11px;letter-spacing:.4px;color:#fff}
+.nd-info-pill small{font-size:10px;color:#777}
+.container{max-width:1180px!important;padding:14px 16px 35px!important}
+.container>h1{font-size:clamp(24px,4vw,38px)!important;margin:18px 0 12px!important;color:#fff!important;text-align:left!important;letter-spacing:-1px!important}
+.modern-search{position:sticky!important;top:78px!important;z-index:4200!important;margin:0 0 10px!important;padding:8px!important;border:1px solid #262626!important;border-radius:14px!important;background:rgba(12,12,12,.97)!important;box-shadow:0 10px 28px #000!important}
+.modern-search input{height:46px!important;padding:12px 14px!important;font-size:14px!important;background:#080808!important;border:1px solid #242424!important}
+.search-count{color:#777!important}
+.categoria-menu{position:sticky!important;top:142px!important;z-index:4100!important;display:flex!important;overflow-x:auto!important;gap:7px!important;padding:6px 1px 11px!important;margin:0!important;background:linear-gradient(180deg,#050505 75%,transparent)!important;scrollbar-width:none!important}
+.categoria-menu::-webkit-scrollbar{display:none}
+.categoria-btn{flex:0 0 auto!important;padding:10px 13px!important;border:1px solid #282828!important;border-radius:999px!important;background:#101010!important;color:#bbb!important;font-size:11px!important;font-weight:1000!important;transition:.18s!important}
+.categoria-btn:hover,.categoria-btn:focus{background:var(--nd-orange)!important;color:#050505!important;border-color:var(--nd-orange)!important}
+.categoria{margin-top:28px!important;scroll-margin-top:185px!important}
+.categoria-titulo{font-size:21px!important;font-weight:1000!important;border:0!important;padding:0 0 10px!important;margin-bottom:12px!important;color:#fff!important}
+.categoria-titulo:after{background:var(--nd-orange)!important;width:55px!important;box-shadow:0 0 14px #ff6a0070!important}
+.produtos{grid-template-columns:repeat(auto-fill,minmax(225px,1fr))!important;gap:13px!important}
+.produto{display:flex!important;flex-direction:column!important;min-width:0!important;padding:10px!important;border-radius:16px!important;background:linear-gradient(145deg,#111,#0b0b0b)!important;border:1px solid #252525!important;box-shadow:0 8px 25px rgba(0,0,0,.25)!important}
+.produto:hover{transform:translateY(-3px)!important;border-color:#ff6a0060!important;box-shadow:0 15px 35px rgba(0,0,0,.45)!important}
+.produto .produto-imagem{width:100%!important;aspect-ratio:1/1!important;height:auto!important;max-height:none!important;object-fit:cover!important;border-radius:12px!important;background:#080808!important;margin:0 0 10px!important}
+.produto h3{font-size:16px!important;line-height:1.15!important;margin:1px 2px 5px!important;color:#fff!important}
+.produto p{font-size:11px!important;line-height:1.4!important;color:#858585!important;min-height:31px!important;margin:0 2px!important}
+.preco{font-size:20px!important;color:var(--nd-orange2)!important;margin:9px 2px!important;font-weight:1000!important}
+/* quantity control on every product */
+.nd-card-actions{display:grid;grid-template-columns:1fr;gap:7px;margin-top:auto;padding-top:3px}
+.nd-qty{height:46px;display:grid;grid-template-columns:46px 1fr 46px;align-items:center;border:1px solid #303030;border-radius:12px;overflow:hidden;background:#090909}
+.nd-qty button{height:100%;border:0;background:#171717;color:#fff;font-size:24px;font-weight:1000;cursor:pointer;transition:.15s}
+.nd-qty button:hover{background:var(--nd-orange);color:#050505}
+.nd-qty strong{text-align:center;font-size:16px;color:#fff}
+.nd-qty.has-items{border-color:#ff6a0080;box-shadow:inset 0 0 0 1px #ff6a0015}
+.nd-qty.has-items strong{color:var(--nd-orange2)}
+.nd-custom-label{height:46px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(135deg,var(--nd-orange),var(--nd-orange2));color:#050505;font-size:12px;font-weight:1000}
+.nd-custom-note{text-align:center;color:#777;font-size:9px;margin-top:4px}
+.produto .btn-add{display:none!important}
+/* cards without photos stay clean */
+.produto:not(:has(.produto-imagem)){padding-top:18px}
+/* cart */
+.carrinho,.formulario{background:#0d0d0d!important;border:1px solid #262626!important;border-radius:18px!important;box-shadow:0 15px 45px rgba(0,0,0,.3)!important}
+.item-carrinho{padding:14px 0!important}
+.controles button,.controles-modal button{background:var(--nd-orange)!important;color:#050505!important;border-radius:9px!important}
+.controles .remover,.controles-modal .remover{background:#8f1717!important;color:#fff!important}
+.total,.total-modal{color:var(--nd-orange2)!important}
+.carrinho-flutuante{bottom:10px!important;width:calc(100% - 18px)!important;max-width:760px!important;background:rgba(12,12,12,.97)!important;border:1px solid #ff6a0080!important;border-top:2px solid var(--nd-orange)!important;border-radius:16px!important;box-shadow:0 15px 45px #000!important}
+.btn-ver-carrinho,.btn-finalizar-pedido,.btn-finalizar-modal,.btn-whatsapp{background:linear-gradient(135deg,var(--nd-orange),var(--nd-orange2))!important;color:#050505!important}
+.btn-continuar-comprando{background:#171717!important;border:1px solid #303030!important;color:#fff!important}
+/* checkout / modal */
+.painel-carrinho,.painel-finalizar,.modal-box{background:#0d0d0d!important;border:1px solid #ff6a0060!important}
+.nd-v4-step.active{border-color:var(--nd-orange)!important;color:var(--nd-orange)!important;background:#ff6a0010!important}
+.nd-v4-next{background:var(--nd-orange)!important;color:#050505!important}
+.nd-v4-pay.active{border-color:var(--nd-orange)!important;color:var(--nd-orange)!important}
+/* schedule */
+.horarios-box{background:#0d0d0d!important;border:1px solid #252525!important}
+.horarios-titulo{color:var(--nd-orange)!important}
+.status-aberto{color:var(--nd-orange2)!important;border-color:var(--nd-orange)!important;background:#101010!important}
+/* footer */
+.instagram-destaque{background:#0d0d0d!important;border:1px solid #292929!important}
+.instagram-texto span{color:var(--nd-orange)!important}
+@media(max-width:760px){
+ header{height:64px!important}.nd-new-top{display:block;padding:22px 11px 16px}.nd-new-top h1{font-size:40px!important}.nd-new-top p{font-size:12px}.nd-new-top-info{margin-top:16px;grid-template-columns:repeat(3,1fr)}.nd-info-pill{min-height:66px;padding:8px 6px;font-size:15px}.nd-info-pill b{font-size:9px}.nd-info-pill small{font-size:8px}.modern-search{top:64px!important}.categoria-menu{top:124px!important}.categoria{scroll-margin-top:165px!important}.container{padding-left:8px!important;padding-right:8px!important}.produtos{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}.produto{padding:8px!important;border-radius:14px!important}.produto .produto-imagem{border-radius:10px!important;margin-bottom:8px!important}.produto h3{font-size:13px!important}.produto p{font-size:10px!important;min-height:38px!important}.preco{font-size:18px!important}.nd-qty{height:43px;grid-template-columns:40px 1fr 40px}.nd-qty button{font-size:21px}.nd-qty strong{font-size:14px}.nd-custom-label{height:43px;font-size:11px}.carrinho-flutuante{bottom:7px!important}.carrinho-flutuante-total{font-size:15px!important}.btn-ver-carrinho{padding:10px 11px!important;font-size:10px!important}
+}
+</style>
+
+<script id="nd-layout-final-logic">
+(function(){
+  'use strict';
+  const money = v => 'R$ '+Number(v||0).toFixed(2).replace('.',',');
+  const cart = () => window.carrinho || [];
+
+  function cardQty(name, custom){
+    const upper=String(name||'').trim().toUpperCase();
+    if(!upper) return 0;
+    return cart().reduce((sum,item)=>{
+      const n=String(item.nome||'').toUpperCase();
+      if(custom ? n.indexOf(upper)===0 : n===upper) return sum + (Number(item.quantidade)||1);
+      return sum;
+    },0);
+  }
+
+  function removeFromCard(name, custom){
+    const upper=String(name||'').trim().toUpperCase();
+    for(let i=cart().length-1;i>=0;i--){
+      const n=String(cart()[i].nome||'').toUpperCase();
+      if((custom ? n.indexOf(upper)===0 : n===upper)){
+        if((Number(cart()[i].quantidade)||1)>1) cart()[i].quantidade--;
+        else cart().splice(i,1);
+        if(typeof window.salvarCarrinho==='function') window.salvarCarrinho();
+        if(typeof window.atualizarCarrinho==='function') window.atualizarCarrinho();
+        return;
+      }
+    }
+  }
+
+  function addCard(name,price,custom,button){
+    if(custom){
+      if(button) button.click();
+      return;
+    }
+    if(typeof window.adicionar==='function') window.adicionar(name,price);
+  }
+
+  function renderCardControls(){
+    document.querySelectorAll('.produto').forEach(card=>{
+      const old=card.querySelector('.nd-card-actions');
+      const btn=card.querySelector('.btn-add');
+      const title=card.querySelector('h3');
+      if(!btn||!title) return;
+      const name=title.textContent.trim();
+      const onclick=btn.getAttribute('onclick')||'';
+      const simple=/adicionar\s*\(/i.test(onclick);
+      let price=0;
+      const m=onclick.match(/adicionar\s*\(\s*['\"]([^'\"]+)['\"]\s*,\s*([0-9.]+)/i);
+      if(m) price=Number(m[2]);
+      const custom=!simple;
+      if(old){
+        const count=cardQty(name,custom);
+        const strong=old.querySelector('.nd-qty strong');
+        const box=old.querySelector('.nd-qty');
+        if(strong) strong.textContent=count;
+        if(box) box.classList.toggle('has-items',count>0);
+        return;
+      }
+      const wrap=document.createElement('div');
+      wrap.className='nd-card-actions';
+      const count=cardQty(name,custom);
+      if(simple){
+        wrap.innerHTML=`<div class="nd-qty ${count?'has-items':''}" aria-label="Quantidade de ${name}"><button type="button" class="nd-minus" aria-label="Diminuir">−</button><strong>${count}</strong><button type="button" class="nd-plus" aria-label="Aumentar">+</button></div>`;
+        wrap.querySelector('.nd-minus').onclick=()=>removeFromCard(name,false);
+        wrap.querySelector('.nd-plus').onclick=()=>addCard(m?m[1]:name,price,false,btn);
+      }else{
+        wrap.innerHTML=`<div class="nd-qty ${count?'has-items':''}" aria-label="Quantidade de ${name}"><button type="button" class="nd-minus" aria-label="Diminuir">−</button><strong>${count}</strong><button type="button" class="nd-plus" aria-label="Escolher ${name}">+</button></div><div class="nd-custom-note">+ abre as opções de personalização</div>`;
+        wrap.querySelector('.nd-minus').onclick=()=>removeFromCard(name,true);
+        wrap.querySelector('.nd-plus').onclick=()=>{btn.click();};
+      }
+      card.appendChild(wrap);
+    });
+  }
+
+  function refreshControls(){
+    document.querySelectorAll('.produto').forEach(card=>{
+      const title=card.querySelector('h3'), old=card.querySelector('.nd-card-actions');
+      if(!title||!old)return;
+      const btn=card.querySelector('.btn-add');
+      const custom=btn && !/adicionar\s*\(/i.test(btn.getAttribute('onclick')||'');
+      const count=cardQty(title.textContent.trim(),custom);
+      const strong=old.querySelector('.nd-qty strong'), box=old.querySelector('.nd-qty');
+      if(strong)strong.textContent=count;
+      if(box)box.classList.toggle('has-items',count>0);
+    });
+  }
+
+  function installWrappers(){
+    if(window.__ndLayoutFinalInstalled)return;
+    window.__ndLayoutFinalInstalled=true;
+    const oldAdd=window.adicionar;
+    if(typeof oldAdd==='function'){
+      window.adicionar=function(){const r=oldAdd.apply(this,arguments);setTimeout(refreshControls,20);return r};
+    }
+    const oldUpdate=window.atualizarCarrinho;
+    if(typeof oldUpdate==='function'){
+      window.atualizarCarrinho=function(){const r=oldUpdate.apply(this,arguments);setTimeout(refreshControls,20);return r};
+    }
+    const oldChange=window.alterarQuantidade;
+    if(typeof oldChange==='function'){
+      window.alterarQuantidade=function(){const r=oldChange.apply(this,arguments);setTimeout(refreshControls,20);return r};
+    }
+    const oldRemove=window.removerItem;
+    if(typeof oldRemove==='function'){
+      window.removerItem=function(){const r=oldRemove.apply(this,arguments);setTimeout(refreshControls,20);return r};
+    }
+  }
+
+  function correctSchedule(){
+    const now=new Date();
+    const day=now.getDay();
+    const min=now.getHours()*60+now.getMinutes();
+    let open=false;
+    // Terça a sábado: 18:00 até 00:30 do dia seguinte.
+    // Domingo: 18:00 até 00:00. Segunda: fechado.
+    if(day>=2 && day<=6) open=min>=1080 || (min<30 && day>=3);
+    if(day===0) open=min>=1080;
+    if(day===1) open=false;
+    const block=document.getElementById('bloqueioHorario');
+    const status=document.getElementById('statusHorario');
+    if(block) block.style.display=open?'none':'flex';
+    if(status){status.className=open?'status-aberto':'status-fechado';status.innerHTML=open?'🟢 ESTAMOS ACEITANDO PEDIDOS #BORADENDBURGS':'🔴 PEDIDOS FECHADOS NO MOMENTO';}
+  }
+
+  function init(){
+    renderCardControls();
+    installWrappers();
+    refreshControls();
+    correctSchedule();
+    setInterval(correctSchedule,30000);
+    window.addEventListener('storage',refreshControls);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,300));
+  else setTimeout(init,300);
+})();
+</script>
+
 </body>
 </html>
+<!-- ND BURGS VERSION: 20260903-01 -->
