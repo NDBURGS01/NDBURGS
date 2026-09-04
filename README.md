@@ -6371,5 +6371,383 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
 })();
 </script>
 
+
+
+
+<!-- ETAPA 22 — BOTÕES FUTURISTAS ND BURGS | camada visual, sem alterar funções -->
+<style id="nd-etapa-22-buttons">
+:root{--nd22-blue:#168cff;--nd22-blue2:#0066ff;--nd22-dark:#080b10;--nd22-border:rgba(22,140,255,.55)}
+/* Botões de produto */
+.btn.btn-add,
+.nd-r3-add,
+.nd-r7-add,
+.r11-add,
+button[data-add],
+button[data-batata]{
+  position:relative!important; overflow:hidden!important; isolation:isolate;
+  background:linear-gradient(180deg,#111923 0%,#0a0f16 100%)!important;
+  color:#fff!important; border:1px solid rgba(22,140,255,.48)!important;
+  border-radius:14px!important; box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 4px 14px rgba(0,0,0,.42)!important;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+.btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before{
+  content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 15%,rgba(255,255,255,.13) 42%,transparent 68%);
+  transform:translateX(-120%);transition:transform .55s ease;
+}
+.btn.btn-add::after,.nd-r3-add::after,.nd-r7-add::after,.r11-add::after,button[data-add]::after,button[data-batata]::after{
+  content:"";position:absolute;left:12%;right:12%;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,transparent,var(--nd22-blue),transparent);opacity:.7;transition:opacity .2s ease,transform .2s ease;
+}
+.btn.btn-add:hover,.nd-r3-add:hover,.nd-r7-add:hover,.r11-add:hover,button[data-add]:hover,button[data-batata]:hover{
+  background:linear-gradient(180deg,#0b8cff 0%,#005ee8 100%)!important;
+  border-color:#49a9ff!important;transform:translateY(-2px)!important;
+  box-shadow:0 8px 24px rgba(0,110,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
+}
+.btn.btn-add:hover::before,.nd-r3-add:hover::before,.nd-r7-add:hover::before,.r11-add:hover::before,button[data-add]:hover::before,button[data-batata]:hover::before{transform:translateX(120%)}
+.btn.btn-add:active,.nd-r3-add:active,.nd-r7-add:active,.r11-add:active,button[data-add]:active,button[data-batata]:active{transform:translateY(0) scale(.975)!important}
+/* CTA principal / WhatsApp */
+.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,
+button[onclick*="finalizarPedido"],button[onclick*="finalizarPedidoModal"],button[onclick*="WhatsApp"],button[onclick*="whatsapp"]{
+  position:relative!important;overflow:hidden!important;isolation:isolate;
+  background:linear-gradient(135deg,#087dff 0%,#0057d9 55%,#003fa8 100%)!important;
+  color:#fff!important;border:1px solid #4aaaff!important;border-radius:15px!important;
+  box-shadow:0 8px 26px rgba(0,105,255,.28),inset 0 1px 0 rgba(255,255,255,.25)!important;
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease!important;
+}
+.nd-v4-primary:hover,.nd-v4-next:hover,.nd17-gate-main:hover,.btn-finalizar-pedido:hover,.nd-fx-cart-open:hover,.ndFx-action.primary:hover,#ndFxSendReview:hover,
+button[onclick*="finalizarPedido"]:hover,button[onclick*="finalizarPedidoModal"]:hover,button[onclick*="WhatsApp"]:hover,button[onclick*="whatsapp"]:hover{
+  filter:brightness(1.13);transform:translateY(-2px)!important;box-shadow:0 12px 32px rgba(0,105,255,.38),inset 0 1px 0 rgba(255,255,255,.32)!important;
+}
+/* Varredura futurista */
+.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after,
+button[onclick*="finalizarPedido"]::after,button[onclick*="finalizarPedidoModal"]::after,button[onclick*="WhatsApp"]::after,button[onclick*="whatsapp"]::after{
+  content:"";position:absolute;top:0;bottom:0;width:45%;left:-55%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.24),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none;
+}
+.nd-v4-primary:hover::after,.nd-v4-next:hover::after,.nd17-gate-main:hover::after,.btn-finalizar-pedido:hover::after,.nd-fx-cart-open:hover::after,.ndFx-action.primary:hover::after,#ndFxSendReview:hover::after,
+button[onclick*="finalizarPedido"]:hover::after,button[onclick*="finalizarPedidoModal"]:hover::after,button[onclick*="WhatsApp"]:hover::after,button[onclick*="whatsapp"]:hover::after{left:115%}
+/* Categorias: premium, sem mudar posição/funcionalidade */
+.categoria-btn{transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important}
+.categoria-btn:hover{transform:translateX(4px)!important;background:linear-gradient(90deg,rgba(0,102,255,.22),rgba(0,102,255,.06))!important;border-color:rgba(22,140,255,.65)!important;box-shadow:0 5px 18px rgba(0,80,220,.16)!important}
+/* Preços continuam brilhando, sem alterar o texto */
+.preco{ text-shadow:0 0 7px rgba(22,140,255,.7),0 0 18px rgba(22,140,255,.28)!important; }
+/* Acessibilidade */
+button:focus-visible{outline:2px solid #49a9ff!important;outline-offset:3px!important}
+@media (prefers-reduced-motion:reduce){
+  .btn.btn-add,.nd-r3-add,.nd-r7-add,.r11-add,button[data-add],button[data-batata],.nd-v4-primary,.nd-v4-next,.nd17-gate-main,.btn-finalizar-pedido,.nd-fx-cart-open,.ndFx-action.primary,#ndFxSendReview,.categoria-btn{transition:none!important}
+  .btn.btn-add::before,.nd-r3-add::before,.nd-r7-add::before,.r11-add::before,button[data-add]::before,button[data-batata]::before,.nd-v4-primary::after,.nd-v4-next::after,.nd17-gate-main::after,.btn-finalizar-pedido::after,.nd-fx-cart-open::after,.ndFx-action.primary::after,#ndFxSendReview::after{display:none!important}
+}
+</style>
+<script>
+(function(){
+  'use strict';
+  /* Apenas feedback visual. Não intercepta onclicks nem funções do sistema. */
+  document.addEventListener('pointerdown',function(e){
+    const b=e.target.closest('button'); if(!b) return;
+    b.classList.remove('nd22-pressed'); void b.offsetWidth; b.classList.add('nd22-pressed');
+    setTimeout(()=>b.classList.remove('nd22-pressed'),180);
+  },{passive:true});
+})();
+</script>
+
+
+<!-- =========================================================
+     ETAPA 23 — RECUPERAÇÃO COMPLETA DO CARRINHO + ENDEREÇO
+     Camada isolada: restaura carrinho, checkout e autocomplete.
+     Não altera favoritos nem a lógica dos produtos.
+     ========================================================= -->
+<style id="nd-etapa-23-fix">
+/* CARRINHO — restaurado e sempre acessível quando houver itens */
+#carrinhoFlutuante{
+  display:flex!important;
+  position:fixed!important;
+  left:50%!important;
+  bottom:14px!important;
+  transform:translateX(-50%) translateY(150px)!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  z-index:999999!important;
+  width:min(760px,calc(100% - 24px))!important;
+  max-width:760px!important;
+  box-sizing:border-box!important;
+  background:#0b0b0b!important;
+  border:1px solid #1677ff!important;
+  border-radius:16px!important;
+  box-shadow:0 12px 35px rgba(0,0,0,.75)!important;
+}
+#carrinhoFlutuante.ativo{
+  transform:translateX(-50%) translateY(0)!important;
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+#carrinhoFlutuante .btn-ver-carrinho{
+  display:inline-flex!important;align-items:center;justify-content:center!important;
+  background:#1677ff!important;color:#fff!important;border:1px solid #4aaaff!important;
+  border-radius:11px!important;font-weight:900!important;cursor:pointer!important;
+}
+/* A barra moderna também pode aparecer; evita duas barras ao mesmo tempo */
+#ndFxCartbar{display:none!important}
+#ndFxCartbar.show{display:flex!important;position:fixed!important;bottom:14px!important;z-index:999998!important}
+body.nd23-use-fx-cart #carrinhoFlutuante{display:none!important}
+body.nd23-use-fx-cart #ndFxCartbar.show{display:flex!important}
+
+/* MODAIS — acima de qualquer camada visual antiga */
+#modalCarrinho{z-index:1000001!important}
+#modalFinalizar{z-index:1000002!important}
+#modalCarrinho.ativo,#modalFinalizar.ativo{display:flex!important;visibility:visible!important;opacity:1!important}
+#modalCarrinho .painel-carrinho,#modalFinalizar .painel-finalizar{position:relative!important;z-index:2!important;visibility:visible!important}
+#itensCarrinhoModal{display:block!important;visibility:visible!important;min-height:20px!important}
+#itensCarrinhoModal .vazio{padding:25px 10px!important;text-align:center!important;color:#aaa!important}
+
+/* BOTÕES DO CARRINHO */
+#modalCarrinho .btn-continuar-comprando,
+#modalCarrinho .btn-finalizar-pedido{
+  display:flex!important;width:100%!important;min-height:48px!important;
+  align-items:center!important;justify-content:center!important;margin-top:9px!important;
+  cursor:pointer!important;visibility:visible!important;
+}
+#modalCarrinho .btn-finalizar-pedido{background:#1677ff!important;color:#fff!important;border:1px solid #4aaaff!important}
+#modalCarrinho .btn-continuar-comprando{background:#151515!important;color:#fff!important;border:1px solid #333!important}
+
+/* CHECKOUT — todas as 4 etapas ficam disponíveis quando aberto */
+#modalFinalizar .nd-v4-stepbar{display:grid!important}
+#modalFinalizar .nd-v4-step-content.active{display:block!important}
+#modalFinalizar .nd-v4-step-content:not(.active){display:none!important}
+#modalFinalizar .nd-v4-next,
+#modalFinalizar .nd-v4-back{display:flex!important;align-items:center!important;justify-content:center!important;min-height:48px!important;cursor:pointer!important}
+#modalFinalizar .nd-v4-next{background:#1677ff!important;color:#fff!important;border:1px solid #4aaaff!important}
+#modalFinalizar .nd-v4-back{background:#111!important;color:#fff!important;border:1px solid #333!important}
+
+/* ENDEREÇO — sugestões visíveis e clicáveis */
+.nd23-suggest-wrap{position:relative!important;width:100%!important}
+.nd23-suggest-list{
+  position:absolute!important;left:0!important;right:0!important;top:calc(100% + 5px)!important;
+  z-index:2000000!important;display:none!important;max-height:240px!important;overflow-y:auto!important;
+  background:#0d0d0d!important;border:1px solid #1677ff!important;border-radius:12px!important;
+  box-shadow:0 15px 35px rgba(0,0,0,.85)!important;
+}
+.nd23-suggest-list.show{display:block!important}
+.nd23-suggest-item{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
+  width:100%!important;box-sizing:border-box!important;padding:12px 13px!important;
+  color:#fff!important;background:#0d0d0d!important;border:0!important;border-bottom:1px solid #222!important;
+  cursor:pointer!important;text-align:left!important;font-size:13px!important;
+}
+.nd23-suggest-item:last-child{border-bottom:0!important}
+.nd23-suggest-item:hover,.nd23-suggest-item:focus{background:#1677ff!important;color:#fff!important;outline:none!important}
+.nd23-suggest-item small{color:#58a7ff!important;white-space:nowrap!important;font-weight:900!important}
+.nd23-suggest-item:hover small{color:#fff!important}
+#nd17GateStreet,#ruaBusca,#ruaBuscaModal{position:relative!important;z-index:2000001!important}
+
+/* Tela inicial de boas-vindas */
+#nd17Gate .nd23-welcome{
+  display:inline-flex!important;padding:6px 10px!important;margin-bottom:4px!important;
+  border:1px solid #252525!important;border-radius:999px!important;background:#101010!important;
+  color:#1677ff!important;font-size:10px!important;font-weight:900!important;letter-spacing:1px!important;
+}
+#nd17Gate .nd17-gate-panel h2{color:#fff!important}
+#nd17Gate .nd17-gate-panel p{color:#aaa!important}
+
+@media(max-width:700px){
+ #carrinhoFlutuante{bottom:8px!important;width:calc(100% - 14px)!important;padding:9px!important}
+ #carrinhoFlutuante .carrinho-flutuante-total{font-size:15px!important}
+ #carrinhoFlutuante .btn-ver-carrinho{padding:11px 12px!important;font-size:11px!important}
+ .nd23-suggest-list{max-height:220px!important}
+ .nd23-suggest-item{padding:13px 12px!important}
+}
+</style>
+
+<script id="nd-etapa-23-fix-js">
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+
+function getCart(){
+  try{
+    if(typeof window.carrinho!=='undefined' && Array.isArray(window.carrinho)) return window.carrinho;
+  }catch(e){}
+  return [];
+}
+function cartQty(){return getCart().reduce((s,i)=>s+(Number(i.quantidade)||1),0)}
+function cartSub(){return getCart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
+
+/* ===== CARRINHO ===== */
+function restoreCart(){
+  const cart=getCart();
+  const bar=$('#carrinhoFlutuante');
+  if(!bar)return;
+  const qty=cartQty(), sub=cartSub();
+  const fee=(typeof window.obterTaxaEntrega==='function')?Number(window.obterTaxaEntrega()||0):0;
+  const total=sub+fee;
+  const count=$('#contadorCarrinho'), totalEl=$('#totalCarrinhoFlutuante');
+  if(count)count.textContent=qty+' '+(qty===1?'item':'itens');
+  if(totalEl)totalEl.textContent=money(total);
+  bar.classList.toggle('ativo',qty>0);
+  if(qty>0)bar.removeAttribute('aria-hidden');else bar.setAttribute('aria-hidden','true');
+
+  /* Se a barra moderna existir, mantém os valores dela também. */
+  const fx=$('#ndFxCartbar');
+  if(fx){
+    fx.classList.toggle('show',qty>0);
+    const q=$('#ndFxCartQty'),t=$('#ndFxCartTotal');
+    if(q)q.textContent=qty+' '+(qty===1?'item':'itens');
+    if(t)t.textContent=money(total);
+  }
+}
+
+function forceUpdateCart(){
+  try{if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho()}catch(e){}
+  setTimeout(restoreCart,20);setTimeout(restoreCart,120);setTimeout(restoreCart,350);
+}
+
+/* Reconecta abertura do carrinho sem substituir o motor original. */
+const originalOpen=window.abrirCarrinho;
+if(typeof originalOpen==='function' && !originalOpen.__nd23){
+  const wrapped=function(){
+    if(getCart().length===0){restoreCart();return;}
+    try{originalOpen.apply(this,arguments)}catch(e){
+      const m=$('#modalCarrinho');if(m)m.classList.add('ativo');
+    }
+    setTimeout(()=>{
+      try{if(typeof window.atualizarModalCarrinho==='function')window.atualizarModalCarrinho()}catch(e){}
+      restoreCart();
+    },20);
+  };
+  wrapped.__nd23=true;window.abrirCarrinho=wrapped;
+}
+
+/* Se o onclick do botão existir, garante que ele chama a função correta. */
+function bindCartButton(){
+  const b=$('#carrinhoFlutuante .btn-ver-carrinho');
+  if(b&&!b.__nd23){b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.abrirCarrinho()});b.__nd23=true}
+  const final=$('#modalCarrinho .btn-finalizar-pedido');
+  if(final&&!final.__nd23){final.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.irParaFinalizarPedido&&window.irParaFinalizarPedido()});final.__nd23=true}
+}
+
+/* ===== CHECKOUT ===== */
+function ensureCheckout(){
+  const modal=$('#modalFinalizar');
+  if(!modal)return;
+  if(typeof window.buildCheckout==='function'){
+    try{window.buildCheckout()}catch(e){}
+  }
+  setTimeout(()=>{
+    if(typeof window.carregarRuasModal==='function')try{window.carregarRuasModal()}catch(e){}
+    if(typeof window.ndStep==='function')try{window.ndStep(1)}catch(e){}
+    bindFinish();
+  },30);
+}
+function bindFinish(){
+  const b=$('#modalFinalizar .nd-v4-step-content[data-content="4"] .nd-v4-next');
+  if(b){b.textContent='CONCLUIR PEDIDO E ENVIAR PARA NDBURGS';b.type='button';b.onclick=function(e){e.preventDefault();if(typeof window.nd17Finish==='function')return window.nd17Finish();if(typeof window.finalizarPedidoModal==='function')return window.finalizarPedidoModal();};}
+}
+
+/* ===== ENDEREÇOS ===== */
+function streets(){
+  try{
+    const obj=window.taxas||{};
+    return Object.keys(obj).filter(s=>!['BALCAO','RETIRADA','IFOOD','99FOOD','MERCADO LIVRE'].includes(norm(s)));
+  }catch(e){return []}
+}
+function streetFee(s){return Number((window.taxas||{})[s]||0)}
+function setupSuggest(input, gateMode){
+  if(!input || input.dataset.nd23==='1')return;
+  input.dataset.nd23='1';
+  const wrap=document.createElement('div');wrap.className='nd23-suggest-wrap';
+  input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);
+  const list=document.createElement('div');list.className='nd23-suggest-list';wrap.appendChild(list);
+  function render(){
+    const q=norm(input.value);
+    const arr=streets().filter(s=>!q||norm(s).includes(q)).slice(0,15);
+    list.innerHTML='';
+    arr.forEach(s=>{
+      const item=document.createElement('button');item.type='button';item.className='nd23-suggest-item';
+      const label=document.createElement('span');label.textContent=s;
+      const fee=document.createElement('small');fee.textContent=money(streetFee(s));
+      item.append(label,fee);
+      item.addEventListener('click',function(){
+        input.value=s;input.dataset.selectedStreet=s;list.classList.remove('show');
+        input.dispatchEvent(new Event('change',{bubbles:true}));
+        if(gateMode){
+          const sel=$('#ruaModal');if(sel&&[...sel.options].some(o=>o.value===s))sel.value=s;
+          const sel2=$('#rua');if(sel2&&[...sel2.options].some(o=>o.value===s))sel2.value=s;
+        }else{
+          const sel=$('#ruaModal');if(sel&&[...sel.options].some(o=>o.value===s))sel.value=s;
+          const sel2=$('#rua');if(sel2&&[...sel2.options].some(o=>o.value===s))sel2.value=s;
+        }
+        try{if(typeof window.calcularTaxaModal==='function')window.calcularTaxaModal()}catch(e){}
+        try{if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho()}catch(e){}
+      });
+      list.appendChild(item);
+    });
+    list.classList.toggle('show',arr.length>0 && (q.length>0 || gateMode));
+  }
+  input.addEventListener('input',render);
+  input.addEventListener('focus',()=>{if(input.value||gateMode)render()});
+  input.addEventListener('keydown',e=>{if(e.key==='Escape')list.classList.remove('show')});
+  document.addEventListener('click',e=>{if(!wrap.contains(e.target))list.classList.remove('show')});
+}
+function setupAllSuggest(){
+  setupSuggest($('#nd17GateStreet'),true);
+  setupSuggest($('#ruaBuscaModal'),false);
+  setupSuggest($('#ruaBusca'),false);
+}
+
+/* ===== BOAS-VINDAS ===== */
+function welcome(){
+  const panel=$('#nd17Gate .nd17-gate-panel');
+  if(panel && !panel.querySelector('.nd23-welcome')){
+    const el=document.createElement('div');el.className='nd23-welcome';el.textContent='BEM-VINDO À ND BURGS';
+    panel.insertBefore(el,panel.firstChild);
+  }
+}
+
+/* ===== ENDEREÇO SALVO ===== */
+function savedAddress(){
+  try{
+    const type=localStorage.getItem('nd17_tipo')||'';
+    const street=localStorage.getItem('nd17_rua')||'';
+    const number=localStorage.getItem('nd17_numero')||'';
+    return {type,street,number};
+  }catch(e){return {type:'',street:'',number:''}}
+}
+function restoreSavedFields(){
+  const a=savedAddress();
+  if(a.type==='RETIRADA')return;
+  if(a.street){
+    ['ruaBuscaModal','ruaBusca'].forEach(id=>{const el=$('#'+id);if(el&&!el.value)el.value=a.street});
+    ['ruaModal','rua'].forEach(id=>{const el=$('#'+id);if(el&&[...el.options].some(o=>o.value===a.street))el.value=a.street});
+  }
+  if(a.number){['numeroModal','numero'].forEach(id=>{const el=$('#'+id);if(el&&!el.value)el.value=a.number})}
+}
+
+function init(){
+  welcome();
+  setupAllSuggest();
+  restoreSavedFields();
+  restoreCart();
+  bindCartButton();
+  bindFinish();
+  const observer=new MutationObserver(()=>{
+    welcome();setupAllSuggest();restoreSavedFields();restoreCart();bindCartButton();bindFinish();
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
+  setTimeout(restoreCart,300);setTimeout(restoreCart,1000);
+}
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+
+/* Atualiza o carrinho sem interferir na função original. */
+['click','change','input'].forEach(ev=>document.addEventListener(ev,()=>setTimeout(restoreCart,40),{passive:true}));
+
+/* Exporta um utilitário sem substituir funções existentes. */
+window.nd23RestoreCart=restoreCart;
+window.nd23EnsureCheckout=ensureCheckout;
+})();
+</script>
+
 </body>
 </html>
