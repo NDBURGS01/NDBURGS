@@ -1,11 +1,10 @@
-[ND-BURGS-V6.html](https://github.com/user-attachments/files/31824014/ND-BURGS-V6.html)
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-10">
+<meta name="nd-site-version" content="20260904-07">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260904-10";
+  const ND_SITE_VERSION = "20260904-07";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -5384,50 +5383,108 @@ header{position:sticky!important;top:0!important;z-index:5000!important;backgrou
 })();
 </script>
 
-<style id="nd-v6-style">
-/* ND BURGS V6 — APP DELIVERY */
-#ndV6Cart{position:fixed;left:12px;right:12px;bottom:14px;z-index:9997;display:none;align-items:center;gap:10px;padding:12px 14px;border:1px solid rgba(255,190,0,.45);border-radius:18px;background:rgba(18,18,18,.96);box-shadow:0 12px 35px rgba(0,0,0,.45);backdrop-filter:blur(10px);color:#fff;cursor:pointer}
-#ndV6Cart.show{display:flex;animation:ndv6up .25s ease}
-#ndV6Cart .v6bag{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#f5c400;color:#111;font-size:21px;font-weight:900}
-#ndV6Cart .v6carttxt{flex:1;min-width:0}.v6carttxt b{display:block;font-size:13px}.v6carttxt span{font-size:12px;opacity:.72}.v6carttotal{font-weight:900;font-size:15px}.v6arrow{font-size:22px;font-weight:900}
-#ndV6Overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:10000;display:none;align-items:flex-end;justify-content:center;padding:0}
-#ndV6Overlay.on{display:flex}.ndv6sheet{width:min(620px,100%);max-height:92vh;overflow:auto;background:#111;border-radius:25px 25px 0 0;border:1px solid #292929;box-shadow:0 -15px 50px rgba(0,0,0,.55);color:#fff;animation:ndv6sheet .28s ease}
-.ndv6head{position:sticky;top:0;z-index:2;background:#111;padding:18px 18px 13px;border-bottom:1px solid #292929}.ndv6headrow{display:flex;align-items:center;justify-content:space-between}.ndv6head h3{margin:0;font-size:21px}.ndv6close{border:0;background:#252525;color:#fff;width:38px;height:38px;border-radius:50%;font-size:22px;cursor:pointer}.ndv6sub{font-size:12px;opacity:.65;margin-top:4px}
-.ndv6body{padding:14px 16px 22px}.ndv6item{display:grid;grid-template-columns:58px 1fr auto;gap:11px;align-items:center;padding:11px 0;border-bottom:1px solid #252525}.ndv6img{width:58px;height:58px;border-radius:14px;object-fit:cover;background:#222}.ndv6name{font-weight:900;font-size:14px}.ndv6detail{font-size:11px;color:#f5c400;margin-top:4px;line-height:1.35}.ndv6price{font-weight:900;white-space:nowrap}.ndv6controls{display:flex;align-items:center;gap:7px;margin-top:8px}.ndv6controls button{border:1px solid #3b3b3b;background:#222;color:#fff;border-radius:9px;width:29px;height:29px;font-weight:900;cursor:pointer}.ndv6controls .del{color:#ff6969;border-color:#5a2929}.ndv6controls b{min-width:18px;text-align:center;font-size:13px}
-.ndv6progress{margin:15px 0;padding:13px;border-radius:15px;background:#191919}.ndv6progline{height:8px;border-radius:20px;background:#2a2a2a;overflow:hidden;margin:9px 0}.ndv6progline i{display:block;height:100%;width:0;background:#f5c400;transition:width .3s}.ndv6progress p{margin:0;font-size:12px}.ndv6upsell{margin:15px 0}.ndv6upsell h4{font-size:12px;margin:0 0 9px;color:#f5c400}.ndv6upsellgrid{display:flex;gap:9px;overflow:auto}.ndv6up{min-width:170px;background:#191919;border:1px solid #292929;border-radius:15px;padding:9px;display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:center}.ndv6up img{width:44px;height:44px;border-radius:10px;object-fit:cover}.ndv6up b{font-size:11px;display:block}.ndv6up span{font-size:10px;opacity:.65}.ndv6up button{grid-column:1/-1;border:0;background:#f5c400;color:#111;border-radius:9px;padding:8px;font-weight:900;cursor:pointer}
-.ndv6totals{padding:13px 0}.ndv6row{display:flex;justify-content:space-between;margin:6px 0;font-size:13px}.ndv6row.total{font-size:19px;font-weight:900;margin-top:12px}.ndv6actions{display:grid;gap:9px}.ndv6actions button{height:48px;border-radius:14px;border:0;font-weight:900;font-size:14px;cursor:pointer}.ndv6finish{background:#f5c400;color:#111}.ndv6continue{background:#222;color:#fff;border:1px solid #333!important}
-body.ndv6-lock{overflow:hidden!important}@keyframes ndv6up{from{transform:translateY(25px);opacity:0}to{transform:none;opacity:1}}@keyframes ndv6sheet{from{transform:translateY(100%)}to{transform:none}}
-@media(min-width:800px){#ndV6Cart{left:auto;right:22px;width:330px}.ndv6sheet{border-radius:25px;max-height:88vh;margin-bottom:25px}}
+<!-- =========================================================
+     ND BURGS V5.5 — CARRINHO + CHECKOUT APP EXPERIENCE
+     Base: ND-BURGS-V5.html
+     Não altera produtos, preços, regras de taxa ou WhatsApp.
+     ========================================================= -->
+<style id="nd-v55-cart-checkout">
+:root{--v55-o:#ff6500;--v55-o2:#ff922e;--v55-bg:#070707;--v55-card:#111114;--v55-line:#29292f;--v55-green:#25d366}
+/* CARRINHO APP */
+#ndV55Overlay{position:fixed;inset:0;z-index:100500;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);display:none;align-items:stretch;justify-content:flex-end;opacity:0;transition:opacity .22s ease}
+#ndV55Overlay.open{display:flex;opacity:1}
+.nd-v55-drawer{width:min(520px,100%);height:100%;background:linear-gradient(180deg,#151517 0%,#09090b 100%);border-left:1px solid rgba(255,101,0,.38);box-shadow:-20px 0 70px rgba(0,0,0,.65);display:flex;flex-direction:column;transform:translateX(35px);transition:transform .25s ease;overflow:hidden}
+#ndV55Overlay.open .nd-v55-drawer{transform:translateX(0)}
+.nd-v55-head{padding:15px 16px 12px;border-bottom:1px solid #25252a;background:rgba(10,10,12,.96);position:sticky;top:0;z-index:2}
+.nd-v55-headrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nd-v55-title{font-size:20px;font-weight:1000;letter-spacing:-.5px}.nd-v55-sub{font-size:10px;color:#85858c;margin-top:3px}
+.nd-v55-close{width:38px;height:38px;border-radius:12px;border:1px solid #303036;background:#19191d;color:#fff;font-size:22px;cursor:pointer}
+.nd-v55-body{flex:1;overflow:auto;padding:13px 15px 18px}
+.nd-v55-progress{padding:12px;border:1px solid rgba(255,101,0,.2);border-radius:15px;background:linear-gradient(145deg,rgba(255,101,0,.09),rgba(255,255,255,.02));margin-bottom:12px}
+.nd-v55-progress-top{display:flex;justify-content:space-between;gap:10px;font-size:11px;font-weight:900}.nd-v55-progress-top b{color:var(--v55-o2)}
+.nd-v55-track{height:6px;border-radius:99px;background:#26262a;overflow:hidden;margin-top:9px}.nd-v55-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--v55-o),var(--v55-o2));transition:width .3s ease}
+.nd-v55-items{display:grid;gap:9px}
+.nd-v55-item{display:grid;grid-template-columns:62px 1fr auto;gap:10px;padding:10px;border:1px solid #27272d;border-radius:15px;background:linear-gradient(145deg,#171719,#0e0e10);align-items:center}
+.nd-v55-img{width:62px;height:62px;border-radius:12px;object-fit:cover;background:#080808;border:1px solid #24242a}.nd-v55-name{font-size:12px;font-weight:1000;line-height:1.25}.nd-v55-detail{font-size:9px;color:#8d8d94;margin-top:4px;line-height:1.35}.nd-v55-price{font-size:13px;font-weight:1000;color:var(--v55-o2);white-space:nowrap;margin-bottom:7px}
+.nd-v55-controls{display:flex;align-items:center;gap:5px;justify-content:flex-end}.nd-v55-controls button{width:27px;height:27px;border-radius:8px;border:1px solid #34343a;background:#19191d;color:var(--v55-o2);font-weight:1000;cursor:pointer}.nd-v55-controls span{min-width:22px;text-align:center;font-size:11px;font-weight:1000}.nd-v55-trash{color:#ff7569!important;background:#291210!important;border-color:#4b1b17!important}
+.nd-v55-suggest{margin-top:15px}.nd-v55-suggest h3{font-size:12px;margin-bottom:8px}.nd-v55-suggest small{color:#777;font-weight:normal}
+.nd-v55-suggest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.nd-v55-sug{border:1px solid #29292e;border-radius:13px;background:#111114;padding:7px;cursor:pointer;min-width:0}.nd-v55-sug img{width:100%;height:78px;object-fit:cover;border-radius:9px;background:#080808}.nd-v55-sug b{display:block;font-size:9px;line-height:1.25;margin-top:5px}.nd-v55-sug span{display:block;color:var(--v55-o2);font-size:10px;font-weight:1000;margin-top:4px}.nd-v55-sug button{margin-top:6px;width:100%;border:0;border-radius:8px;padding:7px;background:var(--v55-o);color:#050505;font-size:9px;font-weight:1000;cursor:pointer}
+.nd-v55-empty{text-align:center;padding:35px 10px;color:#777;font-size:12px}
+.nd-v55-footer{padding:12px 15px 15px;border-top:1px solid #29292e;background:rgba(10,10,12,.97);box-shadow:0 -12px 35px rgba(0,0,0,.4)}
+.nd-v55-totals{display:grid;gap:5px;margin-bottom:10px}.nd-v55-row{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:#aaa}.nd-v55-row strong{color:#fff}.nd-v55-row.total{font-size:17px;color:#fff;margin-top:3px}.nd-v55-row.total strong{color:var(--v55-o2)}
+.nd-v55-checkout{width:100%;border:0;border-radius:13px;padding:14px;background:linear-gradient(135deg,var(--v55-o),#ff8c20);color:#050505;font-weight:1000;font-size:12px;cursor:pointer;box-shadow:0 10px 28px rgba(255,101,0,.2)}
+.nd-v55-continue{width:100%;border:1px solid #303036;border-radius:11px;padding:10px;background:#151519;color:#bbb;font-weight:900;font-size:10px;cursor:pointer;margin-top:7px}
+/* CHECKOUT PROGRESS V5.5 */
+#modalFinalizar .nd-v4-stepbar{position:relative;display:grid!important;grid-template-columns:repeat(4,1fr);gap:0!important;padding:12px 8px 10px!important;background:#0c0c0f;border-bottom:1px solid #25252a}
+#modalFinalizar .nd-v4-stepbar:before{content:"";position:absolute;left:12%;right:12%;top:27px;height:2px;background:#2b2b30;z-index:0}
+#modalFinalizar .nd-v4-step{position:relative;z-index:1;border:0!important;background:transparent!important;color:#666!important;padding:26px 2px 2px!important;font-size:8px!important;text-align:center;white-space:nowrap}
+#modalFinalizar .nd-v4-step:before{content:"";position:absolute;top:19px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;background:#1b1b20;border:2px solid #36363d}
+#modalFinalizar .nd-v4-step.active{color:#fff!important}.nd-v4-step.active:before{background:var(--v55-o)!important;border-color:var(--v55-o)!important;box-shadow:0 0 16px rgba(255,101,0,.3)}
+#modalFinalizar .nd-v4-step.done{color:#ff9b3b!important}.nd-v4-step.done:before{border-color:var(--v55-o)!important;background:#2a170c!important}
+#modalFinalizar .nd-v4-step-content{animation:nd55fade .18s ease}
+@keyframes nd55fade{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
+.nd-v55-review{margin-bottom:11px;padding:13px;border:1px solid rgba(255,101,0,.28);border-radius:16px;background:linear-gradient(145deg,rgba(255,101,0,.08),rgba(255,255,255,.02))}.nd-v55-review-title{font-size:11px;font-weight:1000;margin-bottom:7px}.nd-v55-review-meta{display:grid;gap:5px;font-size:10px;color:#aaa}.nd-v55-review-meta b{color:#fff}
+@media(max-width:520px){.nd-v55-suggest-grid{grid-template-columns:repeat(3,1fr)}.nd-v55-sug img{height:68px}.nd-v55-item{grid-template-columns:55px 1fr auto}.nd-v55-img{width:55px;height:55px}}
 </style>
-<div id="ndV6Cart" onclick="ndV6Open()"><div class="v6bag">🛒</div><div class="v6carttxt"><b id="ndV6Count">0 itens</b><span>Toque para revisar seu pedido</span></div><div class="v6carttotal" id="ndV6Total">R$ 0,00</div><div class="v6arrow">›</div></div>
-<div id="ndV6Overlay" onclick="if(event.target===this)ndV6Close()"><div class="ndv6sheet"><div class="ndv6head"><div class="ndv6headrow"><div><h3>SEU PEDIDO</h3><div class="ndv6sub" id="ndV6Sub">Confira tudo antes de finalizar</div></div><button class="ndv6close" onclick="ndV6Close()">×</button></div></div><div class="ndv6body"><div id="ndV6Items"></div><div id="ndV6Progress"></div><div id="ndV6Upsell"></div><div class="ndv6totals"><div class="ndv6row"><span>Subtotal</span><b id="ndV6Subtotal">R$ 0,00</b></div><div class="ndv6row"><span>Entrega</span><b id="ndV6Fee">R$ 0,00</b></div><div class="ndv6row total"><span>Total</span><b id="ndV6Grand">R$ 0,00</b></div></div><div class="ndv6actions"><button class="ndv6finish" onclick="ndV6Checkout()">FINALIZAR PEDIDO →</button><button class="ndv6continue" onclick="ndV6Close()">CONTINUAR COMPRANDO</button></div></div></div></div>
-<script>
-(function(){
-'use strict';
-const MIN=11.90;
-function money(v){try{return moeda(v)}catch(e){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}}
-function items(){return Array.isArray(window.carrinho)?window.carrinho:[]}
-function imgFor(name){let cards=[...document.querySelectorAll('.produto')];let c=cards.find(x=>((x.querySelector('h3')||{}).textContent||'').trim()===String(name).trim());let im=c&&c.querySelector('img');return im?im.src:''}
-function fee(){try{return Number(obterTaxaEntrega()||0)}catch(e){return 0}}
-function total(){return items().reduce((s,x)=>s+Number(x.preco||0)*Number(x.quantidade||0),0)}
-function refresh(){let a=items(),q=a.reduce((s,x)=>s+Number(x.quantidade||0),0),sub=total(),f=fee();let bar=document.getElementById('ndV6Cart');bar.classList.toggle('show',q>0);document.getElementById('ndV6Count').textContent=q+(q===1?' item':' itens');document.getElementById('ndV6Total').textContent=money(sub+f);if(document.getElementById('ndV6Overlay').classList.contains('on'))render()}
-window.ndV6Open=function(){if(!items().length)return;render();document.getElementById('ndV6Overlay').classList.add('on');document.body.classList.add('ndv6-lock')}
-window.ndV6Close=function(){document.getElementById('ndV6Overlay').classList.remove('on');document.body.classList.remove('ndv6-lock')}
-window.ndV6Checkout=function(){ndV6Close();setTimeout(()=>{if(typeof irParaFinalizarPedido==='function')irParaFinalizarPedido();},80)}
-function render(){let a=items(),sub=total(),f=fee();let area=document.getElementById('ndV6Items');area.innerHTML=a.map((x,i)=>{let d=x.detalhes&&x.detalhes.length?'<div class="ndv6detail">↳ '+x.detalhes.join(', ')+'</div>':'';return '<div class="ndv6item"><img class="ndv6img" src="'+imgFor(x.nome)+'" onerror="this.style.visibility=\'hidden\'"/><div><div class="ndv6name">'+x.nome+'</div>'+d+'<div class="ndv6controls"><button onclick="ndV6Qty('+i+',-1)">−</button><b>'+x.quantidade+'</b><button onclick="ndV6Qty('+i+',1)">+</button><button class="del" onclick="ndV6Remove('+i+')">🗑</button></div></div><div class="ndv6price">'+money(Number(x.preco)*Number(x.quantidade))+'</div></div>'}).join('');
-let pct=Math.min(100,sub/MIN*100),p=document.getElementById('ndV6Progress');p.innerHTML='<div class="ndv6progress"><p>'+ (sub<MIN?'Faltam <b>'+money(MIN-sub)+'</b> para atingir o mínimo do delivery':'<b>✓ Pedido mínimo atingido!</b>')+'</p><div class="ndv6progline"><i style="width:'+pct+'%"></i></div></div>';
-let chosen=a.map(x=>String(x.nome).toLowerCase()), cards=[...document.querySelectorAll('.produto')].filter(c=>{let n=((c.querySelector('h3')||{}).textContent||'').trim();return n&&!chosen.includes(n.toLowerCase())&&c.querySelector('.btn-add')});cards.sort((a,b)=>{let na=(a.querySelector('h3')||{}).textContent.toLowerCase(),nb=(b.querySelector('h3')||{}).textContent.toLowerCase();let rank=n=>/batata|fritas|bebida|coca|refri|porção|sobremesa|doce|milkshake|açaí/.test(n)?0:1;return rank(na)-rank(nb)});let ups=cards.slice(0,4);document.getElementById('ndV6Upsell').innerHTML=ups.length?'<div class="ndv6upsell"><h4>🔥 QUE TAL COMPLETAR?</h4><div class="ndv6upsellgrid">'+ups.map(c=>{let n=(c.querySelector('h3')||{}).textContent.trim(),pr=(c.querySelector('.preco')||{}).textContent.trim(),im=c.querySelector('img');return '<div class="ndv6up">'+(im?'<img src="'+im.src+'">':'<div></div>')+'<div><b>'+n+'</b><span>'+pr+'</span></div><button onclick="ndV6Add(this)">ADICIONAR</button></div>'}).join('')+'</div></div>':'';
-document.getElementById('ndV6Subtotal').textContent=money(sub);document.getElementById('ndV6Fee').textContent=money(f);document.getElementById('ndV6Grand').textContent=money(sub+f);document.getElementById('ndV6Sub').textContent=a.length?(a.length+' produto'+(a.length===1?'':'s')+' no carrinho'):'Confira tudo antes de finalizar';}
-window.ndV6Qty=function(i,d){if(!items()[i])return;alterarQuantidade(i,d);setTimeout(refresh,0)}
-window.ndV6Remove=function(i){if(!items()[i])return;removerItem(i);setTimeout(refresh,0)}
-window.ndV6Add=function(btn){let card=btn.closest('.ndv6up');let name=card.querySelector('b').textContent;let original=[...document.querySelectorAll('.produto')].find(c=>((c.querySelector('h3')||{}).textContent||'').trim()===name);let add=original&&original.querySelector('.btn-add');if(add)add.click();setTimeout(refresh,80)}
-let oldOpen=window.abrirCarrinho;window.abrirCarrinho=function(){ndV6Open()};
-let oldUpdate=window.atualizarCarrinho;window.atualizarCarrinho=function(){let r=oldUpdate&&oldUpdate.apply(this,arguments);setTimeout(refresh,0);return r};
-function boot(){refresh();setTimeout(refresh,300);document.addEventListener('change',()=>setTimeout(refresh,50));}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+<script id="nd-v55-logic">
+(function(){'use strict';
+const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+function cart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(e){return[]}}
+function qty(){return cart().reduce((s,i)=>s+(Number(i.quantidade)||0),0)}
+function sub(){return cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||0),0)}
+function fee(){try{return typeof window.obterTaxaEntrega==='function'?Number(window.obterTaxaEntrega()||0):0}catch(e){return 0}}
+function findCard(name){return [...document.querySelectorAll('.produto')].find(c=>(c.querySelector('h3')?.textContent||'').trim()===String(name).trim())}
+function getImg(name){return findCard(name)?.querySelector('img')?.src||''}
+function getSuggestions(){
+ const used=new Set(cart().map(i=>String(i.nome||'').trim().toUpperCase()));
+ const out=[];
+ for(const c of document.querySelectorAll('.produto')){
+   const name=(c.querySelector('h3')?.textContent||'').trim(); const btn=c.querySelector('.btn-add'); const img=c.querySelector('img'); const price=(c.querySelector('.preco')?.textContent||'').trim();
+   if(!name||!btn||used.has(name.toUpperCase()))continue;
+   if(!out.some(x=>x.name===name))out.push({name,price,img:img?.src||'',btn});
+   if(out.length>=3)break;
+ }
+ return out;
+}
+function build(){
+ if(document.getElementById('ndV55Overlay'))return;
+ const o=document.createElement('div');o.id='ndV55Overlay';o.innerHTML=`<aside class="nd-v55-drawer" role="dialog" aria-modal="true" aria-label="Carrinho"><header class="nd-v55-head"><div class="nd-v55-headrow"><div><div class="nd-v55-title">Seu carrinho 🛒</div><div class="nd-v55-sub">Revise seu pedido antes de finalizar</div></div><button class="nd-v55-close" type="button" aria-label="Fechar">×</button></div></header><main class="nd-v55-body"><div class="nd-v55-progress"><div class="nd-v55-progress-top"><span>Pedido mínimo delivery</span><b id="ndV55ProgText">R$ 11,90</b></div><div class="nd-v55-track"><div class="nd-v55-fill" id="ndV55ProgFill"></div></div></div><div class="nd-v55-items" id="ndV55Items"></div><section class="nd-v55-suggest"><h3>QUE TAL COMPLETAR SEU PEDIDO? <small>Escolhas rápidas</small></h3><div class="nd-v55-suggest-grid" id="ndV55Suggestions"></div></section></main><footer class="nd-v55-footer"><div class="nd-v55-totals"><div class="nd-v55-row"><span>Subtotal</span><strong id="ndV55Sub">R$ 0,00</strong></div><div class="nd-v55-row"><span>Taxa estimada</span><strong id="ndV55Fee">R$ 0,00</strong></div><div class="nd-v55-row total"><span>Total</span><strong id="ndV55Total">R$ 0,00</strong></div></div><button class="nd-v55-checkout" id="ndV55Checkout" type="button">FINALIZAR PEDIDO →</button><button class="nd-v55-continue" type="button" id="ndV55Continue">CONTINUAR COMPRANDO</button></footer></aside>`;
+ document.body.appendChild(o);
+ o.addEventListener('click',e=>{if(e.target===o)close()});o.querySelector('.nd-v55-close').onclick=close;o.querySelector('#ndV55Continue').onclick=close;o.querySelector('#ndV55Checkout').onclick=()=>{close();setTimeout(()=>{if(typeof window.irParaFinalizarPedido==='function')window.irParaFinalizarPedido()},80)};
+}
+function render(){
+ build();const c=cart(),items=document.getElementById('ndV55Items'),sugs=document.getElementById('ndV55Suggestions');if(!items)return;
+ if(!c.length){items.innerHTML='<div class="nd-v55-empty">Seu carrinho está vazio.<br><small>Escolha um produto para começar.</small></div>';document.getElementById('ndV55Checkout').disabled=true;document.getElementById('ndV55Checkout').style.opacity='.45'}else{items.innerHTML=c.map((i,idx)=>{const q=Number(i.quantidade)||1,p=Number(i.preco)||0;const details=i.detalhes?.length?'<div class="nd-v55-detail">↳ '+esc(i.detalhes.join(', '))+'</div>':'';return `<article class="nd-v55-item"><img class="nd-v55-img" src="${esc(getImg(i.nome))}" alt="${esc(i.nome)}"><div><div class="nd-v55-name">${esc(i.nome)}</div>${details}<div class="nd-v55-controls"><button type="button" data-v55-minus="${idx}">−</button><span>${q}</span><button type="button" data-v55-plus="${idx}">+</button><button type="button" class="nd-v55-trash" data-v55-del="${idx}">×</button></div></div><div class="nd-v55-price">${money(p*q)}</div></article>`}).join('');document.getElementById('ndV55Checkout').disabled=false;document.getElementById('ndV55Checkout').style.opacity='1'}
+ const totalSub=sub(),tf=fee(),total=totalSub+tf;document.getElementById('ndV55Sub').textContent=money(totalSub);document.getElementById('ndV55Fee').textContent=money(tf);document.getElementById('ndV55Total').textContent=money(total);
+ const min=11.90,pct=Math.min(100,(totalSub/min)*100);document.getElementById('ndV55ProgFill').style.width=pct+'%';document.getElementById('ndV55ProgText').textContent=totalSub>=min?'Pedido mínimo atingido':'Faltam '+money(min-totalSub);
+ sugs.innerHTML=getSuggestions().map((x,i)=>`<div class="nd-v55-sug" data-sug-index="${i}">${x.img?`<img src="${esc(x.img)}" alt="${esc(x.name)}">`:''}<b>${esc(x.name)}</b><span>${esc(x.price)}</span><button type="button">+ ADICIONAR</button></div>`).join('');
+ sugs.querySelectorAll('.nd-v55-sug').forEach((el,i)=>el.onclick=()=>{const x=getSuggestions()[i];if(x?.btn)x.btn.click();setTimeout(render,120)});
+ items.querySelectorAll('[data-v55-minus]').forEach(b=>b.onclick=()=>change(+b.dataset.v55Minus,-1));items.querySelectorAll('[data-v55-plus]').forEach(b=>b.onclick=()=>change(+b.dataset.v55Plus,1));items.querySelectorAll('[data-v55-del]').forEach(b=>b.onclick=()=>change(+b.dataset.v55Del,-999));
+}
+function change(i,d){const c=cart();if(!c[i])return;c[i].quantidade=Math.max(0,(Number(c[i].quantidade)||1)+d);if(c[i].quantidade<=0)c.splice(i,1);try{localStorage.setItem('carrinho',JSON.stringify(c))}catch(e){};if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();setTimeout(render,30)}
+function open(){if(!cart().length){alert('Seu carrinho está vazio.');return}render();document.getElementById('ndV55Overlay').classList.add('open');document.body.style.overflow='hidden'}
+function close(){const o=document.getElementById('ndV55Overlay');if(o)o.classList.remove('open');document.body.style.overflow=''}
+window.ndV55OpenCart=open;window.ndV55Refresh=render;
+function hook(){
+ build();
+ if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__ndV55){const old=window.abrirCarrinho;window.abrirCarrinho=function(){open()};window.abrirCarrinho.__ndV55=true;window.abrirCarrinho.__ndV55Old=old}
+ if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__ndV55){const old=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(render,0);return r};window.atualizarCarrinho.__ndV55=true}
+ enhanceCheckout();render();
+}
+function enhanceCheckout(){
+ const panel=document.querySelector('#modalFinalizar .painel-finalizar');if(!panel||panel.dataset.v55==='1')return;
+ panel.dataset.v55='1';
+ const review=panel.querySelector('.nd-v4-step-content[data-content="4"]');if(review){const note=review.querySelector('.nd-v4-note');const box=document.createElement('div');box.className='nd-v55-review';box.innerHTML='<div class="nd-v55-review-title">CONFIRA OS DADOS DA FINALIZAÇÃO</div><div class="nd-v55-review-meta"><div>👤 <b>Cliente:</b> <span data-v55-review-name>Preencha na etapa 1</span></div><div>📦 <b>Recebimento:</b> <span data-v55-review-type>Selecione na etapa 2</span></div><div>💳 <b>Pagamento:</b> <span data-v55-review-pay>Selecione na etapa 3</span></div></div>';review.insertBefore(box,review.firstChild);if(note)note.style.marginTop='8px'}
+}
+function refreshReview(){const p=document.querySelector('#modalFinalizar .painel-finalizar');if(!p)return;const n=document.getElementById('nomeModal')?.value||'Preencha na etapa 1';const t=document.getElementById('tipoPedidoModal')?.value==='RETIRADA'?'RETIRADA':'DELIVERY';const pay=document.getElementById('pagamentoModal')?.value||'Selecione na etapa 3';const a=p.querySelector('[data-v55-review-name]'),b=p.querySelector('[data-v55-review-type]'),c=p.querySelector('[data-v55-review-pay]');if(a)a.textContent=n;b&&(b.textContent=t);c&&(c.textContent=pay)}
+const oldStep=window.ndStep;window.ndStep=function(n){if(typeof oldStep==='function')oldStep(n);setTimeout(()=>{enhanceCheckout();refreshReview()},0)};
+document.addEventListener('input',refreshReview);document.addEventListener('change',refreshReview);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(hook,250));else setTimeout(hook,250);setTimeout(hook,900);setInterval(()=>{if(document.getElementById('ndV55Overlay')?.classList.contains('open'))render()},1200);
 })();
 </script>
 
 </body>
 </html>
-<!-- ND BURGS VERSION: 20260904-10 -->
+<!-- ND BURGS VERSION: 20260904-07 -->
