@@ -5248,6 +5248,23 @@ setTimeout(init,900);
 })();
 </script>
 
+<style id="nd-visual-reform-2026">
+:root{--nd-bg:#050505;--nd-card:#111114;--nd-card2:#18181d;--nd-orange:#ff6500;--nd-orange2:#ff8a1f;--nd-yellow:#ffb000;--nd-text:#fff;--nd-muted:#a6a6ad;--nd-line:#2a2a31;}
+body{background:radial-gradient(circle at 50% -20%,#2a1200 0,#090909 32%,#050505 70%)!important;color:var(--nd-text)!important;font-family:Arial,Helvetica,sans-serif!important}
+header{background:rgba(5,5,5,.92)!important;border-bottom:1px solid rgba(255,101,0,.45)!important;backdrop-filter:blur(14px)!important;box-shadow:0 10px 35px rgba(0,0,0,.45)!important}
+.logo{filter:drop-shadow(0 0 18px rgba(255,101,0,.18))!important}
+.horarios-box{background:linear-gradient(135deg,#15110d,#0b0b0c)!important;border-color:#4a2a13!important;border-radius:18px!important}
+.horarios-titulo,.categoria-titulo,h1,h2{color:var(--nd-orange)!important}
+.container{max-width:1240px!important;padding:18px!important}
+.categoria{margin-top:34px!important}.categoria-titulo{font-size:24px!important;letter-spacing:.3px!important;border-bottom:1px solid var(--nd-line)!important;padding-bottom:13px!important}
+.produtos{gap:18px!important}.produto{background:linear-gradient(155deg,var(--nd-card2),var(--nd-card))!important;border:1px solid #28282e!important;border-radius:20px!important;padding:11px!important;box-shadow:0 10px 30px rgba(0,0,0,.28)!important;position:relative!important}.produto:hover{transform:translateY(-6px)!important;border-color:rgba(255,101,0,.85)!important;box-shadow:0 18px 45px rgba(0,0,0,.45),0 0 0 1px rgba(255,101,0,.1)!important}.produto-imagem{height:210px!important;object-fit:cover!important;border-radius:14px!important;background:#0a0a0a!important}.produto h3{font-size:17px!important;margin:13px 7px 5px!important}.produto p{color:var(--nd-muted)!important;margin:0 7px 12px!important;min-height:38px!important}.preco{color:#fff!important;font-size:26px!important;font-weight:1000!important;margin:8px 7px 13px!important;text-shadow:0 0 18px rgba(255,101,0,.2)!important}.btn-add{width:calc(100% - 14px)!important;margin:0 7px 7px!important;min-height:50px!important;border-radius:14px!important;border:0!important;background:linear-gradient(135deg,var(--nd-orange),var(--nd-orange2))!important;color:#fff!important;font-weight:1000!important;letter-spacing:.3px!important;box-shadow:0 8px 22px rgba(255,101,0,.22)!important}.btn-add:hover{filter:brightness(1.08)!important;transform:translateY(-1px)!important}
+#buscaProdutos{border-radius:15px!important;border:1px solid #303038!important;background:#111!important;color:#fff!important;padding:16px!important}.categoria a,.categoria button{border-radius:14px!important}
+.carrinho-flutuante,.carrinho-float,.btn-carrinho{background:linear-gradient(135deg,var(--nd-orange),var(--nd-orange2))!important;border-radius:18px!important;box-shadow:0 12px 30px rgba(255,101,0,.32)!important}
+#modalCarrinho .painel,#modalFinalizar .painel-finalizar,.modal-content{background:linear-gradient(160deg,#141417,#09090a)!important;border:1px solid #34343b!important;border-radius:24px!important}.nd-v4-final-total{color:var(--nd-orange)!important}.nd-v4-pay.active,.nd-v4-type.active{border-color:var(--nd-orange)!important;color:var(--nd-orange)!important;background:rgba(255,101,0,.08)!important}
+input,select,textarea{background:#101014!important;border:1px solid #2d2d35!important;color:#fff!important;border-radius:12px!important}input:focus,select:focus,textarea:focus{outline:none!important;border-color:var(--nd-orange)!important;box-shadow:0 0 0 3px rgba(255,101,0,.12)!important}
+button{transition:transform .18s ease,filter .18s ease,box-shadow .18s ease!important}
+@media(max-width:760px){.container{padding:12px!important}.produtos{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}.produto{border-radius:16px!important;padding:8px!important}.produto-imagem{height:150px!important}.produto h3{font-size:14px!important;margin:10px 4px 4px!important}.produto p{font-size:11px!important;margin:0 4px 8px!important;min-height:32px!important}.preco{font-size:21px!important;margin:6px 4px 10px!important}.btn-add{width:calc(100% - 8px)!important;margin:0 4px 4px!important;min-height:45px!important;font-size:11px!important}.categoria-titulo{font-size:20px!important}}
+</style>
 </body>
 </html>
 <!-- ND BURGS VERSION: 20260903-01 -->
