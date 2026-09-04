@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R9">
+<meta name="nd-site-version" content="20260904-R10">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260904-R9";
+  const ND_SITE_VERSION = "20260904-R10";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -549,6 +549,36 @@ function patch(){if(typeof window.atualizarCarrinho==='function'&&!window.atuali
 window.addEventListener('DOMContentLoaded',()=>{build();patch();update();setInterval(()=>{patch();update()},700)});
 })();
 </script>
+
+
+<!-- ND BURGS R10 - MELHORIAS GERAIS -->
+<style>
+:root{--nd-accent:#ff4d00;--nd-accent2:#ffb000;--nd-card:#121212;--nd-soft:#1b1b1b;--nd-muted:#a9a9a9}
+body{background:radial-gradient(circle at 50% -20%,#2b1205 0,#090909 42%)!important}
+.produto{transition:transform .2s ease,box-shadow .2s ease;border:1px solid rgba(255,255,255,.06)!important;overflow:hidden}
+.produto:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.35)}
+.produto h3{letter-spacing:.2px}.produto .preco{font-weight:900!important;color:#ffb000!important;font-size:1.12em!important}
+.btn-add{min-height:48px;border-radius:14px!important;font-weight:900!important;letter-spacing:.4px;box-shadow:0 8px 20px rgba(255,77,0,.16)}
+.btn-add:active{transform:scale(.98)}
+/* carrinho oficial */
+#carrinhoFlutuante{position:fixed!important;left:50%!important;bottom:calc(16px + env(safe-area-inset-bottom))!important;transform:translateX(-50%) translateY(130%)!important;width:min(680px,calc(100% - 24px))!important;z-index:9998!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:22px!important;background:linear-gradient(135deg,#ff4d00,#b51f00)!important;box-shadow:0 18px 45px rgba(0,0,0,.48)!important;padding:12px 14px!important;transition:transform .28s ease!important}
+#carrinhoFlutuante.ativo{transform:translateX(-50%) translateY(0)!important}
+#carrinhoFlutuante{cursor:pointer}
+#carrinhoFlutuante::before{content:'🛒';display:grid;place-items:center;width:46px;height:46px;border-radius:15px;background:rgba(0,0,0,.2);font-size:23px;margin-right:10px;flex:none}
+#carrinhoFlutuante .carrinho-flutuante-info{min-width:0}
+#contadorCarrinho{font-weight:800!important;color:#fff!important}
+#totalCarrinhoFlutuante{font-size:1.05rem!important}
+.btn-ver-carrinho{border-radius:14px!important;background:#fff!important;color:#111!important;font-weight:950!important;padding:12px 14px!important}
+#contadorCarrinho::after{content:' ';display:inline-block;width:7px;height:7px;background:#fff;border-radius:50%;margin-left:7px;vertical-align:middle}
+/* checkout mais limpo */
+#checkout,.formulario{border-radius:22px!important;border:1px solid rgba(255,255,255,.07)!important;box-shadow:0 12px 35px rgba(0,0,0,.22)}
+input,select,textarea{border-radius:12px!important}
+.modal-carrinho .modal-content,.modal-carrinho > div{border-radius:24px!important}
+.vazio{text-align:center;padding:28px 14px!important;color:var(--nd-muted)}
+/* acessibilidade */
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(255,176,0,.55)!important;outline-offset:2px}
+@media(max-width:600px){body{padding-bottom:105px!important}.produto:hover{transform:none}#carrinhoFlutuante{bottom:10px!important;width:calc(100% - 16px)!important;padding:10px!important;border-radius:18px!important}.btn-ver-carrinho{padding:11px!important;font-size:12px!important}#carrinhoFlutuante::before{width:40px;height:40px;font-size:20px}.carrinho-flutuante-info strong{font-size:13px!important}.carrinho-flutuante-total{font-size:.95rem!important}}
+</style>
 
 </head>
 
@@ -5742,7 +5772,7 @@ button{font-family:inherit}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- ND BURGS VERSION: 20260904-R9 -->
+<!-- ND BURGS VERSION: 20260904-R10 -->
 
 
 <!-- =========================================================
@@ -6595,6 +6625,28 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 // Atualização leve quando o carrinho/checkout muda, sem setInterval agressivo.
 let timer=0;const obs=new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{forceCart();syncTotals();decorateModalCart()},80)});obs.observe(document.body,{subtree:true,childList:true,characterData:true});
 })();
+</script>
+
+
+<script>
+/* ND BURGS R10 - experiência do carrinho e melhorias de navegação */
+document.addEventListener('DOMContentLoaded',function(){
+  const barra=document.getElementById('carrinhoFlutuante');
+  if(barra){
+    barra.addEventListener('click',function(e){
+      if(e.target.closest('button')) return;
+      abrirCarrinho();
+    });
+  }
+  const busca=document.getElementById('busca');
+  if(busca){busca.setAttribute('aria-label','Buscar produtos');}
+});
+const abrirCarrinhoOriginal=abrirCarrinho;
+abrirCarrinho=function(){
+  atualizarModalCarrinho();
+  const modal=document.getElementById('modalCarrinho');
+  if(modal){modal.classList.add('ativo');document.body.style.overflow='hidden';}
+};
 </script>
 
 </body>
