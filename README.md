@@ -5143,7 +5143,7 @@ function buildIntro(){
  if(q('#ndFxIntro'))return;
  const c=q('.container'); if(!c)return;
  const d=document.createElement('section');d.id='ndFxIntro';
- d.innerHTML='<div class="ndFx-kicker">ND BURGS • PEDIDOS ONLINE</div><div class="ndFx-title">SEU PEDIDO.<br><span>DO SEU JEITO.</span></div><div class="ndFx-sub">Escolha a categoria, ajuste a quantidade e adicione ao carrinho. Tudo em uma tela rápida e direta.</div><div class="ndFx-actions"><button class="ndFx-action primary" type="button" onclick="irPara(\'combos\')">🔥 VER MAIS VENDIDOS</button><button class="ndFx-action" type="button" onclick="document.getElementById(\'ndFxReviews\')?.scrollIntoView({behavior:\'smooth\'})">⭐ AVALIAR A ND</button></div>';
+ d.innerHTML='<div class="ndFx-kicker">ND BURGS • PEDIDOS ONLINE</div><div class="ndFx-title">OBRIGADO POR ESTAR AQUI<br><span>#BORA DE NDBURGS.</span></div><div class="ndFx-sub">Escolha a categoria, ajuste a quantidade e adicione ao carrinho. Tudo em uma tela rápida e direta.</div><div class="ndFx-actions"><button class="ndFx-action primary" type="button" onclick="irPara(\'combos\')">🔥 VER MAIS VENDIDOS</button><button class="ndFx-action" type="button" onclick="document.getElementById(\'ndFxReviews\')?.scrollIntoView({behavior:\'smooth\'})">⭐ AVALIAR A ND</button></div>';
  c.insertBefore(d,c.firstElementChild);
 }
 function setupCard(card){
