@@ -580,85 +580,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(max-width:600px){body{padding-bottom:105px!important}.produto:hover{transform:none}#carrinhoFlutuante{bottom:10px!important;width:calc(100% - 16px)!important;padding:10px!important;border-radius:18px!important}.btn-ver-carrinho{padding:11px!important;font-size:12px!important}#carrinhoFlutuante::before{width:40px;height:40px;font-size:20px}.carrinho-flutuante-info strong{font-size:13px!important}.carrinho-flutuante-total{font-size:.95rem!important}}
 </style>
 
-
-<style id="nd-3d-upgrade">
-:root{--nd3d-red:#e50914;--nd3d-red2:#ff4a32;--nd3d-gold:#ffd166;--nd3d-black:#030303;--nd3d-card:#101114}
-body{background:radial-gradient(circle at 50% -15%,rgba(229,9,20,.18),transparent 34%),radial-gradient(circle at 10% 45%,rgba(255,102,0,.06),transparent 28%),#030303!important;perspective:1200px}
-header{box-shadow:0 12px 45px rgba(0,0,0,.75),0 2px 0 rgba(229,9,20,.18)!important}
-header .logo{width:min(285px,82vw)!important;max-width:none!important;filter:drop-shadow(0 12px 22px rgba(229,9,20,.28)) drop-shadow(0 0 12px rgba(255,166,0,.12))!important;transform:translateZ(18px)}
-.produto{transform-style:preserve-3d!important;background:linear-gradient(145deg,#1b1c20 0%,#0c0d10 62%,#070708 100%)!important;border:1px solid rgba(255,255,255,.10)!important;box-shadow:0 14px 0 #050506,0 20px 38px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)!important;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease!important}
-.produto:hover{transform:translateY(-7px) rotateX(1.2deg) rotateY(-1.2deg)!important;box-shadow:0 17px 0 #050506,0 28px 55px rgba(0,0,0,.68),0 0 0 1px rgba(229,9,20,.18)!important}
-.produto-imagem,.produto img{box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 12px 22px rgba(0,0,0,.38)!important;transform:translateZ(10px);transition:transform .25s ease,filter .25s ease!important}
-.produto:hover .produto-imagem,.produto:hover img{transform:translateZ(18px) scale(1.035)!important;filter:saturate(1.08) contrast(1.03)!important}
-.produto h3,.produto p,.produto .preco,.produto .nd-fx-buyrow{transform:translateZ(8px)}
-.btn-add,.nd-fx-add{box-shadow:0 7px 0 #8e1200,0 13px 25px rgba(229,9,20,.24)!important;transform:translateZ(12px);transition:transform .12s ease,box-shadow .12s ease,filter .15s ease!important}
-.btn-add:active,.nd-fx-add:active{transform:translateZ(8px) translateY(4px)!important;box-shadow:0 3px 0 #8e1200,0 7px 14px rgba(229,9,20,.18)!important}
-.nd3-rating{display:flex;align-items:center;gap:2px;margin:7px 2px 1px;min-height:20px;position:relative;z-index:10}
-.nd3-star{appearance:none;border:0!important;background:transparent!important;color:#4b4d54!important;padding:0!important;margin:0!important;width:17px!important;height:22px!important;min-height:0!important;font-size:17px!important;line-height:22px!important;cursor:pointer!important;box-shadow:none!important;transform:none!important;text-shadow:none!important}
-.nd3-star.on{color:#ffd166!important;text-shadow:0 0 9px rgba(255,209,102,.35)!important}
-.nd3-star:hover{color:#ffb000!important;transform:scale(1.12)!important}
-.nd3-rating-note{margin-left:5px;color:#777;font-size:9px;font-weight:800;white-space:nowrap}
-.nd3-rating-average{display:none}
-#nd3MaisVendidos{margin:18px 0 26px;padding:18px;border:1px solid rgba(229,9,20,.35);border-radius:22px;background:linear-gradient(145deg,#171014,#09090b);box-shadow:0 18px 45px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);scroll-margin-top:110px}
-#nd3MaisVendidos .nd3-mv-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:13px}
-#nd3MaisVendidos h2{margin:0!important;border:0!important;padding:0!important;color:#fff!important;font-size:25px!important}
-#nd3MaisVendidos .nd3-mv-sub{font-size:11px;color:#888;text-align:right}
-.nd3-mv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.nd3-mv-card{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:linear-gradient(145deg,#15161a,#0b0c0f);box-shadow:0 9px 20px rgba(0,0,0,.28);transition:.2s}
-.nd3-mv-card:hover{transform:translateY(-3px);border-color:rgba(229,9,20,.55)}
-.nd3-mv-card img{width:66px;height:66px;object-fit:cover;border-radius:12px;background:#050506;box-shadow:0 8px 16px rgba(0,0,0,.35)}
-.nd3-mv-info{min-width:0;flex:1}.nd3-mv-info strong{display:block;font-size:12px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nd3-mv-info span{display:block;color:#ffd166;font-weight:900;font-size:12px;margin-top:3px}
-.nd3-mv-add{border:0;border-radius:10px;background:linear-gradient(135deg,#e50914,#ff5b21);color:#fff;font-weight:900;padding:10px 8px;cursor:pointer;box-shadow:0 5px 0 #8e1200}
-.nd3-mv-add:active{transform:translateY(3px);box-shadow:0 2px 0 #8e1200}
-.nd3-mv-badge{display:inline-block;margin-bottom:6px;padding:5px 7px;border-radius:7px;background:linear-gradient(135deg,#e50914,#ff8a00);color:#fff;font-size:8px;font-weight:1000;letter-spacing:.5px}
-/* carrinho central */
-#ndCartFab{display:none!important}#ndCartLabel{display:none!important}
-#nd3CartCenter{position:fixed;left:50%;bottom:12px;transform:translateX(-50%) translateY(130px);opacity:0;pointer-events:none;z-index:120001;width:min(650px,calc(100% - 18px));display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,90,45,.65);border-radius:20px;background:linear-gradient(145deg,rgba(25,15,17,.97),rgba(8,9,11,.97));backdrop-filter:blur(18px);box-shadow:0 18px 55px rgba(0,0,0,.75),0 0 25px rgba(229,9,20,.10);transition:transform .25s ease,opacity .25s ease}
-#nd3CartCenter.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
-#nd3CartCenter.bump{animation:nd3CartBump .65s ease}
-@keyframes nd3CartBump{0%{transform:translateX(-50%) scale(1)}35%{transform:translateX(-50%) scale(1.055)}65%{transform:translateX(-50%) scale(.98)}100%{transform:translateX(-50%) scale(1)}}
-.nd3-cart-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(145deg,#e50914,#8d0b12);font-size:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 8px 18px rgba(229,9,20,.25)}
-.nd3-cart-info{flex:1;min-width:0}.nd3-cart-info strong{display:block;color:#fff;font-size:13px}.nd3-cart-info small{display:block;color:#999;font-size:10px;margin-top:2px}.nd3-cart-total{color:#ffd166;font-weight:1000;font-size:15px;white-space:nowrap}
-.nd3-cart-open{border:0;border-radius:12px;background:linear-gradient(135deg,#e50914,#ff6a21);color:#fff;font-weight:1000;padding:13px 15px;cursor:pointer;white-space:nowrap;box-shadow:0 5px 0 #8e1200,0 9px 18px rgba(229,9,20,.22)}
-.nd3-cart-open:active{transform:translateY(3px);box-shadow:0 2px 0 #8e1200}
-@media(max-width:700px){header .logo{width:min(235px,82vw)!important}.nd3-mv-grid{display:flex;overflow:auto}.nd3-mv-card{min-width:275px}.nd3-mv-sub{text-align:left!important}.nd3-cart-total{font-size:13px}.nd3-cart-open{padding:12px 11px;font-size:11px}.nd3-cart-icon{width:40px;height:40px}.produto:hover{transform:translateY(-3px)!important}}
-@media(prefers-reduced-motion:reduce){.produto,.produto-imagem,.produto img,#nd3CartCenter,.nd3-star{transition:none!important;animation:none!important}.produto:hover{transform:none!important}}
-</style>
-
-
-<script id="nd-3d-upgrade-js">
-(function(){'use strict';
-const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
-const ratingKey='ndburgs_produto_avaliacoes_v1';
-const dailyKey='ndburgs_mais_vendidos_dia_v1';
-const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-function loadRatings(){try{const x=JSON.parse(localStorage.getItem(ratingKey)||'{}');return x&&typeof x==='object'?x:{}}catch(_){return {}}}
-function saveRatings(x){try{localStorage.setItem(ratingKey,JSON.stringify(x))}catch(_){}
-}
-function productName(card){return (card.querySelector('h3')?.textContent||'PRODUTO').trim()}
-function productPrice(card){const t=card.querySelector('.preco')?.textContent||'';const m=t.match(/R\$\s*([\d\.]+,[\d]{2})/);return m?Number(m[1].replace(/\./g,'').replace(',','.')):0}
-function productAction(card){return card.querySelector('.btn-add')?.getAttribute('onclick')||''}
-function productImg(card){return card.querySelector('img')?.src||''}
-function addRating(card){if(card.dataset.nd3Rating==='1')return;card.dataset.nd3Rating='1';const name=productName(card),data=loadRatings(),r=data[name]||{sum:0,count:0};const box=document.createElement('div');box.className='nd3-rating';box.setAttribute('role','radiogroup');box.setAttribute('aria-label','Avaliar '+name);
-for(let i=1;i<=5;i++){const b=document.createElement('button');b.type='button';b.className='nd3-star';b.textContent='★';b.dataset.star=i;b.title='Avaliar '+i+' estrela'+(i>1?'s':'');b.addEventListener('click',e=>{e.stopPropagation();const all=loadRatings();const old=all[name]||{sum:0,count:0};old.sum+=i;old.count++;all[name]=old;saveRatings(all);paintRating(box,i,old);const note=box.querySelector('.nd3-rating-note');if(note)note.textContent='Obrigado!';setTimeout(()=>{const rr=all[name];paintRating(box,Math.round(rr.sum/rr.count),rr)},900)});b.addEventListener('mouseenter',()=>paintStarsOnly(box,i));b.addEventListener('mouseleave',()=>{const rr=loadRatings()[name]||{sum:0,count:0};paintStarsOnly(box,rr.count?Math.round(rr.sum/rr.count):0)});box.appendChild(b)}
-const note=document.createElement('span');note.className='nd3-rating-note';box.appendChild(note);const rr=data[name]||{sum:0,count:0};paintRating(box,rr.count?Math.round(rr.sum/rr.count):0,rr);card.appendChild(box)}
-function paintStarsOnly(box,n){$$('.nd3-star',box).forEach(b=>b.classList.toggle('on',Number(b.dataset.star)<=n))}
-function paintRating(box,n,r){paintStarsOnly(box,n);const note=box.querySelector('.nd3-rating-note');if(note)note.textContent=r&&r.count?(' '+(r.sum/r.count).toFixed(1).replace('.',',')+' • '+r.count):' Avalie';}
-function initRatings(){ $$('.produto').forEach(addRating) }
-function getDailyPicks(){const cards=$$('.produto').filter(c=>productName(c));let today=new Date().toISOString().slice(0,10);try{const saved=JSON.parse(localStorage.getItem(dailyKey)||'null');if(saved&&saved.date===today&&Array.isArray(saved.names))return saved.names;const shuffled=cards.map(c=>productName(c)).sort(()=>Math.random()-.5).slice(0,6);localStorage.setItem(dailyKey,JSON.stringify({date:today,names:shuffled}));return shuffled}catch(_){return cards.slice(0,6).map(productName)}}
-function findCard(name){return $$('.produto').find(c=>productName(c).toUpperCase()===name.toUpperCase())}
-function buildMaisVendidos(){if($('#nd3MaisVendidos'))return;const container=$('.container');if(!container)return;const menu=$('.categoria-menu');const sec=document.createElement('section');sec.id='nd3MaisVendidos';sec.className='categoria';sec.innerHTML='<div class="nd3-mv-head"><div><span class="nd3-mv-badge">🔥 DESTAQUES DE HOJE</span><h2>🔥 MAIS VENDIDOS DO DIA</h2></div><div class="nd3-mv-sub">Seleção automática com favoritos do cardápio</div></div><div class="nd3-mv-grid"></div>';if(menu)menu.parentNode.insertBefore(sec,menu);else container.insertBefore(sec,container.firstElementChild);renderMaisVendidos()}
-function renderMaisVendidos(){const grid=$('#nd3MaisVendidos .nd3-mv-grid');if(!grid)return;const names=getDailyPicks();grid.innerHTML='';names.forEach(name=>{const c=findCard(name);if(!c)return;const action=productAction(c),price=productPrice(c),img=productImg(c);const el=document.createElement('div');el.className='nd3-mv-card';el.innerHTML='<img loading="lazy" src="'+img+'" alt="'+name.replace(/"/g,'&quot;')+'"><div class="nd3-mv-info"><strong>'+name+'</strong><span>'+money(price)+'</span></div><button type="button" class="nd3-mv-add">ADICIONAR</button>';el.querySelector('button').addEventListener('click',()=>{if(/abrirPersonalizacao\s*\(/.test(action)){const key=(action.match(/abrirPersonalizacao\(['"]([^'"]+)/)||[])[1];if(key&&typeof window.abrirPersonalizacao==='function')window.abrirPersonalizacao(key)}else if(typeof window.adicionar==='function'&&price>0)window.adicionar(name,price)});grid.appendChild(el)})}
-function fixMoreButton(){document.addEventListener('click',e=>{const b=e.target.closest('.ndFx-action.primary');if(b){e.preventDefault();$('#nd3MaisVendidos')?.scrollIntoView({behavior:'smooth',block:'start'})}})}
-function buildCenterCart(){if($('#nd3CartCenter'))return;const el=document.createElement('div');el.id='nd3CartCenter';el.innerHTML='<div class="nd3-cart-icon">🛒</div><div class="nd3-cart-info"><strong id="nd3CartQty">0 itens no carrinho</strong><small>Seu pedido está pronto para continuar</small></div><div id="nd3CartTotal" class="nd3-cart-total">R$ 0,00</div><button type="button" class="nd3-cart-open">VER ITENS DO CARRINHO</button>';document.body.appendChild(el);el.querySelector('button').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else{$('#modalCarrinho')?.classList.add('ativo');document.body.style.overflow='hidden'}}}
-function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(_){return []}}
-function refreshCart(bump){const el=$('#nd3CartCenter');if(!el)return;const cart=getCart(),qty=cart.reduce((s,i)=>s+(Number(i.quantidade)||0),0),total=cart.reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||0),0);el.classList.toggle('show',qty>0);$('#nd3CartQty').textContent=qty+' '+(qty===1?'item':'itens')+' no carrinho';$('#nd3CartTotal').textContent=money(total);if(bump&&qty>0){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump')}}
-function patchAdd(){if(typeof window.adicionar==='function'&&!window.adicionar.__nd3){const old=window.adicionar;window.adicionar=function(){const r=old.apply(this,arguments);setTimeout(()=>refreshCart(true),0);return r};window.adicionar.__nd3=true}if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__nd3){const old=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(()=>refreshCart(false),0);return r};window.atualizarCarrinho.__nd3=true}}
-function init(){initRatings();buildMaisVendidos();buildCenterCart();fixMoreButton();patchAdd();refreshCart(false);setTimeout(()=>{initRatings();patchAdd();refreshCart(false)},900);setInterval(()=>{patchAdd();refreshCart(false)},900)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
-
 </head>
 
 <body>
@@ -6699,6 +6620,428 @@ abrirCarrinho=function(){
   const modal=document.getElementById('modalCarrinho');
   if(modal){modal.classList.add('ativo');document.body.style.overflow='hidden';}
 };
+</script>
+
+
+
+<!-- =========================================================
+     ND BURGS — AVALIAÇÕES + CARRINHO CENTRAL + MAIS VENDIDOS
+     Camada final: não altera a estrutura original do cardápio.
+     ========================================================= -->
+<style id="nd-final-user-request">
+/* LOGO MAIOR */
+header .logo{
+  width:min(300px,82vw)!important;
+  max-width:300px!important;
+  height:auto!important;
+  display:block!important;
+  margin:0 auto!important;
+}
+
+/* ESTRELAS PEQUENAS EM TODOS OS PRODUTOS */
+.nd-product-rating{
+  display:flex!important;
+  align-items:center!important;
+  gap:2px!important;
+  margin:7px 2px 2px!important;
+  min-height:20px!important;
+}
+.nd-product-rating .nd-rating-star{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  border:0!important;
+  background:transparent!important;
+  padding:0!important;
+  margin:0!important;
+  width:17px!important;
+  height:18px!important;
+  line-height:18px!important;
+  font-size:16px!important;
+  color:#4a4a4d!important;
+  cursor:pointer!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+.nd-product-rating .nd-rating-star:hover,
+.nd-product-rating .nd-rating-star.on{
+  color:#f5c400!important;
+  text-shadow:0 0 7px rgba(245,196,0,.35)!important;
+}
+.nd-product-rating .nd-rating-label{
+  font-size:9px!important;
+  color:#777!important;
+  margin-left:4px!important;
+  white-space:nowrap!important;
+}
+.nd-product-rating .nd-rating-star:focus-visible{
+  outline:1px solid #f5c400!important;
+  outline-offset:1px!important;
+  border-radius:4px!important;
+}
+
+/* CARRINHO CENTRAL FIXO NA TELA */
+.carrinho-flutuante,
+#carrinhoFlutuante{
+  position:fixed!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:14px!important;
+  top:auto!important;
+  transform:translateX(-50%)!important;
+  width:min(760px,calc(100% - 20px))!important;
+  z-index:100005!important;
+  margin:0!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:center!important;
+  cursor:pointer!important;
+}
+.carrinho-flutuante.ativo,
+#carrinhoFlutuante.ativo{display:flex!important}
+.carrinho-flutuante-info{min-width:0!important;flex:1!important}
+.carrinho-flutuante-direita{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:10px!important;flex-shrink:0!important}
+.btn-ver-carrinho{white-space:nowrap!important}
+
+/* Esconde o segundo carrinho redondo criado por camadas anteriores */
+#ndCartFab,#ndCartLabel{display:none!important}
+
+/* PISCAR AO ADICIONAR */
+#carrinhoFlutuante.nd-cart-flash,
+#ndFxCartbar.nd-cart-flash{
+  animation:ndCartFlash .72s ease-in-out 2!important;
+}
+@keyframes ndCartFlash{
+  0%,100%{transform:translateX(-50%) scale(1);filter:brightness(1)}
+  35%{transform:translateX(-50%) scale(1.045);filter:brightness(1.55)}
+  65%{transform:translateX(-50%) scale(1.015);filter:brightness(1.2)}
+}
+
+/* NOVA CATEGORIA DOS 3 MAIS VENDIDOS DO DIA */
+#ndDailyBest{
+  margin:18px 0 26px!important;
+  padding:16px!important;
+  border:1px solid rgba(245,196,0,.28)!important;
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#141414,#090909)!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.38)!important;
+  scroll-margin-top:125px!important;
+}
+#ndDailyBest.nd-daily-open{animation:ndDailyIn .3s ease both}
+#ndDailyBest .nd-daily-head{
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  margin-bottom:12px!important;
+}
+#ndDailyBest .nd-daily-kicker{
+  font-size:10px!important;
+  font-weight:1000!important;
+  letter-spacing:1.8px!important;
+  color:#f5c400!important;
+}
+#ndDailyBest h2{
+  margin:3px 0 0!important;
+  padding:0!important;
+  border:0!important;
+  color:#fff!important;
+  font-size:22px!important;
+}
+#ndDailyBest .nd-daily-head p{
+  margin:0!important;
+  color:#888!important;
+  font-size:10px!important;
+  text-align:right!important;
+}
+#ndDailyBest .nd-daily-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+#ndDailyBest .nd-daily-card{
+  position:relative!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  border:1px solid #29292e!important;
+  border-radius:15px!important;
+  background:#0d0d0f!important;
+  padding:8px!important;
+}
+#ndDailyBest .nd-daily-card img{
+  display:block!important;
+  width:100%!important;
+  aspect-ratio:1/1!important;
+  object-fit:cover!important;
+  border-radius:10px!important;
+  background:#050505!important;
+}
+#ndDailyBest .nd-daily-card strong{
+  display:block!important;
+  color:#fff!important;
+  font-size:12px!important;
+  line-height:1.2!important;
+  margin:8px 2px 3px!important;
+}
+#ndDailyBest .nd-daily-price{
+  display:block!important;
+  color:#f5c400!important;
+  font-weight:1000!important;
+  font-size:13px!important;
+  margin:0 2px 7px!important;
+}
+#ndDailyBest .nd-daily-add{
+  width:100%!important;
+  border:0!important;
+  border-radius:10px!important;
+  padding:10px 7px!important;
+  background:linear-gradient(135deg,#e50914,#ff5a20)!important;
+  color:#fff!important;
+  font-weight:1000!important;
+  font-size:10px!important;
+  cursor:pointer!important;
+}
+#ndDailyBest .nd-daily-badge{
+  position:absolute!important;
+  left:13px!important;
+  top:13px!important;
+  z-index:2!important;
+  padding:5px 7px!important;
+  border-radius:7px!important;
+  background:#f5c400!important;
+  color:#080808!important;
+  font-size:8px!important;
+  font-weight:1000!important;
+}
+@keyframes ndDailyIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+@media(max-width:700px){
+  header .logo{width:min(260px,84vw)!important;max-width:260px!important}
+  .carrinho-flutuante,#carrinhoFlutuante{bottom:8px!important;width:calc(100% - 12px)!important;padding:9px!important;border-radius:17px!important}
+  .carrinho-flutuante-direita{gap:6px!important}
+  .btn-ver-carrinho{padding:10px 11px!important;font-size:10px!important}
+  .carrinho-flutuante-info strong{font-size:12px!important}
+  #contadorCarrinho{font-size:10px!important}
+  #totalCarrinhoFlutuante{font-size:13px!important}
+  #ndDailyBest{margin:14px 0 22px!important;padding:12px!important}
+  #ndDailyBest .nd-daily-grid{grid-template-columns:repeat(3,minmax(145px,1fr))!important;overflow-x:auto!important}
+  #ndDailyBest .nd-daily-card{min-width:145px!important}
+  #ndDailyBest .nd-daily-head{align-items:flex-start!important;flex-direction:column!important}
+  #ndDailyBest .nd-daily-head p{text-align:left!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #carrinhoFlutuante.nd-cart-flash,#ndFxCartbar.nd-cart-flash{animation:none!important}
+  #ndDailyBest.nd-daily-open{animation:none!important}
+}
+</style>
+
+<script id="nd-final-user-request-js">
+(function(){
+  'use strict';
+  const $=(s,c=document)=>c.querySelector(s);
+  const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
+  const ratingKey='ndburgs_produto_avaliacoes_v1';
+  let lastQty=0;
+
+  function getCart(){
+    try{return (typeof carrinho!=='undefined'&&Array.isArray(carrinho))?carrinho:[]}
+    catch(e){return []}
+  }
+  function cartQty(){return getCart().reduce((s,i)=>s+(Number(i.quantidade)||0),0)}
+
+  function loadRatings(){
+    try{const x=JSON.parse(localStorage.getItem(ratingKey)||'{}');return x&&typeof x==='object'?x:{}}
+    catch(e){return {}}
+  }
+  function saveRatings(x){try{localStorage.setItem(ratingKey,JSON.stringify(x))}catch(e){}}
+
+  /* Estrelas pequenas em TODOS os cards, inclusive cards criados dinamicamente. */
+  function setupRating(card){
+    if(!card||card.dataset.ndRatingReady==='1')return;
+    const h=card.querySelector('h3');
+    if(!h)return;
+    const price=card.querySelector('.preco');
+    if(!price)return;
+
+    card.dataset.ndRatingReady='1';
+    const name=(h.textContent||'PRODUTO').trim();
+    const id='nd-'+name.toUpperCase().replace(/[^A-Z0-9À-ÿ]+/g,'-').replace(/^-|-$/g,'');
+    card.dataset.ndRatingId=id;
+
+    const wrap=document.createElement('div');
+    wrap.className='nd-product-rating';
+    wrap.setAttribute('role','radiogroup');
+    wrap.setAttribute('aria-label','Avalie '+name);
+    const saved=loadRatings();
+    const current=Number(saved[id]||0);
+
+    for(let i=1;i<=5;i++){
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='nd-rating-star'+(i<=current?' on':'');
+      b.textContent='★';
+      b.setAttribute('aria-label',i+' estrela'+(i>1?'s':''));
+      b.setAttribute('aria-pressed',i===current?'true':'false');
+      b.dataset.star=String(i);
+      b.addEventListener('click',function(e){
+        e.preventDefault();e.stopPropagation();
+        const value=Number(this.dataset.star);
+        const data=loadRatings();data[id]=value;saveRatings(data);
+        $$('.nd-rating-star',wrap).forEach(x=>{
+          const on=Number(x.dataset.star)<=value;
+          x.classList.toggle('on',on);
+          x.setAttribute('aria-pressed',on?'true':'false');
+        });
+        wrap.classList.remove('nd-rating-saved');void wrap.offsetWidth;wrap.classList.add('nd-rating-saved');
+      });
+      wrap.appendChild(b);
+    }
+    const label=document.createElement('span');
+    label.className='nd-rating-label';
+    label.textContent=current?'Sua nota':'Avalie';
+    wrap.appendChild(label);
+    card.insertBefore(wrap,price);
+  }
+
+  function setupAllRatings(){
+    $$('.produto').forEach(setupRating);
+  }
+
+  /* Os 3 itens são sorteados uma vez por dia e permanecem os mesmos durante o dia. */
+  function dailySeed(){
+    const d=new Date();
+    return Number(String(d.getFullYear())+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'));
+  }
+  function seededShuffle(arr,seed){
+    const a=arr.slice();let x=(seed>>>0)||1;
+    for(let i=a.length-1;i>0;i--){
+      x=(x*1664525+1013904223)>>>0;
+      const j=x%(i+1);[a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+  function cardData(card){
+    if(!card)return null;
+    const h=card.querySelector('h3');
+    const img=card.querySelector('img');
+    const price=card.querySelector('.preco');
+    const btn=card.querySelector('.btn-add');
+    if(!h||!price||!btn)return null;
+    const onclick=btn.getAttribute('onclick')||'';
+    let value=null,addName=h.textContent.trim();
+    const m=onclick.match(/adicionar\((['"])(.*?)\1\s*,\s*([0-9.]+)/);
+    if(m){addName=m[2];value=Number(m[3])}
+    return {name:h.textContent.trim(),img:img?img.src:'',price:price.textContent.trim(),addName,value,onclick};
+  }
+
+  function getDailyCandidates(){
+    const all=[];
+    $$('.produto').forEach(card=>{
+      const d=cardData(card);
+      if(!d)return;
+      /* Para os 3 atalhos, prioriza itens que podem ser adicionados diretamente. */
+      if(d.value>0)all.push(d);
+    });
+    return all;
+  }
+
+  function buildDailySection(){
+    let sec=$('#ndDailyBest');
+    if(!sec){
+      const intro=$('#ndFxIntro');
+      const container=$('.container');
+      if(!container)return;
+      sec=document.createElement('section');
+      sec.id='ndDailyBest';
+      sec.className='categoria';
+      sec.innerHTML='<div class="nd-daily-head"><div><div class="nd-daily-kicker">🔥 DESTAQUES DE HOJE</div><h2>MAIS VENDIDOS DO DIA</h2></div><p>3 escolhas aleatórias para você pedir agora.</p></div><div class="nd-daily-grid" id="ndDailyGrid"></div>';
+      if(intro)intro.parentNode.insertBefore(sec,intro.nextSibling);else container.insertBefore(sec,container.firstElementChild);
+    }
+
+    const grid=$('#ndDailyGrid',sec);if(!grid)return;
+    const candidates=getDailyCandidates();
+    if(!candidates.length)return;
+    const picks=seededShuffle(candidates,dailySeed()).slice(0,3);
+    grid.innerHTML='';
+    picks.forEach(d=>{
+      const card=document.createElement('div');card.className='nd-daily-card';
+      const safe=d.name.replace(/[&<>\"]/g,'');
+      card.innerHTML=(d.img?'<img loading="lazy" decoding="async" src="'+d.img+'" alt="'+safe+'">':'')+
+        '<span class="nd-daily-badge">MAIS VENDIDO</span>'+
+        '<strong>'+safe+'</strong><span class="nd-daily-price">'+d.price+'</span>'+
+        '<button type="button" class="nd-daily-add">ADICIONAR</button>';
+      const add=card.querySelector('.nd-daily-add');
+      add.addEventListener('click',function(){
+        if(d.value>0&&typeof window.adicionar==='function'){
+          window.adicionar(d.addName,d.value);
+          flashCart();
+        }
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  function openDailyBest(){
+    buildDailySection();
+    const sec=$('#ndDailyBest');
+    if(!sec)return;
+    sec.classList.remove('nd-daily-open');void sec.offsetWidth;sec.classList.add('nd-daily-open');
+    sec.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function wireBestSellerButton(){
+    $$('.ndFx-action').forEach(btn=>{
+      if((btn.textContent||'').toUpperCase().includes('VER MAIS VENDIDOS')){
+        btn.onclick=function(e){e.preventDefault();e.stopPropagation();openDailyBest()};
+      }
+    });
+  }
+
+  function flashCart(){
+    const targets=[$('#carrinhoFlutuante'),$('#ndFxCartbar')].filter(Boolean);
+    targets.forEach(el=>{el.classList.remove('nd-cart-flash');void el.offsetWidth;el.classList.add('nd-cart-flash');setTimeout(()=>el.classList.remove('nd-cart-flash'),1600)});
+  }
+
+  function forceCartCenter(){
+    const bar=$('#carrinhoFlutuante');
+    if(bar)bar.style.left='50%';
+  }
+
+  function patchCart(){
+    if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__ndUserPatch){
+      const old=window.atualizarCarrinho;
+      window.atualizarCarrinho=function(){
+        const before=lastQty;const result=old.apply(this,arguments);
+        setTimeout(()=>{
+          const now=cartQty();
+          if(now>before)flashCart();
+          lastQty=now;forceCartCenter();setupAllRatings();
+        },20);
+        return result;
+      };
+      window.atualizarCarrinho.__ndUserPatch=true;
+    }
+    lastQty=cartQty();forceCartCenter();
+  }
+
+  function init(){
+    setupAllRatings();
+    buildDailySection();
+    wireBestSellerButton();
+    patchCart();
+    setTimeout(()=>{setupAllRatings();buildDailySection();wireBestSellerButton();patchCart()},500);
+    setTimeout(()=>{setupAllRatings();patchCart()},1200);
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+
+  /* Cards/categorias existentes e eventuais alterações do site continuam recebendo estrelas. */
+  const observer=new MutationObserver(()=>{
+    clearTimeout(window.__ndUserTimer);
+    window.__ndUserTimer=setTimeout(()=>{setupAllRatings();patchCart()},80);
+  });
+  observer.observe(document.body,{subtree:true,childList:true});
+})();
 </script>
 
 </body>
