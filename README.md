@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R21">
+<meta name="nd-site-version" content="20260905-R20">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R21";
+  const ND_SITE_VERSION = "20260905-R20";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -704,26 +704,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 </style>
 
-
-<style id="nd-r21-final-polish">
-/* R21 — destaque de entrega + avaliações neon roxo/azul */
-#ndR21Delivery{max-width:920px;margin:24px auto 18px;padding:0 14px;position:relative;z-index:3}
-.nd-r21-delivery-box{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:18px;min-height:92px;padding:18px 24px;border-radius:20px;background:linear-gradient(135deg,rgba(20,12,42,.98),rgba(10,20,48,.98));border:1px solid rgba(153,87,255,.72);box-shadow:0 0 14px rgba(124,58,237,.28),0 0 34px rgba(37,99,235,.18),inset 0 0 22px rgba(124,58,237,.10)}
-.nd-r21-delivery-box:before{content:"";position:absolute;inset:-60%;background:radial-gradient(circle at 25% 50%,rgba(168,85,247,.20),transparent 28%),radial-gradient(circle at 80% 50%,rgba(37,99,235,.20),transparent 25%);animation:ndR21Light 7s linear infinite}
-.nd-r21-icon{position:relative;font-size:34px;filter:drop-shadow(0 0 10px rgba(96,165,250,.75));animation:ndR21Pulse 1.8s ease-in-out infinite}
-.nd-r21-copy{position:relative;text-align:left}
-.nd-r21-kicker{font-size:12px;font-weight:900;letter-spacing:1.8px;color:#bca7ff;margin-bottom:3px}
-.nd-r21-time{font-size:clamp(23px,4vw,34px);line-height:1;font-weight:1000;color:#fff;text-shadow:0 0 12px rgba(129,92,246,.65)}
-.nd-r21-time strong{color:#a78bfa}
-.nd-r21-sub{font-size:12px;color:#cbd5e1;margin-top:6px}
-#ndR21Reviews{position:relative;overflow:hidden;max-width:1100px;margin:22px auto 34px;padding:30px 18px 22px;border-radius:28px;background:linear-gradient(145deg,#0d0920 0%,#101735 48%,#0b0b18 100%);border:1px solid rgba(139,92,246,.55);box-shadow:0 0 18px rgba(124,58,237,.24),0 0 55px rgba(37,99,235,.14),inset 0 0 45px rgba(99,102,241,.07)}
-#ndR21Reviews:before,#ndR21Reviews:after{content:"✦";position:absolute;color:#8b5cf6;font-size:38px;text-shadow:0 0 9px #8b5cf6,0 0 22px #2563eb;animation:ndR21Spark 2.8s ease-in-out infinite}
-#ndR21Reviews:before{left:5%;top:14px}#ndR21Reviews:after{right:6%;bottom:12px;animation-delay:1.2s}
-.nd-r21-head{text-align:center;position:relative;z-index:2}.nd-r21-stars{font-size:25px;letter-spacing:4px;color:#c4b5fd;text-shadow:0 0 7px #8b5cf6,0 0 18px #2563eb}.nd-r21-title{margin:4px 0 8px;font-size:clamp(24px,4vw,36px);font-weight:1000;color:#fff}.nd-r21-rating{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:999px;background:linear-gradient(90deg,rgba(124,58,237,.20),rgba(37,99,235,.18));border:1px solid rgba(129,140,248,.55);box-shadow:0 0 15px rgba(79,70,229,.22);font-size:13px;color:#e2e8f0}.nd-r21-rating b{color:#c4b5fd;font-size:18px;text-shadow:0 0 8px rgba(139,92,246,.8)}
-.nd-r21-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;position:relative;z-index:2}.nd-r21-card{position:relative;padding:17px;border-radius:18px;background:linear-gradient(145deg,rgba(29,20,58,.92),rgba(10,18,39,.95));border:1px solid rgba(99,102,241,.34);box-shadow:0 0 12px rgba(79,70,229,.12),inset 0 0 18px rgba(139,92,246,.04);transition:transform .25s,box-shadow .25s,border-color .25s}.nd-r21-card:hover{transform:translateY(-3px);border-color:rgba(139,92,246,.7);box-shadow:0 0 20px rgba(124,58,237,.25),0 0 28px rgba(37,99,235,.12)}.nd-r21-card .stars{font-size:15px;letter-spacing:2px;color:#a78bfa;text-shadow:0 0 7px #7c3aed}.nd-r21-card p{margin:9px 0 8px;color:#fff;font-size:16px;font-weight:800;line-height:1.35}.nd-r21-card small{color:#94a3b8;font-size:10px;letter-spacing:.6px}.nd-r21-note{text-align:center;color:#8fa0ba;font-size:11px;margin-top:17px}
-@keyframes ndR21Light{0%{transform:translateX(-12%) rotate(0deg)}50%{transform:translateX(12%) rotate(180deg)}100%{transform:translateX(-12%) rotate(360deg)}}@keyframes ndR21Pulse{50%{transform:scale(1.08)}}@keyframes ndR21Spark{50%{opacity:.3;transform:scale(.65) rotate(25deg)}}
-@media(max-width:700px){#ndR21Delivery{margin-top:18px;padding:0 10px}.nd-r21-delivery-box{min-height:78px;padding:14px 15px;gap:12px}.nd-r21-icon{font-size:27px}.nd-r21-time{font-size:24px}.nd-r21-sub{font-size:10px}.nd-r21-kicker{font-size:10px;letter-spacing:1.2px}#ndR21Reviews{margin:18px 10px 28px;padding:24px 11px 18px;border-radius:23px}.nd-r21-grid{grid-template-columns:1fr;gap:10px}.nd-r21-card{padding:15px}.nd-r21-title{font-size:25px}.nd-r21-stars{font-size:22px}}
-</style>
 </head>
 
 <body>
@@ -7981,45 +7961,15 @@ else init();
 })();
 </script>
 
-
-<script id="nd-r21-final-polish-js">
-(function(){
-  const REV=[
-    'Muito bom, amei!',
-    'Comprei a primeira vez e amei.',
-    'Preço e qualidade, tudo muito bom.',
-    'Muito gostoso, vou pedir novamente.',
-    'Amei o lanche! Muito caprichado.',
-    'Preço justo e qualidade de verdade.',
-    'Já virou meu lanche favorito.',
-    'Muito bom, chegou direitinho e estava uma delícia.',
-    'Primeiro pedido e já ganhou cliente.',
-    'Amei! Com certeza vou pedir de novo.',
-    'Lanche muito bom e bem feito.',
-    'Gostei muito da qualidade.'
-  ];
-  function addDelivery(){
-    if(document.getElementById('ndR21Delivery')) return;
-    const el=document.createElement('section'); el.id='ndR21Delivery';
-    el.innerHTML='<div class="nd-r21-delivery-box"><div class="nd-r21-icon">⏱️</div><div class="nd-r21-copy"><div class="nd-r21-kicker">TEMPO MÉDIO DE ENTREGA HOJE</div><div class="nd-r21-time"><strong>40 A 50</strong> MINUTINHOS</div><div class="nd-r21-sub">Preparamos seu pedido com carinho. 🍔💜</div></div></div>';
-    const anchor=document.querySelector('#ndR19Reviews')||document.querySelector('#ndR18Delivery')||document.querySelector('#ndR17Trust')||document.querySelector('main')||document.body;
-    anchor.parentNode.insertBefore(el,anchor);
-  }
-  function addReviews(){
-    if(document.getElementById('ndR21Reviews')) return;
-    const old=document.getElementById('ndR19Reviews'); if(old) old.remove();
-    const sec=document.createElement('section'); sec.id='ndR21Reviews';
-    sec.innerHTML='<div class="nd-r21-head"><div class="nd-r21-stars">★★★★★</div><div class="nd-r21-title">O QUE NOSSOS CLIENTES DIZEM</div><div class="nd-r21-rating"><b>4,9 ★★★★★</b> no iFood</div></div><div class="nd-r21-grid"></div><div class="nd-r21-note">Mensagens de clientes e nota do iFood exibidas pela ND BURGS.</div>';
-    const grid=sec.querySelector('.nd-r21-grid');
-    const cycle=Math.floor(Date.now()/(5*24*60*60*1000)); const start=(cycle*6)%REV.length;
-    for(let i=0;i<6;i++){const r=REV[(start+i)%REV.length];const card=document.createElement('article');card.className='nd-r21-card';card.innerHTML='<div class="stars">★★★★★</div><p>“'+r+'”</p><small>AVALIAÇÃO 5 ESTRELAS</small>';grid.appendChild(card)}
-    const candidates=[document.querySelector('#ndR19Reviews'),document.querySelector('#ndR18Delivery'),document.querySelector('#ndR17Trust')].filter(Boolean);
-    const anchor=candidates[0]||document.querySelector('footer')||document.body; anchor.parentNode.insertBefore(sec,anchor);
-  }
-  function go(){addDelivery();addReviews()}
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(go,500)); else setTimeout(go,500);
-  setTimeout(go,1800);
-})();
-</script>
+<style id="nd-r20-delivery-highlight-css">
+#ndR18Delivery{display:none!important}
+#ndR20DeliveryHighlight{width:min(920px,calc(100% - 28px));margin:42px auto 28px;position:relative;overflow:hidden;border-radius:24px;padding:20px 22px;box-sizing:border-box;isolation:isolate;background:radial-gradient(circle at 18% 50%,rgba(126,74,255,.28),transparent 34%),radial-gradient(circle at 82% 45%,rgba(42,116,255,.24),transparent 34%),linear-gradient(135deg,#090913,#11102a 48%,#080b18);border:1px solid rgba(149,108,255,.55);box-shadow:0 0 18px rgba(117,76,255,.32),0 0 48px rgba(45,101,255,.18),inset 0 0 30px rgba(122,83,255,.08)}
+#ndR20DeliveryHighlight:before,#ndR20DeliveryHighlight:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;filter:blur(34px);opacity:.42;z-index:-1;pointer-events:none}
+#ndR20DeliveryHighlight:before{background:#7a43ff;left:-55px;top:-70px}#ndR20DeliveryHighlight:after{background:#1677ff;right:-55px;bottom:-75px}
+.nd-r20-spark{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff,0 0 16px #8f70ff;opacity:.8;animation:ndR20Twinkle 2.8s ease-in-out infinite}.nd-r20-spark.s1{left:13%;top:18%}.nd-r20-spark.s2{left:34%;bottom:19%;animation-delay:.7s}.nd-r20-spark.s3{right:25%;top:17%;animation-delay:1.2s}.nd-r20-spark.s4{right:11%;bottom:22%;animation-delay:1.8s}@keyframes ndR20Twinkle{0%,100%{transform:scale(.6);opacity:.25}50%{transform:scale(1.35);opacity:1}}
+.nd-r20-inner{display:flex;align-items:center;justify-content:center;gap:20px;position:relative;z-index:2;text-align:center}.nd-r20-icon{width:52px;height:52px;flex:0 0 52px;border-radius:16px;display:grid;place-items:center;font-size:27px;background:rgba(255,255,255,.07);border:1px solid rgba(173,139,255,.42);box-shadow:0 0 18px rgba(109,72,255,.25)}.nd-r20-copy{min-width:0}.nd-r20-kicker{margin:0 0 4px;font-size:11px;font-weight:900;letter-spacing:1.7px;color:#c8b9ff;text-transform:uppercase}.nd-r20-title{margin:0;font-size:clamp(18px,3vw,27px);font-weight:1000;letter-spacing:.2px;color:#fff;text-shadow:0 0 14px rgba(130,92,255,.45)}.nd-r20-time{display:inline-block;margin:5px 0 2px;font-size:clamp(24px,4.8vw,38px);line-height:1;font-weight:1000;letter-spacing:.4px;background:linear-gradient(90deg,#bba3ff,#fff,#7fb8ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(116,91,255,.35))}.nd-r20-sub{margin:4px 0 0;color:rgba(255,255,255,.74);font-size:12px;font-weight:700}.nd-r20-line{width:70px;height:2px;margin:9px auto 0;border-radius:10px;background:linear-gradient(90deg,transparent,#8f6cff,#5ca4ff,transparent);box-shadow:0 0 10px rgba(111,90,255,.65)}
+@media(max-width:600px){#ndR20DeliveryHighlight{margin:30px auto 22px;padding:17px 14px;border-radius:20px}.nd-r20-inner{gap:12px}.nd-r20-icon{width:43px;height:43px;flex-basis:43px;font-size:22px;border-radius:13px}.nd-r20-kicker{font-size:9px;letter-spacing:1.2px}.nd-r20-title{font-size:16px}.nd-r20-time{font-size:28px}.nd-r20-sub{font-size:10px}}
+</style>
+<section id="ndR20DeliveryHighlight" aria-label="Tempo médio de entrega"><span class="nd-r20-spark s1"></span><span class="nd-r20-spark s2"></span><span class="nd-r20-spark s3"></span><span class="nd-r20-spark s4"></span><div class="nd-r20-inner"><div class="nd-r20-icon" aria-hidden="true">🛵</div><div class="nd-r20-copy"><p class="nd-r20-kicker">⏱️ TEMPO MÉDIO DE ENTREGA HOJE</p><h2 class="nd-r20-title">SEU PEDIDO A CAMINHO</h2><div class="nd-r20-time">40 A 50 MINUTINHOS</div><p class="nd-r20-sub">Pedimos esse tempinho para preparar tudo com carinho e enviar bem fresquinho. 💜</p><div class="nd-r20-line"></div></div></div></section>
 </body>
 </html>
