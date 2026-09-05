@@ -581,125 +581,127 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 
 
-<!-- ND BURGS CORREÇÃO FINAL — CARRINHO NO TOPO + CATEGORIAS SEM ROLAGEM -->
-<style id="nd-corrigido-final">
-/* ===== CARRINHO ÚNICO — TOPO DIREITO ===== */
-#carrinhoFlutuante,
-.carrinho-flutuante,
-#ndFxCartbar,
-.nd-v3-buybar,
-.nd-cart-label{
-  display:none!important;
-}
 
-#ndCartFab{
-  position:fixed!important;
-  top:14px!important;
-  right:18px!important;
-  bottom:auto!important;
-  left:auto!important;
-  z-index:2147483647!important;
-  width:60px!important;
-  height:60px!important;
-  min-width:60px!important;
-  min-height:60px!important;
-  padding:0!important;
-  margin:0!important;
-  border:2px solid #fff!important;
-  border-radius:50%!important;
-  background:linear-gradient(135deg,#e50914,#ff3038)!important;
-  color:#fff!important;
-  box-shadow:0 10px 35px rgba(229,9,20,.45),0 0 0 5px rgba(229,9,20,.10)!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  font-size:27px!important;
-  line-height:1!important;
-  cursor:pointer!important;
-  transform:none!important;
-  opacity:1!important;
-}
-
-#ndCartFab:hover{
-  transform:scale(1.06)!important;
-  box-shadow:0 14px 42px rgba(229,9,20,.60),0 0 0 6px rgba(229,9,20,.12)!important;
-}
-
-#ndCartFab:active{
-  transform:scale(.96)!important;
-}
-
-#ndCartFab.empty{
-  opacity:1!important;
-}
-
-#ndCartBadge{
-  position:absolute!important;
-  top:-4px!important;
-  right:-4px!important;
-  min-width:25px!important;
-  height:25px!important;
-  padding:0 6px!important;
-  border:3px solid #080808!important;
-  border-radius:999px!important;
-  background:#fff!important;
-  color:#111!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  font-size:12px!important;
-  font-weight:950!important;
-  line-height:1!important;
-  box-sizing:border-box!important;
-}
-
-#ndCartFab.empty #ndCartBadge{
-  background:#2a2a2d!important;
-  color:#aaa!important;
-}
-
-/* ===== CATEGORIAS — REMOVE TODAS AS BARRAS COM ROLAGEM ===== */
-.categoria-menu,
-#nd18Sidebar{
-  display:none!important;
-  visibility:hidden!important;
-  pointer-events:none!important;
-}
-
-/* Remove rolagem criada especificamente para navegação de categorias */
-.categoria-menu,
-#nd18Sidebar{
-  overflow:visible!important;
-  max-height:none!important;
-  height:0!important;
-  width:0!important;
-  margin:0!important;
-  padding:0!important;
-  border:0!important;
-}
-
-/* Desktop não precisa mais reservar espaço para a antiga sidebar */
-@media(min-width:901px){
-  body{padding-left:0!important;}
-}
-
-/* Não cria espaço inferior para o antigo carrinho flutuante */
-@media(max-width:600px){
-  body{padding-bottom:12px!important;}
-  #ndCartFab{
-    top:10px!important;
-    right:12px!important;
-    width:56px!important;
-    height:56px!important;
-    min-width:56px!important;
-    min-height:56px!important;
-    font-size:25px!important;
+<!-- ND BURGS — AJUSTE FINAL: CARRINHO FIXO NO TOPO + CATEGORIAS CENTRAIS REMOVIDAS -->
+<style id="nd-final-navigation-cart">
+  /* Remove definitivamente o menu de categorias que ficava no meio do cardápio. */
+  .categoria-menu,
+  #ndR3Quick,
+  #ndR7Reco,
+  #ndR7Recent {
+    display:none!important;
   }
-  #ndCartBadge{
-    top:-4px!important;
-    right:-4px!important;
+
+  /* Mantém o conteúdo principal sem depender do menu central. */
+  .modern-search {
+    margin-bottom:14px!important;
   }
-}
+
+  /* CARRINHO ÚNICO: sempre visível no canto superior direito. */
+  #ndCartFab {
+    position:fixed!important;
+    top:12px!important;
+    right:18px!important;
+    bottom:auto!important;
+    left:auto!important;
+    transform:none!important;
+    width:62px!important;
+    height:62px!important;
+    z-index:200000!important;
+    border:2px solid #fff!important;
+    border-radius:18px!important;
+    background:linear-gradient(135deg,#e50914,#ff3038)!important;
+    color:#fff!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    font-size:28px!important;
+    box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 0 4px rgba(229,9,20,.14)!important;
+  }
+
+  #ndCartFab:hover {
+    transform:scale(1.05)!important;
+    box-shadow:0 14px 38px rgba(0,0,0,.65),0 0 0 5px rgba(229,9,20,.18)!important;
+  }
+
+  #ndCartFab:active {
+    transform:scale(.96)!important;
+  }
+
+  #ndCartFab.empty {
+    opacity:1!important;
+  }
+
+  #ndCartFab .nd-cart-badge {
+    position:absolute!important;
+    right:-7px!important;
+    top:-7px!important;
+    min-width:27px!important;
+    height:27px!important;
+    padding:0 6px!important;
+    border-radius:999px!important;
+    background:#fff!important;
+    color:#111!important;
+    border:3px solid #090909!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    font-size:12px!important;
+    font-weight:950!important;
+    line-height:1!important;
+  }
+
+  #ndCartLabel {
+    position:fixed!important;
+    top:79px!important;
+    right:16px!important;
+    bottom:auto!important;
+    left:auto!important;
+    z-index:199999!important;
+    background:#151519!important;
+    border:1px solid #34343a!important;
+    border-radius:999px!important;
+    padding:7px 11px!important;
+    color:#fff!important;
+    font-size:10px!important;
+    font-weight:900!important;
+    box-shadow:0 8px 25px rgba(0,0,0,.45)!important;
+    white-space:nowrap!important;
+    pointer-events:none!important;
+  }
+
+  /* Desliga o antigo carrinho flutuante inferior. */
+  #carrinhoFlutuante,
+  .carrinho-flutuante,
+  #ndFxCartbar,
+  .nd-v3-buybar {
+    display:none!important;
+  }
+
+  /* A área completa do carrinho continua existindo no checkout; ela não é um segundo botão flutuante. */
+  @media(max-width:700px){
+    header .logo{width:min(170px,58vw)!important;}
+    #ndCartFab{
+      top:9px!important;
+      right:10px!important;
+      width:56px!important;
+      height:56px!important;
+      border-radius:16px!important;
+      font-size:25px!important;
+    }
+    #ndCartLabel{
+      top:69px!important;
+      right:9px!important;
+      font-size:9px!important;
+      padding:6px 9px!important;
+    }
+    #ndCartFab .nd-cart-badge{
+      min-width:25px!important;
+      height:25px!important;
+      right:-6px!important;
+      top:-6px!important;
+    }
+  }
 </style>
 
 </head>
@@ -764,54 +766,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h1>🍔 FAÇA SEU PEDIDO</h1>
 <div class="modern-search"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><span id="contadorBusca" class="search-count"></span></div>
 <div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
-
-<div class="categoria-menu">
-
-<button class="categoria-btn" onclick="irPara('combos')">
-❤️ COMBOS
-</button>
-
-<button class="categoria-btn" onclick="irPara('tradicionais')">
-🍔 TRADICIONAIS
-</button>
-
-<button class="categoria-btn" onclick="irPara('artesanais')">
-🍔 ARTESANAIS
-</button>
-
-<button class="categoria-btn" onclick="irPara('combosArtesanais')">
-🔥 COMBOS ARTESANAIS
-</button>
-
-<button class="categoria-btn" onclick="irPara('porcoes')">
-🍟 PORÇÕES
-</button>
-
-<button class="categoria-btn" onclick="irPara('pasteis')">
-🥟 PASTÉIS
-</button>
-
-<button class="categoria-btn" onclick="irPara('acai')">
-🥤 AÇAÍ
-</button>
-
-<button class="categoria-btn" onclick="irPara('milkshakes')">
-🥤🥤 MILKSHAKES
-</button>
-
-<button class="categoria-btn" onclick="irPara('bebidas')">
-🥤 BEBIDAS
-</button>
-
-<button class="categoria-btn" onclick="irPara('sobremesas')">
-🍓 SOBREMESAS
-</button>
-
-<button class="categoria-btn" onclick="irPara('adicionais')">
-➕ ADICIONAIS
-</button>
-
-</div>
 
 <section id="combos" class="categoria">
 
