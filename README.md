@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R13">
+<meta name="nd-site-version" content="20260905-R12">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R13";
+  const ND_SITE_VERSION = "20260905-R12";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -1165,7 +1165,6 @@ ESCOLHER
 <div class="produtos">
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/r2zDycx0/Chat-GPT-Image-4-09-2026-21-18-50.png" alt="COCA COLA LATA 350ML">
 <h3>COCA COLA LATA</h3>
 <p>Refrigerante.</p>
 <div class="preco">R$ 6,00</div>
@@ -1285,7 +1284,7 @@ ADICIONAR
 
 <div class="produto">
 
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="SURPRESA DE UVA">
+<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/7x6dFWmm/Chat-GPT-Image-25-06-2026-23-14-20.png" alt="SURPRESA DE UVA">
 
 <h3>SURPRESA DE UVA</h3>
 
@@ -5729,7 +5728,7 @@ button{font-family:inherit}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- ND BURGS VERSION: 20260905-R13 -->
+<!-- ND BURGS VERSION: 20260905-R12 -->
 
 
 <!-- =========================================================
@@ -6784,14 +6783,14 @@ const TRAD=['X-SALADA','X-BURGUER','X-EGG','X-BACON'];
 const ART=['GAROTINHO','DINA','GADEIA','PATÃO','BERENICE'];
 const SAUCES=['CHEDDAR','BARBECUE','CATUPIRY','MAIONESE','MOSTARDA','KETCHUP','MAIONESE VERDE'];
 const ADDONS=[
- ['MAIONESE ARTESANAL','3.00','https://i.ibb.co/Y4DcTLwD/maionese-artesanal.png'],
- ['MOLHO CHEDDAR','3.00','https://i.ibb.co/cHt8ZjS/adicional-molho-cheddar.png'],
- ['POTINHO BARBECUE','3.00','https://i.ibb.co/n8KHqTMg/potinho-barbecue.png'],
- ['BACON','3.00','https://i.ibb.co/6RxLhQBG/adicional-bacon.png'],
- ['POTINHO CHEDDAR','3.00','https://i.ibb.co/DHNQ0kwS/potinho-cheddar.png'],
- ['HAMBURGUER EXTRA ARTESANAL','9.00','https://i.ibb.co/wZfS9rn1/hamburguer-artesanal.png'],
- ['POTINHO MAIONESE VERDE','3.00','https://i.ibb.co/DDCZpVLW/potinho-maionese-verde.png'],
- ['FATIA QUEIJO CHEDDAR EXTRA','3.00','https://i.ibb.co/ZRydT4hD/fatia-de-queijo.png']
+ ['MAIONESE ARTESANAL','3.00','https://i.ibb.co/jkHr0B4H/maionese-artesanal.png'],
+ ['MOLHO CHEDDAR','3.00','https://i.ibb.co/5X4GXyCY/adicional-molho-cheddar.png'],
+ ['POTINHO BARBECUE','3.00','https://i.ibb.co/MyZdQG1z/potinho-barbecue.png'],
+ ['BACON','3.00','https://i.ibb.co/cd0tjTg/adicional-bacon.png'],
+ ['POTINHO CHEDDAR','3.00','https://i.ibb.co/qFDf9H71/potinho-cheddar.png'],
+ ['HAMBURGUER EXTRA ARTESANAL','9.00','https://i.ibb.co/nMythJdt/hamburguer-artesanal.png'],
+ ['POTINHO MAIONESE VERDE','3.00','https://i.ibb.co/7dDQ4tjT/potinho-maionese-verde.png'],
+ ['FATIA QUEIJO CHEDDAR EXTRA','3.00','https://i.ibb.co/qLwtXw6h/fatia-de-queijo.png']
 ];
 const configs={
  'COMBO MAIS VENDIDO':{price:20.90,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
@@ -6979,119 +6978,6 @@ function enhance(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
 /* uma segunda passada cobre elementos criados dinamicamente sem manter timer contínuo */
 setTimeout(enhance,900);
-})();
-</script>
-
-<!-- ND BURGS — RODADA 24 / R13 — AJUSTE VISUAL DE PREÇOS -->
-<style id="nd-r13-price-clean">
-/* Sem sombra no valor TOTAL DO COMBO */
-.r11-combo-total strong,
-#r11ComboTotal{
-  text-shadow:none!important;
-}
-/* Sem sombra no POR R$ 7,90 da Surpresa de Uva */
-.r11-promo-price{
-  text-shadow:none!important;
-}
-</style>
-
-
-<!-- =========================================================
-     ND BURGS — RODADA 25 / R13
-     UX PREMIUM + PIX + CONFIRMAÇÃO + UPSELL INTELIGENTE
-     ========================================================= -->
-<style id="nd-r13-premium-upgrades">
-/* Preços pedidos: sem sombra */
-.r11-combo-total strong,#r11ComboTotal,.r11-promo-price{ text-shadow:none!important; }
-
-/* Hero de entrada: brilho 3D + animações premium */
-#ndFxIntro{
-  position:relative;isolation:isolate;overflow:hidden;
-  margin:16px auto 22px;padding:30px 22px 24px;max-width:1100px;
-  border:1px solid rgba(255,157,0,.32);border-radius:24px;
-  background:radial-gradient(circle at 50% 0%,rgba(255,157,0,.22),transparent 42%),linear-gradient(145deg,#17110b,#080808 62%);
-  box-shadow:0 18px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.08),0 0 35px rgba(255,90,0,.08);
-  transform:translateZ(0);animation:ndHeroIn .7s ease both;
-}
-#ndFxIntro:before,#ndFxIntro:after{content:"";position:absolute;pointer-events:none;border-radius:999px;filter:blur(2px)}
-#ndFxIntro:before{width:220px;height:220px;right:-80px;top:-90px;background:radial-gradient(circle,rgba(255,180,0,.26),transparent 68%);animation:ndOrb 4.5s ease-in-out infinite}
-#ndFxIntro:after{width:160px;height:160px;left:-70px;bottom:-80px;background:radial-gradient(circle,rgba(255,59,0,.18),transparent 68%);animation:ndOrb 5.5s ease-in-out infinite reverse}
-#ndFxIntro .ndFx-kicker{position:relative;z-index:1;display:inline-block;padding:6px 10px;border:1px solid rgba(255,210,26,.35);border-radius:999px;color:#ffd21a;font-size:10px;font-weight:1000;letter-spacing:1.6px;background:rgba(255,210,26,.06);box-shadow:0 0 18px rgba(255,210,26,.08);animation:ndGlow 2.2s ease-in-out infinite}
-#ndFxIntro .ndFx-title{position:relative;z-index:1;margin-top:10px;font-size:clamp(34px,5vw,62px);font-weight:1000;line-height:.98;letter-spacing:-1.8px;text-shadow:0 3px 0 #4c2b00,0 7px 22px rgba(0,0,0,.8);animation:ndTitleFloat 3.5s ease-in-out infinite}
-#ndFxIntro .ndFx-title span{display:inline-block;color:#ffd21a;background:linear-gradient(180deg,#fff6a1,#ffd21a 48%,#e59b00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 0 #805400) drop-shadow(0 8px 18px rgba(255,174,0,.18));animation:ndShine 3.8s linear infinite;background-size:180% auto}
-#ndFxIntro .ndFx-sub{position:relative;z-index:1;max-width:760px;margin:14px 0 0;color:#c8c8c8;font-size:13px;line-height:1.6}
-#ndFxIntro .ndFx-actions{position:relative;z-index:1;display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-#ndFxIntro .ndFx-action{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:12px 15px;background:linear-gradient(145deg,#191919,#0c0c0c);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 5px 0 #050505,0 12px 28px rgba(0,0,0,.3);transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
-#ndFxIntro .ndFx-action.primary{background:linear-gradient(145deg,#fff36b,#ffd21a 52%,#e99d00);color:#171000;border-color:#ffe66f;box-shadow:inset 0 2px 0 rgba(255,255,255,.75),0 5px 0 #8d5700,0 12px 28px rgba(255,157,0,.2)}
-#ndFxIntro .ndFx-action:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.08)}
-#ndFxIntro .ndFx-action:active{transform:translateY(1px) scale(.985)}
-
-/* Caixa inteligente: só aparece para item individual que participa de combo */
-#ndSmartComboOffer{position:fixed;inset:0;z-index:450000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.78);backdrop-filter:blur(10px)}
-#ndSmartComboOffer.show{display:flex;animation:ndFadeIn .22s ease both}
-.nd-smart-panel{width:min(620px,100%);padding:22px;border:1px solid rgba(255,174,0,.55);border-radius:24px;background:radial-gradient(circle at 50% 0,rgba(255,157,0,.18),transparent 45%),linear-gradient(155deg,#1a130d,#080808 72%);box-shadow:0 30px 100px rgba(0,0,0,.82),0 0 45px rgba(255,120,0,.12);text-align:center;animation:ndSmartPop .38s cubic-bezier(.2,.8,.2,1) both}
-.nd-smart-kicker{color:#ffd21a;font-size:10px;font-weight:1000;letter-spacing:1.5px}.nd-smart-panel h2{margin:7px 0 5px;font-size:clamp(25px,6vw,40px);line-height:1.02;text-shadow:0 3px 0 #4d2c00}.nd-smart-panel p{margin:0 auto;color:#aaa;font-size:12px;line-height:1.5;max-width:470px}.nd-smart-price{margin:13px 0;font-size:27px;font-weight:1000;color:#ffd21a;text-shadow:0 3px 0 #765000}.nd-smart-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.nd-smart-actions button{border:0;border-radius:13px;padding:14px 10px;font-weight:1000;cursor:pointer}.nd-smart-keep{background:#171717;color:#fff;border:1px solid #333!important}.nd-smart-change{background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;box-shadow:0 5px 0 #8d5700,0 12px 25px rgba(255,157,0,.18)}
-
-/* PIX: aparece somente quando PIX estiver selecionado */
-#ndPixBox{display:none;margin-top:13px;padding:14px;border:1px solid rgba(255,210,26,.35);border-radius:15px;background:linear-gradient(145deg,#171207,#0b0b0b);box-shadow:0 10px 28px rgba(0,0,0,.3)}
-#ndPixBox.show{display:block;animation:ndSmartPop .3s ease both}
-#ndPixBox .nd-pix-title{font-size:12px;font-weight:1000;color:#ffd21a}.nd-pix-key{margin:8px 0;padding:10px;border-radius:10px;background:#050505;border:1px dashed #594600;color:#fff;font-weight:1000;word-break:break-all}.nd-pix-total{font-size:19px;font-weight:1000;color:#fff}.nd-pix-total b{color:#ffd21a}.nd-pix-copy{width:100%;margin-top:9px;border:0;border-radius:11px;padding:12px;background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;font-weight:1000;cursor:pointer;box-shadow:0 4px 0 #8d5700}.nd-pix-copy.copied{filter:brightness(1.12)}
-
-/* Confirmação gigante após envio */
-#ndOrderSuccess{position:fixed;inset:0;z-index:600000;display:none;place-items:center;padding:20px;background:radial-gradient(circle at 50% 42%,rgba(255,174,0,.22),transparent 34%),rgba(3,3,3,.96);backdrop-filter:blur(15px)}
-#ndOrderSuccess.show{display:grid;animation:ndFadeIn .25s ease both}.nd-success-card{text-align:center;width:min(760px,100%);animation:ndSuccessPop .65s cubic-bezier(.16,1,.3,1) both}.nd-success-check{width:96px;height:96px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;font-size:48px;background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;box-shadow:inset 0 4px 0 rgba(255,255,255,.7),0 8px 0 #8d5700,0 0 55px rgba(255,174,0,.28);animation:ndCheck 1.4s ease-in-out infinite}.nd-success-card h2{margin:0;font-size:clamp(34px,7vw,72px);line-height:.94;color:#fff;text-shadow:0 4px 0 #4c2b00,0 12px 35px #000}.nd-success-card h2 span{display:block;color:#ffd21a}.nd-success-card p{margin:18px auto 0;max-width:650px;color:#ddd;font-size:clamp(14px,2.5vw,19px);font-weight:800;line-height:1.45}.nd-success-timer{margin-top:14px;color:#888;font-size:10px;font-weight:900;letter-spacing:.8px}
-
-@keyframes ndHeroIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}@keyframes ndOrb{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-15px,12px,0) scale(1.08)}}@keyframes ndGlow{0%,100%{box-shadow:0 0 10px rgba(255,210,26,.05)}50%{box-shadow:0 0 28px rgba(255,210,26,.18)}}@keyframes ndTitleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}@keyframes ndShine{0%{background-position:180% 0}100%{background-position:-180% 0}}@keyframes ndFadeIn{from{opacity:0}to{opacity:1}}@keyframes ndSmartPop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}@keyframes ndSuccessPop{0%{opacity:0;transform:scale(.75) translateY(30px)}65%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}@keyframes ndCheck{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(3deg)}}
-@media(max-width:600px){#ndFxIntro{margin:10px 8px 18px;padding:23px 16px 18px;border-radius:20px}#ndFxIntro .ndFx-title{font-size:36px}.nd-smart-actions{grid-template-columns:1fr}.nd-smart-panel{padding:18px}.nd-success-check{width:78px;height:78px;font-size:39px}.nd-success-card h2{font-size:42px}}
-@media(prefers-reduced-motion:reduce){#ndFxIntro,#ndFxIntro .ndFx-title,#ndFxIntro .ndFx-title span,#ndFxIntro .ndFx-kicker,.nd-smart-panel,#ndPixBox,#ndOrderSuccess,.nd-success-card,.nd-success-check{animation:none!important}.ndFx-action{transition:none!important}}
-</style>
-<script id="nd-r13-premium-js">
-(function(){
-'use strict';
-const COMBO_MAP={
- 'X-SALADA':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'X-BURGUER':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'X-EGG':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'X-BACON':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'NUNES':{combo:'COMBO MOTOCA ND',price:32.90,kind:'nunes'},
- 'GAROTINHO':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'DINA':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'GADEIA':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'PATÃO':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'BERENICE':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'}
-};
-let pending=null;
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-function cart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(_){return[]}}
-function ensureSmart(){if($('#ndSmartComboOffer'))return;const d=document.createElement('div');d.id='ndSmartComboOffer';d.innerHTML='<div class="nd-smart-panel" role="dialog" aria-modal="true"><div class="nd-smart-kicker">🔥 OPORTUNIDADE PARA SEU PEDIDO</div><h2 id="ndSmartTitle">QUER TRANSFORMAR EM COMBO?</h2><p id="ndSmartText"></p><div class="nd-smart-price" id="ndSmartPrice"></div><div class="nd-smart-actions"><button type="button" class="nd-smart-keep" id="ndSmartKeep">NÃO, MANTER ITEM</button><button type="button" class="nd-smart-change" id="ndSmartChange">SIM, TROCAR POR COMBO</button></div></div>';document.body.appendChild(d);$('#ndSmartKeep').onclick=closeSmart;$('#ndSmartChange').onclick=changeToCombo;d.addEventListener('click',e=>{if(e.target===d)closeSmart()})}
-function closeSmart(){const d=$('#ndSmartComboOffer');if(d)d.classList.remove('show');pending=null}
-function openSmart(name){const key=norm(name),cfg=COMBO_MAP[key];if(!cfg)return;ensureSmart();pending={name:key,cfg};$('#ndSmartText').textContent='Você adicionou '+key+' sozinho. Se quiser, pode trocar este item pelo '+cfg.combo+' e montar o combo com as opções.';$('#ndSmartPrice').textContent=cfg.combo+' • '+money(cfg.price);$('#ndSmartComboOffer').classList.add('show')}
-function changeToCombo(){if(!pending)return;const p=pending;closeSmart();if(typeof window.abrirComboPersonalizacao==='function'){window.abrirComboPersonalizacao(p.cfg.combo,p.cfg.price);return}if(typeof window.adicionar==='function')window.adicionar(p.cfg.combo,p.cfg.price)}
-function maybeOffer(name){const key=norm(name);if(COMBO_MAP[key])setTimeout(()=>openSmart(key),120)}
-function patchAdd(){if(typeof window.adicionar!=='function'||window.adicionar.__ndR13smart)return;const old=window.adicionar;window.adicionar=function(nome,preco){const result=old.apply(this,arguments);maybeOffer(nome);return result};window.adicionar.__ndR13smart=true}
-
-function ensurePix(){
- const step=$('[data-content="3"]');if(!step)return;let box=$('#ndPixBox');if(!box){box=document.createElement('div');box.id='ndPixBox';box.innerHTML='<div class="nd-pix-title">💠 PAGAMENTO VIA PIX</div><div style="font-size:11px;color:#aaa;margin-top:3px">Copie a chave abaixo e faça o pagamento no valor exato do pedido.</div><div class="nd-pix-key">11963973846</div><div class="nd-pix-total">Valor para pagar: <b id="ndPixTotal">R$ 0,00</b></div><button type="button" class="nd-pix-copy" id="ndPixCopy">📋 COPIAR CHAVE PIX</button><div style="font-size:9px;color:#777;margin-top:8px">SABRINA SELLIS DINIZ • CONTA NEON</div>';const select=$('#pagamentoModal');if(select)select.insertAdjacentElement('afterend',box);else step.appendChild(box);$('#ndPixCopy').onclick=async function(){try{await navigator.clipboard.writeText('11963973846');this.textContent='✅ CHAVE COPIADA!';this.classList.add('copied');setTimeout(()=>{this.textContent='📋 COPIAR CHAVE PIX';this.classList.remove('copied')},1800)}catch(_){const ta=document.createElement('textarea');ta.value='11963973846';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();this.textContent='✅ CHAVE COPIADA!';setTimeout(()=>this.textContent='📋 COPIAR CHAVE PIX',1800)}}}
- const total=$('#ndV4Total')?.textContent||'R$ 0,00';const pt=$('#ndPixTotal');if(pt)pt.textContent=total;
- const pay=$('#pagamentoModal')?.value;box.classList.toggle('show',pay==='PIX');
-}
-function patchPay(){if(typeof window.ndPay!=='function'||window.ndPay.__ndR13)return;const old=window.ndPay;window.ndPay=function(pay){const r=old.apply(this,arguments);ensurePix();return r};window.ndPay.__ndR13=true}
-function observePix(){const total=$('#ndV4Total');if(total){const ob=new MutationObserver(ensurePix);ob.observe(total,{childList:true,characterData:true,subtree:true})}const pay=$('#pagamentoModal');if(pay)pay.addEventListener('change',ensurePix);ensurePix()}
-
-function ensureSuccess(){if($('#ndOrderSuccess'))return;const d=document.createElement('div');d.id='ndOrderSuccess';d.innerHTML='<div class="nd-success-card"><div class="nd-success-check">✓</div><h2>OBRIGADO POR ESCOLHER <span>ND BURGS!</span></h2><p>SEU PEDIDO ESTÁ CONFIRMADO E SERÁ ENTREGUE DE <b>40 A 50 MINUTINHOS</b>. 🍔🔥</p><div class="nd-success-timer">ABRINDO O WHATSAPP PARA ENVIAR SEU PEDIDO...</div></div>';document.body.appendChild(d)}
-function showSuccess(){ensureSuccess();$('#ndOrderSuccess').classList.add('show')}
-function patchFinish(){if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndR13)return;const old=window.finalizarPedidoModal;window.finalizarPedidoModal=function(){
- const c=cart();if(!c.length)return alert('Seu carrinho está vazio.');
- const nome=$('#nomeModal')?.value.trim()||'',tel=($('#telefoneModal')?.value||'').replace(/\D/g,''),tipo=$('#tipoPedidoModal')?.value||'ENTREGA',rua=$('#ruaModal')?.value||'',num=$('#numeroModal')?.value.trim()||'',pay=$('#pagamentoModal')?.value||'';
- const sub=c.reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0),fee=tipo==='ENTREGA'?Number(window.taxas?.[rua]||0):0;
- if(!nome)return alert('Digite seu nome.');if(tel.length<10||tel.length>11)return alert('Digite um WhatsApp válido com DDD.');if(tipo==='ENTREGA'&&(!rua||!num))return alert('Complete seu endereço.');if(!pay)return alert('Escolha o pagamento.');if(sub<11.90)return alert('O pedido mínimo é '+money(11.90)+'. Faltam '+money(11.90-sub)+'.');
- showSuccess();setTimeout(()=>{try{old.apply(this,arguments)}catch(e){const d=$('#ndOrderSuccess');if(d)d.classList.remove('show');throw e}},2400);
-};window.finalizarPedidoModal.__ndR13=true}
-
-function init(){patchAdd();patchPay();ensurePix();observePix();ensureSuccess();patchFinish();setTimeout(()=>{patchAdd();patchPay();ensurePix();patchFinish()},700)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();setTimeout(init,1200);
 })();
 </script>
 </body>
