@@ -7560,5 +7560,133 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<!-- =========================================================
+     ND BURGS — RODADA 17 / PÓS-VENDA + FAVORITOS + AVALIAÇÕES PÚBLICAS
+     Camada independente: preserva carrinho, checkout e produtos existentes.
+     ========================================================= -->
+<style id="nd-r17-community-ui">
+/* DESENVOLVEDOR */
+#ndDeveloperBox{width:min(760px,calc(100% - 24px));margin:18px auto 8px;padding:16px 18px;border:1px solid rgba(255,210,26,.72);border-radius:18px;background:radial-gradient(circle at 50% 0,rgba(255,210,26,.16),transparent 55%),linear-gradient(145deg,#18140a,#0b0b0b);box-shadow:0 0 0 1px rgba(255,210,26,.08),0 0 22px rgba(255,210,26,.18),0 14px 45px rgba(0,0,0,.45);text-align:center;position:relative;overflow:hidden}
+#ndDeveloperBox:before{content:"";position:absolute;top:-40%;left:-35%;width:28%;height:180%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.48),transparent);transform:rotate(18deg);animation:ndDevShine 4.2s linear infinite;pointer-events:none}
+#ndDeveloperBox .nd-dev-kicker{position:relative;z-index:1;font-size:9px;letter-spacing:2px;color:#ffd21a;font-weight:1000;margin-bottom:5px}
+#ndDeveloperBox strong{position:relative;z-index:1;display:block;font-size:19px;color:#fff;letter-spacing:.3px}
+#ndDeveloperBox strong span{color:#ffd21a;text-shadow:0 0 16px rgba(255,210,26,.48)}
+#ndDeveloperBox small{position:relative;z-index:1;display:block;margin-top:5px;color:#8f8f8f;font-size:10px}
+@keyframes ndDevShine{0%{left:-45%}55%,100%{left:145%}}
+
+/* ABA FAVORITOS */
+#ndFavoritesTab{position:fixed;right:84px;bottom:16px;z-index:200001;width:60px;height:60px;border:1px solid rgba(255,210,26,.7);border-radius:18px;background:linear-gradient(145deg,#1b1604,#090909);color:#ffd21a;font-size:25px;cursor:pointer;box-shadow:0 0 0 3px rgba(255,210,26,.08),0 0 24px rgba(255,210,26,.18),0 12px 35px rgba(0,0,0,.55);transition:.2s}
+#ndFavoritesTab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 0 3px rgba(255,210,26,.12),0 0 34px rgba(255,210,26,.35),0 16px 40px rgba(0,0,0,.6)}
+#ndFavoritesTab span{position:absolute;right:-4px;top:-5px;min-width:21px;height:21px;padding:0 5px;border-radius:999px;display:grid;place-items:center;background:#e50914;color:#fff;font-size:10px;font-weight:1000;border:2px solid #090909}
+#ndFavoritesModal{position:fixed;inset:0;z-index:500000;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);padding:0}
+#ndFavoritesModal.show{display:flex}
+#ndFavoritesPanel{width:min(760px,100%);max-height:88vh;overflow:auto;padding:18px;background:linear-gradient(160deg,#17171a,#080809);border:1px solid rgba(255,210,26,.55);border-bottom:0;border-radius:24px 24px 0 0;box-shadow:0 -25px 90px rgba(0,0,0,.8)}
+.nd-fav-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.nd-fav-head h2{margin:0!important;padding:0!important;border:0!important;color:#fff!important;font-size:23px!important}.nd-fav-head small{display:block;color:#888;margin-top:4px}.nd-fav-close{width:40px;height:40px;border:1px solid #333;border-radius:12px;background:#1c1c20;color:#fff;font-size:22px;cursor:pointer}
+#ndFavoritesGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.nd-fav-card{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:10px;border:1px solid #29292d;border-radius:15px;background:#101012}.nd-fav-card img{width:76px;height:76px;object-fit:contain;border-radius:11px;background:#080808}.nd-fav-card strong{display:block;color:#fff;font-size:12px;line-height:1.2}.nd-fav-card .price{display:block;color:#ffd21a;font-weight:1000;margin:4px 0 8px}.nd-fav-actions{display:flex;gap:6px}.nd-fav-actions button{border:0;border-radius:9px;padding:8px 9px;font-size:10px;font-weight:1000;cursor:pointer}.nd-fav-add{background:#e50914;color:#fff}.nd-fav-remove{background:#222;color:#aaa}.nd-fav-empty{text-align:center;padding:35px 15px;color:#888;border:1px dashed #333;border-radius:15px}.nd-fav-empty strong{display:block;color:#fff;font-size:16px;margin-bottom:6px}
+
+/* AVALIAÇÕES PÚBLICAS */
+#ndPublicReviews{width:min(1000px,calc(100% - 24px));margin:25px auto 8px;padding:20px;border:1px solid rgba(255,210,26,.22);border-radius:20px;background:linear-gradient(145deg,#121214,#09090a);box-shadow:0 14px 45px rgba(0,0,0,.35)}
+.nd-review-head{display:flex;justify-content:space-between;align-items:end;gap:12px}.nd-review-head h2{margin:0!important;padding:0!important;border:0!important;color:#fff!important}.nd-review-head p{margin:5px 0 0;color:#888;font-size:11px}.nd-review-score{text-align:right}.nd-review-score b{display:block;color:#ffd21a;font-size:25px}.nd-review-score span{color:#777;font-size:9px}
+#ndReviewList{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.nd-review{padding:12px;border:1px solid #29292d;border-radius:14px;background:#0d0d0f}.nd-review-stars{color:#ffd21a;letter-spacing:1px}.nd-review strong{display:block;color:#fff;font-size:12px;margin-top:7px}.nd-review p{color:#aaa;font-size:11px;line-height:1.45;margin-top:5px}.nd-review small{display:block;color:#666;margin-top:8px;font-size:9px}
+.nd-review-form{margin-top:13px;padding-top:13px;border-top:1px solid #29292d}.nd-review-form h3{font-size:14px;color:#fff;margin-bottom:8px}.nd-review-stars-input{display:flex;gap:3px;margin-bottom:8px}.nd-review-star-btn{border:0!important;background:transparent!important;color:#555!important;font-size:23px!important;padding:0!important;min-height:30px!important;cursor:pointer}.nd-review-star-btn.active{color:#ffd21a!important;text-shadow:0 0 10px rgba(255,210,26,.45)!important}.nd-review-form input,.nd-review-form textarea{margin-bottom:8px}.nd-review-submit{background:linear-gradient(135deg,#ffd21a,#ff8a00);color:#111;border:0;border-radius:11px;padding:12px 15px;font-weight:1000;cursor:pointer}.nd-review-note{display:block;color:#666;font-size:9px;margin-top:7px}
+
+/* PÓS-VENDA */
+#ndPostSale{width:min(1000px,calc(100% - 24px));margin:18px auto 0;padding:18px;border:1px solid rgba(37,211,102,.28);border-radius:20px;background:radial-gradient(circle at 50% 0,rgba(37,211,102,.09),transparent 55%),linear-gradient(145deg,#111414,#090909);display:none;box-shadow:0 15px 45px rgba(0,0,0,.35)}
+#ndPostSale.show{display:block;animation:ndPostIn .35s ease both}.nd-post-kicker{font-size:9px;letter-spacing:2px;color:#25d366;font-weight:1000}.nd-post-title{font-size:24px;font-weight:1000;color:#fff;margin-top:4px}.nd-post-sub{color:#999;font-size:11px;margin-top:5px}.nd-post-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin-top:13px}.nd-post-card{padding:13px;border:1px solid #292d2d;border-radius:15px;background:#0d0f0f}.nd-post-card h3{font-size:13px;color:#fff;margin-bottom:8px}.nd-post-order{color:#aaa;font-size:11px;line-height:1.5}.nd-post-actions{display:flex;gap:7px;flex-wrap:wrap}.nd-post-actions button{border:0;border-radius:10px;padding:11px 12px;font-weight:1000;cursor:pointer}.nd-post-again{background:#e50914;color:#fff}.nd-post-wa{background:#25d366;color:#fff}.nd-post-hide{background:#242424;color:#aaa}.nd-post-rate{margin-top:9px;color:#ffd21a;font-size:12px;font-weight:900}
+@keyframes ndPostIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:700px){#ndFavoritesTab{right:80px;bottom:10px;width:58px;height:58px}.nd-fav-card{grid-template-columns:62px 1fr}.nd-fav-card img{width:62px;height:62px}#ndFavoritesGrid{grid-template-columns:1fr}.nd-review-head{align-items:flex-start;flex-direction:column}.nd-review-score{text-align:left}#ndReviewList{grid-template-columns:1fr}.nd-post-grid{grid-template-columns:1fr}#ndDeveloperBox{padding:15px 12px}.nd-review-head h2{font-size:20px!important}}
+@media(prefers-reduced-motion:reduce){#ndFavoritesTab,#ndFavoritesModal,#ndPostSale,#ndDeveloperBox:before{animation:none!important;transition:none!important}}
+</style>
+
+<script id="nd-r17-community-js">
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const FAV_KEY='ndburgs_favoritos_v2';
+const REVIEW_KEY='ndburgs_public_reviews_v1';
+const LAST_ORDER_KEY='ndburgs_post_sale_order_v1';
+const DEV_HANDLE='@neehdiiniz';
+const WA_NUMBER=(typeof window.WA==='string'&&window.WA)?window.WA:'';
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+function readJSON(key,fallback){try{const v=JSON.parse(localStorage.getItem(key)||'');return v==null?fallback:v}catch(_){return fallback}}
+function favSet(){return new Set(readJSON(FAV_KEY,[]))}
+function productData(card){
+ const h=card?.querySelector('h3'),img=card?.querySelector('img'),price=card?.querySelector('.preco'),btn=card?.querySelector('.btn-add');
+ if(!card||!h)return null;
+ const name=h.textContent.trim(),id=name.toUpperCase();
+ let value=0; const txt=price?.textContent||''; const m=txt.match(/R\$\s*([\d\.]+,[\d]{2})/); if(m)value=parseFloat(m[1].replace(/\./g,'').replace(',','.'));
+ const oc=btn?.getAttribute('onclick')||''; const am=oc.match(/adicionar\((['"])(.*?)\1\s*,\s*([0-9.]+)/); if(am)value=Number(am[3]);
+ return {id,name,img:img?.src||'',value,priceText:price?.textContent?.trim()||money(value),onclick:oc};
+}
+function ensureDeveloper(){
+ const footer=$('footer'); if(!footer||$('#ndDeveloperBox'))return;
+ const d=document.createElement('div');d.id='ndDeveloperBox';d.innerHTML='<div class="nd-dev-kicker">DESENVOLVIMENTO & TECNOLOGIA</div><strong>SITE 100% DESENVOLVIDO POR <span>'+DEV_HANDLE+'</span></strong><small>Experiência digital criada especialmente para a ND BURGS.</small>';
+ const old=[...footer.querySelectorAll('.rodape-final')][0]; if(old)old.insertAdjacentElement('beforebegin',d); else footer.appendChild(d);
+}
+function updateFavCount(){const tab=$('#ndFavoritesTab');if(!tab)return;const n=favSet().size;tab.querySelector('span').textContent=n;tab.style.display='flex';}
+function ensureFavTab(){
+ if($('#ndFavoritesTab'))return;
+ const b=document.createElement('button');b.id='ndFavoritesTab';b.type='button';b.setAttribute('aria-label','Abrir favoritos');b.innerHTML='♥<span>0</span>';b.onclick=openFavs;document.body.appendChild(b);updateFavCount();
+}
+function ensureFavModal(){
+ if($('#ndFavoritesModal'))return;
+ const m=document.createElement('div');m.id='ndFavoritesModal';m.innerHTML='<div id="ndFavoritesPanel"><div class="nd-fav-head"><div><h2>♥ MEUS FAVORITOS</h2><small>Seus produtos favoritos ficam salvos neste aparelho.</small></div><button class="nd-fav-close" type="button">×</button></div><div id="ndFavoritesGrid"></div></div>';
+ document.body.appendChild(m);m.querySelector('.nd-fav-close').onclick=closeFavs;m.addEventListener('click',e=>{if(e.target===m)closeFavs()});
+}
+function openFavs(){ensureFavModal();renderFavs();$('#ndFavoritesModal').classList.add('show');document.body.style.overflow='hidden'}
+function closeFavs(){const m=$('#ndFavoritesModal');if(m)m.classList.remove('show');document.body.style.overflow=''}
+function renderFavs(){
+ const grid=$('#ndFavoritesGrid');if(!grid)return;const favs=favSet();
+ const data=$$('.produto').map(productData).filter(Boolean).filter(x=>favs.has(x.id));
+ if(!data.length){grid.innerHTML='<div class="nd-fav-empty"><strong>Você ainda não tem favoritos ❤️</strong><span>Toque no coração dos produtos que você mais gosta.</span></div>';return}
+ grid.innerHTML=data.map(x=>'<article class="nd-fav-card"><img loading="lazy" src="'+x.img+'" alt="'+x.name.replace(/"/g,'&quot;')+'"><div><strong>'+x.name.replace(/[<>]/g,'')+'</strong><span class="price">'+x.priceText+'</span><div class="nd-fav-actions"><button class="nd-fav-add" type="button" data-id="'+encodeURIComponent(x.id)+'">ADICIONAR</button><button class="nd-fav-remove" type="button" data-id="'+encodeURIComponent(x.id)+'">REMOVER</button></div></div></article>').join('');
+ grid.querySelectorAll('.nd-fav-add').forEach(b=>b.onclick=()=>{const id=decodeURIComponent(b.dataset.id),x=data.find(y=>y.id===id);if(!x)return; if(typeof window.adicionar==='function'){const match=x.onclick.match(/adicionar\((['"])(.*?)\1\s*,\s*([0-9.]+)/);window.adicionar(match?match[2]:x.name,match?Number(match[3]):x.value)} closeFavs()});
+ grid.querySelectorAll('.nd-fav-remove').forEach(b=>b.onclick=()=>{const s=favSet();s.delete(decodeURIComponent(b.dataset.id));localStorage.setItem(FAV_KEY,JSON.stringify([...s]));updateFavCount();renderFavs();syncHeartButtons()});
+}
+function syncHeartButtons(){const s=favSet();$$('.produto').forEach(c=>{const id=(c.querySelector('h3')?.textContent||'').trim().toUpperCase(),b=c.querySelector('.nd-fav');if(b){const on=s.has(id);b.classList.toggle('ativo',on);b.textContent=on?'♥':'♡'}})}
+function bindFavObserver(){
+ const obs=new MutationObserver(()=>{ensureDeveloper();ensureFavTab();syncHeartButtons();});obs.observe(document.body,{childList:true,subtree:true});
+ setTimeout(syncHeartButtons,100);setTimeout(syncHeartButtons,800);
+}
+function ensureReviews(){
+ if($('#ndPublicReviews'))return;
+ const footer=$('footer');if(!footer)return;
+ const sec=document.createElement('section');sec.id='ndPublicReviews';sec.innerHTML='<div class="nd-review-head"><div><h2>⭐ AVALIAÇÕES DOS CLIENTES</h2><p>Conte como foi sua experiência na ND BURGS.</p></div><div class="nd-review-score"><b id="ndReviewAvg">—</b><span id="ndReviewCount">Ainda sem avaliações</span></div></div><div id="ndReviewList"></div><div class="nd-review-form"><h3>DEIXE SUA AVALIAÇÃO</h3><div class="nd-review-stars-input" id="ndReviewStars"></div><input id="ndReviewName" maxlength="40" placeholder="Seu nome"><textarea id="ndReviewText" maxlength="240" placeholder="Como foi seu pedido? (opcional)"></textarea><button class="nd-review-submit" id="ndReviewSubmit" type="button">PUBLICAR AVALIAÇÃO ⭐</button><small class="nd-review-note">A avaliação fica pública nesta página quando o recurso de avaliações compartilhadas estiver conectado a um banco de dados. Sem servidor, o navegador salva apenas a sua avaliação.</small></div>';
+ footer.insertAdjacentElement('beforebegin',sec);bindReviewForm();renderReviews();
+}
+function bindReviewForm(){
+ const stars=$('#ndReviewStars');let selected=0;for(let i=1;i<=5;i++){const b=document.createElement('button');b.type='button';b.className='nd-review-star-btn';b.textContent='★';b.onclick=()=>{selected=i;stars.querySelectorAll('button').forEach((x,j)=>x.classList.toggle('active',j<i))};stars.appendChild(b)}
+ $('#ndReviewSubmit').onclick=()=>{if(!selected)return alert('Escolha de 1 a 5 estrelas.');const name=$('#ndReviewName').value.trim()||'Cliente ND BURGS',text=$('#ndReviewText').value.trim()||'Pedido realizado com sucesso!';const arr=readJSON(REVIEW_KEY,[]);arr.unshift({name,text,stars:selected,date:new Date().toLocaleDateString('pt-BR')});localStorage.setItem(REVIEW_KEY,JSON.stringify(arr.slice(0,30)));$('#ndReviewName').value='';$('#ndReviewText').value='';selected=0;stars.querySelectorAll('button').forEach(x=>x.classList.remove('active'));renderReviews();alert('⭐ Avaliação publicada neste aparelho!')};
+}
+function renderReviews(){const list=$('#ndReviewList');if(!list)return;const arr=readJSON(REVIEW_KEY,[]);const avg=arr.length?(arr.reduce((s,x)=>s+Number(x.stars||0),0)/arr.length).toFixed(1):'—';$('#ndReviewAvg').textContent=arr.length?avg+' ★':'—';$('#ndReviewCount').textContent=arr.length?(arr.length+' avaliação'+(arr.length>1?'ões':'')+' neste aparelho'):'Ainda sem avaliações';list.innerHTML=arr.slice(0,6).map(x=>'<article class="nd-review"><div class="nd-review-stars">'+('★'.repeat(Number(x.stars)||0))+'<span style="color:#444">'+('★'.repeat(5-(Number(x.stars)||0)))+'</span></div><strong>'+String(x.name).replace(/[<>]/g,'')+'</strong><p>'+String(x.text).replace(/[<>]/g,'')+'</p><small>'+String(x.date||'')+'</small></article>').join('')||'<div class="nd-review-empty" style="grid-column:1/-1;color:#777;padding:18px;text-align:center">Seja o primeiro cliente a avaliar. ⭐</div>'}
+function captureLastOrder(){
+ try{const c=Array.isArray(window.carrinho)?window.carrinho:[];if(!c.length)return;const total=c.reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0);const nome=$('#nomeModal')?.value?.trim()||'';localStorage.setItem(LAST_ORDER_KEY,JSON.stringify({nome,total,items:c.map(i=>({nome:i.nome,quantidade:i.quantidade})),date:new Date().toLocaleString('pt-BR')}))}catch(_){ }
+}
+function ensurePostSale(){
+ const last=readJSON(LAST_ORDER_KEY,null);if(!last)return;if($('#ndPostSale')){renderPostSale(last);return}
+ const anchor=$('#ndPublicReviews')||$('footer');if(!anchor)return;const sec=document.createElement('section');sec.id='ndPostSale';sec.innerHTML='<div class="nd-post-kicker">PÓS-VENDA ND BURGS</div><div class="nd-post-title">E aí, como foi seu pedido? ❤️</div><div class="nd-post-sub">Queremos que a próxima experiência seja ainda melhor.</div><div class="nd-post-grid"><div class="nd-post-card"><h3>SEU ÚLTIMO PEDIDO</h3><div class="nd-post-order" id="ndPostOrder"></div><div class="nd-post-rate">⭐ Avalie sua experiência logo abaixo.</div></div><div class="nd-post-card"><h3>QUER PEDIR DE NOVO?</h3><div class="nd-post-actions"><button class="nd-post-again" id="ndPostAgain">🔁 PEDIR NOVAMENTE</button><button class="nd-post-wa" id="ndPostWA">💬 FALAR COM A ND BURGS</button><button class="nd-post-hide" id="ndPostHide">FECHAR</button></div></div></div>';
+ anchor.insertAdjacentElement('beforebegin',sec);renderPostSale(last);sec.classList.add('show');
+}
+function renderPostSale(last){const sec=$('#ndPostSale');if(!sec)return;sec.classList.add('show');const o=$('#ndPostOrder');if(o)o.innerHTML=(last.items||[]).map(i=>(i.quantidade||1)+'x '+String(i.nome||'').replace(/[<>]/g,'')).join('<br>')+'<br><br><b>Total: '+money(last.total)+'</b><br><small>'+String(last.date||'')+'</small>';
+ $('#ndPostAgain').onclick=()=>{(last.items||[]).forEach(i=>{const card=$$('.produto').find(c=>norm(c.querySelector('h3')?.textContent)===norm(i.nome));const btn=card?.querySelector('.btn-add');if(btn)btn.click()});window.scrollTo({top:0,behavior:'smooth'});};
+ $('#ndPostWA').onclick=()=>{if(!WA_NUMBER)return alert('O WhatsApp da ND BURGS já está disponível pelo botão de atendimento do site.');window.open('https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Olá, fiz um pedido na ND BURGS e gostaria de falar sobre meu atendimento.'),'_blank')};
+ $('#ndPostHide').onclick=()=>{sec.classList.remove('show');localStorage.removeItem(LAST_ORDER_KEY)};
+}
+function patchFinishForPostSale(){
+ if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndR17)return;
+ const old=window.finalizarPedidoModal;window.finalizarPedidoModal=function(){captureLastOrder();return old.apply(this,arguments)};window.finalizarPedidoModal.__ndR17=true;
+}
+function patchFavStorage(){
+ const oldSet=localStorage.setItem.bind(localStorage);
+ /* coração original já existe; este listener acompanha a alteração visual sem substituir sua lógica. */
+ window.addEventListener('storage',e=>{if(e.key===FAV_KEY){updateFavCount();syncHeartButtons();if($('#ndFavoritesModal')?.classList.contains('show'))renderFavs()}});
+}
+function init(){ensureDeveloper();ensureFavTab();ensureFavModal();ensureReviews();ensurePostSale();patchFinishForPostSale();patchFavStorage();bindFavObserver();updateFavCount();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,700);setTimeout(init,1600)});else{init();setTimeout(init,700);setTimeout(init,1600)}
+})();
+</script>
+
 </body>
 </html>
