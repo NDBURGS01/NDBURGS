@@ -1068,13 +1068,12 @@ ESCOLHER
 
 <div class="produto">
 
-<h3>AÇAÍ TRUFFADO</h3>
+<h3>CREME DE CUPUAÇU</h3>
 
-<p>Açaí truffado especial.</p>
+<p>Creme de cupuaçu.</p>
 
-<div class="preco">A partir de R$ 26,00</div>
-
-<button class="btn btn-add" onclick="abrirPersonalizacao('truffado')">
+<div class="preco">A partir de R$ 11,90</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('creme de cupuaçu')">
 ESCOLHER
 </button>
 
@@ -2147,7 +2146,6 @@ acompanhamentos:[
 ["OVOMALTINE",0],
 ["NESQUIK",0],
 ["NUTELLA",5],
-["SUCRILHOS",0],
 ["GRANOLA",0],
 ["MORANGO",0],
 ["MANGA",0],
@@ -2169,8 +2167,8 @@ tamanhos:[
 acompanhamentos:[]
 },
 
-truffado:{
-titulo:"AÇAÍ TRUFFADO",
+creme de cupuaçu:{
+titulo:"Creme de cupuaçu",
 tamanhos:[
 ["300ML",26.00],
 ["400ML",29.00],
