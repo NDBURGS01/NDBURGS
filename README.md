@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R16-PESQUISA-UNICA">
+<meta name="nd-site-version" content="20260904-R10">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260904-R10";
@@ -6624,459 +6624,122 @@ abrirCarrinho=function(){
 
 
 <!-- =========================================================
-     ND BURGS — ETAPA FINAL: AVALIAÇÕES + CARRINHO ÚNICO
-     + MAIS VENDIDOS DO DIA + CTA FINALIZAR PEDIDO
-     + EFEITO PIROTÉCNICO / REFLEXOS / LUZES
+     ND BURGS 2.0 — AVALIAÇÕES + CARRINHO ÚNICO + MAIS VENDIDOS
+     Camada final: mantém a lógica existente e adiciona somente UI/UX.
      ========================================================= -->
-<style id="nd-final-ultimate">
-:root{--ndu-orange:#ff5a00;--ndu-orange2:#ff9d00;--ndu-red:#ff1744;--ndu-blue:#1677ff;--ndu-green:#39d353}
-
-/* =====================================================
-   CARRINHO ÚNICO — remove todas as outras versões
-   ===================================================== */
-#ndCartFab,#ndCartLabel,#ndFxCartbar,.nd-v3-buybar,.carrinho-flutuante:not(#carrinhoFlutuante){display:none!important}
+<style id="nd20-pirotecnico">
+/* ===== CARRINHO ÚNICO ===== */
+#ndCartFab,#ndCartLabel{display:none!important}
 #carrinhoFlutuante{
-  display:flex!important;position:fixed!important;right:18px!important;left:auto!important;bottom:18px!important;
-  width:68px!important;height:68px!important;padding:0!important;margin:0!important;
-  border:2px solid #fff!important;border-radius:50%!important;background:linear-gradient(135deg,#ff1744,#ff5a00 55%,#ffb000)!important;
-  box-shadow:0 0 0 3px rgba(255,90,0,.12),0 0 24px rgba(255,90,0,.65),0 12px 35px rgba(0,0,0,.8)!important;
-  opacity:0!important;pointer-events:none!important;transform:none!important;z-index:200000!important;
-  animation:nduCartPulse 2s infinite;
+  display:flex!important;opacity:0;pointer-events:none;position:fixed!important;
+  right:18px!important;bottom:18px!important;left:auto!important;transform:none!important;
+  width:66px!important;height:66px!important;padding:0!important;border-radius:50%!important;
+  align-items:center!important;justify-content:center!important;z-index:200000!important;
+  background:radial-gradient(circle at 35% 25%,#ff5a2b 0,#e50914 48%,#8b0010 100%)!important;
+  border:2px solid rgba(255,255,255,.85)!important;
+  box-shadow:0 0 0 4px rgba(229,9,20,.13),0 0 25px rgba(229,9,20,.55),0 12px 35px rgba(0,0,0,.8)!important;
+  transition:transform .2s ease,opacity .2s ease,box-shadow .2s ease!important;
+  animation:nd20CartPulse 2.2s infinite;
 }
 #carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important}
-#carrinhoFlutuante .carrinho-flutuante-info{display:grid!important;place-items:center!important;width:100%!important;height:100%!important}
-#carrinhoFlutuante .carrinho-flutuante-info strong{font-size:0!important;line-height:1!important}
-#carrinhoFlutuante .carrinho-flutuante-info strong:after{content:'🛍️';font-size:31px!important;filter:drop-shadow(0 2px 5px #000)!important}
-#carrinhoFlutuante .carrinho-flutuante-info span{
- position:absolute!important;right:-5px!important;top:-5px!important;min-width:25px!important;height:25px!important;padding:0 6px!important;
- display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;
- background:#fff!important;color:#111!important;border:3px solid #ff5a00!important;font-size:11px!important;font-weight:1000!important;
-}
+#carrinhoFlutuante:hover{transform:scale(1.08)!important;box-shadow:0 0 0 5px rgba(229,9,20,.18),0 0 35px rgba(255,70,25,.85),0 14px 38px rgba(0,0,0,.85)!important}
+#carrinhoFlutuante .carrinho-flutuante-info{display:block!important;min-width:0!important}
+#carrinhoFlutuante .carrinho-flutuante-info strong{font-size:0!important;display:block!important}
+#carrinhoFlutuante .carrinho-flutuante-info strong:after{content:'🛒';font-size:29px!important;line-height:1}
+#carrinhoFlutuante .carrinho-flutuante-info span{position:absolute!important;right:-4px!important;top:-4px!important;min-width:23px!important;height:23px!important;padding:0 5px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#fff!important;color:#e50914!important;border:2px solid #000!important;border-radius:99px!important;font-size:10px!important;font-weight:1000!important}
 #carrinhoFlutuante .carrinho-flutuante-direita{display:none!important}
-@keyframes nduCartPulse{0%,100%{box-shadow:0 0 0 3px rgba(255,90,0,.12),0 0 24px rgba(255,90,0,.55),0 12px 35px rgba(0,0,0,.8)}50%{box-shadow:0 0 0 7px rgba(255,90,0,.05),0 0 38px rgba(255,90,0,.85),0 14px 40px rgba(0,0,0,.85)}}
+@keyframes nd20CartPulse{0%,100%{box-shadow:0 0 0 4px rgba(229,9,20,.13),0 0 22px rgba(229,9,20,.45),0 12px 35px rgba(0,0,0,.8)}50%{box-shadow:0 0 0 7px rgba(229,9,20,.08),0 0 34px rgba(255,70,25,.7),0 12px 38px rgba(0,0,0,.8)}}
 
-/* =====================================================
-   PIROTÉCNICO — reflexos, faíscas e luzes nos pontos certos
-   ===================================================== */
-#ndFxIntro,#ndR3Quick,.produto,#ndFxReviews,.categoria-menu,#ndMaisVendidosHoje{
- position:relative;overflow:hidden;
-}
-#ndFxIntro:before,.produto:after,#ndMaisVendidosHoje:before{
- content:"";position:absolute;inset:-80%;pointer-events:none;z-index:0;
- background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.16) 49%,rgba(255,145,0,.10) 52%,transparent 59%);
- transform:translateX(-35%) rotate(7deg);animation:nduShine 5.5s ease-in-out infinite;
-}
-#ndFxIntro>* ,#ndR3Quick>* ,#ndMaisVendidosHoje>*{position:relative;z-index:1}
-.produto:before{
- content:"";position:absolute;left:8%;right:8%;top:0;height:2px;z-index:5;
- background:linear-gradient(90deg,transparent,#fff,#ff6a00,#fff,transparent);opacity:.75;
- box-shadow:0 0 12px rgba(255,106,0,.7);
- animation:nduLight 2.7s linear infinite;
-}
-.produto:hover{box-shadow:0 0 0 1px rgba(255,90,0,.35),0 0 25px rgba(255,90,0,.14),0 18px 45px rgba(0,0,0,.65)!important}
-@keyframes nduShine{0%,55%{transform:translateX(-55%) rotate(7deg)}78%,100%{transform:translateX(55%) rotate(7deg)}}
-@keyframes nduLight{0%{opacity:.25}50%{opacity:1}100%{opacity:.25}}
+/* ===== PEDAÇO DA CATEGORIA + FINALIZAR PEDIDO ===== */
+#nd20QuickNav{width:min(1180px,calc(100% - 20px));margin:12px auto 20px;position:sticky;top:8px;z-index:9490;display:flex;align-items:center;gap:8px;padding:8px;background:rgba(5,5,5,.96);border:1px solid #242424;border-radius:15px;box-shadow:0 12px 32px rgba(0,0,0,.6);backdrop-filter:blur(12px)}
+#nd20QuickCats{display:flex;gap:7px;overflow:auto;scrollbar-width:none;min-width:0;flex:1}#nd20QuickCats::-webkit-scrollbar{display:none}
+.nd20-qcat{flex:0 0 auto;border:1px solid #2a2a2a;background:#111;color:#aaa;border-radius:10px;padding:9px 12px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap;transition:.18s}
+.nd20-qcat:hover{color:#fff;border-color:#e50914;background:#190707;transform:translateY(-1px)}
+#nd20Finish{flex:0 0 auto;border:1px solid #ffd21a;border-radius:11px;background:linear-gradient(135deg,#ffd21a,#ff8a00);color:#050505;padding:11px 14px;font-size:11px;font-weight:1000;cursor:pointer;white-space:nowrap;box-shadow:0 0 18px rgba(255,173,0,.3);animation:nd20FinishGlow 1.8s infinite}
+#nd20Finish:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 30px rgba(255,173,0,.65)}
+@keyframes nd20FinishGlow{50%{box-shadow:0 0 28px rgba(255,173,0,.58)}}
 
-/* =====================================================
-   AVALIAÇÃO EM CADA PRODUTO — 5 estrelas pequenas
-   ===================================================== */
-.ndu-rating{display:flex;align-items:center;gap:2px;margin:7px 2px 2px;min-height:18px;position:relative;z-index:7}
-.ndu-rating button{
- width:18px!important;min-height:18px!important;height:18px!important;padding:0!important;margin:0!important;
- border:0!important;background:transparent!important;color:#444!important;box-shadow:none!important;
- font-size:15px!important;line-height:18px!important;cursor:pointer!important;transform:none!important;
- text-shadow:none!important;
-}
-.ndu-rating button:hover{color:#ffb000!important;transform:scale(1.12)!important;box-shadow:none!important;background:transparent!important}
-.ndu-rating button.on{color:#ffb000!important;text-shadow:0 0 7px rgba(255,176,0,.75)!important}
-.ndu-rating small{margin-left:4px;color:#777;font-size:9px!important;font-weight:700;white-space:nowrap}
-.ndu-rating.rated small{color:#ffb000}
+/* ===== MAIS VENDIDOS DO DIA ===== */
+#nd20Best{width:min(1180px,calc(100% - 20px));margin:14px auto 24px;padding:17px;border:1px solid rgba(255,90,20,.42);border-radius:20px;background:linear-gradient(135deg,#090909,#130805 60%,#090909);box-shadow:0 15px 50px rgba(0,0,0,.55),0 0 30px rgba(255,70,15,.08);scroll-margin-top:90px;position:relative;overflow:hidden}
+#nd20Best:before{content:'';position:absolute;inset:-80px;background:conic-gradient(from 0deg,transparent,#e50914,transparent,#ffd21a,transparent);opacity:.07;animation:nd20Spin 8s linear infinite}
+@keyframes nd20Spin{to{transform:rotate(360deg)}}
+.nd20-best-head{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:12px}.nd20-best-kicker{font-size:9px;letter-spacing:2px;color:#ff6a30;font-weight:1000}.nd20-best-head h2{margin:2px 0 0!important;padding:0!important;border:0!important;font-size:23px!important;color:#fff!important}.nd20-best-head p{margin:0;color:#888;font-size:10px;text-align:right}.nd20-best-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.nd20-best-card{display:grid;grid-template-columns:78px 1fr auto;gap:10px;align-items:center;padding:9px;border:1px solid #2c1b18;border-radius:15px;background:#0d0d0d;transition:.2s;overflow:hidden}.nd20-best-card:hover{transform:translateY(-3px);border-color:#e50914;box-shadow:0 10px 30px rgba(229,9,20,.16)}.nd20-best-card img{width:78px;height:78px;object-fit:cover;border-radius:11px;background:#050505}.nd20-best-info{min-width:0}.nd20-best-info strong{display:block;color:#fff;font-size:12px;line-height:1.15}.nd20-best-info span{display:block;color:#ffd21a;font-size:13px;font-weight:1000;margin-top:4px}.nd20-best-add{border:0;border-radius:10px;background:linear-gradient(135deg,#e50914,#ff5a20);color:#fff;padding:10px 9px;font-size:10px;font-weight:1000;cursor:pointer;box-shadow:0 5px 15px rgba(229,9,20,.25)}.nd20-best-add:hover{transform:scale(1.04);filter:brightness(1.12)}
 
-/* =====================================================
-   CTA FINALIZAR PEDIDO no lugar do menu central
-   ===================================================== */
-#ndFinalizarCta{
- margin:8px 0 18px;padding:11px;border:1px solid rgba(255,90,0,.5);border-radius:18px;
- background:linear-gradient(135deg,#120705,#0a0a0a 55%,#111);
- box-shadow:0 0 25px rgba(255,90,0,.08),inset 0 1px 0 rgba(255,255,255,.08);
-}
-#ndFinalizarCta button{
- width:100%;min-height:54px;border:0;border-radius:14px;cursor:pointer;
- background:linear-gradient(110deg,#ff1744,#ff5a00,#ffb000,#ff5a00,#ff1744);background-size:300% 100%;
- color:#fff;font-weight:1000;font-size:14px;letter-spacing:.5px;
- box-shadow:0 0 22px rgba(255,90,0,.3),0 10px 28px rgba(0,0,0,.5);
- animation:nduCta 3s linear infinite;position:relative;overflow:hidden;
-}
-#ndFinalizarCta button:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.42) 50%,transparent 75%);transform:translateX(-120%);animation:nduCtaShine 2.2s ease-in-out infinite}
-#ndFinalizarCta small{display:block;text-align:center;color:#888;font-size:9px;margin-top:7px}
-@keyframes nduCta{0%{background-position:0%}100%{background-position:300%}}
-@keyframes nduCtaShine{0%,45%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
+/* ===== AVALIAÇÃO PEQUENA EM TODOS OS PRODUTOS ===== */
+.nd20-rating{display:flex;align-items:center;gap:2px;margin:7px 0 5px;min-height:18px}.nd20-star{appearance:none;border:0!important;background:transparent!important;color:#555!important;padding:0!important;margin:0!important;width:17px!important;height:18px!important;min-height:18px!important;font-size:16px!important;line-height:18px!important;cursor:pointer!important;box-shadow:none!important;text-shadow:none!important;transition:transform .12s,color .12s,text-shadow .12s!important}.nd20-star:hover{transform:scale(1.18)!important;color:#ffd21a!important}.nd20-star.on{color:#ffd21a!important;text-shadow:0 0 7px rgba(255,210,26,.55)!important}.nd20-rating-label{font-size:9px;color:#777;margin-left:4px;font-weight:800;white-space:nowrap}.nd20-rated .nd20-rating-label{color:#aaa}
+.nd20-rated-burst{animation:nd20Rated .55s ease}.nd20-best-card.nd20-pop{animation:nd20Pop .55s ease}.produto.nd20-pop{animation:nd20Pop .55s ease}@keyframes nd20Rated{0%{transform:scale(1)}40%{transform:scale(1.035)}100%{transform:scale(1)}}@keyframes nd20Pop{0%{transform:scale(1)}35%{transform:scale(1.035) rotate(-.3deg)}70%{transform:scale(.99)}100%{transform:scale(1)}}
+.nd20-confetti{position:fixed;z-index:300000;width:7px;height:13px;pointer-events:none;animation:nd20Confetti .8s cubic-bezier(.2,.8,.2,1) forwards;border-radius:2px}@keyframes nd20Confetti{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(620deg)}}
 
-/* =====================================================
-   MAIS VENDIDOS DO DIA — categoria funcional
-   ===================================================== */
-#ndMaisVendidosHoje{display:none;margin:0 0 24px;padding:15px;border:1px solid rgba(255,90,0,.5);border-radius:20px;background:linear-gradient(145deg,#120b08,#070707);box-shadow:0 0 35px rgba(255,90,0,.10)}
-#ndMaisVendidosHoje.show{display:block;animation:nduReveal .35s ease both}
-#ndMaisVendidosHoje .ndu-mvh-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-#ndMaisVendidosHoje h2{margin:0!important;padding:0!important;border:0!important;color:#fff!important;font-size:21px!important}
-#ndMaisVendidosHoje .ndu-mvh-sub{color:#888;font-size:10px;margin-top:3px}
-#ndMaisVendidosHoje .ndu-mvh-close{border:1px solid #333;background:#151515;color:#fff;border-radius:10px;width:36px;height:36px;cursor:pointer;font-size:18px}
-#ndMaisVendidosHoje .ndu-mvh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.ndu-mvh-card{border:1px solid #292929;border-radius:15px;background:#0d0d0d;padding:8px;position:relative;overflow:hidden}
-.ndu-mvh-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:11px;background:#050505;display:block}
-.ndu-mvh-card strong{display:block;font-size:13px;color:#fff;margin:8px 2px 4px}
-.ndu-mvh-card span{display:block;color:#39d353;font-weight:900;font-size:13px;margin:0 2px 7px}
-.ndu-mvh-card button{width:100%;border:0;border-radius:10px;background:#1677ff;color:#fff;min-height:40px;font-weight:900;cursor:pointer}
-.ndu-mvh-card button:hover{background:#2f8cff;box-shadow:0 0 18px rgba(22,119,255,.3)}
-.ndu-mvh-rank{position:absolute;left:13px;top:13px;background:#ffb000;color:#111;border-radius:8px;padding:5px 7px;font-size:9px;font-weight:1000;z-index:2}
-@keyframes nduReveal{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-
-/* Oculta o menu central original; o botão de finalizar ocupa o lugar */
-.categoria-menu{display:none!important}
-
-@media(max-width:700px){
- #carrinhoFlutuante{right:13px!important;bottom:13px!important;width:60px!important;height:60px!important}
- #carrinhoFlutuante .carrinho-flutuante-info strong:after{font-size:27px!important}
- #ndFinalizarCta{margin:7px 0 14px;padding:8px}
- #ndFinalizarCta button{min-height:52px;font-size:12px}
- #ndMaisVendidosHoje .ndu-mvh-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
- .ndu-mvh-card{padding:6px;border-radius:12px}
- .ndu-mvh-card strong{font-size:10px;line-height:1.15}
- .ndu-mvh-card span{font-size:11px}
- .ndu-mvh-card button{font-size:9px;min-height:38px}
- .ndu-mvh-rank{left:9px;top:9px;font-size:8px}
- .ndu-rating button{width:17px!important;font-size:14px!important}
- .ndu-rating small{font-size:8px!important}
-}
-@media(prefers-reduced-motion:reduce){#carrinhoFlutuante,#ndFinalizarCta button,#ndFinalizarCta button:after,#ndFxIntro:before,.produto:after,.produto:before{animation:none!important}}
+@media(max-width:900px){#nd20QuickNav{top:0;width:100%;margin:6px 0 15px;border-radius:0;padding:7px}.nd20-qcat{padding:9px 11px;font-size:10px}#nd20Finish{padding:10px 11px;font-size:10px}.nd20-best-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:3px}.nd20-best-card{min-width:285px;scroll-snap-align:start}}
+@media(max-width:600px){#carrinhoFlutuante{right:12px!important;bottom:12px!important;width:60px!important;height:60px!important}.nd20-best{width:calc(100% - 14px);padding:13px;border-radius:17px}.nd20-best-head{align-items:flex-start;flex-direction:column}.nd20-best-head p{text-align:left}.nd20-best-card{min-width:275px}.nd20-star{width:16px!important;font-size:15px!important}.nd20-rating{margin:6px 0 4px}}
+@media(prefers-reduced-motion:reduce){#carrinhoFlutuante,#nd20Finish,#nd20Best:before,.nd20-star{animation:none!important;transition:none!important}.nd20-confetti{display:none!important}}
 </style>
-
-<script id="nd-final-ultimate-js">
+<script id="nd20-pirotecnico-js">
 (function(){
- 'use strict';
- const REVIEW_KEY='ndburgs_produto_avaliacoes_v1';
- const TODAY_KEY='ndburgs_mais_vendidos_dia_v1';
- const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
- const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
- const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
- function reviews(){try{const x=JSON.parse(localStorage.getItem(REVIEW_KEY)||'{}');return x&&typeof x==='object'?x:{}}catch(e){return {}}}
- function saveReviews(x){try{localStorage.setItem(REVIEW_KEY,JSON.stringify(x))}catch(e){}}
- function productName(card){return (card.querySelector('h3')?.textContent||'PRODUTO').replace(/\s+/g,' ').trim()}
- function addRatings(){
-   const data=reviews();
-   $$('.produto').forEach(card=>{
-     if(card.dataset.nduRating==='1')return;
-     const name=productName(card); if(!name)return;
-     card.dataset.nduRating='1';
-     const wrap=document.createElement('div'); wrap.className='ndu-rating'; wrap.setAttribute('role','radiogroup'); wrap.setAttribute('aria-label','Avaliar '+name);
-     const current=Number(data[name]?.stars||0);
-     for(let i=1;i<=5;i++){
-       const b=document.createElement('button'); b.type='button'; b.textContent='★'; b.dataset.star=i; b.setAttribute('aria-label',i+' estrela'+(i>1?'s':''));
-       if(i<=current)b.classList.add('on');
-       b.onclick=e=>{e.stopPropagation(); const d=reviews(); d[name]={stars:i,date:new Date().toISOString()}; saveReviews(d); paint(wrap,i); wrap.classList.add('rated'); const small=wrap.querySelector('small'); if(small)small.textContent='Sua nota: '+i+'/5';};
-       wrap.appendChild(b);
-     }
-     const sm=document.createElement('small'); sm.textContent=current?'Sua nota: '+current+'/5':'Avalie'; wrap.appendChild(sm);
-     if(current)wrap.classList.add('rated');
-     const anchor=card.querySelector('.preco')||card.querySelector('h3');
-     if(anchor)anchor.insertAdjacentElement('afterend',wrap); else card.appendChild(wrap);
-   });
- }
- function paint(wrap,n){wrap.querySelectorAll('button').forEach(b=>b.classList.toggle('on',Number(b.dataset.star)<=n))}
-
- function dailyPicks(){
-   const cards=$$('.produto').filter(c=>c.querySelector('h3')&&c.querySelector('.btn-add'));
-   if(cards.length<=3)return cards;
-   const day=new Date().toISOString().slice(0,10);
-   try{
-     const saved=JSON.parse(localStorage.getItem(TODAY_KEY)||'null');
-     if(saved&&saved.day===day&&Array.isArray(saved.names)){
-       const found=saved.names.map(n=>cards.find(c=>norm(productName(c))===norm(n))).filter(Boolean);
-       if(found.length===3)return found;
-     }
-   }catch(e){}
-   let seed=0; for(let i=0;i<day.length;i++)seed=(seed*31+day.charCodeAt(i))>>>0;
-   const arr=cards.slice();
-   function rnd(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
-   for(let i=arr.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}
-   const picks=arr.slice(0,3);
-   try{localStorage.setItem(TODAY_KEY,JSON.stringify({day,names:picks.map(productName)}))}catch(e){}
-   return picks;
- }
- function createMostSold(){
-   if($('#ndMaisVendidosHoje'))return;
-   const anchor=$('#ndFinalizarCta')||$('#ndFxIntro')||$('.modern-search')||$('.container'); if(!anchor)return;
-   const sec=document.createElement('section'); sec.id='ndMaisVendidosHoje'; sec.setAttribute('aria-label','Mais vendidos do dia');
-   sec.innerHTML='<div class="ndu-mvh-head"><div><h2>🔥 MAIS VENDIDOS DO DIA</h2><div class="ndu-mvh-sub">3 escolhas aleatórias de hoje — atualiza automaticamente a cada dia.</div></div><button class="ndu-mvh-close" type="button" aria-label="Fechar">×</button></div><div class="ndu-mvh-grid"></div>';
-   anchor.insertAdjacentElement('afterend',sec);
-   sec.querySelector('.ndu-mvh-close').onclick=()=>sec.classList.remove('show');
- }
- function renderMostSold(){
-   createMostSold(); const sec=$('#ndMaisVendidosHoje'),grid=sec?.querySelector('.ndu-mvh-grid'); if(!sec||!grid)return;
-   const picks=dailyPicks(); grid.innerHTML='';
-   picks.forEach((card,i)=>{
-     const name=productName(card), img=card.querySelector('img')?.src||'', price=card.querySelector('.preco')?.textContent?.trim()||'';
-     const el=document.createElement('article'); el.className='ndu-mvh-card';
-     el.innerHTML='<span class="ndu-mvh-rank">#'+(i+1)+' DO DIA</span><img loading="lazy" decoding="async" src="'+img.replace(/"/g,'&quot;')+'" alt="'+name.replace(/"/g,'&quot;')+'"><strong>'+name+'</strong><span>'+price+'</span><button type="button">ADICIONAR</button>';
-     el.querySelector('button').onclick=()=>{
-       const original=card.querySelector('.nd-fx-add,.btn-add');
-       if(original)original.click();
-     };
-     grid.appendChild(el);
-   });
- }
- function createCTA(){
-   if($('#ndFinalizarCta'))return;
-   const menu=$('.categoria-menu'); if(!menu)return;
-   const box=document.createElement('section'); box.id='ndFinalizarCta';
-   box.innerHTML='<button type="button">🛒 FINALIZAR PEDIDO <span>→</span></button><small>Abra seu carrinho e confira tudo antes de enviar para a ND BURGS.</small>';
-   menu.insertAdjacentElement('beforebegin',box);
-   box.querySelector('button').onclick=()=>{
-     if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();
-     else $('#carrinhoFlutuante')?.click();
-   };
- }
- function hideDuplicateCarts(){
-   ['#ndCartFab','#ndCartLabel','#ndFxCartbar'].forEach(sel=>{$$(sel).forEach(e=>e.remove())});
-   $$('.nd-v3-buybar').forEach(e=>e.style.setProperty('display','none','important'));
- }
- function syncSingleCart(){
-   hideDuplicateCarts();
-   const bar=$('#carrinhoFlutuante'); if(!bar)return;
-   const cart=Array.isArray(window.carrinho)?window.carrinho:[];
-   const qty=cart.reduce((s,i)=>s+(Number(i.quantidade)||0),0);
-   bar.classList.toggle('ativo',qty>0);
-   const c=$('#contadorCarrinho');if(c)c.textContent=qty;
- }
- function patchCart(){
-   if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__ndu){
-     const old=window.atualizarCarrinho;
-     window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(syncSingleCart,0);return r};
-     window.atualizarCarrinho.__ndu=true;
-   }
-   if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__ndu){
-     const old=window.abrirCarrinho;
-     window.abrirCarrinho=function(){syncSingleCart();return old.apply(this,arguments)};
-     window.abrirCarrinho.__ndu=true;
-   }
- }
- function init(){
-   createCTA();createMostSold();renderMostSold();addRatings();hideDuplicateCarts();patchCart();syncSingleCart();
-   setTimeout(()=>{createCTA();createMostSold();renderMostSold();addRatings();hideDuplicateCarts();patchCart();syncSingleCart()},700);
-   setTimeout(()=>{addRatings();syncSingleCart()},1500);
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
- setInterval(()=>{patchCart();syncSingleCart();addRatings()},1800);
-
- /* O botão existente VER MAIS VENDIDOS passa a abrir a categoria funcional. */
- document.addEventListener('click',e=>{
-   const b=e.target.closest('button'); if(!b)return;
-   if(/VER MAIS VENDIDOS/i.test(b.textContent||'')){
-     e.preventDefault(); e.stopImmediatePropagation();
-     createMostSold();renderMostSold();const sec=$('#ndMaisVendidosHoje');sec?.classList.add('show');
-     setTimeout(()=>sec?.scrollIntoView({behavior:'smooth',block:'start'}),30);
-   }
- },true);
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+const cart=()=>Array.isArray(window.carrinho)?window.carrinho:[];
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function getProductData(card){
+ const h=card?.querySelector('h3'), img=card?.querySelector('img.produto-imagem, img'), price=card?.querySelector('.preco'), btn=card?.querySelector('.btn-add');
+ if(!card||!h)return null;
+ const name=h.textContent.trim(); const pt=price?.textContent||''; const m=pt.match(/R\$\s*([\d\.]+,[\d]{2})/); const value=m?parseFloat(m[1].replace(/\./g,'').replace(',','.')):0; const onclick=btn?.getAttribute('onclick')||'';
+ let addName=name, addValue=value; const am=onclick.match(/adicionar\((['"])(.*?)\1\s*,\s*([0-9.]+)/); if(am){addName=am[2];addValue=Number(am[3]);}
+ return {name,img:img?.src||'',price:value,priceText:price?.textContent.trim()||money(value),addName,addValue,onclick};
+}
+function confetti(el){
+ if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const r=el?.getBoundingClientRect?.()||{left:innerWidth/2,top:innerHeight/2,width:0,height:0}; const cx=r.left+r.width/2,cy=r.top+r.height/2;
+ for(let i=0;i<18;i++){const p=document.createElement('i');p.className='nd20-confetti';p.style.left=cx+'px';p.style.top=cy+'px';p.style.setProperty('--x',(Math.random()*180-90)+'px');p.style.setProperty('--y',(Math.random()*-170-35)+'px');p.style.background=['#e50914','#ffd21a','#fff','#ff6a00','#1677ff'][i%5];p.style.animationDelay=(Math.random()*.08)+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),1000)}
+}
+function buildRatings(){
+ $$('.produto').forEach(card=>{
+  if(card.querySelector('.nd20-rating'))return;
+  const h=card.querySelector('h3'); if(!h)return; const name=h.textContent.trim(); const key='ndburgs_rating_'+norm(name);
+  let saved=0; try{saved=Number(localStorage.getItem(key)||0)}catch(e){}
+  const row=document.createElement('div');row.className='nd20-rating'+(saved?' nd20-rated':'');row.setAttribute('aria-label','Avaliar '+name);
+  for(let i=1;i<=5;i++){const b=document.createElement('button');b.type='button';b.className='nd20-star'+(i<=saved?' on':'');b.textContent='★';b.dataset.value=i;b.title='Dar '+i+' estrela'+(i>1?'s':'');b.setAttribute('aria-label',i+' estrela'+(i>1?'s':''));b.addEventListener('click',e=>{e.stopPropagation();const n=Number(b.dataset.value);try{localStorage.setItem(key,String(n))}catch(_){} row.classList.add('nd20-rated-burst','nd20-rated');row.querySelectorAll('.nd20-star').forEach((x,j)=>x.classList.toggle('on',j<n));const label=row.querySelector('.nd20-rating-label');if(label)label.textContent=n+'/5';confetti(row);setTimeout(()=>row.classList.remove('nd20-rated-burst'),600)});row.appendChild(b)}
+  const label=document.createElement('span');label.className='nd20-rating-label';label.textContent=saved?saved+'/5':'AVALIE';row.appendChild(label);
+  const anchor=card.querySelector('.preco')||card.querySelector('.btn-add'); if(anchor)anchor.parentNode.insertBefore(row,anchor);
+ });
+}
+function seededOrder(items){
+ const seed=[...today()].reduce((a,c)=>((a*31+c.charCodeAt(0))>>>0),17);let x=seed||17;const arr=items.slice();for(let i=arr.length-1;i>0;i--){x=(x*1664525+1013904223)>>>0;const j=x%(i+1);[arr[i],arr[j]]=[arr[j],arr[i]]}return arr;
+}
+function buildBest(){
+ let sec=$('#nd20Best'); if(sec)return sec;
+ const anchor=$('.categoria-menu')||$('.container'); if(!anchor)return null;
+ sec=document.createElement('section');sec.id='nd20Best';sec.innerHTML='<div class="nd20-best-head"><div><div class="nd20-best-kicker">🔥 ATUALIZADO AUTOMATICAMENTE</div><h2>MAIS VENDIDOS DO DIA</h2></div><p>3 escolhas aleatórias selecionadas para hoje.</p></div><div class="nd20-best-grid" id="nd20BestGrid"></div>';
+ anchor.parentNode.insertBefore(sec,anchor.nextSibling);return sec;
+}
+function renderBest(){
+ const sec=buildBest();if(!sec)return;const grid=$('#nd20BestGrid');if(!grid)return;grid.innerHTML='';
+ const all=$$('.produto').map(getProductData).filter(x=>x&&x.name&&x.price>0);const picks=seededOrder(all).slice(0,3);
+ picks.forEach((d,i)=>{const card=document.createElement('article');card.className='nd20-best-card';card.innerHTML='<img loading="lazy" decoding="async" src="'+d.img+'" alt="'+d.name.replace(/"/g,'&quot;')+'"><div class="nd20-best-info"><strong>'+d.name.replace(/</g,'&lt;')+'</strong><span>'+d.priceText+'</span><div style="font-size:9px;color:#ffd21a;margin-top:3px">★★★★★ <em style="color:#777;font-style:normal">MAIS PEDIDO</em></div></div><button type="button" class="nd20-best-add">ADICIONAR</button>';card.querySelector('button').addEventListener('click',()=>{if(/abrirPersonalizacao\s*\(/.test(d.onclick)&&typeof window.abrirPersonalizacao==='function'){window.abrirPersonalizacao((d.onclick.match(/abrirPersonalizacao\(['"]([^'"]+)/)||[])[1]||d.addName)}else if(typeof window.adicionar==='function'){window.adicionar(d.addName,d.addValue)}card.classList.remove('nd20-pop');void card.offsetWidth;card.classList.add('nd20-pop');confetti(card)});grid.appendChild(card)});
+}
+function buildQuickNav(){
+ if($('#nd20QuickNav'))return;const menu=$('.categoria-menu');if(!menu)return;const wrap=document.createElement('div');wrap.id='nd20QuickNav';wrap.innerHTML='<div id="nd20QuickCats"></div><button id="nd20Finish" type="button">FINALIZAR PEDIDO →</button>';menu.parentNode.insertBefore(wrap,menu);
+ const cats=$$('.categoria');const names=['COMBOS','TRADICIONAIS','ARTESANAIS','COMBOS ARTESANAIS','PORÇÕES','PASTÉIS','AÇAÍ','MILKSHAKES','BEBIDAS','SOBREMESAS','ADICIONAIS'];const icons=['❤️','🍔','🔥','🔥','🍟','🥟','🥤','🥤','🥤','🍓','➕'];const box=$('#nd20QuickCats');cats.forEach((cat,i)=>{const b=document.createElement('button');b.type='button';b.className='nd20-qcat';b.textContent=(icons[i]||'•')+' '+(names[i]||('CATEGORIA '+(i+1)));b.onclick=()=>cat.scrollIntoView({behavior:'smooth',block:'start'});box.appendChild(b)});
+ $('#nd20Finish').onclick=()=>{if(typeof window.abrirCarrinho==='function'){window.abrirCarrinho()}else{$('#modalCarrinho')?.classList.add('ativo')}};
+}
+function patchIntroButton(){
+ const btn=$$('.ndFx-action').find(x=>norm(x.textContent).includes('VER MAIS VENDIDOS'));if(!btn)return;if(btn.dataset.nd20==='1')return;btn.dataset.nd20='1';btn.onclick=()=>{const sec=$('#nd20Best')||buildBest();renderBest();sec?.scrollIntoView({behavior:'smooth',block:'start'});confetti(btn)};
+}
+function forceSingleCart(){
+ const old=$('#ndCartFab');if(old)old.remove();const label=$('#ndCartLabel');if(label)label.remove();
+ const bar=$('#carrinhoFlutuante');if(!bar)return;bar.style.display='flex';const n=cart().reduce((s,i)=>s+(Number(i.quantidade)||0),0);bar.classList.toggle('ativo',n>0);
+ const c=$('#contadorCarrinho');if(c)c.textContent=n+(n===1?' item':' itens');
+ const total=cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0);const t=$('#totalCarrinhoFlutuante');if(t)t.textContent=money(total);
+}
+function patchAdd(){
+ if(typeof window.adicionar!=='function'||window.adicionar.__nd20)return;const old=window.adicionar;window.adicionar=function(){const r=old.apply(this,arguments);setTimeout(()=>{forceSingleCart();buildRatings()},20);return r};window.adicionar.__nd20=true;
+}
+function init(){buildQuickNav();buildBest();buildRatings();renderBest();patchIntroButton();patchAdd();forceSingleCart();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,500);setTimeout(init,1200)});else{init();setTimeout(init,500);setTimeout(init,1200)}
+setInterval(()=>{forceSingleCart();buildRatings();patchAdd()},1200);
 })();
 </script>
-
-
-<!-- =========================================================
-     ND BURGS — R16 NOVA BUSCA / CATEGORIAS LIMPA
-     - Somente 1 busca fixa por ícone
-     - Remove barras de busca de produtos duplicadas
-     - Remove MAIS VENDIDOS
-     - Remove PODE COMBINAR COM SEU PEDIDO
-     - Preserva busca de rua dentro do checkout
-     ========================================================= -->
-<style id="nd-r16-clean-search">
-  /* Esconde somente as buscas de PRODUTOS antigas. Busca de rua do checkout continua normal. */
-  .modern-search,
-  #nd14SearchWrap,
-  #ndR7Recent,
-  #ndMaisVendidosHoje,
-  #ndR7Reco,
-  .ndu-mvh-head,
-  .ndu-mvh-grid { display:none !important; }
-
-  /* Uma única busca flutuante */
-  #ndR16SearchFab{
-    position:fixed;
-    right:18px;
-    bottom:112px;
-    width:52px;
-    height:52px;
-    border:1px solid rgba(255,101,0,.75);
-    border-radius:50%;
-    background:#0b0b0b;
-    color:#ff6500;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:23px;
-    cursor:pointer;
-    z-index:2600;
-    box-shadow:0 8px 28px rgba(0,0,0,.55),0 0 18px rgba(255,101,0,.18);
-    transition:.2s ease;
-  }
-  #ndR16SearchFab:hover{transform:scale(1.06);filter:brightness(1.12)}
-  #ndR16SearchFab:active{transform:scale(.96)}
-
-  #ndR16SearchPanel{
-    position:fixed;
-    right:18px;
-    bottom:174px;
-    width:min(430px,calc(100vw - 36px));
-    padding:9px;
-    display:none;
-    gap:8px;
-    align-items:center;
-    background:rgba(10,10,10,.97);
-    border:1px solid rgba(255,101,0,.55);
-    border-radius:16px;
-    box-shadow:0 14px 45px rgba(0,0,0,.65);
-    z-index:2599;
-    backdrop-filter:blur(16px);
-  }
-  #ndR16SearchPanel.open{display:flex;animation:ndR16SearchIn .18s ease both}
-  #ndR16SearchInput{
-    width:100%;min-width:0;
-    height:44px;
-    border:1px solid #2b2b2b;
-    border-radius:11px;
-    outline:none;
-    background:#050505;
-    color:#fff;
-    padding:0 13px;
-    font-size:14px;
-  }
-  #ndR16SearchInput:focus{border-color:#ff6500;box-shadow:0 0 0 2px rgba(255,101,0,.10)}
-  #ndR16SearchClose{
-    width:44px;height:44px;flex:0 0 44px;
-    border:1px solid #303030;border-radius:11px;
-    background:#171717;color:#fff;font-size:20px;cursor:pointer;
-  }
-  #ndR16SearchMeta{position:fixed;right:20px;bottom:106px;color:#888;font-size:10px;z-index:2601;pointer-events:none}
-  @keyframes ndR16SearchIn{from{opacity:0;transform:translateY(7px) scale(.98)}to{opacity:1;transform:none}}
-
-  /* Nunca deixa a busca cobrir o botão de finalizar/carrinho */
-  @media(max-width:600px){
-    #ndR16SearchFab{right:12px;bottom:118px;width:48px;height:48px;font-size:21px}
-    #ndR16SearchPanel{right:10px;bottom:176px;width:calc(100vw - 20px)}
-    #ndR16SearchMeta{right:14px;bottom:110px}
-  }
-</style>
-<script id="nd-r16-clean-search-logic">
-(function(){
-  'use strict';
-  function q(s){return document.querySelector(s)}
-  function qa(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
-  function norm(v){return (v||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
-
-  function hideOldProductSearch(){
-    qa('.modern-search,#nd14SearchWrap,#ndR7Recent').forEach(function(el){
-      el.style.setProperty('display','none','important');
-    });
-  }
-
-  function removeUnwantedSections(){
-    ['#ndMaisVendidosHoje','#ndR7Reco'].forEach(function(sel){
-      qa(sel).forEach(function(el){el.remove()});
-    });
-  }
-
-  function getProducts(){return qa('.produto')}
-
-  function filterProducts(value){
-    var term=norm(value), shown=0;
-    getProducts().forEach(function(card){
-      var text=norm(card.innerText||card.textContent||'');
-      var ok=!term || text.indexOf(term)!==-1;
-      card.classList.toggle('nd-r16-search-hidden',!ok);
-      card.style.removeProperty('display');
-      if(!ok) card.style.setProperty('display','none','important');
-      if(ok) shown++;
-    });
-    var meta=q('#ndR16SearchMeta');
-    if(meta) meta.textContent=term?(shown+' produto'+(shown===1?'':'s')):'';
-  }
-
-  function syncLegacySearch(value){
-    /* Mantém compatibilidade com o mecanismo de busca da R16 sem mostrar a barra antiga. */
-    var old=q('#buscaProdutos');
-    if(old){
-      old.value=value;
-      old.dispatchEvent(new Event('input',{bubbles:true}));
-      old.dispatchEvent(new Event('change',{bubbles:true}));
-    }
-    var old14=q('#nd14Search');
-    if(old14){
-      old14.value=value;
-      old14.dispatchEvent(new Event('input',{bubbles:true}));
-    }
-    filterProducts(value);
-  }
-
-  function createSearch(){
-    if(q('#ndR16SearchFab')) return;
-
-    var fab=document.createElement('button');
-    fab.id='ndR16SearchFab';
-    fab.type='button';
-    fab.setAttribute('aria-label','Abrir pesquisa');
-    fab.title='Pesquisar no cardápio';
-    fab.innerHTML='⌕';
-
-    var panel=document.createElement('div');
-    panel.id='ndR16SearchPanel';
-    panel.setAttribute('role','search');
-    panel.innerHTML='<input id="ndR16SearchInput" type="search" autocomplete="off" placeholder="Buscar no cardápio..." aria-label="Buscar no cardápio"><button id="ndR16SearchClose" type="button" aria-label="Fechar pesquisa">×</button>';
-
-    var meta=document.createElement('div');
-    meta.id='ndR16SearchMeta';
-
-    document.body.appendChild(panel);
-    document.body.appendChild(fab);
-    document.body.appendChild(meta);
-
-    var input=q('#ndR16SearchInput'), close=q('#ndR16SearchClose');
-    fab.addEventListener('click',function(){
-      panel.classList.toggle('open');
-      if(panel.classList.contains('open')) setTimeout(function(){input.focus()},40);
-    });
-    close.addEventListener('click',function(){
-      panel.classList.remove('open');
-      input.value='';
-      syncLegacySearch('');
-      meta.textContent='';
-    });
-    input.addEventListener('input',function(){syncLegacySearch(input.value)});
-    input.addEventListener('keydown',function(e){
-      if(e.key==='Escape'){close.click();return}
-      if(e.key==='Enter'){
-        var first=getProducts().find(function(c){return c.style.display!=='none'});
-        if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
-      }
-    });
-  }
-
-  function init(){
-    hideOldProductSearch();
-    removeUnwantedSections();
-    createSearch();
-  }
-
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
-  else init();
-
-  /* A R16 possui camadas antigas que podem recriar elementos; esta proteção garante 1 busca e zero seções removidas. */
-  setInterval(function(){
-    hideOldProductSearch();
-    removeUnwantedSections();
-    if(!q('#ndR16SearchFab')) createSearch();
-  },1000);
-})();
-</script>
-
 </body>
 </html>
