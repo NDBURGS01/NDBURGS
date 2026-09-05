@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R17">
+<meta name="nd-site-version" content="20260905-R19">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R17";
+  const ND_SITE_VERSION = "20260905-R19";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -566,7 +566,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 <style id="nd-r17-conversion">
 /* =========================================================
-   ND BURGS R17 — CONVERSÃO + FAVORITOS + PEDIR NOVAMENTE
+   ND BURGS R19 — CONVERSÃO + FAVORITOS + PEDIR NOVAMENTE
    + HORÁRIO REAL + PRIMEIRA COMPRA + NAVEGAÇÃO MOBILE
    ========================================================= */
 #ndR17FirstBuy{
@@ -658,6 +658,49 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 @media(prefers-reduced-motion:reduce){
   .nd-r17-fb-btn{transition:none!important}
+}
+</style>
+
+
+
+<style id="nd-r19-reviews">
+#ndR19Reviews{
+  max-width:1100px;margin:24px auto;padding:20px;
+}
+#ndR19Reviews .r19-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  flex-wrap:wrap;margin-bottom:15px
+}
+#ndR19Reviews h2{margin:0;font-size:25px;font-weight:1000}
+#ndR19Reviews .r19-rating{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 13px;border-radius:14px;
+  background:rgba(255,210,26,.10);
+  border:1px solid rgba(255,210,26,.24)
+}
+#ndR19Reviews .r19-rating strong{font-size:24px}
+#ndR19Reviews .r19-rating span{font-size:16px;letter-spacing:1px}
+#ndR19Reviews .r19-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px
+}
+#ndR19Reviews .r19-card{
+  padding:17px;border-radius:17px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.09);
+  min-height:125px
+}
+#ndR19Reviews .r19-stars{font-size:17px;letter-spacing:1px}
+#ndR19Reviews .r19-card p{
+  margin:9px 0 8px;font-size:14px;line-height:1.45;font-weight:750
+}
+#ndR19Reviews .r19-card small{opacity:.62;font-size:11px}
+#ndR19Reviews .r19-source{
+  display:inline-block;margin-top:9px;padding:4px 8px;border-radius:999px;
+  font-size:9px;font-weight:1000;background:rgba(255,255,255,.08)
+}
+@media(max-width:700px){
+  #ndR19Reviews{padding:16px}
+  #ndR19Reviews .r19-grid{grid-template-columns:1fr}
 }
 </style>
 
@@ -7841,6 +7884,80 @@ function init(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 setInterval(updateHours,30000);
+})();
+</script>
+
+
+
+<script id="nd-r19-reviews-js">
+(function(){
+'use strict';
+
+const R19_REVIEWS=[
+  ['“Muito bom, amei!”','Cliente ND BURGS'],
+  ['“Comprei a primeira vez e amei.”','Cliente ND BURGS'],
+  ['“Preço e qualidade, tudo muito bom.”','Cliente ND BURGS'],
+  ['“Muito gostoso, vou pedir novamente.”','Cliente ND BURGS'],
+  ['“Amei o lanche! Muito caprichado.”','Cliente ND BURGS'],
+  ['“Preço justo e qualidade de verdade.”','Cliente ND BURGS'],
+  ['“Já virou meu lanche favorito.”','Cliente ND BURGS'],
+  ['“Muito bom, chegou direitinho e estava uma delícia.”','Cliente ND BURGS'],
+  ['“Primeiro pedido e já ganhou cliente.”','Cliente ND BURGS'],
+  ['“Amei! Com certeza vou comprar de novo.”','Cliente ND BURGS'],
+  ['“Lanche muito bom e bem feito.”','Cliente ND BURGS'],
+  ['“Gostei muito da qualidade.”','Cliente ND BURGS']
+];
+
+function addR19Reviews(){
+  if(document.getElementById('ndR19Reviews')) return;
+
+  const anchor=document.getElementById('ndR18Delivery') ||
+               document.querySelector('.container') ||
+               document.querySelector('main') ||
+               document.body;
+
+  const section=document.createElement('section');
+  section.id='ndR19Reviews';
+
+  section.innerHTML=
+    '<div class="r19-head">'+
+      '<div><h2>⭐ O QUE NOSSOS CLIENTES DIZEM</h2></div>'+
+      '<div class="r19-rating"><strong>4,9</strong><span>★★★★★</span><small> no iFood</small></div>'+
+    '</div>'+
+    '<div class="r19-grid"></div>';
+
+  const grid=section.querySelector('.r19-grid');
+
+  /*
+   * Exibição rotativa: a cada 5 dias muda o conjunto de 6 comentários.
+   * Não altera os comentários, apenas a ordem/conjunto exibido.
+   */
+  const fiveDays=5*24*60*60*1000;
+  const cycle=Math.floor(Date.now()/fiveDays);
+  const start=(cycle*6)%R19_REVIEWS.length;
+
+  for(let i=0;i<6;i++){
+    const r=R19_REVIEWS[(start+i)%R19_REVIEWS.length];
+    const card=document.createElement('article');
+    card.className='r19-card';
+    card.innerHTML=
+      '<div class="r19-stars">★★★★★</div>'+
+      '<p>'+r[0]+'</p>'+
+      '<small>'+r[1]+'</small><br>'+
+      '<span class="r19-source">AVALIAÇÃO 5 ESTRELAS</span>';
+    grid.appendChild(card);
+  }
+
+  if(anchor===document.body) document.body.appendChild(section);
+  else anchor.insertAdjacentElement('afterend',section);
+}
+
+function init(){
+  addR19Reviews();
+  setTimeout(addR19Reviews,1200);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+else init();
 })();
 </script>
 
