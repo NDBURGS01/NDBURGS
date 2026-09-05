@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R10">
+<meta name="nd-site-version" content="20260905-R16">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260904-R10";
@@ -6623,192 +6623,260 @@ abrirCarrinho=function(){
 </script>
 
 
-
 <!-- =========================================================
-     ND BURGS — ETAPA 24 — AVALIAÇÕES + CARRINHO ÚNICO + MAIS VENDIDOS
+     ND BURGS — ETAPA FINAL: AVALIAÇÕES + CARRINHO ÚNICO
+     + MAIS VENDIDOS DO DIA + CTA FINALIZAR PEDIDO
+     + EFEITO PIROTÉCNICO / REFLEXOS / LUZES
      ========================================================= -->
-<style id="nd-etapa-24-pirotecnico">
-/* ===== CARRINHO ÚNICO FIXO ===== */
-#ndFxCartbar,#ndR3Cartbar,.nd-v3-buybar,.carrinho-flutuante:not(#carrinhoFlutuante){display:none!important}
+<style id="nd-final-ultimate">
+:root{--ndu-orange:#ff5a00;--ndu-orange2:#ff9d00;--ndu-red:#ff1744;--ndu-blue:#1677ff;--ndu-green:#39d353}
+
+/* =====================================================
+   CARRINHO ÚNICO — remove todas as outras versões
+   ===================================================== */
+#ndCartFab,#ndCartLabel,#ndFxCartbar,.nd-v3-buybar,.carrinho-flutuante:not(#carrinhoFlutuante){display:none!important}
 #carrinhoFlutuante{
-  position:fixed!important;right:18px!important;bottom:18px!important;left:auto!important;
-  width:66px!important;height:66px!important;padding:0!important;margin:0!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  opacity:0!important;visibility:hidden!important;pointer-events:none!important;
-  transform:scale(.75) rotate(-8deg)!important;border-radius:50%!important;
-  background:linear-gradient(145deg,#0b0b0d,#020203)!important;
-  border:2px solid #1677ff!important;
-  box-shadow:0 0 0 4px rgba(22,119,255,.08),0 12px 35px rgba(0,0,0,.75),0 0 28px rgba(22,119,255,.28)!important;
-  z-index:100000!important;transition:opacity .22s,visibility .22s,transform .22s,box-shadow .22s!important;
+  display:flex!important;position:fixed!important;right:18px!important;left:auto!important;bottom:18px!important;
+  width:68px!important;height:68px!important;padding:0!important;margin:0!important;
+  border:2px solid #fff!important;border-radius:50%!important;background:linear-gradient(135deg,#ff1744,#ff5a00 55%,#ffb000)!important;
+  box-shadow:0 0 0 3px rgba(255,90,0,.12),0 0 24px rgba(255,90,0,.65),0 12px 35px rgba(0,0,0,.8)!important;
+  opacity:0!important;pointer-events:none!important;transform:none!important;z-index:200000!important;
+  animation:nduCartPulse 2s infinite;
 }
-#carrinhoFlutuante.ativo{opacity:1!important;visibility:visible!important;pointer-events:auto!important;transform:scale(1) rotate(0)!important}
-#carrinhoFlutuante:hover{transform:scale(1.07)!important;box-shadow:0 0 0 5px rgba(22,119,255,.10),0 14px 38px rgba(0,0,0,.8),0 0 38px rgba(22,119,255,.42)!important}
-#carrinhoFlutuante .carrinho-flutuante-info{display:block!important;position:static!important;width:100%!important;height:100%!important}
-#carrinhoFlutuante .carrinho-flutuante-info strong{font-size:0!important;width:100%!important;height:100%!important;display:grid!important;place-items:center!important;line-height:1!important}
-#carrinhoFlutuante .carrinho-flutuante-info strong:after{
-  content:'🛍️';font-size:29px!important;display:block!important;filter:drop-shadow(0 3px 5px rgba(22,119,255,.5));
-}
+#carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important}
+#carrinhoFlutuante .carrinho-flutuante-info{display:grid!important;place-items:center!important;width:100%!important;height:100%!important}
+#carrinhoFlutuante .carrinho-flutuante-info strong{font-size:0!important;line-height:1!important}
+#carrinhoFlutuante .carrinho-flutuante-info strong:after{content:'🛍️';font-size:31px!important;filter:drop-shadow(0 2px 5px #000)!important}
 #carrinhoFlutuante .carrinho-flutuante-info span{
-  position:absolute!important;right:-4px!important;top:-5px!important;min-width:23px!important;height:23px!important;padding:0 5px!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  background:#e50914!important;color:#fff!important;border:2px solid #000!important;border-radius:99px!important;
-  font-size:10px!important;font-weight:1000!important;box-sizing:border-box!important;box-shadow:0 3px 10px rgba(229,9,20,.4)!important;
+ position:absolute!important;right:-5px!important;top:-5px!important;min-width:25px!important;height:25px!important;padding:0 6px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;
+ background:#fff!important;color:#111!important;border:3px solid #ff5a00!important;font-size:11px!important;font-weight:1000!important;
 }
 #carrinhoFlutuante .carrinho-flutuante-direita{display:none!important}
-#nd24CartPulse{position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(22,119,255,.45);pointer-events:none;animation:nd24CartPulse 1.8s ease-out infinite}
-@keyframes nd24CartPulse{0%{transform:scale(.88);opacity:.75}75%,100%{transform:scale(1.22);opacity:0}}
-@media(max-width:600px){#carrinhoFlutuante{right:12px!important;bottom:14px!important;width:60px!important;height:60px!important}#carrinhoFlutuante .carrinho-flutuante-info strong:after{font-size:26px!important}}
+@keyframes nduCartPulse{0%,100%{box-shadow:0 0 0 3px rgba(255,90,0,.12),0 0 24px rgba(255,90,0,.55),0 12px 35px rgba(0,0,0,.8)}50%{box-shadow:0 0 0 7px rgba(255,90,0,.05),0 0 38px rgba(255,90,0,.85),0 14px 40px rgba(0,0,0,.85)}}
 
-/* ===== FAIXA CENTRAL: FINALIZAR PEDIDO ===== */
-#nd24CheckoutCTA{
-  position:relative;overflow:hidden;width:100%;margin:14px 0 18px;padding:14px;
-  border:1px solid rgba(22,119,255,.55);border-radius:18px;background:#050505;
-  box-shadow:0 10px 35px rgba(0,0,0,.5),0 0 30px rgba(22,119,255,.08);
+/* =====================================================
+   PIROTÉCNICO — reflexos, faíscas e luzes nos pontos certos
+   ===================================================== */
+#ndFxIntro,#ndR3Quick,.produto,#ndFxReviews,.categoria-menu,#ndMaisVendidosHoje{
+ position:relative;overflow:hidden;
 }
-#nd24CheckoutCTA:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(22,119,255,.08),transparent);transform:translateX(-100%);animation:nd24Sweep 3.2s linear infinite;pointer-events:none}
-@keyframes nd24Sweep{to{transform:translateX(100%)}}
-.nd24-cta-inner{position:relative;z-index:2;display:flex;align-items:center;gap:13px}
-.nd24-cta-icon{width:48px;height:48px;flex:0 0 48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#1677ff,#0759c9);font-size:24px;box-shadow:0 8px 22px rgba(22,119,255,.3)}
-.nd24-cta-copy{min-width:0;flex:1}.nd24-cta-copy b{display:block;font-size:15px;color:#fff}.nd24-cta-copy span{display:block;font-size:10px;color:#8e8e8e;margin-top:3px}
-#nd24CheckoutBtn{border:0;border-radius:12px;background:#fff;color:#000;padding:13px 16px;font-weight:1000;font-size:11px;cursor:pointer;white-space:nowrap;box-shadow:0 7px 22px rgba(255,255,255,.12);transition:.18s}
-#nd24CheckoutBtn:hover{background:#1677ff;color:#fff;transform:translateY(-2px);box-shadow:0 10px 25px rgba(22,119,255,.32)}
-@media(max-width:600px){#nd24CheckoutCTA{padding:11px}.nd24-cta-icon{width:42px;height:42px;flex-basis:42px;font-size:21px}.nd24-cta-copy b{font-size:13px}.nd24-cta-copy span{font-size:9px}#nd24CheckoutBtn{padding:12px 11px;font-size:10px}}
+#ndFxIntro:before,.produto:after,#ndMaisVendidosHoje:before{
+ content:"";position:absolute;inset:-80%;pointer-events:none;z-index:0;
+ background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.16) 49%,rgba(255,145,0,.10) 52%,transparent 59%);
+ transform:translateX(-35%) rotate(7deg);animation:nduShine 5.5s ease-in-out infinite;
+}
+#ndFxIntro>* ,#ndR3Quick>* ,#ndMaisVendidosHoje>*{position:relative;z-index:1}
+.produto:before{
+ content:"";position:absolute;left:8%;right:8%;top:0;height:2px;z-index:5;
+ background:linear-gradient(90deg,transparent,#fff,#ff6a00,#fff,transparent);opacity:.75;
+ box-shadow:0 0 12px rgba(255,106,0,.7);
+ animation:nduLight 2.7s linear infinite;
+}
+.produto:hover{box-shadow:0 0 0 1px rgba(255,90,0,.35),0 0 25px rgba(255,90,0,.14),0 18px 45px rgba(0,0,0,.65)!important}
+@keyframes nduShine{0%,55%{transform:translateX(-55%) rotate(7deg)}78%,100%{transform:translateX(55%) rotate(7deg)}}
+@keyframes nduLight{0%{opacity:.25}50%{opacity:1}100%{opacity:.25}}
 
-/* ===== AVALIAÇÃO EM CADA PRODUTO ===== */
-.nd24-rating{display:flex!important;align-items:center!important;gap:2px!important;margin:7px 2px 2px!important;min-height:17px!important}
-.nd24-star{appearance:none!important;border:0!important;background:transparent!important;color:#3a3a3a!important;min-height:17px!important;width:17px!important;height:17px!important;padding:0!important;margin:0!important;border-radius:4px!important;font-size:15px!important;line-height:17px!important;cursor:pointer!important;box-shadow:none!important;transition:transform .12s,color .12s,text-shadow .12s!important}
-.nd24-star:hover{color:#ffd21a!important;transform:scale(1.16)!important;background:transparent!important;box-shadow:none!important}
-.nd24-star.on{color:#ffd21a!important;text-shadow:0 0 8px rgba(255,210,26,.45)!important}
-.nd24-rating small{margin-left:4px!important;color:#777!important;font-size:9px!important;line-height:17px!important;white-space:nowrap!important}
-.nd24-rating.rated small{color:#39d353!important}
-@media(max-width:600px){.nd24-rating{margin-top:6px!important}.nd24-star{width:16px!important;font-size:14px!important}}
+/* =====================================================
+   AVALIAÇÃO EM CADA PRODUTO — 5 estrelas pequenas
+   ===================================================== */
+.ndu-rating{display:flex;align-items:center;gap:2px;margin:7px 2px 2px;min-height:18px;position:relative;z-index:7}
+.ndu-rating button{
+ width:18px!important;min-height:18px!important;height:18px!important;padding:0!important;margin:0!important;
+ border:0!important;background:transparent!important;color:#444!important;box-shadow:none!important;
+ font-size:15px!important;line-height:18px!important;cursor:pointer!important;transform:none!important;
+ text-shadow:none!important;
+}
+.ndu-rating button:hover{color:#ffb000!important;transform:scale(1.12)!important;box-shadow:none!important;background:transparent!important}
+.ndu-rating button.on{color:#ffb000!important;text-shadow:0 0 7px rgba(255,176,0,.75)!important}
+.ndu-rating small{margin-left:4px;color:#777;font-size:9px!important;font-weight:700;white-space:nowrap}
+.ndu-rating.rated small{color:#ffb000}
 
-/* ===== MAIS VENDIDOS DO DIA ===== */
-#nd24Daily{position:relative;margin:18px 0 22px;padding:15px;border:1px solid #222;border-radius:20px;background:#050505;box-shadow:0 14px 40px rgba(0,0,0,.45);overflow:hidden}
-#nd24Daily:after{content:"";position:absolute;right:-70px;top:-70px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(229,9,20,.13),transparent 68%);pointer-events:none}
-.nd24-daily-head{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:11px}.nd24-daily-kicker{font-size:9px;letter-spacing:1.6px;color:#e50914;font-weight:1000}.nd24-daily-head h2{margin:3px 0 0!important;padding:0!important;border:0!important;color:#fff!important;font-size:22px!important}.nd24-daily-head p{margin:0;color:#777;font-size:10px;text-align:right}.nd24-daily-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.nd24-daily-card{position:relative;min-width:0;padding:9px;border:1px solid #252525;border-radius:15px;background:#0c0c0e;transition:.2s}.nd24-daily-card:hover{transform:translateY(-3px);border-color:#e50914;box-shadow:0 10px 25px rgba(229,9,20,.12)}
-.nd24-daily-card img{width:100%;height:125px;object-fit:cover;border-radius:11px;background:#000;display:block}.nd24-daily-rank{position:absolute;left:15px;top:15px;padding:4px 7px;border-radius:7px;background:#ffd21a;color:#000;font-size:8px;font-weight:1000}.nd24-daily-card b{display:block;color:#fff;font-size:13px;margin:9px 2px 4px;line-height:1.15}.nd24-daily-card span{display:block;color:#39d353;font-size:13px;font-weight:1000;margin:0 2px 8px}.nd24-daily-card button{width:100%;border:0;border-radius:10px;background:#1677ff;color:#fff;padding:10px 8px;font-size:10px;font-weight:1000;cursor:pointer;min-height:40px}.nd24-daily-card button:hover{background:#2f8cff;transform:translateY(-1px)}
-@media(max-width:700px){.nd24-daily-grid{display:flex;overflow:auto;gap:8px;scrollbar-width:none}.nd24-daily-grid::-webkit-scrollbar{display:none}.nd24-daily-card{flex:0 0 175px}.nd24-daily-card img{height:105px}.nd24-daily-head{align-items:flex-start;flex-direction:column}.nd24-daily-head p{text-align:left}}
+/* =====================================================
+   CTA FINALIZAR PEDIDO no lugar do menu central
+   ===================================================== */
+#ndFinalizarCta{
+ margin:8px 0 18px;padding:11px;border:1px solid rgba(255,90,0,.5);border-radius:18px;
+ background:linear-gradient(135deg,#120705,#0a0a0a 55%,#111);
+ box-shadow:0 0 25px rgba(255,90,0,.08),inset 0 1px 0 rgba(255,255,255,.08);
+}
+#ndFinalizarCta button{
+ width:100%;min-height:54px;border:0;border-radius:14px;cursor:pointer;
+ background:linear-gradient(110deg,#ff1744,#ff5a00,#ffb000,#ff5a00,#ff1744);background-size:300% 100%;
+ color:#fff;font-weight:1000;font-size:14px;letter-spacing:.5px;
+ box-shadow:0 0 22px rgba(255,90,0,.3),0 10px 28px rgba(0,0,0,.5);
+ animation:nduCta 3s linear infinite;position:relative;overflow:hidden;
+}
+#ndFinalizarCta button:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.42) 50%,transparent 75%);transform:translateX(-120%);animation:nduCtaShine 2.2s ease-in-out infinite}
+#ndFinalizarCta small{display:block;text-align:center;color:#888;font-size:9px;margin-top:7px}
+@keyframes nduCta{0%{background-position:0%}100%{background-position:300%}}
+@keyframes nduCtaShine{0%,45%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
 
-/* ===== EFEITO PIROTÉCNICO / MICRO-INTERAÇÕES ===== */
-.nd24-spark{position:fixed;width:5px;height:5px;border-radius:50%;pointer-events:none;z-index:200000;background:#ffd21a;box-shadow:0 0 9px #ffd21a;animation:nd24Spark .7s ease-out forwards}
-@keyframes nd24Spark{to{transform:translate(var(--dx),var(--dy)) scale(.1);opacity:0}}
-.nd24-pop{animation:nd24Pop .42s cubic-bezier(.2,.9,.25,1.4)}
-@keyframes nd24Pop{45%{transform:scale(1.06)}100%{transform:scale(1)}}
+/* =====================================================
+   MAIS VENDIDOS DO DIA — categoria funcional
+   ===================================================== */
+#ndMaisVendidosHoje{display:none;margin:0 0 24px;padding:15px;border:1px solid rgba(255,90,0,.5);border-radius:20px;background:linear-gradient(145deg,#120b08,#070707);box-shadow:0 0 35px rgba(255,90,0,.10)}
+#ndMaisVendidosHoje.show{display:block;animation:nduReveal .35s ease both}
+#ndMaisVendidosHoje .ndu-mvh-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+#ndMaisVendidosHoje h2{margin:0!important;padding:0!important;border:0!important;color:#fff!important;font-size:21px!important}
+#ndMaisVendidosHoje .ndu-mvh-sub{color:#888;font-size:10px;margin-top:3px}
+#ndMaisVendidosHoje .ndu-mvh-close{border:1px solid #333;background:#151515;color:#fff;border-radius:10px;width:36px;height:36px;cursor:pointer;font-size:18px}
+#ndMaisVendidosHoje .ndu-mvh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ndu-mvh-card{border:1px solid #292929;border-radius:15px;background:#0d0d0d;padding:8px;position:relative;overflow:hidden}
+.ndu-mvh-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:11px;background:#050505;display:block}
+.ndu-mvh-card strong{display:block;font-size:13px;color:#fff;margin:8px 2px 4px}
+.ndu-mvh-card span{display:block;color:#39d353;font-weight:900;font-size:13px;margin:0 2px 7px}
+.ndu-mvh-card button{width:100%;border:0;border-radius:10px;background:#1677ff;color:#fff;min-height:40px;font-weight:900;cursor:pointer}
+.ndu-mvh-card button:hover{background:#2f8cff;box-shadow:0 0 18px rgba(22,119,255,.3)}
+.ndu-mvh-rank{position:absolute;left:13px;top:13px;background:#ffb000;color:#111;border-radius:8px;padding:5px 7px;font-size:9px;font-weight:1000;z-index:2}
+@keyframes nduReveal{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* Oculta o menu central original; o botão de finalizar ocupa o lugar */
+.categoria-menu{display:none!important}
+
+@media(max-width:700px){
+ #carrinhoFlutuante{right:13px!important;bottom:13px!important;width:60px!important;height:60px!important}
+ #carrinhoFlutuante .carrinho-flutuante-info strong:after{font-size:27px!important}
+ #ndFinalizarCta{margin:7px 0 14px;padding:8px}
+ #ndFinalizarCta button{min-height:52px;font-size:12px}
+ #ndMaisVendidosHoje .ndu-mvh-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ .ndu-mvh-card{padding:6px;border-radius:12px}
+ .ndu-mvh-card strong{font-size:10px;line-height:1.15}
+ .ndu-mvh-card span{font-size:11px}
+ .ndu-mvh-card button{font-size:9px;min-height:38px}
+ .ndu-mvh-rank{left:9px;top:9px;font-size:8px}
+ .ndu-rating button{width:17px!important;font-size:14px!important}
+ .ndu-rating small{font-size:8px!important}
+}
+@media(prefers-reduced-motion:reduce){#carrinhoFlutuante,#ndFinalizarCta button,#ndFinalizarCta button:after,#ndFxIntro:before,.produto:after,.produto:before{animation:none!important}}
 </style>
 
-<script id="nd-etapa-24-logic">
+<script id="nd-final-ultimate-js">
 (function(){
-'use strict';
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-const dayKey=new Date().toISOString().slice(0,10);
-const ratingPrefix='ndburgs_prod_rating_v2_';
-
-function productName(card){return (card?.querySelector('h3')?.textContent||'PRODUTO').replace(/\s+/g,' ').trim()}
-function productPrice(card){
- const p=card?.querySelector('.preco')?.textContent||'';
- const m=p.match(/R\$\s*([\d.]+,[\d]{2})/); return m?Number(m[1].replace(/\./g,'').replace(',','.')):0;
-}
-function productImage(card){return card?.querySelector('img')?.src||''}
-function originalAdd(card){return card?.querySelector('.btn-add')}
-
-/* ---------- avaliação individual ---------- */
-function ratingKey(name){return ratingPrefix+encodeURIComponent(norm(name))}
-function getRating(name){try{return Number(localStorage.getItem(ratingKey(name))||0)}catch(e){return 0}}
-function saveRating(name,n){try{localStorage.setItem(ratingKey(name),String(n))}catch(e){}}
-function buildRating(card){
- if(!card||card.querySelector('.nd24-rating'))return;
- const title=card.querySelector('h3'); if(!title)return;
- const wrap=document.createElement('div'); wrap.className='nd24-rating'; wrap.setAttribute('role','radiogroup'); wrap.setAttribute('aria-label','Avaliar '+productName(card));
- const current=getRating(productName(card));
- for(let i=1;i<=5;i++){
-   const b=document.createElement('button');b.type='button';b.className='nd24-star'+(i<=current?' on':'');b.textContent='★';b.dataset.star=i;b.setAttribute('aria-label',i+' estrela'+(i>1?'s':''));
-   b.addEventListener('click',function(e){e.stopPropagation();const n=Number(this.dataset.star);saveRating(productName(card),n);wrap.classList.add('rated');wrap.querySelectorAll('.nd24-star').forEach(x=>x.classList.toggle('on',Number(x.dataset.star)<=n));
-     let sm=wrap.querySelector('small');if(sm)sm.textContent='✓ '+n+'/5';
-     card.classList.remove('nd24-pop');void card.offsetWidth;card.classList.add('nd24-pop');spark(e.clientX,e.clientY,7);
+ 'use strict';
+ const REVIEW_KEY='ndburgs_produto_avaliacoes_v1';
+ const TODAY_KEY='ndburgs_mais_vendidos_dia_v1';
+ const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+ const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+ const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+ function reviews(){try{const x=JSON.parse(localStorage.getItem(REVIEW_KEY)||'{}');return x&&typeof x==='object'?x:{}}catch(e){return {}}}
+ function saveReviews(x){try{localStorage.setItem(REVIEW_KEY,JSON.stringify(x))}catch(e){}}
+ function productName(card){return (card.querySelector('h3')?.textContent||'PRODUTO').replace(/\s+/g,' ').trim()}
+ function addRatings(){
+   const data=reviews();
+   $$('.produto').forEach(card=>{
+     if(card.dataset.nduRating==='1')return;
+     const name=productName(card); if(!name)return;
+     card.dataset.nduRating='1';
+     const wrap=document.createElement('div'); wrap.className='ndu-rating'; wrap.setAttribute('role','radiogroup'); wrap.setAttribute('aria-label','Avaliar '+name);
+     const current=Number(data[name]?.stars||0);
+     for(let i=1;i<=5;i++){
+       const b=document.createElement('button'); b.type='button'; b.textContent='★'; b.dataset.star=i; b.setAttribute('aria-label',i+' estrela'+(i>1?'s':''));
+       if(i<=current)b.classList.add('on');
+       b.onclick=e=>{e.stopPropagation(); const d=reviews(); d[name]={stars:i,date:new Date().toISOString()}; saveReviews(d); paint(wrap,i); wrap.classList.add('rated'); const small=wrap.querySelector('small'); if(small)small.textContent='Sua nota: '+i+'/5';};
+       wrap.appendChild(b);
+     }
+     const sm=document.createElement('small'); sm.textContent=current?'Sua nota: '+current+'/5':'Avalie'; wrap.appendChild(sm);
+     if(current)wrap.classList.add('rated');
+     const anchor=card.querySelector('.preco')||card.querySelector('h3');
+     if(anchor)anchor.insertAdjacentElement('afterend',wrap); else card.appendChild(wrap);
    });
-   b.addEventListener('mouseenter',function(){wrap.querySelectorAll('.nd24-star').forEach(x=>x.classList.toggle('on',Number(x.dataset.star)<=Number(this.dataset.star)))});
-   wrap.appendChild(b);
  }
- const sm=document.createElement('small');sm.textContent=current?'✓ '+current+'/5':'avaliar';wrap.appendChild(sm);
- wrap.addEventListener('mouseleave',()=>{const n=getRating(productName(card));wrap.querySelectorAll('.nd24-star').forEach(x=>x.classList.toggle('on',Number(x.dataset.star)<=n))});
- title.insertAdjacentElement('afterend',wrap);
-}
-function ratings(){ $$('.produto').forEach(buildRating) }
+ function paint(wrap,n){wrap.querySelectorAll('button').forEach(b=>b.classList.toggle('on',Number(b.dataset.star)<=n))}
 
-/* ---------- CTA central no lugar do menu de categorias ---------- */
-function buildCTA(){
- const old=$('.categoria-menu');
- if(!old||$('#nd24CheckoutCTA'))return;
- old.style.display='none';
- const box=document.createElement('section');box.id='nd24CheckoutCTA';
- box.innerHTML='<div class="nd24-cta-inner"><div class="nd24-cta-icon">🛍️</div><div class="nd24-cta-copy"><b>JÁ ESCOLHEU? FINALIZE SEU PEDIDO</b><span>Seu carrinho fica salvo e você confere tudo antes de enviar.</span></div><button id="nd24CheckoutBtn" type="button">FINALIZAR PEDIDO →</button></div>';
- old.parentNode.insertBefore(box,old);
- $('#nd24CheckoutBtn').onclick=function(){spark(window.innerWidth-55,window.innerHeight-55,12);if(typeof window.abrirCarrinho==='function')window.abrirCarrinho()};
-}
-
-/* ---------- 3 mais vendidos aleatórios do dia ---------- */
-function seededRandom(seed){let h=2166136261;for(let i=0;i<seed.length;i++){h^=seed.charCodeAt(i);h=Math.imul(h,16777619)}return ()=>{h+=0x6D2B79F5;let t=h;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296}}
-function dailyPick(){
- const cards=$$('.produto').filter(c=>productName(c)&&productPrice(c)>0);
- if(cards.length<3)return cards;
- const rand=seededRandom(dayKey+'|NDBURGS');const pool=cards.slice();const out=[];
- while(pool.length&&out.length<3){out.push(pool.splice(Math.floor(rand()*pool.length),1)[0])}
- return out;
-}
-function addFromDaily(card){
- const btn=originalAdd(card); if(!btn)return;
- btn.click(); card.classList.remove('nd24-pop');void card.offsetWidth;card.classList.add('nd24-pop');
-}
-function buildDaily(){
- if($('#nd24Daily'))return;
- const anchor=$('#nd24CheckoutCTA'); if(!anchor)return;
- const picks=dailyPick(); if(picks.length<3)return;
- const sec=document.createElement('section');sec.id='nd24Daily';
- sec.innerHTML='<div class="nd24-daily-head"><div><div class="nd24-daily-kicker">SELEÇÃO ESPECIAL DE HOJE</div><h2>🔥 MAIS VENDIDOS DO DIA</h2></div><p>3 escolhas aleatórias renovadas a cada dia.</p></div><div class="nd24-daily-grid"></div>';
- anchor.parentNode.insertBefore(sec,anchor.nextSibling);
- const grid=sec.querySelector('.nd24-daily-grid');
- picks.forEach((card,i)=>{
-   const name=productName(card),price=productPrice(card),img=productImage(card);
-   const el=document.createElement('div');el.className='nd24-daily-card';
-   el.innerHTML='<span class="nd24-daily-rank">#'+(i+1)+' DO DIA</span><img loading="lazy" decoding="async" src="'+img.replace(/"/g,'&quot;')+'" alt="'+name.replace(/"/g,'&quot;')+'"><b>'+name.replace(/[&<>]/g,'')+'</b><span>'+money(price)+'</span><button type="button">ADICIONAR • '+money(price)+'</button>';
-   el.querySelector('button').onclick=e=>{e.stopPropagation();addFromDaily(card);spark(e.clientX,e.clientY,10)};
-   grid.appendChild(el);
- });
-}
-
-/* ---------- carrinho bonito e único ---------- */
-function decorateCart(){
- const cart=$('#carrinhoFlutuante');if(!cart)return;
- if(!cart.querySelector('#nd24CartPulse')){const p=document.createElement('span');p.id='nd24CartPulse';cart.appendChild(p)}
- cart.setAttribute('aria-label','Abrir carrinho');cart.setAttribute('title','Abrir meu carrinho');
- const count=cart.querySelector('#contadorCarrinho');if(count){count.setAttribute('aria-live','polite')}
-}
-function forceSingleCart(){
- $$('.nd-fx-cartbar,.nd-v3-buybar').forEach(x=>x.style.setProperty('display','none','important'));
- decorateCart();
-}
-
-/* ---------- fogos ao toque ---------- */
-function spark(x,y,n){
- for(let i=0;i<n;i++){
-  const s=document.createElement('i');s.className='nd24-spark';s.style.left=x+'px';s.style.top=y+'px';
-  const a=Math.random()*Math.PI*2,d=24+Math.random()*55;s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');
-  document.body.appendChild(s);setTimeout(()=>s.remove(),760);
+ function dailyPicks(){
+   const cards=$$('.produto').filter(c=>c.querySelector('h3')&&c.querySelector('.btn-add'));
+   if(cards.length<=3)return cards;
+   const day=new Date().toISOString().slice(0,10);
+   try{
+     const saved=JSON.parse(localStorage.getItem(TODAY_KEY)||'null');
+     if(saved&&saved.day===day&&Array.isArray(saved.names)){
+       const found=saved.names.map(n=>cards.find(c=>norm(productName(c))===norm(n))).filter(Boolean);
+       if(found.length===3)return found;
+     }
+   }catch(e){}
+   let seed=0; for(let i=0;i<day.length;i++)seed=(seed*31+day.charCodeAt(i))>>>0;
+   const arr=cards.slice();
+   function rnd(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
+   for(let i=arr.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}
+   const picks=arr.slice(0,3);
+   try{localStorage.setItem(TODAY_KEY,JSON.stringify({day,names:picks.map(productName)}))}catch(e){}
+   return picks;
  }
-}
-function globalSparks(){
- document.addEventListener('click',e=>{if(e.target.closest('#nd24CheckoutBtn,.nd24-daily-card button,#carrinhoFlutuante'))spark(e.clientX,e.clientY,6)},{passive:true});
-}
-function init(){
- buildCTA();ratings();buildDaily();forceSingleCart();globalSparks();
- setTimeout(()=>{buildCTA();ratings();buildDaily();forceSingleCart()},700);
- setTimeout(()=>{ratings();forceSingleCart()},1600);
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+ function createMostSold(){
+   if($('#ndMaisVendidosHoje'))return;
+   const anchor=$('#ndFinalizarCta')||$('#ndFxIntro')||$('.modern-search')||$('.container'); if(!anchor)return;
+   const sec=document.createElement('section'); sec.id='ndMaisVendidosHoje'; sec.setAttribute('aria-label','Mais vendidos do dia');
+   sec.innerHTML='<div class="ndu-mvh-head"><div><h2>🔥 MAIS VENDIDOS DO DIA</h2><div class="ndu-mvh-sub">3 escolhas aleatórias de hoje — atualiza automaticamente a cada dia.</div></div><button class="ndu-mvh-close" type="button" aria-label="Fechar">×</button></div><div class="ndu-mvh-grid"></div>';
+   anchor.insertAdjacentElement('afterend',sec);
+   sec.querySelector('.ndu-mvh-close').onclick=()=>sec.classList.remove('show');
+ }
+ function renderMostSold(){
+   createMostSold(); const sec=$('#ndMaisVendidosHoje'),grid=sec?.querySelector('.ndu-mvh-grid'); if(!sec||!grid)return;
+   const picks=dailyPicks(); grid.innerHTML='';
+   picks.forEach((card,i)=>{
+     const name=productName(card), img=card.querySelector('img')?.src||'', price=card.querySelector('.preco')?.textContent?.trim()||'';
+     const el=document.createElement('article'); el.className='ndu-mvh-card';
+     el.innerHTML='<span class="ndu-mvh-rank">#'+(i+1)+' DO DIA</span><img loading="lazy" decoding="async" src="'+img.replace(/"/g,'&quot;')+'" alt="'+name.replace(/"/g,'&quot;')+'"><strong>'+name+'</strong><span>'+price+'</span><button type="button">ADICIONAR</button>';
+     el.querySelector('button').onclick=()=>{
+       const original=card.querySelector('.nd-fx-add,.btn-add');
+       if(original)original.click();
+     };
+     grid.appendChild(el);
+   });
+ }
+ function createCTA(){
+   if($('#ndFinalizarCta'))return;
+   const menu=$('.categoria-menu'); if(!menu)return;
+   const box=document.createElement('section'); box.id='ndFinalizarCta';
+   box.innerHTML='<button type="button">🛒 FINALIZAR PEDIDO <span>→</span></button><small>Abra seu carrinho e confira tudo antes de enviar para a ND BURGS.</small>';
+   menu.insertAdjacentElement('beforebegin',box);
+   box.querySelector('button').onclick=()=>{
+     if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();
+     else $('#carrinhoFlutuante')?.click();
+   };
+ }
+ function hideDuplicateCarts(){
+   ['#ndCartFab','#ndCartLabel','#ndFxCartbar'].forEach(sel=>{$$(sel).forEach(e=>e.remove())});
+   $$('.nd-v3-buybar').forEach(e=>e.style.setProperty('display','none','important'));
+ }
+ function syncSingleCart(){
+   hideDuplicateCarts();
+   const bar=$('#carrinhoFlutuante'); if(!bar)return;
+   const cart=Array.isArray(window.carrinho)?window.carrinho:[];
+   const qty=cart.reduce((s,i)=>s+(Number(i.quantidade)||0),0);
+   bar.classList.toggle('ativo',qty>0);
+   const c=$('#contadorCarrinho');if(c)c.textContent=qty;
+ }
+ function patchCart(){
+   if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__ndu){
+     const old=window.atualizarCarrinho;
+     window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(syncSingleCart,0);return r};
+     window.atualizarCarrinho.__ndu=true;
+   }
+   if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__ndu){
+     const old=window.abrirCarrinho;
+     window.abrirCarrinho=function(){syncSingleCart();return old.apply(this,arguments)};
+     window.abrirCarrinho.__ndu=true;
+   }
+ }
+ function init(){
+   createCTA();createMostSold();renderMostSold();addRatings();hideDuplicateCarts();patchCart();syncSingleCart();
+   setTimeout(()=>{createCTA();createMostSold();renderMostSold();addRatings();hideDuplicateCarts();patchCart();syncSingleCart()},700);
+   setTimeout(()=>{addRatings();syncSingleCart()},1500);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+ setInterval(()=>{patchCart();syncSingleCart();addRatings()},1800);
+
+ /* O botão existente VER MAIS VENDIDOS passa a abrir a categoria funcional. */
+ document.addEventListener('click',e=>{
+   const b=e.target.closest('button'); if(!b)return;
+   if(/VER MAIS VENDIDOS/i.test(b.textContent||'')){
+     e.preventDefault(); e.stopImmediatePropagation();
+     createMostSold();renderMostSold();const sec=$('#ndMaisVendidosHoje');sec?.classList.add('show');
+     setTimeout(()=>sec?.scrollIntoView({behavior:'smooth',block:'start'}),30);
+   }
+ },true);
 })();
 </script>
 
