@@ -785,7 +785,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/ds9Qr0PD/BURGUER.jpg" alt="X-BURGUER">
 <h3>X-BURGUER</h3>
-<p>Hambúrguer tradicional.</p>
+<p>Pão de hamburguer , maionese caseira ( não é verde ) , hamburguer 56gr industrializado e queijo cheddar.</p>
 <div class="preco">R$ 10,90</div>
 <button class="btn btn-add" onclick="adicionar('X-BURGUER',10.90)">ADICIONAR</button>
 </div>
@@ -793,7 +793,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/k2KQwpjp/BACON.jpg" alt="X-BACON">
 <h3>X-BACON</h3>
-<p>Hambúrguer tradicional com bacon.</p>
+<p>Pão de hamburguer , molho barbecue , hamburguer 56gr industrializado , bacon e  queijo cheddar.</p>
 <div class="preco">R$ 11,90</div>
 <button class="btn btn-add" onclick="adicionar('X-BACON',11.90)">ADICIONAR</button>
 </div>
@@ -801,7 +801,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/390n5BZv/SALADA.png" alt="X-SALADA">
 <h3>X-SALADA</h3>
-<p>Hambúrguer tradicional com salada.</p>
+<p>Pão de hamburguer , maionese caseira ( não é verde ) , hamburguer 56gr industrializado , alface , tomate e queijo cheddar.</p>
 <div class="preco">R$ 11,90</div>
 <button class="btn btn-add" onclick="adicionar('X-SALADA',11.90)">ADICIONAR</button>
 </div>
@@ -809,7 +809,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/NgWQv5Nm/EGG.png" alt="X-EGG">
 <h3>X-EGG</h3>
-<p>Hambúrguer tradicional com ovo.</p>
+<p>Pão de hamburguer , maionese caseira ( não é verde ) , hamburguer 56gr industrializado , ovo e queijo cheddar.</p>
 <div class="preco">R$ 11,90</div>
 <button class="btn btn-add" onclick="adicionar('X-EGG',11.90)">ADICIONAR</button>
 </div>
@@ -817,7 +817,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/fGHQ9NrW/SELLIS.png" alt="SELLIS">
 <h3>SELLIS</h3>
-<p>Hambúrguer tradicional especial ND BURGS.</p>
+<p>Pão de hamburguer , molho cheddar cremoso , hamburguer 56gr industrializado , alface , tomate , bacon e queijo cheddar.</p>
 <div class="preco">R$ 13,90</div>
 <button class="btn btn-add" onclick="adicionar('SELLIS',13.90)">ADICIONAR</button>
 </div>
@@ -825,7 +825,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/Vszxw7h/NUNES.png" alt="NUNES">
 <h3>NUNES</h3>
-<p>Hambúrguer especial tradicional.</p>
+<p>Pão de brioche divido em 3 partes , maionese caseira ( não é verde ) , 4 hamburgueres 56gr industrializado , alface , tomate , cebola , ovo , bacon e queijo cheddar.</p>
 <div class="preco">R$ 24,90</div>
 <button class="btn btn-add" onclick="adicionar('NUNES',24.90)">ADICIONAR</button>
 </div>
@@ -844,7 +844,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/zW8gbZpK/BERENICE.jpg" alt="BERENICE">
 <h3>BERENICE</h3>
-<p>Pão de brioche, carne artesanal, cheddar, maionese verde, alface e cebola roxa.</p>
+<p>Pão de brioche, carne artesanal 120 gr, queijo cheddar, maionese verde, alface e cebola roxa.</p>
 <div class="preco">R$ 22,90</div>
 <button class="btn btn-add" onclick="adicionar('BERENICE',22.90)">ADICIONAR</button>
 </div>
@@ -852,7 +852,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/tTWqZ9ST/PATAO.png" alt="PATAO">
 <h3>PATAO</h3>
-<p>Pão de brioche, carne artesanal, bacon, barbecue e onion rings.</p>
+<p>Pão de brioche, carne artesanal 120 gr, queijo cheddar, molho barbecue, bacon e 2 anéis de cebola fritos.</p>
 <div class="preco">R$ 23,90</div>
 <button class="btn btn-add" onclick="adicionar('PATAO',23.90)">ADICIONAR</button>
 </div>
@@ -860,7 +860,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/d4pD5bNc/DINA.jpg" alt="DINA">
 <h3>DINA</h3>
-<p>Pão de brioche, frango empanado, cheddar, maionese verde, alface e tomate.</p>
+<p>Pão de brioche, filé de frango empanado, queijo cheddar, maionese verde, alface , tomate e cebola.</p>
 <div class="preco">R$ 20,90</div>
 <button class="btn btn-add" onclick="adicionar('DINA',20.90)">ADICIONAR</button>
 </div>
@@ -868,7 +868,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/qLK7hWYs/GADEIA.jpg" alt="GADEIA">
 <h3>GADEIA</h3>
-<p>Pão de hambúrguer, carne artesanal, maionese verde e queijo cheddar.</p>
+<p>Pão de hamburguer, carne artesanal 120 gr, maionese verde, queijo cheddar.</p>
 <div class="preco">R$ 20,90</div>
 <button class="btn btn-add" onclick="adicionar('GADEIA',20.90)">ADICIONAR</button>
 </div>
@@ -876,7 +876,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/ymQ7sFZn/GAROTINHO.png" alt="GAROTINHO">
 <h3>GAROTINHO</h3>
-<p>Pão de brioche, carne artesanal, molho cheddar cremoso e bacon.</p>
+<p>Pão de brioche, carne artesanal 120gr, molho cheddar cremoso e bacon.</p>
 <div class="preco">R$ 22,90</div>
 <button class="btn btn-add" onclick="adicionar('GAROTINHO',22.90)">ADICIONAR</button>
 </div>
@@ -884,7 +884,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/0yTLwY4b/PEZAO.jpg" alt="PÉZÃO">
 <h3>PÉZÃO</h3>
-<p>Pão de brioche dividido em 3, 2 carnes artesanais, maionese, cheddar, ovo, cebola, bacon, alface e tomate.</p>
+<p>Pão de brioche dividido em 3 partes , 2 carnes artesanais 120gr , maionese, queijo cheddar, ovo, cebola, bacon, alface e tomate.</p>
 <div class="preco">R$ 32,90</div>
 <button class="btn btn-add" onclick="adicionar('PÉZÃO',32.90)">ADICIONAR</button>
 </div>
