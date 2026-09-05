@@ -5727,7 +5727,7 @@ button{font-family:inherit}
  function addReady(){
    const content=q('#modalFinalizar [data-content="4"]'); if(!content||q('#ndR9Ready'))return;
    const note=content.querySelector('.nd-v4-note'); if(!note)return;
-   const d=document.createElement('div');d.id='ndR9Ready';d.innerHTML='<i></i><span><b>Seu pedido está pronto para ser enviado.</b><br>Confira os dados abaixo e toque no botão verde.</span>';
+   const d=document.createElement('div');d.id='ndR9Ready';d.innerHTML='<i></i><span><b>Seu pedido está pronto para ser enviado.</b><br>Confira os dados abaixo e toque no botão azul , concluir pedido e enviar para ndburgs.</span>';
    note.parentNode.insertBefore(d,note);
  }
  function addTotalHint(){
