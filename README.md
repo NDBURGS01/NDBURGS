@@ -580,130 +580,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(max-width:600px){body{padding-bottom:105px!important}.produto:hover{transform:none}#carrinhoFlutuante{bottom:10px!important;width:calc(100% - 16px)!important;padding:10px!important;border-radius:18px!important}.btn-ver-carrinho{padding:11px!important;font-size:12px!important}#carrinhoFlutuante::before{width:40px;height:40px;font-size:20px}.carrinho-flutuante-info strong{font-size:13px!important}.carrinho-flutuante-total{font-size:.95rem!important}}
 </style>
 
-
-
-<!-- ND BURGS — AJUSTE FINAL: CARRINHO FIXO NO TOPO + CATEGORIAS CENTRAIS REMOVIDAS -->
-<style id="nd-final-navigation-cart">
-  /* Remove definitivamente o menu de categorias que ficava no meio do cardápio. */
-  .categoria-menu,
-  #ndR3Quick,
-  #ndR7Reco,
-  #ndR7Recent {
-    display:none!important;
-  }
-
-  /* Mantém o conteúdo principal sem depender do menu central. */
-  .modern-search {
-    margin-bottom:14px!important;
-  }
-
-  /* CARRINHO ÚNICO: sempre visível no canto superior direito. */
-  #ndCartFab {
-    position:fixed!important;
-    top:12px!important;
-    right:18px!important;
-    bottom:auto!important;
-    left:auto!important;
-    transform:none!important;
-    width:62px!important;
-    height:62px!important;
-    z-index:200000!important;
-    border:2px solid #fff!important;
-    border-radius:18px!important;
-    background:linear-gradient(135deg,#e50914,#ff3038)!important;
-    color:#fff!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    font-size:28px!important;
-    box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 0 4px rgba(229,9,20,.14)!important;
-  }
-
-  #ndCartFab:hover {
-    transform:scale(1.05)!important;
-    box-shadow:0 14px 38px rgba(0,0,0,.65),0 0 0 5px rgba(229,9,20,.18)!important;
-  }
-
-  #ndCartFab:active {
-    transform:scale(.96)!important;
-  }
-
-  #ndCartFab.empty {
-    opacity:1!important;
-  }
-
-  #ndCartFab .nd-cart-badge {
-    position:absolute!important;
-    right:-7px!important;
-    top:-7px!important;
-    min-width:27px!important;
-    height:27px!important;
-    padding:0 6px!important;
-    border-radius:999px!important;
-    background:#fff!important;
-    color:#111!important;
-    border:3px solid #090909!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    font-size:12px!important;
-    font-weight:950!important;
-    line-height:1!important;
-  }
-
-  #ndCartLabel {
-    position:fixed!important;
-    top:79px!important;
-    right:16px!important;
-    bottom:auto!important;
-    left:auto!important;
-    z-index:199999!important;
-    background:#151519!important;
-    border:1px solid #34343a!important;
-    border-radius:999px!important;
-    padding:7px 11px!important;
-    color:#fff!important;
-    font-size:10px!important;
-    font-weight:900!important;
-    box-shadow:0 8px 25px rgba(0,0,0,.45)!important;
-    white-space:nowrap!important;
-    pointer-events:none!important;
-  }
-
-  /* Desliga o antigo carrinho flutuante inferior. */
-  #carrinhoFlutuante,
-  .carrinho-flutuante,
-  #ndFxCartbar,
-  .nd-v3-buybar {
-    display:none!important;
-  }
-
-  /* A área completa do carrinho continua existindo no checkout; ela não é um segundo botão flutuante. */
-  @media(max-width:700px){
-    header .logo{width:min(170px,58vw)!important;}
-    #ndCartFab{
-      top:9px!important;
-      right:10px!important;
-      width:56px!important;
-      height:56px!important;
-      border-radius:16px!important;
-      font-size:25px!important;
-    }
-    #ndCartLabel{
-      top:69px!important;
-      right:9px!important;
-      font-size:9px!important;
-      padding:6px 9px!important;
-    }
-    #ndCartFab .nd-cart-badge{
-      min-width:25px!important;
-      height:25px!important;
-      right:-6px!important;
-      top:-6px!important;
-    }
-  }
-</style>
-
 </head>
 
 <body>
@@ -766,6 +642,54 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h1>🍔 FAÇA SEU PEDIDO</h1>
 <div class="modern-search"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><span id="contadorBusca" class="search-count"></span></div>
 <div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
+
+<div class="categoria-menu">
+
+<button class="categoria-btn" onclick="irPara('combos')">
+❤️ COMBOS
+</button>
+
+<button class="categoria-btn" onclick="irPara('tradicionais')">
+🍔 TRADICIONAIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('artesanais')">
+🍔 ARTESANAIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('combosArtesanais')">
+🔥 COMBOS ARTESANAIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('porcoes')">
+🍟 PORÇÕES
+</button>
+
+<button class="categoria-btn" onclick="irPara('pasteis')">
+🥟 PASTÉIS
+</button>
+
+<button class="categoria-btn" onclick="irPara('acai')">
+🥤 AÇAÍ
+</button>
+
+<button class="categoria-btn" onclick="irPara('milkshakes')">
+🥤🥤 MILKSHAKES
+</button>
+
+<button class="categoria-btn" onclick="irPara('bebidas')">
+🥤 BEBIDAS
+</button>
+
+<button class="categoria-btn" onclick="irPara('sobremesas')">
+🍓 SOBREMESAS
+</button>
+
+<button class="categoria-btn" onclick="irPara('adicionais')">
+➕ ADICIONAIS
+</button>
+
+</div>
 
 <section id="combos" class="categoria">
 
@@ -861,7 +785,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/ds9Qr0PD/BURGUER.jpg" alt="X-BURGUER">
 <h3>X-BURGUER</h3>
-<p>Pão de hamburguer , maionese caseira ( não é verde ) , hamburguer 56gr industrializado e queijo cheddar.</p>
+<p>Hambúrguer tradicional.</p>
 <div class="preco">R$ 10,90</div>
 <button class="btn btn-add" onclick="adicionar('X-BURGUER',10.90)">ADICIONAR</button>
 </div>
@@ -869,7 +793,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/k2KQwpjp/BACON.jpg" alt="X-BACON">
 <h3>X-BACON</h3>
-<p>Pão de hamburguer , molho barbecue , hamburguer 56gr industrializado , bacon e  queijo cheddar.</p>
+<p>Hambúrguer tradicional com bacon.</p>
 <div class="preco">R$ 11,90</div>
 <button class="btn btn-add" onclick="adicionar('X-BACON',11.90)">ADICIONAR</button>
 </div>
@@ -877,7 +801,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/390n5BZv/SALADA.png" alt="X-SALADA">
 <h3>X-SALADA</h3>
-<p>Pão de hamburguer , maionese caseira ( não é verde ) , hamburguer 56gr industrializado , alface , tomate e queijo cheddar.</p>
+<p>Hambúrguer tradicional com salada.</p>
 <div class="preco">R$ 11,90</div>
 <button class="btn btn-add" onclick="adicionar('X-SALADA',11.90)">ADICIONAR</button>
 </div>
@@ -885,7 +809,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/NgWQv5Nm/EGG.png" alt="X-EGG">
 <h3>X-EGG</h3>
-<p>Pão de hamburguer , maionese caseira ( não é verde ) , hamburguer 56gr industrializado , ovo e queijo cheddar.</p>
+<p>Hambúrguer tradicional com ovo.</p>
 <div class="preco">R$ 11,90</div>
 <button class="btn btn-add" onclick="adicionar('X-EGG',11.90)">ADICIONAR</button>
 </div>
@@ -893,7 +817,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/fGHQ9NrW/SELLIS.png" alt="SELLIS">
 <h3>SELLIS</h3>
-<p>Pão de hamburguer , molho cheddar cremoso , hamburguer 56gr industrializado , alface , tomate , bacon e queijo cheddar.</p>
+<p>Hambúrguer tradicional especial ND BURGS.</p>
 <div class="preco">R$ 13,90</div>
 <button class="btn btn-add" onclick="adicionar('SELLIS',13.90)">ADICIONAR</button>
 </div>
@@ -901,7 +825,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/Vszxw7h/NUNES.png" alt="NUNES">
 <h3>NUNES</h3>
-<p>Pão de brioche divido em 3 partes , maionese caseira ( não é verde ) , 4 hamburgueres 56gr industrializado , alface , tomate , cebola , ovo , bacon e queijo cheddar.</p>
+<p>Hambúrguer especial tradicional.</p>
 <div class="preco">R$ 24,90</div>
 <button class="btn btn-add" onclick="adicionar('NUNES',24.90)">ADICIONAR</button>
 </div>
@@ -920,7 +844,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/zW8gbZpK/BERENICE.jpg" alt="BERENICE">
 <h3>BERENICE</h3>
-<p>Pão de brioche, carne artesanal 120 gr, queijo cheddar, maionese verde, alface e cebola roxa.</p>
+<p>Pão de brioche, carne artesanal, cheddar, maionese verde, alface e cebola roxa.</p>
 <div class="preco">R$ 22,90</div>
 <button class="btn btn-add" onclick="adicionar('BERENICE',22.90)">ADICIONAR</button>
 </div>
@@ -928,7 +852,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/tTWqZ9ST/PATAO.png" alt="PATAO">
 <h3>PATAO</h3>
-<p>Pão de brioche, carne artesanal 120 gr, queijo cheddar, molho barbecue, bacon e 2 anéis de cebola fritos.</p>
+<p>Pão de brioche, carne artesanal, bacon, barbecue e onion rings.</p>
 <div class="preco">R$ 23,90</div>
 <button class="btn btn-add" onclick="adicionar('PATAO',23.90)">ADICIONAR</button>
 </div>
@@ -936,7 +860,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/d4pD5bNc/DINA.jpg" alt="DINA">
 <h3>DINA</h3>
-<p>Pão de brioche, filé de frango empanado, queijo cheddar, maionese verde, alface , tomate e cebola.</p>
+<p>Pão de brioche, frango empanado, cheddar, maionese verde, alface e tomate.</p>
 <div class="preco">R$ 20,90</div>
 <button class="btn btn-add" onclick="adicionar('DINA',20.90)">ADICIONAR</button>
 </div>
@@ -944,7 +868,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/qLK7hWYs/GADEIA.jpg" alt="GADEIA">
 <h3>GADEIA</h3>
-<p>Pão de hamburguer, carne artesanal 120 gr, maionese verde, queijo cheddar.</p>
+<p>Pão de hambúrguer, carne artesanal, maionese verde e queijo cheddar.</p>
 <div class="preco">R$ 20,90</div>
 <button class="btn btn-add" onclick="adicionar('GADEIA',20.90)">ADICIONAR</button>
 </div>
@@ -952,7 +876,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/ymQ7sFZn/GAROTINHO.png" alt="GAROTINHO">
 <h3>GAROTINHO</h3>
-<p>Pão de brioche, carne artesanal 120gr, molho cheddar cremoso e bacon.</p>
+<p>Pão de brioche, carne artesanal, molho cheddar cremoso e bacon.</p>
 <div class="preco">R$ 22,90</div>
 <button class="btn btn-add" onclick="adicionar('GAROTINHO',22.90)">ADICIONAR</button>
 </div>
@@ -960,7 +884,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/0yTLwY4b/PEZAO.jpg" alt="PÉZÃO">
 <h3>PÉZÃO</h3>
-<p>Pão de brioche dividido em 3 partes , 2 carnes artesanais 120gr , maionese, queijo cheddar, ovo, cebola, bacon, alface e tomate.</p>
+<p>Pão de brioche dividido em 3, 2 carnes artesanais, maionese, cheddar, ovo, cebola, bacon, alface e tomate.</p>
 <div class="preco">R$ 32,90</div>
 <button class="btn btn-add" onclick="adicionar('PÉZÃO',32.90)">ADICIONAR</button>
 </div>
