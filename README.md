@@ -508,8 +508,7 @@ function restore(){
   try{const v=localStorage.getItem('ndburgs_'+id);if(v)el.value=v}catch(_){ }
  });
 }
-const obs=new MutationObserver(()=>{enhance();restore()});
-window.addEventListener('DOMContentLoaded',()=>{enhance();restore();obs.observe(document.body,{childList:true,subtree:true})});
+window.addEventListener('DOMContentLoaded',()=>{enhance();restore()},{once:true});
 })();
 </script>
 
@@ -4764,7 +4763,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   window.ndUpdateProgress=updateProgress;
   const oldAtualizar=window.atualizarCarrinho;
   if(typeof oldAtualizar==='function'){
-    window.atualizarCarrinho=function(){const r=oldAtualizar.apply(this,arguments);setTimeout(updateProgress,20);return r;};
+    window.atualizarCarrinho=function(){const r=oldAtualizar.apply(this,arguments);try{window.dispatchEvent(new Event('ndburgs:cart-updated'))}catch(e){}setTimeout(updateProgress,20);return r;};
   }
   const back=document.getElementById('ndBackTop');
   window.addEventListener('scroll',()=>back?.classList.toggle('show',window.scrollY>600),{passive:true});
@@ -5739,7 +5738,7 @@ button{font-family:inherit}
  function addReady(){
    const content=q('#modalFinalizar [data-content="4"]'); if(!content||q('#ndR9Ready'))return;
    const note=content.querySelector('.nd-v4-note'); if(!note)return;
-   const d=document.createElement('div');d.id='ndR9Ready';d.innerHTML='<i></i><span><b>Seu pedido está pronto para ser enviado.</b><br>Confira os dados abaixo e toque no botão azul para confirmar seu pedido.</span>';
+   const d=document.createElement('div');d.id='ndR9Ready';d.innerHTML='<i></i><span><b>Seu pedido está pronto para ser enviado.</b><br>Confira os dados abaixo e toque no botão verde.</span>';
    note.parentNode.insertBefore(d,note);
  }
  function addTotalHint(){
@@ -6398,13 +6397,8 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
     }
   }
   function nd19Bind(){
-    /* Observa alterações já feitas pelo sistema original sem interceptar suas funções. */
-    const root=document.body;
-    if(root&&!root.__nd19Observer){
-      /* R19 FIX: não observar o BODY inteiro.
-         O observador antigo podia entrar em ciclo ao próprio alterar o DOM. */
-      root.__nd19Observer=null;
-    }
+    /* Não observa o body: o próprio refresh altera textContent e poderia
+       disparar o observer novamente em um ciclo infinito. */
     nd19RefreshTotals();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',nd19Bind);else nd19Bind();
@@ -6608,9 +6602,8 @@ function welcomeGate(){
 }
 function refresh(){patchCart();setupAddressInputs();syncTotals();decorateCheckout();decorateModalCart();welcomeGate();forceCart();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)});else{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)}
-// Atualização leve quando o carrinho/checkout muda, sem setInterval agressivo.
-/* R21 FIX: removido MutationObserver global do BODY para evitar ciclo de mutações e travamento.
-   O carrinho já é atualizado pelas próprias funções de adicionar/remover. */
+// Atualização segura: evita observar o body inteiro para não criar ciclos de mutação.
+window.addEventListener('ndburgs:cart-updated',()=>{forceCart();syncTotals();decorateModalCart()});
 })();
 </script>
 
@@ -6848,7 +6841,7 @@ function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 function ensureModal(){if(document.getElementById('ndComboModal'))return;const m=document.createElement('div');m.id='ndComboModal';m.innerHTML='<div class="r11-combo-panel" onclick="event.stopPropagation()"><div class="r11-combo-head"><div><h2 id="r11ComboTitle"></h2><small>ESCOLHAS OBRIGATÓRIAS • O COMBO SÓ ENTRA NO CARRINHO DEPOIS DE MONTADO</small></div><button class="r11-close" type="button" onclick="fecharComboPersonalizacao()">×</button></div><div id="r11ComboContent"></div></div>';m.addEventListener('click',e=>{if(e.target===m)fecharComboPersonalizacao()});document.body.appendChild(m)}
 function optionsHtml(opts,name,prefix){return '<div class="r11-option-grid">'+opts.map((x,i)=>'<div class="r11-option"><input type="radio" id="'+prefix+'_'+i+'" name="'+name+'" value="'+esc(x)+'"><label for="'+prefix+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div>'}
-function addonHtml(prefix){return '<div class="r11-addons" id="'+prefix+'_addons"><div class="r11-bite">🍔 ESCOLHA ADICIONAIS PARA TURBINAR SEU LANCHE<br><span style="font-size:10px;color:#ffb36d">ESCOLHA SEUS ADICIONAIS</span></div><div class="r11-addon-grid">'+ADDONS.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+prefix+'_a_'+i+'" data-price="'+a[1]+'" data-name="'+esc(a[0])+'"><label for="'+prefix+'_a_'+i+'"><img src="'+a[2]+'" alt="'+esc(a[0])+'"><span>'+esc(a[0])+'</span><br><b>+'+money(a[1])+'</b></label></div>').join('')+'</div><div class="r11-note">Os adicionais são opcionais e entram no valor do combo apenas se forem marcados.</div></div>'}
+function addonHtml(prefix){return '<div class="r11-addons" id="'+prefix+'_addons"><div class="r11-bite">🍔 QUER DEIXAR SEU LANCHE BITELO?<br><span style="font-size:10px;color:#ffb36d">ESCOLHA SEUS ADICIONAIS</span></div><div class="r11-addon-grid">'+ADDONS.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+prefix+'_a_'+i+'" data-price="'+a[1]+'" data-name="'+esc(a[0])+'"><label for="'+prefix+'_a_'+i+'"><img src="'+a[2]+'" alt="'+esc(a[0])+'"><span>'+esc(a[0])+'</span><br><b>+'+money(a[1])+'</b></label></div>').join('')+'</div><div class="r11-note">Os adicionais são opcionais e entram no valor do combo apenas se forem marcados.</div></div>'}
 function sectionHtml(sec,idx){
  const id='r11s'+idx;
  if(sec.type==='fixed')return '<div class="r11-section"><h3>📦 '+esc(sec.title)+'</h3><div class="r11-fixed"><span>FIXO</span><b>'+esc(sec.value)+'</b></div></div>';
@@ -7757,9 +7750,8 @@ const oldOpen=window.abrirComboPersonalizacao;
 if(typeof oldOpen==='function'&&!oldOpen.__ndR19){
  window.abrirComboPersonalizacao=function(){const r=oldOpen.apply(this,arguments);setTimeout(decorateAcai,30);return r};window.abrirComboPersonalizacao.__ndR19=true;
 }
-/* Caso a função seja recriada por outra camada, tenta decorar quando o modal abrir. */
-/* R19 FIX: observer global removido; a decoração é feita na abertura do modal e no init. */
-const obs=null;
+/* Evita observar o body: o observer anterior atualizava o próprio menu dentro do callback,
+   criando um ciclo contínuo de mutações e deixando a página pesada/travada. */
 function init(){ensureFavMenu();markFavCount();decorateAcai();setTimeout(()=>{ensureFavMenu();markFavCount();decorateAcai()},500)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
@@ -7774,163 +7766,278 @@ window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
 })();
 </script>
 
+</body>
 
-<!-- ============================================================
-     ND BURGS — RODADA 32 / PERFORMANCE + PÓS PEDIDO + AÇAÍ PLUS
-     ============================================================ -->
-<style id="nd-r32-style">
-/* AÇAÍ PLUS */
-.nd-acai-plus-box{margin:10px 0;padding:12px 14px;border:1px solid rgba(130,90,255,.28);border-radius:14px;background:linear-gradient(135deg,rgba(18,12,35,.96),rgba(8,8,14,.96));color:#fff}
-.nd-acai-plus-counter{font-weight:900;font-size:14px;margin-bottom:7px}.nd-acai-plus-counter b{color:#b995ff}.nd-acai-plus-note{font-size:12px;line-height:1.4;opacity:.9}.nd-acai-plus-total{margin-top:7px;font-weight:900}
-.nd-r32-added{animation:ndR32Added .38s ease}.nd-r32-buying{animation:ndR32Pulse .55s ease}
-@keyframes ndR32Added{0%{transform:scale(.96);opacity:.55}60%{transform:scale(1.025)}100%{transform:scale(1);opacity:1}}
-@keyframes ndR32Pulse{50%{transform:scale(1.04)}100%{transform:scale(1)}}
-/* PÓS PEDIDO */
-#ndR32PostOrder{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,4,8,.92);backdrop-filter:blur(12px)}
-#ndR32PostOrder .nd-r32-success-card{width:min(680px,96vw);max-height:90vh;overflow:auto;border:1px solid rgba(255,255,255,.13);border-radius:26px;padding:28px 22px;background:linear-gradient(145deg,#101116,#08090c);box-shadow:0 20px 80px rgba(0,0,0,.55);text-align:center;color:#fff}
-.nd-r32-check{font-size:58px;line-height:1;margin-bottom:8px}.nd-r32-title{font-size:clamp(27px,6vw,54px);font-weight:1000;line-height:.98}.nd-r32-sub{margin:14px auto;max-width:560px;font-size:15px;line-height:1.5;opacity:.9}.nd-r32-order{display:inline-block;margin:8px 0 14px;padding:9px 15px;border-radius:999px;background:rgba(255,255,255,.08);font-weight:1000;letter-spacing:.5px}.nd-r32-summary{text-align:left;margin:12px 0;padding:14px;border-radius:16px;background:rgba(255,255,255,.055);font-size:13px;line-height:1.5}.nd-r32-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.nd-r32-actions button{border:0;border-radius:13px;padding:12px 15px;font-weight:900;cursor:pointer}.nd-r32-close{background:#fff;color:#111}.nd-r32-copy{background:#252832;color:#fff}
-/* performance: reduce expensive visual effects on low-motion preference */
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+<!-- =========================================================
+     ND BURGS RODADA 32 — AÇAÍ + CATEGORIAS + UX PREMIUM
+     Preserva as funções anteriores e adiciona apenas camadas finais.
+========================================================= -->
+<style id="nd-r32-final-style">
+/* CATEGORIAS: trilho lateral azul/roxo + selecionada laranja */
+.categoria-menu{
+  position:fixed!important;left:12px;top:112px;width:178px;z-index:8900;
+  display:flex!important;flex-direction:column!important;gap:8px!important;
+  margin:0!important;padding:10px!important;border:1px solid #25205a!important;
+  border-radius:18px!important;background:linear-gradient(180deg,rgba(8,12,32,.97),rgba(18,7,35,.97))!important;
+  box-shadow:0 14px 40px rgba(0,0,0,.5),0 0 25px rgba(74,50,255,.10)!important;
+  backdrop-filter:blur(12px);
+  max-height:calc(100vh - 135px);overflow:auto;
+}
+.categoria-menu::-webkit-scrollbar{width:4px}.categoria-menu::-webkit-scrollbar-thumb{background:#3730a3;border-radius:20px}
+.categoria-btn{
+  width:100%!important;min-height:44px!important;padding:10px 9px!important;
+  border:1px solid #3d43a8!important;border-radius:12px!important;color:#fff!important;
+  background:linear-gradient(135deg,#123a92,#5421a7)!important;
+  font-weight:900!important;font-size:11px!important;letter-spacing:.2px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 5px 16px rgba(30,20,120,.18)!important;
+  transition:.22s ease!important;cursor:pointer!important;
+}
+.categoria-btn:nth-child(even){background:linear-gradient(135deg,#2632b7,#7620ad)!important}
+.categoria-btn:hover{transform:translateX(3px)!important;border-color:#7180ff!important;filter:brightness(1.12)}
+.categoria-btn.nd-r32-active{background:linear-gradient(135deg,#ff7a00,#ffb000)!important;border-color:#ffb000!important;color:#120b00!important;box-shadow:0 0 22px rgba(255,128,0,.28),inset 0 1px 0 rgba(255,255,255,.35)!important;transform:translateX(3px)!important}
+.categoria-menu [data-fav-menu]{background:linear-gradient(135deg,#243bbd,#7c20bd)!important}
+.categoria-menu [data-fav-menu].nd-r32-active{background:linear-gradient(135deg,#ff7a00,#ffb000)!important}
+/* espaço para o menu não ficar sobre os cards */
+.categoria-menu ~ .categoria{margin-left:202px!important;max-width:calc(100% - 202px)!important}
+#ndFavoritesCategory{scroll-margin-top:115px!important}
+/* contador visual do açaí */
+.nd-r32-acai-counter{margin:9px 0 3px;padding:9px 11px;border:1px solid #38306b;border-radius:11px;background:linear-gradient(135deg,#101634,#190d28);font-size:11px;font-weight:900;color:#ddd;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nd-r32-acai-counter strong{color:#fff;font-size:14px}.nd-r32-acai-counter .free{color:#65d9ff}.nd-r32-acai-counter .paid{color:#ffb15c}
+.r11-addon.nd-r32-paid label{border-color:#ff8b22!important}.r11-addon.nd-r32-free label{border-color:#31315c!important}
+.r11-addon.nd-r32-selected label{box-shadow:0 0 0 2px #ff8b22,0 0 20px rgba(255,139,34,.16)!important}
+/* preços de açaí dentro dos combos ficam sempre claros */
+.nd-r32-price-note{font-size:9px!important;color:#9fa4c9!important;line-height:1.4;margin-top:6px}
+/* badges */
+.nd-r32-badge{position:absolute;left:9px;top:9px;z-index:5;padding:6px 8px;border-radius:999px;background:linear-gradient(135deg,#ff7a00,#ffb000);color:#150b00;font-size:9px;font-weight:1000;box-shadow:0 5px 15px rgba(0,0,0,.35)}
+.nd-r32-badge.promo{background:linear-gradient(135deg,#ff3b30,#ff8a00);color:#fff}
+.nd-r32-badge.best{background:linear-gradient(135deg,#ffd21a,#ff8a00)}
+.produto{position:relative}
+/* favorito mais responsivo */
+.nd-fav.nd-r32-heart-pulse{animation:ndR32Heart .45s ease}
+@keyframes ndR32Heart{35%{transform:scale(1.25)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+/* mobile: mantém categorias no lado esquerdo sem ocupar a tela inteira */
+@media(max-width:800px){
+ .categoria-menu{left:7px;top:105px;width:126px;padding:7px;gap:6px;border-radius:15px}
+ .categoria-btn{min-height:39px!important;padding:8px 5px!important;font-size:9px!important;border-radius:10px!important}
+ .categoria-menu ~ .categoria{margin-left:143px!important;max-width:calc(100% - 143px)!important}
+}
+@media(max-width:520px){
+ .categoria-menu{width:104px}
+ .categoria-menu ~ .categoria{margin-left:118px!important;max-width:calc(100% - 118px)!important}
+ .categoria-btn{font-size:8px!important;min-height:36px!important;padding:7px 3px!important}
+}
 </style>
+<script id="nd-r32-final-js">
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
 
-<script id="nd-r32-script">
-(function(){'use strict';
-  const R32_KEY='ndburgs_r32_order';
-  function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
-  function cartArray(){
-    try{
-      const candidates=['carrinho','cart','ndCart','carrinhoNDBURGS','ndburgs_cart'];
-      for(const k of candidates){const v=localStorage.getItem(k);if(v){const p=JSON.parse(v);if(Array.isArray(p))return p;}}
-    }catch(e){}
-    try{if(Array.isArray(window.carrinho))return window.carrinho}catch(e){}
-    return [];
-  }
-  function itemName(x){return x?.nome||x?.name||x?.produto||x?.title||'Item';}
-  function itemQty(x){return Number(x?.quantidade??x?.qty??x?.quantity??1)||1;}
-  function itemPrice(x){return Number(x?.preco??x?.price??x?.valor??0)||0;}
-  function getTotal(){
-    const el=document.querySelector('#ndV4Total,#totalCarrinho,#valorTotal,#total');
-    if(el){const n=parseFloat((el.textContent||'').replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'));if(Number.isFinite(n))return n;}
-    return cartArray().reduce((s,x)=>s+itemPrice(x)*itemQty(x),0);
-  }
-  function getOrderNumber(){
-    let n=sessionStorage.getItem(R32_KEY);if(n)return n;
-    const d=new Date(), base=(d.getHours()*3600+d.getMinutes()*60+d.getSeconds()+d.getMilliseconds())%100000;
-    n='#'+String(base).padStart(5,'0');sessionStorage.setItem(R32_KEY,n);return n;
-  }
-  function summaryText(){
-    const arr=cartArray();
-    const lines=arr.length?arr.map(x=>`${itemQty(x)}x ${itemName(x)}`).join('\n'):'Pedido NDBURGS';
-    return `PEDIDO ${getOrderNumber()}\n${lines}\nTOTAL: ${money(getTotal())}`;
-  }
-  function ensurePostOrder(){
-    if(document.getElementById('ndR32PostOrder'))return;
-    const box=document.createElement('div');box.id='ndR32PostOrder';
-    box.innerHTML=`<div class="nd-r32-success-card" role="dialog" aria-modal="true">
-      <div class="nd-r32-check">✓</div><div class="nd-r32-title">PEDIDO CONFIRMADO!</div>
-      <div class="nd-r32-order" id="ndR32OrderNo">PEDIDO</div>
-      <div class="nd-r32-sub">OBRIGADO POR ESCOLHER <b>#NDBURGS</b>.<br>Seu pedido irá para produção e será entregue entre <b>40 a 50 minutinhos</b>.</div>
-      <div class="nd-r32-summary" id="ndR32Summary"></div>
-      <div class="nd-r32-actions"><button class="nd-r32-copy" id="ndR32Copy">COPIAR RESUMO</button><button class="nd-r32-close" id="ndR32Close">FECHAR</button></div>
-    </div>`;
-    document.body.appendChild(box);
-    box.querySelector('#ndR32Close').onclick=()=>box.style.display='none';
-    box.querySelector('#ndR32Copy').onclick=async()=>{try{await navigator.clipboard.writeText(summaryText());box.querySelector('#ndR32Copy').textContent='COPIADO ✓';setTimeout(()=>box.querySelector('#ndR32Copy').textContent='COPIAR RESUMO',1400)}catch(e){alert(summaryText())}};
-    box.addEventListener('click',e=>{if(e.target===box)box.style.display='none'});
-  }
-  window.NDR32ShowPostOrder=function(){
-    ensurePostOrder();
-    document.getElementById('ndR32OrderNo').textContent='PEDIDO '+getOrderNumber();
-    document.getElementById('ndR32Summary').textContent=summaryText();
-    document.getElementById('ndR32PostOrder').style.display='flex';
-  };
+/* =========================================================
+   AÇAÍ DOS COMBOS — REGRA DEFINITIVA
+   • Até 3 acompanhamentos normais por AÇAÍ: GRÁTIS.
+   • Do 4º normal em diante: +R$3,00 cada.
+   • NUTELLA: +R$5,00 sempre.
+   • CREME DE NINHO: +R$3,00 sempre.
+   • KIT KAT: +R$3,00 sempre.
+   Os pagos não consomem as 3 vagas grátis.
+========================================================= */
+function acaiUnitCharge(name, freeUsed){
+  const n=norm(name);
+  if(n==='NUTELLA') return 5;
+  if(n==='CREME DE NINHO') return 3;
+  if(n==='KIT KAT'||n==='KITKAT') return 3;
+  return freeUsed<3 ? 0 : 3;
+}
+function acaiSectionInfo(section){
+  const boxes=section.includes('[id^=') ? $$(section+':checked') : $$(section+' input[data-acai="1"]:checked');
+  let free=0,total=0;
+  const charges=[];
+  boxes.forEach(input=>{
+    const charge=acaiUnitCharge(input.dataset.name,free);
+    if(charge===0)free++;
+    total+=charge;charges.push({input,charge});
+  });
+  return {free,total,charges};
+}
+function updateAcaiSection(section){
+  const info=acaiSectionInfo(section);
+  info.charges.forEach(({input,charge})=>{
+    const card=input.closest('.r11-addon');
+    if(!card)return;
+    card.classList.toggle('nd-r32-selected',input.checked);
+    card.classList.toggle('nd-r32-paid',input.checked&&charge>0);
+    card.classList.toggle('nd-r32-free',input.checked&&charge===0);
+    const b=card.querySelector('label b');
+    if(b)b.textContent=charge===0?'GRÁTIS':'+'+money(charge);
+  });
+  return info;
+}
+function allComboExtras(){
+  let extra=0;
+  $$('#r11ComboContent input[type="checkbox"]:checked').forEach(input=>{
+    if(input.dataset.acai==='1')return;
+    extra+=Number(input.dataset.price)||0;
+  });
+  /* Cada bloco de açaí tem suas próprias 3 vagas grátis. */
+  const seen=new Set();
+  $$('#r11ComboContent input[data-acai="1"]').forEach(input=>{
+    const id=input.id.replace(/_a_\d+$/,'');
+    if(seen.has(id))return;seen.add(id);
+    const info=updateAcaiSection('#r11ComboContent [id^="'+CSS.escape(id)+'_a_"]');
+    extra+=info.total;
+  });
+  return extra;
+}
+function refreshComboTotal(){
+  const total=$('#r11ComboTotal');if(!total)return;
+  const base=Number(total.dataset.ndR32Base||0);
+  total.textContent=money(base+allComboExtras());
+}
+function installAcaiPricing(){
+  const content=$('#r11ComboContent');if(!content)return;
+  $$('#r11ComboContent input[data-acai="1"]').forEach(input=>{
+    if(input.dataset.ndR32Bound==='1')return;
+    input.dataset.ndR32Bound='1';
+    input.addEventListener('change',()=>{refreshComboTotal();updateAllCounters()});
+  });
+  updateAllCounters();refreshComboTotal();
+}
+function updateAllCounters(){
+  $$('.nd-r32-acai-counter').forEach(el=>{
+    const sel=el.dataset.section;
+    const info=acaiSectionInfo(sel);
+    el.innerHTML='<span><span class="free">GRÁTIS</span> <strong>'+info.free+'/3</strong></span><span class="paid">PAGOS: '+money(info.total)+'</span>';
+  });
+}
+function injectAcaiCounters(){
+  $$('#r11ComboContent .r11-section').forEach(sec=>{
+    const first=sec.querySelector('input[data-acai="1"]');if(!first)return;
+    if(sec.querySelector('.nd-r32-acai-counter'))return;
+    const prefix=first.id.replace(/_a_\d+$/,'');
+    const c=document.createElement('div');c.className='nd-r32-acai-counter';c.dataset.section='#r11ComboContent [id^="'+prefix+'_a_"]';
+    c.innerHTML='<span><span class="free">GRÁTIS</span> <strong>0/3</strong></span><span class="paid">PAGOS: R$ 0,00</span>';
+    const grid=first.closest('.r11-addon-grid');
+    if(grid)grid.parentNode.insertBefore(c,grid.nextSibling);
+  });
+}
 
-  /* Evita duplo envio no checkout sem substituir a lógica existente. */
-  document.addEventListener('click',function(e){
-    const b=e.target.closest('button');if(!b)return;
-    const t=(b.textContent||'').toUpperCase();
-    if(/FINALIZAR|CONFIRMAR PEDIDO|ENVIAR PEDIDO/.test(t)){
-      if(b.dataset.ndR32Locked==='1'){e.preventDefault();e.stopImmediatePropagation();return}
-      b.dataset.ndR32Locked='1';
-      setTimeout(()=>b.dataset.ndR32Locked='0',3500);
-    }
-  },true);
-
-  /* Açaí: até 3 gratuitos; qualquer quantidade acima de 3 é paga.
-     Extras: normal +R$3 cada; Nutella +R$5 cada; Ninho +R$3 cada; KitKat +R$3 cada. */
-  function isAcaiChoice(input){return input && /nutella|ninho|kit\s*k?at/i.test((input.value||input.dataset?.name||input.closest('label')?.textContent||''));}
-  function acaiExtraPrice(input){
-    const s=(input.value||input.dataset?.name||input.closest('label')?.textContent||'').toUpperCase();
-    if(s.includes('NUTELLA'))return 5;
-    if(s.includes('NINHO'))return 3;
-    if(s.includes('KIT KAT')||s.includes('KITKAT'))return 3;
-    const p=Number(input.dataset?.price??input.dataset?.valor??0);return Number.isFinite(p)?p:3;
-  }
-  function acaiInputs(){
-    return [...document.querySelectorAll('input[type=checkbox]')].filter(i=>/acai|açaí/i.test(i.name||i.dataset?.group||i.closest('[class]')?.className||''));
-  }
-  function enforceAcai(root){
-    const all=[...root.querySelectorAll('input[type=checkbox]')].filter(i=>i.offsetParent!==null);
-    if(!all.length)return;
-    const priced=all.filter(i=>acaiExtraPrice(i)>0);
-    if(!priced.length)return;
-    const free=all.filter(i=>acaiExtraPrice(i)===0);
-    let freeCount=free.filter(i=>i.checked).length;
-    let paidCount=priced.filter(i=>i.checked).length;
-    let counter=root.querySelector('.nd-acai-plus-box');
-    if(!counter){counter=document.createElement('div');counter.className='nd-acai-plus-box';root.prepend(counter)}
-    const paidTotal=priced.filter(i=>i.checked).reduce((s,i)=>s+acaiExtraPrice(i),0);
-    counter.innerHTML=`<div class="nd-acai-plus-counter">ACOMPANHAMENTOS GRÁTIS: <b>${Math.min(freeCount,3)}/3</b></div><div class="nd-acai-plus-note">Você pode escolher mais de 3. Depois dos 3 gratuitos, cada unidade extra é cobrada. <b>NUTELLA R$ 5,00/un.</b> • CREME DE NINHO R$ 3,00/un. • KITKAT R$ 3,00/un.</div><div class="nd-acai-plus-total">EXTRAS PAGOS: ${money(paidTotal)}${paidCount?` • ${paidCount} unidade(s)`:''}</div>`;
-  }
-  function bindAcai(root){
-    if(!root||root.dataset.ndR32Acai==='1')return;root.dataset.ndR32Acai='1';
-    root.addEventListener('change',function(e){
-      const i=e.target.closest('input[type=checkbox]');if(!i)return;
-      const all=[...root.querySelectorAll('input[type=checkbox]')].filter(x=>x.offsetParent!==null);
-      const free=all.filter(x=>acaiExtraPrice(x)===0 && x.checked);
-      /* Quando passar de 3, o novo item continua selecionado, mas passa a ser pago.
-         O preço é calculado pela função abaixo/na confirmação, sem limitar a escolha. */
-      i.dataset.ndAcaiPaid=(free.length>3 && acaiExtraPrice(i)===0)?'3':'0';
-      enforceAcai(root);
+/* Corrige o cálculo interno antigo antes de chamar a função original. */
+function patchComboConfirm(){
+  const original=window.confirmarComboPersonalizacao;
+  if(typeof original!=='function'||original.__ndR32)return;
+  const wrapped=function(){
+    const inputs=$$('#r11ComboContent input[data-acai="1"]');
+    const old=new Map();
+    const groups={};
+    inputs.forEach(input=>{
+      const prefix=input.id.replace(/_a_\d+$/,'');
+      (groups[prefix]||(groups[prefix]=[])).push(input);
     });
-    enforceAcai(root);
-  }
-  /* R32 FIX: sem MutationObserver global no BODY.
-   A sincronização do AÇAÍ é feita quando o modal é criado/aberto. */
-  const observer=null;
-  setTimeout(()=>document.querySelectorAll('[id*=acai i],[class*=acai i],[class*=Açaí i]').forEach(bindAcai),500);
-
-  /* Corrige o cálculo de extras na confirmação de qualquer modal de açaí:
-     os 3 primeiros itens gratuitos; a partir do 4º, +R$3 cada.
-     Nutella/Ninho/KitKat sempre têm preço próprio quando selecionados. */
-  window.NDR32AcaiExtraPrice=acaiExtraPrice;
-  window.NDR32AcaiCalculate=function(inputs){
-    const selected=[...inputs].filter(i=>i.checked);
-    let freeUsed=0,total=0;
-    selected.forEach(i=>{
-      const explicit=acaiExtraPrice(i);
-      if(explicit>0){total+=explicit;return}
-      if(freeUsed<3){freeUsed++;return}
-      total+=3;
+    Object.values(groups).forEach(arr=>{
+      let free=0;
+      arr.filter(x=>x.checked).forEach(input=>{
+        old.set(input,input.dataset.price);
+        input.dataset.price=String(acaiUnitCharge(input.dataset.name,free));
+        if(Number(input.dataset.price)===0)free++;
+      });
     });
-    return {total,freeUsed,selectedCount:selected.length};
+    try{return original.apply(this,arguments)}
+    finally{inputs.forEach(input=>{if(old.has(input))input.dataset.price=old.get(input)});}
   };
+  wrapped.__ndR32=true;window.confirmarComboPersonalizacao=wrapped;
+}
 
-  /* Micro-otimizações: imagens fora da tela carregam quando necessário e ações visuais só no alvo. */
-  function perf(){
-    document.querySelectorAll('img').forEach(img=>{if(!img.loading)img.loading='lazy';if(!img.decoding)img.decoding='async'});
-    document.querySelectorAll('button,.produto,.item,.card').forEach(el=>{el.addEventListener('animationend',()=>el.classList.remove('nd-r32-added'),{once:false})});
-  }
-  window.addEventListener('load',perf,{once:true});
-  document.addEventListener('click',function(e){
-    const target=e.target.closest('.produto,.item,.card,button');if(target)target.classList.add('nd-r32-added');
-  },{passive:true});
+/* Quando o combo abre, guarda o preço-base e ativa a nova regra. */
+function patchOpen(){
+  const original=window.abrirComboPersonalizacao;
+  if(typeof original!=='function'||original.__ndR32)return;
+  const wrapped=function(name,price){
+    const result=original.apply(this,arguments);
+    const total=$('#r11ComboTotal');
+    if(total){total.dataset.ndR32Base=String(Number(price)||0)}
+    setTimeout(()=>{injectAcaiCounters();installAcaiPricing();patchComboConfirm();refreshComboTotal()},0);
+    return result;
+  };
+  wrapped.__ndR32=true;window.abrirComboPersonalizacao=wrapped;
+}
 
-  /* Abre o pós-pedido depois que o fluxo original terminar, sem bloquear WhatsApp. */
-  window.addEventListener('ndburgs:pedido-confirmado',window.NDR32ShowPostOrder);
-  document.addEventListener('ndburgs:pedido-confirmado',window.NDR32ShowPostOrder);
-  window.NDR32PostOrderReady=true;
+/* Caso alguma camada antiga reabra o modal, reaplica sem duplicar eventos. */
+function watchCombo(){
+  const m=$('#ndComboModal');if(!m||m.dataset.ndR32Watch)return;
+  m.dataset.ndR32Watch='1';
+  new MutationObserver(()=>{if(m.classList.contains('show')){injectAcaiCounters();installAcaiPricing();patchComboConfirm()}}).observe(m,{attributes:true,childList:true,subtree:true});
+}
+
+/* =========================================================
+   CATEGORIAS LATERAIS — azul/roxo, ativa laranja
+========================================================= */
+function categoryButtons(){return $$('.categoria-menu .categoria-btn').filter(b=>!b.dataset.favMenu===true)}
+function setActiveCategory(id){
+  const buttons=$$('.categoria-menu .categoria-btn');
+  buttons.forEach(b=>b.classList.remove('nd-r32-active'));
+  const target=buttons.find(b=>{
+    const m=(b.getAttribute('onclick')||'').match(/irPara\(['"]([^'"]+)/);return m&&m[1]===id;
+  });
+  if(target)target.classList.add('nd-r32-active');
+}
+function patchCategoryClicks(){
+  $$('.categoria-menu .categoria-btn').forEach(b=>{
+    if(b.dataset.ndR32Cat==='1')return;b.dataset.ndR32Cat='1';
+    const old=b.getAttribute('onclick')||'';
+    const m=old.match(/irPara\(['"]([^'"]+)/);
+    if(m){b.addEventListener('click',()=>setActiveCategory(m[1]));}
+  });
+  const fav=$('.categoria-menu [data-fav-menu]');
+  if(fav&&!fav.dataset.ndR32Cat){fav.dataset.ndR32Cat='1';fav.addEventListener('click',()=>{setTimeout(()=>{fav.classList.add('nd-r32-active')},0)})}
+}
+function observeCategories(){
+  patchCategoryClicks();
+  const secs=$$('.categoria[id]');
+  if(!secs.length)return;
+  const obs=new IntersectionObserver(entries=>{
+    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(visible)setActiveCategory(visible.target.id);
+  },{rootMargin:'-25% 0px -55% 0px',threshold:[.05,.2,.5]});
+  secs.forEach(s=>obs.observe(s));
+}
+
+/* =========================================================
+   BADGES + FAVORITOS + ANIMAÇÃO
+========================================================= */
+function addBadges(){
+  const best=['COMBO MAIS VENDIDO','X-BACON','X-BURGUER','X-SALADA'];
+  $$('.produto').forEach(card=>{
+    if(card.closest('#ndFavoritesCategory')||card.querySelector('.nd-r32-badge'))return;
+    const name=norm(card.querySelector('h3')?.textContent);
+    let text='',cls='best';
+    if(name==='SURPRESA DE UVA'){text='🔥 PROMOÇÃO';cls='promo'}
+    else if(best.includes(name)||name.includes('MAIS VENDIDO'))text='🔥 MAIS VENDIDO';
+    if(text){const b=document.createElement('span');b.className='nd-r32-badge '+cls;b.textContent=text;card.appendChild(b)}
+  });
+}
+function bindFavoritePulse(){
+  $$('.nd-fav').forEach(b=>{
+    if(b.dataset.ndR32Pulse==='1')return;b.dataset.ndR32Pulse='1';
+    b.addEventListener('click',()=>{b.classList.remove('nd-r32-heart-pulse');void b.offsetWidth;b.classList.add('nd-r32-heart-pulse')},{passive:true});
+  });
+}
+
+/* Evita clique duplo no botão de adicionar de combos e produtos por alguns ms. */
+function preventRapidAdd(){
+  $$('.btn-add').forEach(btn=>{
+    if(btn.dataset.ndR32Rapid==='1')return;btn.dataset.ndR32Rapid='1';
+    btn.addEventListener('click',()=>{if(btn.dataset.ndR32Busy==='1')return;btn.dataset.ndR32Busy='1';setTimeout(()=>delete btn.dataset.ndR32Busy,650)},true);
+  });
+}
+
+function init(){
+  patchOpen();patchComboConfirm();watchCombo();patchCategoryClicks();observeCategories();addBadges();bindFavoritePulse();preventRapidAdd();
+  setTimeout(()=>{patchOpen();patchComboConfirm();patchCategoryClicks();observeCategories();addBadges();bindFavoritePulse();preventRapidAdd();},900);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
-</body>
+
 </html>
