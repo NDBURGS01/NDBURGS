@@ -1925,6 +1925,7 @@ class="instagram-botao"
 ND BURGS © 2026
 <br>
 Obrigado pela preferência ❤️
+SITE 100% DESENVOLVIDO POR @NEEHDIINIZ
 
 </div>
 
