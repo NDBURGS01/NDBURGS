@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R16">
+<meta name="nd-site-version" content="20260905-R16-PESQUISA-UNICA">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260904-R10";
@@ -6877,6 +6877,204 @@ abrirCarrinho=function(){
      setTimeout(()=>sec?.scrollIntoView({behavior:'smooth',block:'start'}),30);
    }
  },true);
+})();
+</script>
+
+
+<!-- =========================================================
+     ND BURGS — R16 NOVA BUSCA / CATEGORIAS LIMPA
+     - Somente 1 busca fixa por ícone
+     - Remove barras de busca de produtos duplicadas
+     - Remove MAIS VENDIDOS
+     - Remove PODE COMBINAR COM SEU PEDIDO
+     - Preserva busca de rua dentro do checkout
+     ========================================================= -->
+<style id="nd-r16-clean-search">
+  /* Esconde somente as buscas de PRODUTOS antigas. Busca de rua do checkout continua normal. */
+  .modern-search,
+  #nd14SearchWrap,
+  #ndR7Recent,
+  #ndMaisVendidosHoje,
+  #ndR7Reco,
+  .ndu-mvh-head,
+  .ndu-mvh-grid { display:none !important; }
+
+  /* Uma única busca flutuante */
+  #ndR16SearchFab{
+    position:fixed;
+    right:18px;
+    bottom:112px;
+    width:52px;
+    height:52px;
+    border:1px solid rgba(255,101,0,.75);
+    border-radius:50%;
+    background:#0b0b0b;
+    color:#ff6500;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+    cursor:pointer;
+    z-index:2600;
+    box-shadow:0 8px 28px rgba(0,0,0,.55),0 0 18px rgba(255,101,0,.18);
+    transition:.2s ease;
+  }
+  #ndR16SearchFab:hover{transform:scale(1.06);filter:brightness(1.12)}
+  #ndR16SearchFab:active{transform:scale(.96)}
+
+  #ndR16SearchPanel{
+    position:fixed;
+    right:18px;
+    bottom:174px;
+    width:min(430px,calc(100vw - 36px));
+    padding:9px;
+    display:none;
+    gap:8px;
+    align-items:center;
+    background:rgba(10,10,10,.97);
+    border:1px solid rgba(255,101,0,.55);
+    border-radius:16px;
+    box-shadow:0 14px 45px rgba(0,0,0,.65);
+    z-index:2599;
+    backdrop-filter:blur(16px);
+  }
+  #ndR16SearchPanel.open{display:flex;animation:ndR16SearchIn .18s ease both}
+  #ndR16SearchInput{
+    width:100%;min-width:0;
+    height:44px;
+    border:1px solid #2b2b2b;
+    border-radius:11px;
+    outline:none;
+    background:#050505;
+    color:#fff;
+    padding:0 13px;
+    font-size:14px;
+  }
+  #ndR16SearchInput:focus{border-color:#ff6500;box-shadow:0 0 0 2px rgba(255,101,0,.10)}
+  #ndR16SearchClose{
+    width:44px;height:44px;flex:0 0 44px;
+    border:1px solid #303030;border-radius:11px;
+    background:#171717;color:#fff;font-size:20px;cursor:pointer;
+  }
+  #ndR16SearchMeta{position:fixed;right:20px;bottom:106px;color:#888;font-size:10px;z-index:2601;pointer-events:none}
+  @keyframes ndR16SearchIn{from{opacity:0;transform:translateY(7px) scale(.98)}to{opacity:1;transform:none}}
+
+  /* Nunca deixa a busca cobrir o botão de finalizar/carrinho */
+  @media(max-width:600px){
+    #ndR16SearchFab{right:12px;bottom:118px;width:48px;height:48px;font-size:21px}
+    #ndR16SearchPanel{right:10px;bottom:176px;width:calc(100vw - 20px)}
+    #ndR16SearchMeta{right:14px;bottom:110px}
+  }
+</style>
+<script id="nd-r16-clean-search-logic">
+(function(){
+  'use strict';
+  function q(s){return document.querySelector(s)}
+  function qa(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
+  function norm(v){return (v||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
+
+  function hideOldProductSearch(){
+    qa('.modern-search,#nd14SearchWrap,#ndR7Recent').forEach(function(el){
+      el.style.setProperty('display','none','important');
+    });
+  }
+
+  function removeUnwantedSections(){
+    ['#ndMaisVendidosHoje','#ndR7Reco'].forEach(function(sel){
+      qa(sel).forEach(function(el){el.remove()});
+    });
+  }
+
+  function getProducts(){return qa('.produto')}
+
+  function filterProducts(value){
+    var term=norm(value), shown=0;
+    getProducts().forEach(function(card){
+      var text=norm(card.innerText||card.textContent||'');
+      var ok=!term || text.indexOf(term)!==-1;
+      card.classList.toggle('nd-r16-search-hidden',!ok);
+      card.style.removeProperty('display');
+      if(!ok) card.style.setProperty('display','none','important');
+      if(ok) shown++;
+    });
+    var meta=q('#ndR16SearchMeta');
+    if(meta) meta.textContent=term?(shown+' produto'+(shown===1?'':'s')):'';
+  }
+
+  function syncLegacySearch(value){
+    /* Mantém compatibilidade com o mecanismo de busca da R16 sem mostrar a barra antiga. */
+    var old=q('#buscaProdutos');
+    if(old){
+      old.value=value;
+      old.dispatchEvent(new Event('input',{bubbles:true}));
+      old.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+    var old14=q('#nd14Search');
+    if(old14){
+      old14.value=value;
+      old14.dispatchEvent(new Event('input',{bubbles:true}));
+    }
+    filterProducts(value);
+  }
+
+  function createSearch(){
+    if(q('#ndR16SearchFab')) return;
+
+    var fab=document.createElement('button');
+    fab.id='ndR16SearchFab';
+    fab.type='button';
+    fab.setAttribute('aria-label','Abrir pesquisa');
+    fab.title='Pesquisar no cardápio';
+    fab.innerHTML='⌕';
+
+    var panel=document.createElement('div');
+    panel.id='ndR16SearchPanel';
+    panel.setAttribute('role','search');
+    panel.innerHTML='<input id="ndR16SearchInput" type="search" autocomplete="off" placeholder="Buscar no cardápio..." aria-label="Buscar no cardápio"><button id="ndR16SearchClose" type="button" aria-label="Fechar pesquisa">×</button>';
+
+    var meta=document.createElement('div');
+    meta.id='ndR16SearchMeta';
+
+    document.body.appendChild(panel);
+    document.body.appendChild(fab);
+    document.body.appendChild(meta);
+
+    var input=q('#ndR16SearchInput'), close=q('#ndR16SearchClose');
+    fab.addEventListener('click',function(){
+      panel.classList.toggle('open');
+      if(panel.classList.contains('open')) setTimeout(function(){input.focus()},40);
+    });
+    close.addEventListener('click',function(){
+      panel.classList.remove('open');
+      input.value='';
+      syncLegacySearch('');
+      meta.textContent='';
+    });
+    input.addEventListener('input',function(){syncLegacySearch(input.value)});
+    input.addEventListener('keydown',function(e){
+      if(e.key==='Escape'){close.click();return}
+      if(e.key==='Enter'){
+        var first=getProducts().find(function(c){return c.style.display!=='none'});
+        if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    });
+  }
+
+  function init(){
+    hideOldProductSearch();
+    removeUnwantedSections();
+    createSearch();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+
+  /* A R16 possui camadas antigas que podem recriar elementos; esta proteção garante 1 busca e zero seções removidas. */
+  setInterval(function(){
+    hideOldProductSearch();
+    removeUnwantedSections();
+    if(!q('#ndR16SearchFab')) createSearch();
+  },1000);
 })();
 </script>
 
