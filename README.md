@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R17">
+<meta name="nd-site-version" content="20260905-R32">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260905-R32";
@@ -6401,8 +6401,9 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
     /* Observa alterações já feitas pelo sistema original sem interceptar suas funções. */
     const root=document.body;
     if(root&&!root.__nd19Observer){
-      root.__nd19Observer=new MutationObserver(function(){clearTimeout(root.__nd19Timer);root.__nd19Timer=setTimeout(nd19RefreshTotals,30)});
-      root.__nd19Observer.observe(root,{subtree:true,childList:true,characterData:true});
+      /* R19 FIX: não observar o BODY inteiro.
+         O observador antigo podia entrar em ciclo ao próprio alterar o DOM. */
+      root.__nd19Observer=null;
     }
     nd19RefreshTotals();
   }
@@ -6608,7 +6609,8 @@ function welcomeGate(){
 function refresh(){patchCart();setupAddressInputs();syncTotals();decorateCheckout();decorateModalCart();welcomeGate();forceCart();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)});else{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)}
 // Atualização leve quando o carrinho/checkout muda, sem setInterval agressivo.
-let timer=0;const obs=new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{forceCart();syncTotals();decorateModalCart()},80)});obs.observe(document.body,{subtree:true,childList:true,characterData:true});
+/* R21 FIX: removido MutationObserver global do BODY para evitar ciclo de mutações e travamento.
+   O carrinho já é atualizado pelas próprias funções de adicionar/remover. */
 })();
 </script>
 
@@ -7756,8 +7758,9 @@ if(typeof oldOpen==='function'&&!oldOpen.__ndR19){
  window.abrirComboPersonalizacao=function(){const r=oldOpen.apply(this,arguments);setTimeout(decorateAcai,30);return r};window.abrirComboPersonalizacao.__ndR19=true;
 }
 /* Caso a função seja recriada por outra camada, tenta decorar quando o modal abrir. */
-const obs=new MutationObserver(()=>{if($('#ndComboModal.show'))decorateAcai();refreshFavMenu();markFavCount()});
-function init(){ensureFavMenu();markFavCount();decorateAcai();setTimeout(()=>{ensureFavMenu();markFavCount();decorateAcai()},500);obs.observe(document.body,{childList:true,subtree:true})}
+/* R19 FIX: observer global removido; a decoração é feita na abertura do modal e no init. */
+const obs=null;
+function init(){ensureFavMenu();markFavCount();decorateAcai();setTimeout(()=>{ensureFavMenu();markFavCount();decorateAcai()},500)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
@@ -7771,8 +7774,7 @@ window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
 })();
 </script>
 
-</body>
-</html>
+
 <!-- ============================================================
      ND BURGS — RODADA 32 / PERFORMANCE + PÓS PEDIDO + AÇAÍ PLUS
      ============================================================ -->
@@ -7893,10 +7895,9 @@ window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
     });
     enforceAcai(root);
   }
-  const observer=new MutationObserver(()=>{
-    document.querySelectorAll('[id*=acai i],[class*=acai i],[class*=Açaí i]').forEach(bindAcai);
-  });
-  observer.observe(document.body,{childList:true,subtree:true});
+  /* R32 FIX: sem MutationObserver global no BODY.
+   A sincronização do AÇAÍ é feita quando o modal é criado/aberto. */
+  const observer=null;
   setTimeout(()=>document.querySelectorAll('[id*=acai i],[class*=acai i],[class*=Açaí i]').forEach(bindAcai),500);
 
   /* Corrige o cálculo de extras na confirmação de qualquer modal de açaí:
@@ -7931,3 +7932,5 @@ window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
   window.NDR32PostOrderReady=true;
 })();
 </script>
+</body>
+</html>
