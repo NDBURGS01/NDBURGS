@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R16">
+<meta name="nd-site-version" content="20260905-R17">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R13";
+  const ND_SITE_VERSION = "20260905-R17";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -563,11 +563,109 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(max-width:600px){body{padding-bottom:105px!important}.produto:hover{transform:none}#carrinhoFlutuante{bottom:10px!important;width:calc(100% - 16px)!important;padding:10px!important;border-radius:18px!important}.btn-ver-carrinho{padding:11px!important;font-size:12px!important}#carrinhoFlutuante::before{width:40px;height:40px;font-size:20px}.carrinho-flutuante-info strong{font-size:13px!important}.carrinho-flutuante-total{font-size:.95rem!important}}
 </style>
 
+
+<style id="nd-r17-conversion">
+/* =========================================================
+   ND BURGS R17 — CONVERSÃO + FAVORITOS + PEDIR NOVAMENTE
+   + HORÁRIO REAL + PRIMEIRA COMPRA + NAVEGAÇÃO MOBILE
+   ========================================================= */
+#ndR17FirstBuy{
+  margin:18px 0 16px;padding:18px;border-radius:22px;
+  border:1px solid rgba(255,59,48,.34);
+  background:
+    radial-gradient(circle at 90% 10%,rgba(255,59,48,.18),transparent 32%),
+    linear-gradient(145deg,#171114,#0b0b0d);
+  box-shadow:0 16px 42px rgba(0,0,0,.30);
+}
+.nd-r17-fb-kicker{font-size:10px;font-weight:1000;letter-spacing:1.6px;color:#ff7370}
+.nd-r17-fb-title{margin-top:5px;font-size:clamp(24px,4vw,34px);font-weight:1000;line-height:1.02}
+.nd-r17-fb-text{margin-top:8px;color:#aaa;font-size:12px;line-height:1.5;max-width:680px}
+.nd-r17-fb-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px}
+.nd-r17-fb-price{font-size:24px;font-weight:1000;color:#ffd166}
+.nd-r17-fb-btn{border:0;border-radius:12px;padding:12px 16px;background:linear-gradient(135deg,#e50914,#ff4b40);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 8px 22px rgba(229,9,20,.20)}
+.nd-r17-fb-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+
+#ndR17Trust{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0 20px
+}
+.nd-r17-trust-card{
+  padding:13px 10px;border:1px solid rgba(255,255,255,.08);border-radius:15px;
+  background:linear-gradient(145deg,#141418,#0d0d10);text-align:center
+}
+.nd-r17-trust-icon{font-size:20px;display:block;margin-bottom:5px}
+.nd-r17-trust-card strong{display:block;font-size:11px;color:#fff}
+.nd-r17-trust-card span{display:block;margin-top:3px;font-size:9px;color:#85858d;line-height:1.35}
+
+#ndR17FavSection,#ndR17LastSection{
+  margin:22px 0;padding:17px;border:1px solid #25252b;border-radius:20px;
+  background:linear-gradient(160deg,#111114,#08080a)
+}
+.nd-r17-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.nd-r17-section-head h2{margin:0!important;border:0!important;padding:0!important;color:#fff!important;font-size:21px!important}
+.nd-r17-section-head small{color:#777;font-size:9px;text-align:right}
+.nd-r17-fav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px}
+.nd-r17-fav-item{
+  display:flex;align-items:center;justify-content:space-between;gap:9px;
+  padding:11px;border:1px solid #28282e;border-radius:13px;background:#0d0d10
+}
+.nd-r17-fav-item strong{display:block;font-size:12px;color:#fff}
+.nd-r17-fav-item span{display:block;color:#ffb000;font-size:11px;font-weight:900;margin-top:3px}
+.nd-r17-fav-item button{
+  border:0;border-radius:9px;padding:8px 9px;background:#e50914;color:#fff;font-weight:1000;cursor:pointer;white-space:nowrap
+}
+.nd-r17-empty{color:#777;font-size:11px;line-height:1.5;padding:6px 0}
+
+.nd-r17-heart{
+  position:absolute;right:10px;top:10px;z-index:12;width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);background:rgba(8,8,10,.88);color:#aaa;
+  display:grid;place-items:center;font-size:18px;cursor:pointer;backdrop-filter:blur(8px)
+}
+.nd-r17-heart.active{color:#ff3b30;border-color:rgba(255,59,48,.65);background:rgba(65,10,13,.92)}
+.produto{position:relative!important}
+
+#ndR17BottomNav{
+  display:none;position:fixed;left:8px;right:8px;bottom:8px;z-index:12000;
+  grid-template-columns:repeat(4,1fr);gap:5px;padding:7px;
+  border:1px solid rgba(255,59,48,.38);border-radius:18px;
+  background:rgba(12,12,14,.96);backdrop-filter:blur(18px);box-shadow:0 15px 45px rgba(0,0,0,.72)
+}
+.nd-r17-nav-btn{border:0;background:transparent;color:#aaa;border-radius:12px;padding:8px 3px;min-height:48px;font-size:9px;font-weight:1000;cursor:pointer}
+.nd-r17-nav-btn b{display:block;font-size:18px;margin-bottom:2px}
+.nd-r17-nav-btn.active,.nd-r17-nav-btn:hover{color:#fff;background:rgba(229,9,20,.12)}
+
+#ndR17StatusNote{
+  margin-top:9px;padding:9px 11px;border-radius:11px;background:#101014;
+  border:1px solid rgba(255,255,255,.07);font-size:10px;color:#999;line-height:1.45
+}
+#ndR17StatusNote b{color:#fff}
+
+.nd-r17-best-card{outline:2px solid rgba(255,59,48,.18)!important;box-shadow:0 18px 45px rgba(255,59,48,.10)!important}
+.nd-r17-best-badge{
+  position:absolute;left:10px;top:10px;z-index:11;padding:6px 8px;border-radius:8px;
+  background:linear-gradient(135deg,#ffd166,#ff9f1c);color:#171000;font-size:9px;font-weight:1000
+}
+.nd-r17-best-card .preco{font-size:23px!important;color:#ffd166!important}
+
+@media(max-width:800px){
+  #ndR17Trust{grid-template-columns:1fr 1fr}
+  #ndR17BottomNav{display:grid}
+  body{padding-bottom:145px!important}
+  #ndR17FirstBuy{margin:12px 0;padding:15px}
+  .nd-r17-fb-btn{width:100%}
+  .nd-r17-fb-row{display:block}
+  .nd-r17-fb-price{margin-bottom:9px}
+  .nd-r17-fav-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .nd-r17-fb-btn{transition:none!important}
+}
+</style>
+
 </head>
 
 <body>
 
-<!-- RODADA 1: bloqueio por horário removido; atendimento 24h todos os dias -->
+<!-- ND R17: horário comercial real — terça a domingo, 18:00 às 00:30 -->
 
 <header>
 
@@ -7557,6 +7655,192 @@ function fixSuccess(){const h=$('#ndOrderSuccess .nd-success-card h2'),p=$('#ndO
 
 function init(){applyPhotos();bindBest();patchAdd();bindPix();fixSuccess();setTimeout(()=>{applyPhotos();bindBest();patchAdd();bindPix();fixSuccess()},800)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
+
+<script id="nd-r17-conversion-js">
+(function(){
+'use strict';
+const R17_KEY='ndburgs_r17_favorites';
+const R17_LAST='ndburgs_r17_last_order';
+const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+const qs=s=>document.querySelector(s), qsa=s=>Array.from(document.querySelectorAll(s));
+
+function getFavs(){try{const a=JSON.parse(localStorage.getItem(R17_KEY)||'[]');return Array.isArray(a)?a:[]}catch(_){return[]}}
+function setFavs(a){try{localStorage.setItem(R17_KEY,JSON.stringify(a))}catch(_){}}
+function getLast(){try{const a=JSON.parse(localStorage.getItem(R17_LAST)||'[]');return Array.isArray(a)?a:[]}catch(_){return[]}}
+
+function isOpenNow(){
+  const d=new Date(), day=d.getDay(), mins=d.getHours()*60+d.getMinutes();
+  if(day===1)return false; // segunda fechada
+  return mins>=18*60 || mins<=30; // 18:00 até 00:30
+}
+function nextOpening(){
+  const d=new Date(), day=d.getDay(), mins=d.getHours()*60+d.getMinutes();
+  if(day===1 || (mins>30 && mins<18*60)){
+    let days=0;
+    if(day===1) days=1;
+    else if(mins>30) days=(day===0?2:1);
+    const names=['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'];
+    return 'Próximo atendimento: '+names[(day+days)%7]+' às 18:00.';
+  }
+  return 'Pedidos disponíveis agora.';
+}
+function updateHours(){
+  const open=isOpenNow();
+  const title=qs('.horarios-titulo'), line=qs('.horarios-linha'), status=qs('#statusHorario');
+  if(title)title.textContent=open?'🟢 PEDIDOS ABERTOS':'🔴 PEDIDOS FECHADOS';
+  if(line)line.innerHTML='📅 <b>TERÇA A DOMINGO</b> • 18:00 ÀS 00:30';
+  if(status){
+    status.className=open?'status-aberto':'status-fechado';
+    status.textContent=open?'🟢 ESTAMOS ACEITANDO PEDIDOS • #BORADENDBURGS':'🔴 ESTAMOS FECHADOS • '+nextOpening();
+  }
+  const note=qs('#ndR17StatusNote');
+  if(note)note.innerHTML=open?'🛵 <b>Delivery e retirada:</b> pedidos online liberados agora.':'⏰ <b>Atendimento fechado:</b> o site continua disponível para você montar seu pedido, mas o envio será liberado no horário de atendimento.';
+}
+
+function addStaticSections(){
+  const hero=qs('.nd-v4-hero')||qs('#ndFxIntro');
+  if(hero && !qs('#ndR17FirstBuy')){
+    const s=document.createElement('section');s.id='ndR17FirstBuy';
+    s.innerHTML='<div class="nd-r17-fb-kicker">🎁 PRIMEIRA VEZ NA ND BURGS?</div>'+
+      '<div class="nd-r17-fb-title">COMECE PELO NOSSO CAMPEÃO.</div>'+
+      '<div class="nd-r17-fb-text">O <b>COMBO MAIS VENDIDO</b> é uma escolha rápida para quem ainda não sabe por onde começar.</div>'+
+      '<div class="nd-r17-fb-row"><div class="nd-r17-fb-price">R$ 20,90</div><button class="nd-r17-fb-btn" type="button" id="ndR17FirstBuyBtn">🔥 QUERO O MAIS VENDIDO</button></div>'+
+      '<div id="ndR17StatusNote"></div>';
+    hero.insertAdjacentElement('afterend',s);
+    qs('#ndR17FirstBuyBtn').onclick=()=>openBestSeller();
+  }
+  const first=qs('#ndR17FirstBuy');
+  if(first && !qs('#ndR17Trust')){
+    const t=document.createElement('section');t.id='ndR17Trust';
+    t.innerHTML=
+      '<div class="nd-r17-trust-card"><span class="nd-r17-trust-icon">🍔</span><strong>Monte seu pedido</strong><span>Escolha e personalize seus produtos.</span></div>'+
+      '<div class="nd-r17-trust-card"><span class="nd-r17-trust-icon">🛵</span><strong>Delivery</strong><span>Consulte a taxa pela sua rua.</span></div>'+
+      '<div class="nd-r17-trust-card"><span class="nd-r17-trust-icon">🏪</span><strong>Retirada</strong><span>Também dá para retirar o pedido.</span></div>'+
+      '<div class="nd-r17-trust-card"><span class="nd-r17-trust-icon">📲</span><strong>WhatsApp</strong><span>Seu pedido é enviado direto para a loja.</span></div>';
+    first.insertAdjacentElement('afterend',t);
+  }
+}
+
+function findBest(){
+  return qsa('.produto').find(c=>norm(c.querySelector('h3')?.textContent)==='COMBO MAIS VENDIDO');
+}
+function openBestSeller(){
+  const c=findBest();
+  if(!c)return;
+  c.scrollIntoView({behavior:'smooth',block:'center'});
+  const b=c.querySelector('.nd-fx-add,.btn-add');
+  if(b){setTimeout(()=>b.click(),280)}
+}
+function markBest(){
+  const c=findBest(); if(!c)return;
+  if(!c.querySelector('.nd-r17-best-badge')){
+    c.classList.add('nd-r17-best-card');
+    const b=document.createElement('div');b.className='nd-r17-best-badge';b.textContent='🔥 MAIS VENDIDO';
+    c.appendChild(b);
+  }
+}
+
+function ensureHearts(){
+  qsa('.produto').forEach(card=>{
+    if(card.dataset.ndR17Heart==='1')return;
+    const h3=card.querySelector('h3'); if(!h3)return;
+    card.dataset.ndR17Heart='1';
+    const name=h3.textContent.trim(), priceText=card.querySelector('.preco')?.textContent||'';
+    const m=priceText.match(/R\$\s*([\d.]+,\d{2})/);
+    const price=m?parseFloat(m[1].replace(/\./g,'').replace(',','.')):0;
+    const btn=document.createElement('button');btn.type='button';btn.className='nd-r17-heart';btn.title='Adicionar aos favoritos';btn.setAttribute('aria-label','Favoritar '+name);
+    btn.textContent=getFavs().some(x=>norm(x.nome)===norm(name))?'♥':'♡';
+    if(btn.textContent==='♥')btn.classList.add('active');
+    btn.onclick=e=>{
+      e.stopPropagation();
+      let a=getFavs(), i=a.findIndex(x=>norm(x.nome)===norm(name));
+      if(i>=0){a.splice(i,1);btn.textContent='♡';btn.classList.remove('active')}
+      else{a.push({nome:name,preco:price});btn.textContent='♥';btn.classList.add('active')}
+      setFavs(a);renderFavorites();
+    };
+    card.appendChild(btn);
+  });
+}
+function clickProduct(name){
+  const card=qsa('.produto').find(c=>norm(c.querySelector('h3')?.textContent)===norm(name));
+  if(!card)return;
+  const b=card.querySelector('.nd-fx-add,.btn-add');
+  if(b)b.click();
+}
+function renderFavorites(){
+  let sec=qs('#ndR17FavSection');
+  if(!sec){
+    const anchor=qs('.container')||document.body;
+    sec=document.createElement('section');sec.id='ndR17FavSection';
+    anchor.insertBefore(sec,anchor.querySelector('.categoria')||anchor.firstChild);
+  }
+  const a=getFavs();
+  sec.innerHTML='<div class="nd-r17-section-head"><h2>❤️ MEUS FAVORITOS</h2><small>Salvos neste aparelho</small></div>'+
+    (a.length?'<div class="nd-r17-fav-grid">'+a.map((x,i)=>'<div class="nd-r17-fav-item"><div><strong>'+safe(x.nome)+'</strong><span>'+money(x.preco)+'</span></div><button type="button" data-fav-index="'+i+'">ADICIONAR</button></div>').join('')+'</div>':'<div class="nd-r17-empty">Você ainda não favoritou nenhum produto. Toque no ♡ dos produtos para salvar seus preferidos.</div>');
+  qsa('[data-fav-index]').forEach(b=>b.onclick=()=>{const x=getFavs()[Number(b.dataset.favIndex)];if(x)clickProduct(x.nome)});
+}
+function renderLast(){
+  let sec=qs('#ndR17LastSection');
+  if(!sec){
+    const fav=qs('#ndR17FavSection'), container=qs('.container');
+    if(!container)return;
+    sec=document.createElement('section');sec.id='ndR17LastSection';
+    container.insertBefore(sec,fav?.nextSibling||container.querySelector('.categoria'));
+  }
+  const a=getLast();
+  sec.innerHTML='<div class="nd-r17-section-head"><h2>🔄 PEDIR NOVAMENTE</h2><small>Seu último pedido neste aparelho</small></div>'+
+    (a.length?'<div class="nd-r17-fav-grid">'+a.slice(0,8).map((x,i)=>'<div class="nd-r17-fav-item"><div><strong>'+safe(x.nome)+'</strong><span>'+money(x.preco)+' • '+(x.quantidade||1)+'x</span></div><button type="button" data-last-index="'+i+'">ADICIONAR</button></div>').join('')+'</div>':'<div class="nd-r17-empty">Seu último pedido aparecerá aqui depois de uma finalização.</div>');
+  qsa('[data-last-index]').forEach(b=>b.onclick=()=>{const x=getLast()[Number(b.dataset.lastIndex)];if(x)for(let i=0;i<Math.max(1,Number(x.quantidade)||1);i++)clickProduct(x.nome)});
+}
+function safe(v){return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function saveLastOrder(){
+  try{
+    const c=Array.isArray(window.carrinho)?window.carrinho:[];
+    if(c.length)localStorage.setItem(R17_LAST,JSON.stringify(c.map(x=>({nome:x.nome,preco:Number(x.preco)||0,quantidade:Number(x.quantidade)||1}))));
+  }catch(_){}
+}
+function patchFinish(){
+  if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndR17)return;
+  const old=window.finalizarPedidoModal;
+  window.finalizarPedidoModal=function(){saveLastOrder();return old.apply(this,arguments)};
+  window.finalizarPedidoModal.__ndR17=true;
+}
+
+function addBottomNav(){
+  if(qs('#ndR17BottomNav'))return;
+  const n=document.createElement('nav');n.id='ndR17BottomNav';n.setAttribute('aria-label','Navegação rápida');
+  n.innerHTML='<button class="nd-r17-nav-btn" data-go="top"><b>🏠</b>INÍCIO</button>'+
+    '<button class="nd-r17-nav-btn" data-go="search"><b>🔎</b>BUSCAR</button>'+
+    '<button class="nd-r17-nav-btn" data-go="fav"><b>❤️</b>FAVORITOS</button>'+
+    '<button class="nd-r17-nav-btn" data-go="cart"><b>🛒</b>CARRINHO</button>';
+  document.body.appendChild(n);
+  qsa('#ndR17BottomNav .nd-r17-nav-btn').forEach(b=>b.onclick=()=>{
+    const g=b.dataset.go;
+    if(g==='top')window.scrollTo({top:0,behavior:'smooth'});
+    if(g==='search')qs('#buscaProdutos')?.focus();
+    if(g==='fav')qs('#ndR17FavSection')?.scrollIntoView({behavior:'smooth',block:'start'});
+    if(g==='cart'&&typeof window.abrirCarrinho==='function')window.abrirCarrinho();
+  });
+}
+
+function init(){
+  addStaticSections();
+  updateHours();
+  ensureHearts();
+  markBest();
+  renderFavorites();
+  renderLast();
+  addBottomNav();
+  patchFinish();
+  setTimeout(()=>{addStaticSections();updateHours();ensureHearts();markBest();renderFavorites();renderLast();addBottomNav();patchFinish()},900);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+setInterval(updateHours,30000);
 })();
 </script>
 
