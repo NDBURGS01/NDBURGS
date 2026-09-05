@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R19">
+<meta name="nd-site-version" content="20260905-R21">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R19";
+  const ND_SITE_VERSION = "20260905-R21";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -704,6 +704,26 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 </style>
 
+
+<style id="nd-r21-final-polish">
+/* R21 — destaque de entrega + avaliações neon roxo/azul */
+#ndR21Delivery{max-width:920px;margin:24px auto 18px;padding:0 14px;position:relative;z-index:3}
+.nd-r21-delivery-box{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:18px;min-height:92px;padding:18px 24px;border-radius:20px;background:linear-gradient(135deg,rgba(20,12,42,.98),rgba(10,20,48,.98));border:1px solid rgba(153,87,255,.72);box-shadow:0 0 14px rgba(124,58,237,.28),0 0 34px rgba(37,99,235,.18),inset 0 0 22px rgba(124,58,237,.10)}
+.nd-r21-delivery-box:before{content:"";position:absolute;inset:-60%;background:radial-gradient(circle at 25% 50%,rgba(168,85,247,.20),transparent 28%),radial-gradient(circle at 80% 50%,rgba(37,99,235,.20),transparent 25%);animation:ndR21Light 7s linear infinite}
+.nd-r21-icon{position:relative;font-size:34px;filter:drop-shadow(0 0 10px rgba(96,165,250,.75));animation:ndR21Pulse 1.8s ease-in-out infinite}
+.nd-r21-copy{position:relative;text-align:left}
+.nd-r21-kicker{font-size:12px;font-weight:900;letter-spacing:1.8px;color:#bca7ff;margin-bottom:3px}
+.nd-r21-time{font-size:clamp(23px,4vw,34px);line-height:1;font-weight:1000;color:#fff;text-shadow:0 0 12px rgba(129,92,246,.65)}
+.nd-r21-time strong{color:#a78bfa}
+.nd-r21-sub{font-size:12px;color:#cbd5e1;margin-top:6px}
+#ndR21Reviews{position:relative;overflow:hidden;max-width:1100px;margin:22px auto 34px;padding:30px 18px 22px;border-radius:28px;background:linear-gradient(145deg,#0d0920 0%,#101735 48%,#0b0b18 100%);border:1px solid rgba(139,92,246,.55);box-shadow:0 0 18px rgba(124,58,237,.24),0 0 55px rgba(37,99,235,.14),inset 0 0 45px rgba(99,102,241,.07)}
+#ndR21Reviews:before,#ndR21Reviews:after{content:"✦";position:absolute;color:#8b5cf6;font-size:38px;text-shadow:0 0 9px #8b5cf6,0 0 22px #2563eb;animation:ndR21Spark 2.8s ease-in-out infinite}
+#ndR21Reviews:before{left:5%;top:14px}#ndR21Reviews:after{right:6%;bottom:12px;animation-delay:1.2s}
+.nd-r21-head{text-align:center;position:relative;z-index:2}.nd-r21-stars{font-size:25px;letter-spacing:4px;color:#c4b5fd;text-shadow:0 0 7px #8b5cf6,0 0 18px #2563eb}.nd-r21-title{margin:4px 0 8px;font-size:clamp(24px,4vw,36px);font-weight:1000;color:#fff}.nd-r21-rating{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:999px;background:linear-gradient(90deg,rgba(124,58,237,.20),rgba(37,99,235,.18));border:1px solid rgba(129,140,248,.55);box-shadow:0 0 15px rgba(79,70,229,.22);font-size:13px;color:#e2e8f0}.nd-r21-rating b{color:#c4b5fd;font-size:18px;text-shadow:0 0 8px rgba(139,92,246,.8)}
+.nd-r21-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;position:relative;z-index:2}.nd-r21-card{position:relative;padding:17px;border-radius:18px;background:linear-gradient(145deg,rgba(29,20,58,.92),rgba(10,18,39,.95));border:1px solid rgba(99,102,241,.34);box-shadow:0 0 12px rgba(79,70,229,.12),inset 0 0 18px rgba(139,92,246,.04);transition:transform .25s,box-shadow .25s,border-color .25s}.nd-r21-card:hover{transform:translateY(-3px);border-color:rgba(139,92,246,.7);box-shadow:0 0 20px rgba(124,58,237,.25),0 0 28px rgba(37,99,235,.12)}.nd-r21-card .stars{font-size:15px;letter-spacing:2px;color:#a78bfa;text-shadow:0 0 7px #7c3aed}.nd-r21-card p{margin:9px 0 8px;color:#fff;font-size:16px;font-weight:800;line-height:1.35}.nd-r21-card small{color:#94a3b8;font-size:10px;letter-spacing:.6px}.nd-r21-note{text-align:center;color:#8fa0ba;font-size:11px;margin-top:17px}
+@keyframes ndR21Light{0%{transform:translateX(-12%) rotate(0deg)}50%{transform:translateX(12%) rotate(180deg)}100%{transform:translateX(-12%) rotate(360deg)}}@keyframes ndR21Pulse{50%{transform:scale(1.08)}}@keyframes ndR21Spark{50%{opacity:.3;transform:scale(.65) rotate(25deg)}}
+@media(max-width:700px){#ndR21Delivery{margin-top:18px;padding:0 10px}.nd-r21-delivery-box{min-height:78px;padding:14px 15px;gap:12px}.nd-r21-icon{font-size:27px}.nd-r21-time{font-size:24px}.nd-r21-sub{font-size:10px}.nd-r21-kicker{font-size:10px;letter-spacing:1.2px}#ndR21Reviews{margin:18px 10px 28px;padding:24px 11px 18px;border-radius:23px}.nd-r21-grid{grid-template-columns:1fr;gap:10px}.nd-r21-card{padding:15px}.nd-r21-title{font-size:25px}.nd-r21-stars{font-size:22px}}
+</style>
 </head>
 
 <body>
@@ -7961,5 +7981,45 @@ else init();
 })();
 </script>
 
+
+<script id="nd-r21-final-polish-js">
+(function(){
+  const REV=[
+    'Muito bom, amei!',
+    'Comprei a primeira vez e amei.',
+    'Preço e qualidade, tudo muito bom.',
+    'Muito gostoso, vou pedir novamente.',
+    'Amei o lanche! Muito caprichado.',
+    'Preço justo e qualidade de verdade.',
+    'Já virou meu lanche favorito.',
+    'Muito bom, chegou direitinho e estava uma delícia.',
+    'Primeiro pedido e já ganhou cliente.',
+    'Amei! Com certeza vou pedir de novo.',
+    'Lanche muito bom e bem feito.',
+    'Gostei muito da qualidade.'
+  ];
+  function addDelivery(){
+    if(document.getElementById('ndR21Delivery')) return;
+    const el=document.createElement('section'); el.id='ndR21Delivery';
+    el.innerHTML='<div class="nd-r21-delivery-box"><div class="nd-r21-icon">⏱️</div><div class="nd-r21-copy"><div class="nd-r21-kicker">TEMPO MÉDIO DE ENTREGA HOJE</div><div class="nd-r21-time"><strong>40 A 50</strong> MINUTINHOS</div><div class="nd-r21-sub">Preparamos seu pedido com carinho. 🍔💜</div></div></div>';
+    const anchor=document.querySelector('#ndR19Reviews')||document.querySelector('#ndR18Delivery')||document.querySelector('#ndR17Trust')||document.querySelector('main')||document.body;
+    anchor.parentNode.insertBefore(el,anchor);
+  }
+  function addReviews(){
+    if(document.getElementById('ndR21Reviews')) return;
+    const old=document.getElementById('ndR19Reviews'); if(old) old.remove();
+    const sec=document.createElement('section'); sec.id='ndR21Reviews';
+    sec.innerHTML='<div class="nd-r21-head"><div class="nd-r21-stars">★★★★★</div><div class="nd-r21-title">O QUE NOSSOS CLIENTES DIZEM</div><div class="nd-r21-rating"><b>4,9 ★★★★★</b> no iFood</div></div><div class="nd-r21-grid"></div><div class="nd-r21-note">Mensagens de clientes e nota do iFood exibidas pela ND BURGS.</div>';
+    const grid=sec.querySelector('.nd-r21-grid');
+    const cycle=Math.floor(Date.now()/(5*24*60*60*1000)); const start=(cycle*6)%REV.length;
+    for(let i=0;i<6;i++){const r=REV[(start+i)%REV.length];const card=document.createElement('article');card.className='nd-r21-card';card.innerHTML='<div class="stars">★★★★★</div><p>“'+r+'”</p><small>AVALIAÇÃO 5 ESTRELAS</small>';grid.appendChild(card)}
+    const candidates=[document.querySelector('#ndR19Reviews'),document.querySelector('#ndR18Delivery'),document.querySelector('#ndR17Trust')].filter(Boolean);
+    const anchor=candidates[0]||document.querySelector('footer')||document.body; anchor.parentNode.insertBefore(sec,anchor);
+  }
+  function go(){addDelivery();addReviews()}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(go,500)); else setTimeout(go,500);
+  setTimeout(go,1800);
+})();
+</script>
 </body>
 </html>
