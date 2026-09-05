@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R32">
+<meta name="nd-site-version" content="20260905-R17">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260905-R32";
@@ -1068,12 +1068,13 @@ ESCOLHER
 
 <div class="produto">
 
-<h3>CREME DE CUPUAÇU</h3>
+<h3>AÇAÍ TRUFFADO</h3>
 
-<p>Creme de cupuaçu.</p>
+<p>Açaí truffado especial.</p>
 
-<div class="preco">A partir de R$ 11,90</div>
-<button class="btn btn-add" onclick="abrirPersonalizacao('creme de cupuaçu')">
+<div class="preco">A partir de R$ 26,00</div>
+
+<button class="btn btn-add" onclick="abrirPersonalizacao('truffado')">
 ESCOLHER
 </button>
 
@@ -2146,6 +2147,7 @@ acompanhamentos:[
 ["OVOMALTINE",0],
 ["NESQUIK",0],
 ["NUTELLA",5],
+["SUCRILHOS",0],
 ["GRANOLA",0],
 ["MORANGO",0],
 ["MANGA",0],
@@ -2167,8 +2169,8 @@ tamanhos:[
 acompanhamentos:[]
 },
 
-creme de cupuaçu:{
-titulo:"Creme de cupuaçu",
+truffado:{
+titulo:"AÇAÍ TRUFFADO",
 tamanhos:[
 ["300ML",26.00],
 ["400ML",29.00],
@@ -6399,9 +6401,8 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
     /* Observa alterações já feitas pelo sistema original sem interceptar suas funções. */
     const root=document.body;
     if(root&&!root.__nd19Observer){
-      /* R19 FIX: não observar o BODY inteiro.
-         O observador antigo podia entrar em ciclo ao próprio alterar o DOM. */
-      root.__nd19Observer=null;
+      root.__nd19Observer=new MutationObserver(function(){clearTimeout(root.__nd19Timer);root.__nd19Timer=setTimeout(nd19RefreshTotals,30)});
+      root.__nd19Observer.observe(root,{subtree:true,childList:true,characterData:true});
     }
     nd19RefreshTotals();
   }
@@ -6607,8 +6608,7 @@ function welcomeGate(){
 function refresh(){patchCart();setupAddressInputs();syncTotals();decorateCheckout();decorateModalCart();welcomeGate();forceCart();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)});else{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)}
 // Atualização leve quando o carrinho/checkout muda, sem setInterval agressivo.
-/* R21 FIX: removido MutationObserver global do BODY para evitar ciclo de mutações e travamento.
-   O carrinho já é atualizado pelas próprias funções de adicionar/remover. */
+let timer=0;const obs=new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{forceCart();syncTotals();decorateModalCart()},80)});obs.observe(document.body,{subtree:true,childList:true,characterData:true});
 })();
 </script>
 
@@ -7756,9 +7756,8 @@ if(typeof oldOpen==='function'&&!oldOpen.__ndR19){
  window.abrirComboPersonalizacao=function(){const r=oldOpen.apply(this,arguments);setTimeout(decorateAcai,30);return r};window.abrirComboPersonalizacao.__ndR19=true;
 }
 /* Caso a função seja recriada por outra camada, tenta decorar quando o modal abrir. */
-/* R19 FIX: observer global removido; a decoração é feita na abertura do modal e no init. */
-const obs=null;
-function init(){ensureFavMenu();markFavCount();decorateAcai();setTimeout(()=>{ensureFavMenu();markFavCount();decorateAcai()},500)}
+const obs=new MutationObserver(()=>{if($('#ndComboModal.show'))decorateAcai();refreshFavMenu();markFavCount()});
+function init(){ensureFavMenu();markFavCount();decorateAcai();setTimeout(()=>{ensureFavMenu();markFavCount();decorateAcai()},500);obs.observe(document.body,{childList:true,subtree:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
@@ -7772,7 +7771,8 @@ window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
 })();
 </script>
 
-
+</body>
+</html>
 <!-- ============================================================
      ND BURGS — RODADA 32 / PERFORMANCE + PÓS PEDIDO + AÇAÍ PLUS
      ============================================================ -->
@@ -7893,9 +7893,10 @@ window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
     });
     enforceAcai(root);
   }
-  /* R32 FIX: sem MutationObserver global no BODY.
-   A sincronização do AÇAÍ é feita quando o modal é criado/aberto. */
-  const observer=null;
+  const observer=new MutationObserver(()=>{
+    document.querySelectorAll('[id*=acai i],[class*=acai i],[class*=Açaí i]').forEach(bindAcai);
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
   setTimeout(()=>document.querySelectorAll('[id*=acai i],[class*=acai i],[class*=Açaí i]').forEach(bindAcai),500);
 
   /* Corrige o cálculo de extras na confirmação de qualquer modal de açaí:
@@ -7930,5 +7931,141 @@ window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
   window.NDR32PostOrderReady=true;
 })();
 </script>
-</body>
-</html>
+
+
+<!-- ND BURGS — CATEGORIAS LATERAIS FINAL -->
+<style id="nd-sidebar-final">
+@media (min-width:901px){
+  html,body{overflow-x:hidden!important}
+  body{padding-left:232px!important}
+  #nd18Sidebar{
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    bottom:0!important;
+    width:214px!important;
+    height:100vh!important;
+    max-height:100vh!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    display:flex!important;
+    flex-direction:column!important;
+    gap:5px!important;
+    margin:0!important;
+    padding:18px 11px 24px!important;
+    box-sizing:border-box!important;
+    background:linear-gradient(180deg,#080808 0%,#120b07 48%,#080808 100%)!important;
+    border:0!important;
+    border-right:1px solid rgba(255,90,0,.42)!important;
+    border-radius:0!important;
+    box-shadow:8px 0 35px rgba(0,0,0,.75)!important;
+    z-index:999999!important;
+    scrollbar-width:thin!important;
+    scrollbar-color:#ff6500 #0b0b0b!important;
+  }
+  #nd18Sidebar::-webkit-scrollbar{width:6px!important}
+  #nd18Sidebar::-webkit-scrollbar-track{background:#0b0b0b!important}
+  #nd18Sidebar::-webkit-scrollbar-thumb{background:linear-gradient(#ff5a00,#ffd21a)!important;border-radius:20px!important}
+  #nd18Sidebar .nd18-title{
+    flex:none!important;
+    position:sticky!important;
+    top:0!important;
+    z-index:3!important;
+    display:block!important;
+    padding:8px 9px 14px!important;
+    margin:0 0 4px!important;
+    background:linear-gradient(180deg,#080808 82%,rgba(8,8,8,0))!important;
+    color:#ffb000!important;
+    font-weight:900!important;
+    font-size:12px!important;
+    letter-spacing:1.7px!important;
+  }
+  #nd18Sidebar button{
+    flex:none!important;
+    width:100%!important;
+    min-height:45px!important;
+    margin:0!important;
+    padding:11px 12px!important;
+    text-align:left!important;
+    white-space:normal!important;
+    background:linear-gradient(135deg,#111214,#19100b)!important;
+    color:#ddd!important;
+    border:1px solid rgba(255,90,0,.18)!important;
+    border-radius:12px!important;
+    font-weight:800!important;
+    font-size:13px!important;
+    line-height:1.25!important;
+    cursor:pointer!important;
+    transition:.18s ease!important;
+  }
+  #nd18Sidebar button:hover,#nd18Sidebar button.ativo{
+    background:linear-gradient(135deg,#301306,#19100b)!important;
+    color:#fff!important;
+    border-color:#ff6500!important;
+    transform:translateX(3px)!important;
+    box-shadow:0 0 16px rgba(255,90,0,.22)!important;
+  }
+}
+@media(max-width:900px){
+  body{padding-left:0!important}
+  #nd18Sidebar{
+    position:sticky!important;
+    top:0!important;
+    left:auto!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    display:flex!important;
+    flex-direction:row!important;
+    gap:7px!important;
+    margin:0!important;
+    padding:8px!important;
+    background:#080808!important;
+    border-bottom:1px solid rgba(255,90,0,.35)!important;
+    border-radius:0!important;
+    z-index:999999!important;
+  }
+  #nd18Sidebar .nd18-title{display:none!important}
+  #nd18Sidebar button{flex:0 0 auto!important;width:auto!important;min-height:44px!important;white-space:nowrap!important;margin:0!important;padding:10px 13px!important}
+}
+</style>
+<nav id="nd18Sidebar" aria-label="Categorias do cardápio">
+  <div class="nd18-title">CATEGORIAS</div>
+  <button type="button" data-target="combos" onclick="document.getElementById('combos')?.scrollIntoView({behavior:'smooth',block:'start'})">❤️ COMBOS</button>
+  <button type="button" data-target="tradicionais" onclick="document.getElementById('tradicionais')?.scrollIntoView({behavior:'smooth',block:'start'})">🍔 TRADICIONAIS</button>
+  <button type="button" data-target="artesanais" onclick="document.getElementById('artesanais')?.scrollIntoView({behavior:'smooth',block:'start'})">🍔 ARTESANAIS</button>
+  <button type="button" data-target="combosArtesanais" onclick="document.getElementById('combosArtesanais')?.scrollIntoView({behavior:'smooth',block:'start'})">🔥 COMBOS ARTESANAIS</button>
+  <button type="button" data-target="porcoes" onclick="document.getElementById('porcoes')?.scrollIntoView({behavior:'smooth',block:'start'})">🍟 PORÇÕES</button>
+  <button type="button" data-target="pasteis" onclick="document.getElementById('pasteis')?.scrollIntoView({behavior:'smooth',block:'start'})">🥟 PASTÉIS</button>
+  <button type="button" data-target="acai" onclick="document.getElementById('acai')?.scrollIntoView({behavior:'smooth',block:'start'})">🥤 AÇAÍ</button>
+  <button type="button" data-target="milkshakes" onclick="document.getElementById('milkshakes')?.scrollIntoView({behavior:'smooth',block:'start'})">🥤🥤 MILKSHAKES</button>
+  <button type="button" data-target="bebidas" onclick="document.getElementById('bebidas')?.scrollIntoView({behavior:'smooth',block:'start'})">🥤 BEBIDAS</button>
+  <button type="button" data-target="sobremesas" onclick="document.getElementById('sobremesas')?.scrollIntoView({behavior:'smooth',block:'start'})">🍓 SOBREMESAS</button>
+  <button type="button" data-target="adicionais" onclick="document.getElementById('adicionais')?.scrollIntoView({behavior:'smooth',block:'start'})">➕ ADICIONAIS</button>
+</nav>
+<script>
+(function(){
+  function activate(){
+    const nav=document.getElementById('nd18Sidebar');
+    if(!nav) return;
+    const buttons=[...nav.querySelectorAll('button[data-target]')];
+    const sections=buttons.map(b=>document.getElementById(b.dataset.target)).filter(Boolean);
+    if(!sections.length)return;
+    if(window.__ndFinalSidebarIO)window.__ndFinalSidebarIO.disconnect();
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          buttons.forEach(b=>b.classList.toggle('ativo',b.dataset.target===entry.target.id));
+        }
+      });
+    },{root:null,rootMargin:'-18% 0px -72% 0px',threshold:0});
+    sections.forEach(s=>io.observe(s));
+    window.__ndFinalSidebarIO=io;
+    if(buttons[0])buttons[0].classList.add('ativo');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',activate,{once:true});
+  else activate();
+})();
+</script>
