@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R32">
+<meta name="nd-site-version" content="20260905-COMBOS-FINAL">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R32";
+  const ND_SITE_VERSION = "20260905-COMBOS-FINAL";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -508,7 +508,8 @@ function restore(){
   try{const v=localStorage.getItem('ndburgs_'+id);if(v)el.value=v}catch(_){ }
  });
 }
-window.addEventListener('DOMContentLoaded',()=>{enhance();restore()},{once:true});
+const obs=new MutationObserver(()=>{enhance();restore()});
+window.addEventListener('DOMContentLoaded',()=>{enhance();restore();obs.observe(document.body,{childList:true,subtree:true})});
 })();
 </script>
 
@@ -530,7 +531,24 @@ window.addEventListener('DOMContentLoaded',()=>{enhance();restore()},{once:true}
 }
 </style>
 
-
+<style id="nd-r9-cart-upgrade">
+/* ND BURGS R9 — carrinho único com ícone e contador */
+.nd-cart-fab{position:fixed;right:18px;bottom:18px;z-index:120000;width:64px;height:64px;border:0;border-radius:50%;cursor:pointer;background:linear-gradient(135deg,#e50914,#ff3038);color:#fff;box-shadow:0 14px 40px rgba(229,9,20,.38);display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform .2s,box-shadow .2s}.nd-cart-fab:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 20px 50px rgba(229,9,20,.5)}.nd-cart-badge{position:absolute;right:-5px;top:-5px;min-width:25px;height:25px;padding:0 6px;border-radius:999px;background:#fff;color:#111;border:3px solid #111;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:950}.nd-cart-fab.empty{opacity:.88}.nd-cart-fab.empty .nd-cart-badge{background:#27272b;color:#aaa}.nd-cart-label{position:fixed;right:16px;bottom:90px;z-index:119999;background:#151519;border:1px solid #303038;border-radius:999px;padding:8px 12px;color:#fff;font-size:11px;font-weight:900;box-shadow:0 8px 25px rgba(0,0,0,.35)}.carrinho-flutuante,#ndFxCartbar,.nd-v3-buybar{display:none!important}.painel-carrinho{border-radius:24px 24px 0 0!important}.cabecalho-carrinho h2{font-size:24px!important}.nd-cart-countline{font-size:12px;color:#999;margin-top:3px}.nd-cart-empty-tip{margin-top:8px;color:#888;font-size:12px}@media(max-width:600px){.nd-cart-fab{width:60px;height:60px;right:14px;bottom:14px;font-size:26px}.nd-cart-label{right:12px;bottom:82px;font-size:10px}}
+</style>
+<script id="nd-r9-cart-upgrade-script">
+(function(){
+'use strict';
+function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:(typeof carrinho!=='undefined'&&Array.isArray(carrinho)?carrinho:[])}catch(e){return []}}
+function qty(){return getCart().reduce((s,i)=>s+(Number(i.quantidade)||0),0)}
+function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function total(){return getCart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||0),0)}
+function update(){const q=qty(),b=document.getElementById('ndCartBadge'),f=document.getElementById('ndCartFab'),l=document.getElementById('ndCartLabel');if(b)b.textContent=q;if(f)f.classList.toggle('empty',q===0);if(l)l.textContent=q?`${q} ${q===1?'item':'itens'} • ${money(total())}`:'Seu carrinho está vazio'}
+}
+function build(){if(document.getElementById('ndCartFab'))return;const f=document.createElement('button');f.type='button';f.id='ndCartFab';f.className='nd-cart-fab empty';f.setAttribute('aria-label','Abrir carrinho');f.innerHTML='🛒<span id="ndCartBadge" class="nd-cart-badge">0</span>';f.onclick=function(){if(typeof window.abrirCarrinho==='function'){window.abrirCarrinho();setTimeout(()=>{const m=document.getElementById('modalCarrinho');if(m&&!m.classList.contains('ativo')&&typeof window.atualizarModalCarrinho==='function'){window.atualizarModalCarrinho();m.classList.add('ativo');document.body.style.overflow='hidden'}},0)}};document.body.appendChild(f);const l=document.createElement('div');l.id='ndCartLabel';l.className='nd-cart-label';l.textContent='Seu carrinho está vazio';document.body.appendChild(l);update()}
+function patch(){if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__r9cart){const old=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=old.apply(this,arguments);setTimeout(update,0);return r};window.atualizarCarrinho.__r9cart=true}if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__r9cart){const old=window.abrirCarrinho;window.abrirCarrinho=function(){if(getCart().length===0){if(typeof window.atualizarModalCarrinho==='function')window.atualizarModalCarrinho();const m=document.getElementById('modalCarrinho');if(m){m.classList.add('ativo');document.body.style.overflow='hidden'}return}return old.apply(this,arguments)};window.abrirCarrinho.__r9cart=true}}
+window.addEventListener('DOMContentLoaded',()=>{build();patch();update();setInterval(()=>{patch();update()},700)});
+})();
+</script>
 
 
 <!-- ND BURGS R10 - MELHORIAS GERAIS -->
@@ -686,7 +704,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO DOCE</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 32,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO DOCE',32.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO DOCE',32.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -694,7 +712,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO GELADO</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 40,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO GELADO',40.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO GELADO',40.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -702,7 +720,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO 5 ESTRELAS</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 45,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO 5 ESTRELAS',45.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO 5 ESTRELAS',45.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -710,7 +728,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO DIETA SÓ SEGUNDA</h3>
 <p>Coca lata + doce surpresa + pastel.</p>
 <div class="preco">R$ 27,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO DIETA SÓ SEGUNDA',27.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO DIETA SÓ SEGUNDA',27.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -718,7 +736,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO MAIS VENDIDO</h3>
 <p>Um dos combos especiais da ND BURGS.</p>
 <div class="preco">R$ 20,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO MAIS VENDIDO',20.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO MAIS VENDIDO',20.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -726,7 +744,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO MOTOCA ND</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 32,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO MOTOCA ND',32.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO MOTOCA ND',32.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -734,7 +752,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO SÓ LOVE</h3>
 <p>Combo especial para compartilhar.</p>
 <div class="preco">R$ 71,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO SÓ LOVE',71.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO SÓ LOVE',71.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -742,7 +760,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>DATE COM NDBURGS</h3>
 <p>Combo especial para o seu date.</p>
 <div class="preco">R$ 70,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('DATE COM NDBURGS',70.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('DATE COM NDBURGS',70.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -750,7 +768,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>01 ND BURGS</h3>
 <p>Combo especial.</p>
 <div class="preco">R$ 50,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('01 ND BURGS',50.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('01 ND BURGS',50.90)">ADICIONAR</button>
 </div>
 
 </div>
@@ -887,7 +905,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO SÓ LOVE</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 90,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO SÓ LOVE',90.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO SÓ LOVE',90.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -895,7 +913,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO 5 ESTRELAS</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 70,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO 5 ESTRELAS',70.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO 5 ESTRELAS',70.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -903,7 +921,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO MAIS VENDIDO</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 34,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO MAIS VENDIDO',34.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO MAIS VENDIDO',34.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -911,7 +929,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO DOCE</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 44,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO DOCE',44.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO DOCE',44.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -919,7 +937,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO GELADO</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 52,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO GELADO',52.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO GELADO',52.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -927,7 +945,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL DATE COM NDBURGS</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 91,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL DATE COM NDBURGS',91.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL DATE COM NDBURGS',91.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -935,7 +953,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL MOTOCA ND</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 41,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL MOTOCA ND',41.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL MOTOCA ND',41.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -943,7 +961,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL 01 ND BURGS</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 96,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL 01 ND BURGS',96.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL 01 ND BURGS',96.80)">ADICIONAR</button>
 </div>
 
 </div>
@@ -1164,7 +1182,6 @@ ESCOLHER
 <div class="produtos">
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/r2zDycx0/Chat-GPT-Image-4-09-2026-21-18-50.png" alt="COCA COLA LATA 350ML">
 <h3>COCA COLA LATA</h3>
 <p>Refrigerante.</p>
 <div class="preco">R$ 6,00</div>
@@ -1284,7 +1301,7 @@ ADICIONAR
 
 <div class="produto">
 
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="SURPRESA DE UVA">
+<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/7x6dFWmm/Chat-GPT-Image-25-06-2026-23-14-20.png" alt="SURPRESA DE UVA">
 
 <h3>SURPRESA DE UVA</h3>
 
@@ -1310,7 +1327,6 @@ ADICIONAR
 <div class="produtos">
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/ZRydT4hD/fatia-de-queijo.png" alt="FATIA QUEIJO CHEDDAR EXTRA">
 <h3>FATIA QUEIJO CHEDDAR EXTRA</h3>
 <p>Adicional.</p>
 <div class="preco">R$ 3,00</div>
@@ -1318,7 +1334,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/wZfS9rn1/hamburguer-artesanal.png" alt="HAMBURGUER EXTRA ARTESANAL">
 <h3>HAMBURGUER EXTRA ARTESANAL</h3>
 <p>Adicional.</p>
 <div class="preco">R$ 9,00</div>
@@ -1326,7 +1341,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/TqhkXgRF/HAMBURGUER-TRADICIONAL.png" alt="HAMBURGUER EXTRA TRADICIONAL">
 <h3>HAMBURGUER EXTRA TRADICIONAL</h3>
 <p>Adicional.</p>
 <div class="preco">R$ 2,50</div>
@@ -1334,7 +1348,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/6RxLhQBG/adicional-bacon.png" alt="BACON">
 <h3>BACON</h3>
 <p>Adicional.</p>
 <div class="preco">R$ 3,00</div>
@@ -1342,7 +1355,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/n8KHqTMg/potinho-barbecue.png" alt="POTINHO BARBECUE">
 <h3>POTINHO BARBECUE</h3>
 <p>Molho extra.</p>
 <div class="preco">R$ 3,00</div>
@@ -1350,7 +1362,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/DDCZpVLW/potinho-maionese-verde.png" alt="POTINHO MAIONESE VERDE">
 <h3>POTINHO MAIONESE VERDE</h3>
 <p>Molho extra.</p>
 <div class="preco">R$ 3,00</div>
@@ -1358,7 +1369,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/DHNQ0kwS/potinho-cheddar.png" alt="POTINHO CHEDDAR">
 <h3>POTINHO CHEDDAR</h3>
 <p>Molho extra.</p>
 <div class="preco">R$ 3,00</div>
@@ -1366,7 +1376,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/Y4DcTLwD/maionese-artesanal.png" alt="POTINHO MAIONESE ARTESANAL">
 <h3>POTINHO MAIONESE ARTESANAL</h3>
 <p>Molho extra.</p>
 <div class="preco">R$ 3,00</div>
@@ -1375,7 +1384,6 @@ ADICIONAR
 
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/6RxLhQBG/adicional-bacon.png" alt="ADICIONAL BACON">
 <h3>ADICIONAL BACON</h3>
 <p>Adicional.</p>
 <div class="preco">R$ 3,00</div>
@@ -1383,7 +1391,6 @@ ADICIONAR
 </div>
 
 <div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/cHt8ZjS/adicional-molho-cheddar.png" alt="ADICIONAL CHEDDAR">
 <h3>ADICIONAL CHEDDAR</h3>
 <p>Adicional.</p>
 <div class="preco">R$ 3,00</div>
@@ -4763,7 +4770,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   window.ndUpdateProgress=updateProgress;
   const oldAtualizar=window.atualizarCarrinho;
   if(typeof oldAtualizar==='function'){
-    window.atualizarCarrinho=function(){const r=oldAtualizar.apply(this,arguments);try{window.dispatchEvent(new Event('ndburgs:cart-updated'))}catch(e){}setTimeout(updateProgress,20);return r;};
+    window.atualizarCarrinho=function(){const r=oldAtualizar.apply(this,arguments);setTimeout(updateProgress,20);return r;};
   }
   const back=document.getElementById('ndBackTop');
   window.addEventListener('scroll',()=>back?.classList.toggle('show',window.scrollY>600),{passive:true});
@@ -5322,39 +5329,21 @@ function buildReviews(){
  if(q('#ndFxReviews'))return;
  const footer=q('footer'); if(!footer)return;
  const sec=document.createElement('section');sec.id='ndFxReviews';
- sec.innerHTML='<div class="ndFx-review-head"><div><div class="ndFx-kicker">SUA OPINIÃO IMPORTA</div><h2>⭐ AVALIE A ND BURGS</h2></div><p id="ndPublicReviewStatus">As avaliações enviadas podem aparecer publicamente para outros clientes.</p></div><div class="ndFx-stars" role="radiogroup" aria-label="Nota"><button class="ndFx-star" data-star="1">★</button><button class="ndFx-star" data-star="2">★</button><button class="ndFx-star" data-star="3">★</button><button class="ndFx-star" data-star="4">★</button><button class="ndFx-star" data-star="5">★</button></div><textarea id="ndFxComment" maxlength="500" placeholder="Deixe seu comentário sobre o pedido..."></textarea><button class="ndFx-review-send" type="button" id="ndFxSendReview">ENVIAR AVALIAÇÃO ⭐</button><div id="ndFxReviewStats"></div><div id="ndR18ReviewNotice"></div><div id="ndFxReviewList"></div>';
+ sec.innerHTML='<div class="ndFx-review-head"><div><div class="ndFx-kicker">SUA OPINIÃO IMPORTA</div><h2>⭐ AVALIE A ND BURGS</h2></div><p>Conte como foi seu pedido. A avaliação fica salva neste aparelho e você também pode enviar para a loja pelo WhatsApp.</p></div><div class="ndFx-stars" role="radiogroup" aria-label="Nota"><button class="ndFx-star" data-star="1">★</button><button class="ndFx-star" data-star="2">★</button><button class="ndFx-star" data-star="3">★</button><button class="ndFx-star" data-star="4">★</button><button class="ndFx-star" data-star="5">★</button></div><textarea id="ndFxComment" placeholder="Deixe seu comentário sobre o pedido..."></textarea><button class="ndFx-review-send" type="button" id="ndFxSendReview">ENVIAR AVALIAÇÃO ⭐</button><div id="ndFxReviewList"></div>';
  footer.parentNode.insertBefore(sec,footer);
  qa('.ndFx-star').forEach(st=>st.onclick=()=>{reviewStars=Number(st.dataset.star);qa('.ndFx-star').forEach(x=>x.classList.toggle('on',Number(x.dataset.star)<=reviewStars))});
- q('#ndFxSendReview').onclick=sendReview;
- renderReviews(); loadPublicReviews();
+ q('#ndFxSendReview').onclick=sendReview;renderReviews();
 }
-function localReviews(){try{const a=JSON.parse(localStorage.getItem(reviewKey)||'[]');return Array.isArray(a)?a:[]}catch(_){return[]}}
-function loadReviews(){return localReviews()}
-function renderReviewArray(arr){const list=q('#ndFxReviewList');if(!list)return;const safe=Array.isArray(arr)?arr:[];list.innerHTML=safe.slice(-20).reverse().map(r=>'<div class="ndFx-review"><strong>'+('★'.repeat(Math.max(0,Math.min(5,Number(r.stars)||0))))+'</strong><p>'+safeText(r.comment)+'</p><small>'+safeText(r.date||'')+'</small></div>').join('')}
-function renderReviews(){renderReviewArray(localReviews());updateReviewStats(localReviews())}
-function updateReviewStats(arr){const el=q('#ndFxReviewStats');if(!el)return;const a=(Array.isArray(arr)?arr:[]).filter(r=>Number(r.stars)>=1&&Number(r.stars)<=5);if(!a.length){el.innerHTML='';return}const avg=a.reduce((s,r)=>s+Number(r.stars),0)/a.length;el.innerHTML='<div class="nd-public-review-summary"><b>'+avg.toFixed(1).replace('.',',')+' ★</b><span>'+a.length+' avaliação'+(a.length===1?'':'ões')+'</span></div>'}
-function publicEndpoint(){return String(window.ND_PUBLIC_REVIEWS_ENDPOINT||'').trim()}
-async function loadPublicReviews(){
- const ep=publicEndpoint(),status=q('#ndPublicReviewStatus');
- if(!ep){if(status)status.textContent='As avaliações ficam prontas para publicação pública. Falta apenas conectar a base online da loja.';return}
- try{
-  const r=await fetch(ep,{cache:'no-store'});if(!r.ok)throw new Error('GET '+r.status);const data=await r.json();const arr=Array.isArray(data)?data:(Array.isArray(data.reviews)?data.reviews:[]);renderReviewArray(arr);updateReviewStats(arr);if(status)status.textContent='⭐ Avaliações públicas da ND BURGS — visíveis para todos os clientes.';
- }catch(e){if(status)status.textContent='Não foi possível carregar as avaliações públicas agora. Tente novamente em instantes.'}
-}
-async function sendReview(){
+function loadReviews(){try{const a=JSON.parse(localStorage.getItem(reviewKey)||'[]');return Array.isArray(a)?a:[]}catch(_){return[]}}
+function renderReviews(){const list=q('#ndFxReviewList');if(!list)return;const arr=loadReviews();list.innerHTML=arr.slice(-5).reverse().map(r=>'<div class="ndFx-review"><strong>'+('★'.repeat(r.stars))+'</strong><p>'+safeText(r.comment)+'</p><small>'+safeText(r.date)+'</small></div>').join('')}
+function sendReview(){
  if(!reviewStars)return alert('Escolha uma nota de 1 a 5 estrelas.');
  const comment=(q('#ndFxComment')?.value||'').trim();if(!comment)return alert('Escreva um comentário antes de enviar.');
- const item={stars:reviewStars,comment,date:new Date().toLocaleDateString('pt-BR')};
- const ep=publicEndpoint();
- if(ep){
-  try{const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item)});if(!r.ok)throw new Error('POST '+r.status);}
-  catch(e){return alert('Não foi possível publicar sua avaliação agora. Tente novamente.')}
- }else{
-  const arr=localReviews();arr.push(item);try{localStorage.setItem(reviewKey,JSON.stringify(arr.slice(-50)))}catch(_){ }
- }
- renderReviews();if(ep)await loadPublicReviews();
+ const arr=loadReviews();arr.push({stars:reviewStars,comment,date:new Date().toLocaleDateString('pt-BR')});try{localStorage.setItem(reviewKey,JSON.stringify(arr))}catch(_){ }
+ renderReviews();
  const msg='⭐ *AVALIAÇÃO — ND BURGS*\n\nNota: '+reviewStars+'/5\nComentário: '+comment;
- const wa='5511963973846';window.open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');
+ const wa='5511963973846';
+ window.open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');
  q('#ndFxComment').value='';reviewStars=0;qa('.ndFx-star').forEach(x=>x.classList.remove('on'));
 }
 function init(){
@@ -5756,7 +5745,7 @@ button{font-family:inherit}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- ND BURGS VERSION: 20260905-R13 -->
+<!-- ND BURGS VERSION: 20260904-R10 -->
 
 
 <!-- =========================================================
@@ -6397,8 +6386,12 @@ button[aria-label*="favor" i],button[title*="favor" i],.favorito,.btn-favorito{t
     }
   }
   function nd19Bind(){
-    /* Não observa o body: o próprio refresh altera textContent e poderia
-       disparar o observer novamente em um ciclo infinito. */
+    /* Observa alterações já feitas pelo sistema original sem interceptar suas funções. */
+    const root=document.body;
+    if(root&&!root.__nd19Observer){
+      root.__nd19Observer=new MutationObserver(function(){clearTimeout(root.__nd19Timer);root.__nd19Timer=setTimeout(nd19RefreshTotals,30)});
+      root.__nd19Observer.observe(root,{subtree:true,childList:true,characterData:true});
+    }
     nd19RefreshTotals();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',nd19Bind);else nd19Bind();
@@ -6602,8 +6595,8 @@ function welcomeGate(){
 }
 function refresh(){patchCart();setupAddressInputs();syncTotals();decorateCheckout();decorateModalCart();welcomeGate();forceCart();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)});else{refresh();setTimeout(refresh,250);setTimeout(refresh,1000)}
-// Atualização segura: evita observar o body inteiro para não criar ciclos de mutação.
-window.addEventListener('ndburgs:cart-updated',()=>{forceCart();syncTotals();decorateModalCart()});
+// Atualização leve quando o carrinho/checkout muda, sem setInterval agressivo.
+let timer=0;const obs=new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{forceCart();syncTotals();decorateModalCart()},80)});obs.observe(document.body,{subtree:true,childList:true,characterData:true});
 })();
 </script>
 
@@ -6732,7 +6725,7 @@ function buildQuickNav(){
  $('#nd20Finish').onclick=()=>{if(typeof window.abrirCarrinho==='function'){window.abrirCarrinho()}else{$('#modalCarrinho')?.classList.add('ativo')}};
 }
 function patchIntroButton(){
- const btn=$$('.ndFx-action').find(x=>norm(x.textContent).includes('VER MAIS VENDIDOS'));if(!btn)return;if(btn.dataset.ndR14==='1')return;btn.dataset.ndR14='1';btn.onclick=()=>{const sec=document.getElementById('ndAutoBest');if(sec){renderBest();sec.scrollIntoView({behavior:'smooth',block:'start'});if(typeof confetti==='function')confetti(btn)}};
+ const btn=$$('.ndFx-action').find(x=>norm(x.textContent).includes('VER MAIS VENDIDOS'));if(!btn)return;if(btn.dataset.nd20==='1')return;btn.dataset.nd20='1';btn.onclick=()=>{const sec=$('#nd20Best')||buildBest();renderBest();sec?.scrollIntoView({behavior:'smooth',block:'start'});confetti(btn)};
 }
 function forceSingleCart(){
  const old=$('#ndCartFab');if(old)old.remove();const label=$('#ndCartLabel');if(label)label.remove();
@@ -6750,1294 +6743,531 @@ setInterval(()=>{forceSingleCart();buildRatings();patchAdd()},1200);
 </script>
 
 <!-- =========================================================
-     ND BURGS R11 — COMBOS 100% CONFIGURÁVEIS + NOVA NAVEGAÇÃO
+     ND BURGS — COMBOS 100% FUNCIONAIS + NOVA UI
+     Última camada: preserva o restante do site e corrige
+     entradas de combos, carrinho, destaques e checkout.
      ========================================================= -->
-<style id="nd-r11-combos-ui">
-:root{--r11-orange:#ff5a00;--r11-orange2:#ff9d00;--r11-yellow:#ffd21a;--r11-bg:#080808;--r11-card:#111216;--r11-line:rgba(255,255,255,.10)}
-/* Busca única */
+<style id="nd-combos-final">
+:root{
+  --nd-orange:#ff5a00;--nd-orange2:#ff9d00;--nd-yellow:#ffd21a;
+  --nd-red:#ff2417;--nd-dark:#070707;--nd-card:#111216;
+}
+body{
+  background:
+    radial-gradient(700px 320px at 8% 20%,rgba(255,90,0,.12),transparent 70%),
+    radial-gradient(700px 340px at 92% 48%,rgba(255,157,0,.09),transparent 70%),
+    #070707!important;
+}
+/* Esconde navegações duplicadas/centrais */
 .categoria-menu,#nd20QuickNav{display:none!important}
-.modern-search{position:sticky!important;top:8px!important;z-index:9400!important;margin:12px 0 16px!important}
-/* Sidebar lateral: fixa do topo ao fim, com brilho laranja */
+#ndR7Reco{display:none!important}
+/* Categorias laterais com brilho laranja e rolagem */
 @media(min-width:901px){
- body{padding-left:232px!important}
- #nd18Sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:214px!important;height:100vh!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;padding:18px 11px 22px!important;background:linear-gradient(180deg,#080808 0%,#110b07 48%,#080808 100%)!important;border:0!important;border-right:1px solid rgba(255,90,0,.42)!important;border-radius:0!important;box-shadow:8px 0 35px rgba(0,0,0,.75),inset -1px 0 0 rgba(255,157,0,.08)!important;z-index:20000!important}
- #nd18Sidebar:before{content:"";position:fixed;left:0;top:0;width:214px;height:2px;background:linear-gradient(90deg,transparent,#ff5a00,#ffd21a,#ff5a00,transparent);box-shadow:0 0 20px #ff5a00;pointer-events:none}
- #nd18Sidebar .nd18-title{position:sticky!important;top:0!important;background:linear-gradient(180deg,#080808 80%,transparent)!important;color:#ff9d00!important;font-size:12px!important;letter-spacing:1.7px!important;padding:7px 9px 14px!important;border-bottom:0!important}
- #nd18Sidebar button{position:relative!important;width:100%!important;margin:5px 0!important;padding:12px 12px!important;background:linear-gradient(135deg,#111214,#19100b)!important;color:#ddd!important;border:1px solid rgba(255,90,0,.18)!important;border-radius:12px!important;font-weight:800!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 5px 15px rgba(0,0,0,.25)!important;overflow:hidden!important}
- #nd18Sidebar button:before{content:"";position:absolute;left:-45%;top:-80%;width:30%;height:260%;background:linear-gradient(90deg,transparent,rgba(255,170,0,.55),transparent);transform:rotate(18deg);animation:r11SideShine 4.5s linear infinite;pointer-events:none}
- #nd18Sidebar button:hover,#nd18Sidebar button.ativo{background:linear-gradient(135deg,#301306,#19100b)!important;color:#fff!important;border-color:#ff6500!important;transform:translateX(4px)!important;box-shadow:0 0 16px rgba(255,90,0,.22),inset 0 0 18px rgba(255,90,0,.06)!important}
- #nd18Sidebar::-webkit-scrollbar{width:5px}#nd18Sidebar::-webkit-scrollbar-thumb{background:linear-gradient(#ff5a00,#ffd21a);border-radius:10px}
-}
-@keyframes r11SideShine{0%{left:-55%}55%,100%{left:145%}}
-@media(max-width:900px){#nd18Sidebar{position:sticky!important;top:0!important;z-index:20000!important;background:#080808!important;border-bottom:1px solid rgba(255,90,0,.45)!important}.modern-search{top:0!important}}
-/* Carrinho no topo direito: texto 3D amarelo, discreto e sempre fixo */
-#carrinhoFlutuante{position:fixed!important;right:18px!important;top:18px!important;left:auto!important;bottom:auto!important;width:auto!important;height:auto!important;min-width:0!important;max-width:190px!important;padding:0!important;transform:none!important;display:flex!important;opacity:0!important;pointer-events:none!important;z-index:50000!important;background:transparent!important;border:0!important;box-shadow:none!important}
-#carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important}
-#carrinhoFlutuante .carrinho-flutuante-info{display:flex!important;align-items:center!important;min-width:0!important}
-#carrinhoFlutuante .carrinho-flutuante-info strong{display:block!important;font-size:0!important;line-height:1!important;background:linear-gradient(180deg,#fff79b 0%,#ffd21a 45%,#f39a00 100%);color:#161000!important;padding:10px 14px!important;border:1px solid #ffe36a!important;border-radius:12px!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.65),inset 0 -4px 0 rgba(171,91,0,.65),0 3px 0 #8d5200,0 8px 18px rgba(0,0,0,.55),0 0 18px rgba(255,180,0,.22)!important;text-shadow:0 1px 0 rgba(255,255,255,.25)!important;white-space:nowrap!important;cursor:pointer!important}
-#carrinhoFlutuante .carrinho-flutuante-info strong:after{content:'VER CARRINHO';font-size:12px!important;font-weight:1000!important;letter-spacing:.3px}
-#carrinhoFlutuante .carrinho-flutuante-info span{position:absolute!important;right:-8px!important;top:-8px!important;min-width:23px!important;height:23px!important;padding:0 6px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#ff3b00!important;color:#fff!important;border:2px solid #080808!important;border-radius:50%!important;font-size:10px!important;font-weight:1000!important;box-shadow:0 0 12px rgba(255,70,0,.6)!important}
-#carrinhoFlutuante .carrinho-flutuante-direita{display:none!important}
-@media(max-width:600px){#carrinhoFlutuante{right:10px!important;top:10px!important}#carrinhoFlutuante .carrinho-flutuante-info strong{padding:9px 11px!important}#carrinhoFlutuante .carrinho-flutuante-info strong:after{font-size:10px!important}}
-/* remove recomendações */
-#ndR7Reco,#ndR7Recent,.nd-r3-upsell{display:none!important}
-/* Destaque automático logo abaixo dos horários */
-#ndAutoBest{position:relative;width:min(1180px,calc(100% - 28px));margin:15px auto 18px;padding:17px;border:1px solid rgba(255,90,0,.40);border-radius:20px;background:radial-gradient(circle at 80% 0%,rgba(255,90,0,.16),transparent 38%),linear-gradient(145deg,#0d0d0f,#170b05,#0a0a0a);box-shadow:0 12px 40px rgba(0,0,0,.55),0 0 28px rgba(255,90,0,.08);overflow:hidden}
-#ndAutoBest:before{content:"";position:absolute;inset:-70px;background:conic-gradient(from 0deg,transparent,#ff5a00,transparent,#ffd21a,transparent);opacity:.08;animation:r11Spin 9s linear infinite}
-@keyframes r11Spin{to{transform:rotate(360deg)}}
-.r11-best-head{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}.r11-best-head small{display:block;color:#ff7a21;font-size:9px;font-weight:1000;letter-spacing:2px}.r11-best-head h2{margin:3px 0 0!important;border:0!important;padding:0!important;font-size:24px!important;color:#fff!important}.r11-best-head p{color:#8f8f96;font-size:10px;text-align:right;margin:0}.r11-best-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.r11-best-card{display:grid;grid-template-columns:74px 1fr auto;gap:10px;align-items:center;padding:9px;border:1px solid rgba(255,90,0,.20);border-radius:14px;background:rgba(10,10,10,.86)}.r11-best-card img{width:74px;height:74px;object-fit:cover;border-radius:10px;background:#050505}.r11-best-card strong{display:block;font-size:12px}.r11-best-card span{display:block;color:#ffd21a;font-weight:1000;font-size:13px;margin-top:4px}.r11-best-card button{border:0;border-radius:9px;background:linear-gradient(135deg,#ff5a00,#ff9d00);color:#090909;font-weight:1000;font-size:10px;padding:10px 9px;cursor:pointer}
-@media(max-width:700px){#ndAutoBest{width:calc(100% - 14px);padding:13px}.r11-best-head{align-items:flex-start;flex-direction:column}.r11-best-head p{text-align:left}.r11-best-grid{display:flex;overflow:auto}.r11-best-card{min-width:275px}}
-/* Promo doce surpresa */
-#ndUvaPromo{width:min(900px,calc(100% - 28px));margin:12px auto 22px;display:flex;align-items:center;justify-content:center;gap:18px;position:relative;padding:8px 14px 14px;background:radial-gradient(circle at 50% 45%,rgba(255,90,0,.10),transparent 58%);overflow:hidden}
-#ndUvaPromo img{width:min(220px,34vw);height:170px;object-fit:contain;filter:drop-shadow(0 20px 18px rgba(0,0,0,.65));flex:none}
-.r11-promo-copy{text-align:center}.r11-promo-copy .k{font-size:10px;font-weight:1000;letter-spacing:2px;color:#ff7a21}.r11-promo-copy h2{margin:4px 0 5px;border:0;padding:0;font-size:24px;color:#fff}.r11-promo-copy p{color:#aaa;font-size:11px;margin:0 0 8px}.r11-promo-old{text-decoration:line-through;color:#888;font-size:13px}.r11-promo-price{font-size:31px;font-weight:1000;color:#ffd21a;text-shadow:0 3px 0 #8c5c00,0 6px 12px rgba(0,0,0,.65);margin:2px 0 9px}.r11-promo-copy button{border:0;border-radius:12px;background:linear-gradient(180deg,#fff36b,#ffd21a 52%,#e59d00);color:#211700;padding:12px 18px;font-weight:1000;box-shadow:inset 0 2px 0 rgba(255,255,255,.8),0 4px 0 #996500,0 9px 20px rgba(0,0,0,.45);cursor:pointer}
-@media(max-width:600px){#ndUvaPromo{gap:4px;padding:4px 2px 12px}.r11-promo-copy h2{font-size:18px}.r11-promo-price{font-size:26px}#ndUvaPromo img{width:125px;height:125px}.r11-promo-copy p{font-size:10px}}
-/* Escolhas rápidas no fim */
-#ndFinalQuick{width:min(1180px,calc(100% - 28px));margin:30px auto 12px;padding:16px;border:1px solid rgba(255,90,0,.25);border-radius:18px;background:linear-gradient(145deg,#111,#0b0b0b)}#ndFinalQuick h2{margin:0 0 3px;border:0;padding:0;color:#fff;font-size:21px}#ndFinalQuick>p{color:#888;font-size:10px;margin:0 0 12px}.r11-quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.r11-q{display:flex;align-items:center;gap:8px;padding:9px;border:1px solid #242424;border-radius:12px;background:#0d0d0d}.r11-q img{width:54px;height:54px;object-fit:cover;border-radius:8px}.r11-q div{min-width:0;flex:1}.r11-q b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.r11-q span{display:block;color:#ffd21a;font-size:11px;font-weight:900;margin:3px 0}.r11-q button{width:100%;border:0;border-radius:8px;padding:7px;background:#ff5a00;color:#fff;font-size:9px;font-weight:1000;cursor:pointer}@media(max-width:700px){.r11-quick-grid{grid-template-columns:1fr 1fr}.r11-q{flex-direction:column;align-items:stretch}.r11-q img{width:100%;height:90px}}
-/* Modal de combos */
-#ndComboModal{position:fixed;inset:0;z-index:400000;display:none;align-items:center;justify-content:center;padding:12px;background:rgba(0,0,0,.88);backdrop-filter:blur(12px)}#ndComboModal.show{display:flex}.r11-combo-panel{width:min(680px,100%);max-height:94vh;overflow:auto;background:linear-gradient(160deg,#17181b,#08090a);border:1px solid rgba(255,90,0,.65);border-radius:22px;box-shadow:0 25px 90px rgba(0,0,0,.8),0 0 35px rgba(255,90,0,.12);padding:18px}.r11-combo-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;position:sticky;top:-18px;z-index:5;padding:2px 0 12px;background:linear-gradient(180deg,#17181b 75%,transparent)}.r11-combo-head h2{margin:0;border:0;padding:0;font-size:23px}.r11-combo-head small{display:block;color:#ff7a21;margin-top:4px;font-size:10px;font-weight:900}.r11-close{width:40px;height:40px;border:1px solid #333;border-radius:11px;background:#111;color:#fff;font-size:23px;cursor:pointer}.r11-section{margin:12px 0;padding:13px;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:rgba(255,255,255,.025)}.r11-section h3{margin:0 0 4px;color:#ff9d00;font-size:16px}.r11-required{color:#ff5a00;font-size:9px;font-weight:1000;letter-spacing:.7px}.r11-option-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.r11-option{position:relative}.r11-option input{position:absolute;opacity:0;pointer-events:none}.r11-option label{display:block!important;margin:0!important;padding:12px 10px!important;border:1px solid #303136!important;border-radius:11px!important;background:#0c0d0f!important;color:#ddd!important;font-size:12px!important;font-weight:800!important;cursor:pointer!important;line-height:1.25!important}.r11-option input:checked+label{border-color:#ff5a00!important;background:linear-gradient(135deg,#2a1006,#17100d)!important;color:#fff!important;box-shadow:0 0 0 1px rgba(255,90,0,.22),0 7px 20px rgba(255,90,0,.10)!important}.r11-fixed{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px;border-radius:10px;background:#0b0b0b;border:1px dashed #3a2a21;color:#ddd;font-size:12px;font-weight:900}.r11-fixed b{color:#ffd21a}.r11-addons{display:none;margin-top:11px;padding-top:11px;border-top:1px solid #272727}.r11-addons.show{display:block}.r11-bite{padding:11px;border-radius:11px;background:linear-gradient(135deg,#291006,#17100b);border:1px solid rgba(255,90,0,.35);color:#fff;font-size:13px;font-weight:1000;text-align:center;box-shadow:0 0 20px rgba(255,90,0,.06)}.r11-addon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}.r11-addon{position:relative;cursor:pointer}.r11-addon input{position:absolute;opacity:0}.r11-addon label{display:block!important;margin:0!important;height:100%!important;padding:5px!important;border:1px solid #2a2a2d!important;border-radius:10px!important;background:#0c0c0e!important;color:#ddd!important;cursor:pointer!important;text-align:center!important;font-size:9px!important;font-weight:900!important}.r11-addon img{width:100%;height:55px;object-fit:contain;border-radius:7px;margin-bottom:3px}.r11-addon input:checked+label{border-color:#ff9d00!important;background:#211208!important;color:#ffd21a!important}.r11-sauce-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.r11-sauce input{display:none}.r11-sauce label{display:block;padding:11px 7px;text-align:center;border:1px solid #303136;border-radius:10px;background:#0d0d0f;color:#ddd;font-size:11px;font-weight:900;cursor:pointer}.r11-sauce input:checked+label{border-color:#ffd21a;background:#251c05;color:#ffd21a}.r11-note{font-size:10px;color:#888;margin-top:8px;line-height:1.4}.r11-combo-total{display:flex;justify-content:space-between;align-items:center;padding:14px;margin-top:12px;background:#090909;border:1px solid #303030;border-radius:13px}.r11-combo-total span{font-size:11px;color:#aaa}.r11-combo-total strong{font-size:25px;color:#ffd21a;text-shadow:0 3px 0 #765000}.r11-confirm{width:100%;margin-top:10px;border:0;border-radius:13px;padding:15px;background:linear-gradient(135deg,#ff5a00,#ff9d00);color:#120a00;font-size:15px;font-weight:1000;cursor:pointer;box-shadow:0 6px 0 #8d4300,0 12px 25px rgba(255,90,0,.20)}.r11-confirm:active{transform:translateY(2px);box-shadow:0 4px 0 #8d4300}
-@media(max-width:600px){#ndComboModal{padding:0;align-items:flex-end}.r11-combo-panel{max-height:96vh;border-radius:20px 20px 0 0;padding:14px}.r11-option-grid{grid-template-columns:1fr}.r11-addon-grid{grid-template-columns:repeat(4,1fr)}.r11-addon img{height:48px}.r11-combo-head h2{font-size:20px}.r11-sauce-grid{grid-template-columns:1fr 1fr}}
-</style>
-
-<script id="nd-r11-combos-js">
-(function(){
-'use strict';
-const DRINKS=['SPRITE','COCA-COLA LATA','COCA-COLA LATA ZERO','FANTA UVA','FANTA LARANJA','GUARANÁ ANTARCTICA','ÁGUA MINERAL'];
-const TRAD=['X-SALADA','X-BURGUER','X-EGG','X-BACON'];
-const ART=['GAROTINHO','DINA','GADEIA','PATÃO','BERENICE'];
-const SAUCES=['CHEDDAR','BARBECUE','CATUPIRY','MAIONESE','MOSTARDA','KETCHUP','MAIONESE VERDE'];
-const ADDONS=[
- ['MAIONESE ARTESANAL','3.00','https://i.ibb.co/Y4DcTLwD/maionese-artesanal.png'],
- ['MOLHO CHEDDAR','3.00','https://i.ibb.co/cHt8ZjS/adicional-molho-cheddar.png'],
- ['POTINHO BARBECUE','3.00','https://i.ibb.co/n8KHqTMg/potinho-barbecue.png'],
- ['BACON','3.00','https://i.ibb.co/6RxLhQBG/adicional-bacon.png'],
- ['POTINHO CHEDDAR','3.00','https://i.ibb.co/DHNQ0kwS/potinho-cheddar.png'],
- ['HAMBURGUER EXTRA ARTESANAL','9.00','https://i.ibb.co/wZfS9rn1/hamburguer-artesanal.png'],
- ['POTINHO MAIONESE VERDE','3.00','https://i.ibb.co/DDCZpVLW/potinho-maionese-verde.png'],
- ['FATIA QUEIJO CHEDDAR EXTRA','3.00','https://i.ibb.co/ZRydT4hD/fatia-de-queijo.png']
-];
-const configs={
- 'COMBO MAIS VENDIDO':{price:20.90,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
- 'COMBO DOCE':{price:32.90,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'fixed',title:'SOBREMESA',value:'1 SURPRESA DE UVA'}]},
- 'COMBO GELADO':{price:40.90,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P COMPLETA COM CHEDDAR E BACON'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'acai',title:'AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
- 'COMBO 5 ESTRELAS':{price:45.90,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M • NUGGETS P • ANEL DE CEBOLA P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES}]},
- 'COMBO DIETA SÓ SEGUNDA':{price:27.90,sections:[{type:'pastel',title:'ESCOLHA 1 SABOR DE PASTEL',options:'dynamic'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'fixed',title:'SOBREMESA',value:'1 SURPRESA DE UVA'}]},
- 'COMBO MOTOCA ND':{price:32.90,sections:[{type:'fixed',title:'LANCHE',value:'NUNES'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
- 'COMBO SÓ LOVE':{price:71.90,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M COM CHEDDAR E BACON • NUGGETS P • ANEL DE CEBOLA P • FRANGO FRITO P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES},{type:'fixed',title:'BRINDE',value:'1 DOLLY 2 LITROS'}]},
- 'DATE COM NDBURGS':{price:70.90,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES',options:TRAD},{type:'fixed',title:'SOBREMESA',value:'2 SURPRESAS DE UVA'},{type:'fixed',title:'BRINDE',value:'1 COCA-COLA 600ML'},{type:'acai2',title:'2 AÇAÍS 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
- '01 ND BURGS':{price:50.90,sections:[{type:'fixed',title:'LANCHES FIXOS',value:'1 X-BURGUER • 1 X-EGG • 1 X-SALADA • 1 X-BACON'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA M COMPLETA COM CHEDDAR E BACON'}]},
- 'ARTESANAL COMBO MAIS VENDIDO':{price:34.80,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE ARTESANAL',options:ART},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
- 'ARTESANAL COMBO DOCE':{price:44.80,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE ARTESANAL',options:ART},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'fixed',title:'SOBREMESA',value:'1 SURPRESA DE UVA'}]},
- 'ARTESANAL COMBO GELADO':{price:52.80,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE ARTESANAL',options:ART},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P COMPLETA COM CHEDDAR E BACON'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'acai',title:'AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
- 'ARTESANAL COMBO 5 ESTRELAS':{price:70.80,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES ARTESANAIS',options:ART},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M • NUGGETS P • ANEL DE CEBOLA P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES}]},
- 'ARTESANAL COMBO SÓ LOVE':{price:90.80,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES ARTESANAIS',options:ART},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M COM CHEDDAR E BACON • NUGGETS P • ANEL DE CEBOLA P • FRANGO FRITO P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES},{type:'fixed',title:'BRINDE',value:'1 DOLLY 2 LITROS'}]},
- 'ARTESANAL DATE COM NDBURGS':{price:91.80,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES ARTESANAIS',options:ART},{type:'fixed',title:'SOBREMESA',value:'2 SURPRESAS DE UVA'},{type:'fixed',title:'BRINDE',value:'1 COCA-COLA 600ML'},{type:'acai2',title:'2 AÇAÍS 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
- 'ARTESANAL MOTOCA ND':{price:41.80,sections:[{type:'fixed',title:'LANCHE FIXO',value:'PÉZÃO'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
- 'ARTESANAL 01 ND BURGS':{price:96.80,sections:[{type:'fixed',title:'LANCHES FIXOS',value:'1 GAROTINHO • 1 DINA • 1 GADEIA • 1 PATÃO'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA M COMPLETA COM CHEDDAR E BACON'}]}
-};
-let current=null;
-function norm(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
-function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
-function ensureModal(){if(document.getElementById('ndComboModal'))return;const m=document.createElement('div');m.id='ndComboModal';m.innerHTML='<div class="r11-combo-panel" onclick="event.stopPropagation()"><div class="r11-combo-head"><div><h2 id="r11ComboTitle"></h2><small>ESCOLHAS OBRIGATÓRIAS • O COMBO SÓ ENTRA NO CARRINHO DEPOIS DE MONTADO</small></div><button class="r11-close" type="button" onclick="fecharComboPersonalizacao()">×</button></div><div id="r11ComboContent"></div></div>';m.addEventListener('click',e=>{if(e.target===m)fecharComboPersonalizacao()});document.body.appendChild(m)}
-function optionsHtml(opts,name,prefix){return '<div class="r11-option-grid">'+opts.map((x,i)=>'<div class="r11-option"><input type="radio" id="'+prefix+'_'+i+'" name="'+name+'" value="'+esc(x)+'"><label for="'+prefix+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div>'}
-function addonHtml(prefix){return '<div class="r11-addons" id="'+prefix+'_addons"><div class="r11-bite">🍔 QUER DEIXAR SEU LANCHE BITELO?<br><span style="font-size:10px;color:#ffb36d">ESCOLHA SEUS ADICIONAIS</span></div><div class="r11-addon-grid">'+ADDONS.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+prefix+'_a_'+i+'" data-price="'+a[1]+'" data-name="'+esc(a[0])+'"><label for="'+prefix+'_a_'+i+'"><img src="'+a[2]+'" alt="'+esc(a[0])+'"><span>'+esc(a[0])+'</span><br><b>+'+money(a[1])+'</b></label></div>').join('')+'</div><div class="r11-note">Os adicionais são opcionais e entram no valor do combo apenas se forem marcados.</div></div>'}
-function sectionHtml(sec,idx){
- const id='r11s'+idx;
- if(sec.type==='fixed')return '<div class="r11-section"><h3>📦 '+esc(sec.title)+'</h3><div class="r11-fixed"><span>FIXO</span><b>'+esc(sec.value)+'</b></div></div>';
- if(sec.type==='drink')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+'</div>';
- if(sec.type==='sauces')return '<div class="r11-section"><h3>🥫 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • MARQUE EXATAMENTE 2</span><div class="r11-sauce-grid">'+sec.options.map((x,i)=>'<div class="r11-sauce"><input type="checkbox" id="'+id+'_'+i+'" name="'+id+'" value="'+esc(x)+'"><label for="'+id+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div></div>';
- if(sec.type==='pastel')return '<div class="r11-section"><h3>🥟 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • SEM PASTEL ESPECIAL E SEM DOCES</span>'+optionsHtml((typeof saboresPasteis!=='undefined'?saboresPasteis.salgados:[]).filter(x=>norm(x[0])!=='PASTEL ESPECIAL').map(x=>x[0]),id,'r11opt'+idx)+'</div>';
- if(sec.type==='acai')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 300ML</span><div class="r11-fixed" style="margin-top:9px"><span>FIXO</span><b>AÇAÍ 300ML</b></div>'+acaiChoicesHtml(id,1)+'</div>';
- if(sec.type==='acai2')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 2 AÇAÍS DE 300ML</span>'+acaiChoicesHtml(id+'a',1)+acaiChoicesHtml(id+'b',2)+'</div>';
- if(sec.type==='burger')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+addonHtml(id)+'</div>';
- if(sec.type==='burger2')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 2</span><div style="margin-top:10px;font-size:10px;color:#aaa;font-weight:900">LANCHE 1</div>'+optionsHtml(sec.options,id+'a','r11opt'+idx+'a')+addonHtml(id+'a')+'<div style="margin-top:12px;font-size:10px;color:#aaa;font-weight:900">LANCHE 2</div>'+optionsHtml(sec.options,id+'b','r11opt'+idx+'b')+addonHtml(id+'b')+'<div class="r11-note">Você pode escolher lanches diferentes. Se repetir o mesmo lanche, ele será contabilizado duas vezes.</div></div>';
- return '';
-}
-function acaiChoicesHtml(id,num){const list=typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?produtosPersonalizaveis.acai.acompanhamentos:[];return '<div style="margin-top:10px"><div style="font-size:10px;color:#aaa;font-weight:900;margin-bottom:6px">AÇAÍ '+num+' • ACOMPANHAMENTOS</div><div class="r11-addon-grid">'+list.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+id+'_a_'+i+'" data-name="'+esc(a[0])+'" data-price="'+a[1]+'" data-acai="1"><label for="'+id+'_a_'+i+'"><div style="height:48px;display:grid;place-items:center;font-size:20px">🍓</div><span>'+esc(a[0])+'</span><br><b>'+((a[1]>0)?'+'+money(a[1]):'GRÁTIS')+'</b></label></div>').join('')+'</div><div class="r11-note">Até 3 acompanhamentos normais são grátis, seguindo a regra do açaí do site. Os itens pagos continuam com o valor cadastrado.</div></div>'}
-function open(name,price){ensureModal();current={name,price:Number(price),cfg:configs[name]};if(!current.cfg)return;document.getElementById('r11ComboTitle').textContent='🍔 '+name;document.getElementById('r11ComboContent').innerHTML=current.cfg.sections.map(sectionHtml).join('')+'<div class="r11-combo-total"><span>TOTAL DO COMBO</span><strong id="r11ComboTotal">'+money(current.price)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';const m=document.getElementById('ndComboModal');m.classList.add('show');document.body.style.overflow='hidden';bindDynamic();}
-function bindDynamic(){document.querySelectorAll('#r11ComboContent input[type=radio]').forEach(r=>r.addEventListener('change',()=>{const sec=r.closest('.r11-section');const addon=sec?.querySelector('.r11-addons');if(addon){addon.classList.add('show')}}));document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}}))}
-function selected(name){return document.querySelector('input[name="'+name+'"]:checked')?.value||''}
-function addons(prefix){return [...document.querySelectorAll('#'+prefix+'_addons input[type=checkbox]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
-function acai(prefix){return [...document.querySelectorAll('#'+prefix+'_a_'+CSS.escape('0'))].length?[]:[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
-function allAcai(){return [...document.querySelectorAll('#r11ComboContent input[data-acai="1"]:checked')].map(x=>({id:x.id,name:x.dataset.name,price:Number(x.dataset.price)||0}));}
-function validarAcai(prefix){const chosen=[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')];return chosen.map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
-function close(){const m=document.getElementById('ndComboModal');if(m)m.classList.remove('show');document.body.style.overflow='';current=null}
-function confirm(){if(!current)return;const cfg=current.cfg,details=[],selectedBur=[];let ok=true;let extra=0;
- cfg.sections.forEach((sec,idx)=>{const id='r11s'+idx;
-   if(sec.type==='burger'){const v=selected(id);if(!v){ok=false;return}details.push('Lanche: '+v);addons(id).forEach(a=>{details.push('Adicional no lanche: '+a.name);extra+=a.price})}
-   if(sec.type==='burger2'){const a=selected(id+'a'),b=selected(id+'b');if(!a||!b){ok=false;return}details.push('Lanche 1: '+a,'Lanche 2: '+b);addons(id+'a').forEach(x=>{details.push('Adicional no Lanche 1: '+x.name);extra+=x.price});addons(id+'b').forEach(x=>{details.push('Adicional no Lanche 2: '+x.name);extra+=x.price})}
-   if(sec.type==='drink'){const v=selected(id);if(!v){ok=false;return}details.push('Refrigerante: '+v)}
-   if(sec.type==='sauces'){const v=[...document.querySelectorAll('input[name="'+id+'"]:checked')].map(x=>x.value);if(v.length!==2){ok=false;return}details.push('Molhos: '+v.join(' + '))}
-   if(sec.type==='pastel'){const v=selected(id);if(!v){ok=false;return}details.push('Pastel: '+v)}
-   if(sec.type==='fixed'){details.push(sec.title+': '+sec.value)}
-   if(sec.type==='acai'){const a=validarAcai(id);if(a.length===0){ok=false;return}details.push('Açaí 300ml: '+a.map(x=>x.name).join(' + '));let normal=0;a.forEach(x=>{if(x.price>0)extra+=x.price;else normal++});if(normal>3)extra+=(normal-3)*0}
-   if(sec.type==='acai2'){const a=validarAcai(id+'a'),b=validarAcai(id+'b');if(!a.length||!b.length){ok=false;return}details.push('Açaí 1 300ml: '+a.map(x=>x.name).join(' + '));details.push('Açaí 2 300ml: '+b.map(x=>x.name).join(' + '));a.concat(b).forEach(x=>{if(x.price>0)extra+=x.price})}
- });
- if(!ok){alert('⚠️ COMPLETE TODAS AS ESCOLHAS OBRIGATÓRIAS DO COMBO ANTES DE ADICIONAR.');return}
- const item={nome:current.name,preco:current.price+extra,quantidade:1,detalhes:details};if(Array.isArray(window.carrinho))window.carrinho.push(item);if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();close();setTimeout(()=>{try{window.scrollTo({top:window.scrollY,behavior:'auto'})}catch(_){ }},0);
-}
-window.abrirComboPersonalizacao=open;window.fecharComboPersonalizacao=close;window.confirmarComboPersonalizacao=confirm;
-// Intercepta qualquer adicionar() de combo, inclusive entradas antigas/atalhos.
-const originalAdicionar=window.adicionar;
-if(typeof originalAdicionar==='function'&&!originalAdicionar.__r11combo){
- window.adicionar=function(nome,preco){if(configs[nome]){open(nome,preco||configs[nome].price);return}return originalAdicionar.apply(this,arguments)};window.adicionar.__r11combo=true;
-}
-// Garante que os botões dos combos abram o configurador imediatamente.
-function patchComboButtons(){document.querySelectorAll('.produto .btn-add').forEach(btn=>{const card=btn.closest('.produto');const name=card?.querySelector('h3')?.textContent.trim();if(configs[name]&&btn.dataset.r11combo!=='1'){btn.dataset.r11combo='1';btn.setAttribute('onclick',"abrirComboPersonalizacao('"+name.replace(/'/g,"\\'")+"',"+configs[name].price+")")}})}
-// Cria/posiciona Best Sellers, promo e escolhas rápidas.
-function productInfo(card){const h=card.querySelector('h3'),im=card.querySelector('img'),pr=card.querySelector('.preco');const b=card.querySelector('.btn-add');if(!h||!pr||!b)return null;return {name:h.textContent.trim(),img:im?.src||'',price:Number((b.getAttribute('onclick')||'').match(/,([0-9.]+)\)/)?.[1]||0),btn:b}}
-function buildBest(){if(document.getElementById('ndAutoBest'))return;const h=document.querySelector('.horarios');if(!h)return;const s=document.createElement('section');s.id='ndAutoBest';s.innerHTML='<div class="r11-best-head"><div><small>🔥 ATUALIZADO AUTOMATICAMENTE</small><h2>MAIS VENDIDOS DO DIA</h2></div><p>Favoritos em destaque para hoje.</p></div><div class="r11-best-grid"></div>';h.insertAdjacentElement('afterend',s)}
-function renderBest(){
- const s=document.getElementById('ndAutoBest');if(!s)return;
- const grid=s.querySelector('.r11-best-grid');
- const cards=[...document.querySelectorAll('.produto')].map(productInfo).filter(Boolean).filter(x=>x.img&&!/^ARTESANAL /.test(x.name)&&!['FATIA QUEIJO CHEDDAR EXTRA','HAMBURGUER EXTRA ARTESANAL','HAMBURGUER EXTRA TRADICIONAL','BACON','ADICIONAL BACON','POTINHO BARBECUE','POTINHO MAIONESE VERDE','POTINHO CHEDDAR','POTINHO MAIONESE ARTESANAL','ADICIONAL CHEDDAR'].includes(norm(x.name))&&x.btn.closest('.categoria')?.id!=='adicionais');
- if(!cards.length)return;
- const key=new Date().toLocaleDateString('en-CA');
- let seed=0;for(let i=0;i<key.length;i++)seed=(seed*31+key.charCodeAt(i))>>>0;
- const pool=cards.slice();
- for(let i=pool.length-1;i>0;i--){seed=(seed*1664525+1013904223)>>>0;const j=seed%(i+1);[pool[i],pool[j]]=[pool[j],pool[i]]}
- const picks=pool.slice(0,3);
- grid.innerHTML=picks.map((x,i)=>'<article class="r11-best-card nd-daily-best-card"><div class="nd-best-rank">#'+(i+1)+'</div><img src="'+x.img+'" alt="'+esc(x.name)+'"><div><strong>'+esc(x.name)+'</strong><span>'+esc(x.btn.closest('.produto').querySelector('.preco')?.textContent||'')+'</span><small>⭐ DESTAQUE DE HOJE</small></div><button type="button">ADICIONAR</button></article>').join('');
- grid.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{const x=picks[i];if(configs[x.name])open(x.name,configs[x.name].price);else x.btn.click()});
- const head=s.querySelector('.r11-best-head p');if(head)head.textContent='3 escolhas aleatórias atualizadas todos os dias.';
-}
-function buildPromo(){if(document.getElementById('ndUvaPromo'))return;const h=document.querySelector('#ndAutoBest');if(!h)return;const p=document.createElement('section');p.id='ndUvaPromo';p.innerHTML='<img src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="Doce surpresa de uva"><div class="r11-promo-copy"><div class="k">🔥 DESCONTO EXCLUSIVO NO SITE</div><h2>DOCE SURPRESA DE UVA</h2><p>Somente pelo site da ND BURGS</p><div class="r11-promo-old">DE R$ 12,00</div><div class="r11-promo-price">POR R$ 7,90</div><button type="button">ADICIONAR AO CARRINHO</button></div>';h.insertAdjacentElement('afterend',p);p.querySelector('button').onclick=()=>{if(typeof window.adicionar==='function')window.adicionar('SURPRESA DE UVA',7.90)}}
-function buildQuick(){if(document.getElementById('ndFinalQuick'))return;const footer=document.querySelector('footer');if(!footer)return;const picks=['COMBO MAIS VENDIDO','COMBO DOCE','COMBO GELADO','COMBO SÓ LOVE','X-BACON','NUNES','GADEIA','BATATA'];const cards=[...document.querySelectorAll('.produto')].map(productInfo).filter(Boolean);const data=picks.map(n=>cards.find(x=>norm(x.name)===norm(n))).filter(Boolean);const s=document.createElement('section');s.id='ndFinalQuick';s.innerHTML='<h2>⚡ ESCOLHAS RÁPIDAS</h2><p>Se já sabe o que quer, adicione em um toque.</p><div class="r11-quick-grid">'+data.map((x,i)=>'<div class="r11-q"><img src="'+x.img+'" alt="'+esc(x.name)+'"><div><b>'+esc(x.name)+'</b><span>'+esc(x.btn.closest('.produto').querySelector('.preco')?.textContent||'')+'</span><button type="button">ADICIONAR</button></div></div>').join('')+'</div>';footer.parentNode.insertBefore(s,footer);s.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{const x=data[i];if(configs[x.name])open(x.name,configs[x.name].price);else x.btn.click()})}
-function hideOld(){['#nd20Best','#ndR3Quick','#ndR7Reco','#ndR7Recent','#nd20QuickNav','#ndCartFab','#ndCartLabel'].forEach(sel=>document.querySelectorAll(sel).forEach(e=>e.style.display='none'))}
-function ensureStatusPosition(){const st=document.getElementById('ndR8Status');if(st)st.style.display='none'}
-function init(){patchComboButtons();hideOld();buildBest();renderBest();buildPromo();buildQuick();ensureStatusPosition();}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,700);setTimeout(init,1500)});else{init();setTimeout(init,700);setTimeout(init,1500)}
-setTimeout(()=>{patchComboButtons();hideOld();renderBest()},900);
-})();
-</script>
-
-
-<!-- =========================================================
-     ND BURGS — RODADA 27 / R15
-     Carrinho único: VER CARRINHO + QUANTIDADE
-     + ajustes seguros de mobile, acessibilidade e performance
-     ========================================================= -->
-<style id="nd-r12-cart-cleanup">
-/* Remove definitivamente qualquer carrinho/atalho antigo */
-#ndCartFab,#ndCartLabel,#ndFxCartbar,.nd-v3-buybar,.nd-cart-fab,.nd-cart-label{display:none!important}
-
-/* ÚNICO botão de carrinho visível */
-#carrinhoFlutuante{
-  position:fixed!important;
-  right:18px!important;top:18px!important;left:auto!important;bottom:auto!important;
-  width:auto!important;height:auto!important;min-width:0!important;max-width:none!important;
-  padding:0!important;margin:0!important;transform:none!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
-  z-index:250000!important;
-}
-#carrinhoFlutuante.ativo{opacity:1!important;pointer-events:auto!important}
-#carrinhoFlutuante .carrinho-flutuante-info{position:relative!important;display:flex!important;align-items:center!important}
-#carrinhoFlutuante .carrinho-flutuante-info strong{
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  min-height:44px!important;padding:10px 15px!important;
-  font-size:0!important;line-height:1!important;white-space:nowrap!important;cursor:pointer!important;
-  background:linear-gradient(180deg,#fff36b 0%,#ffd21a 52%,#f0a000 100%)!important;
-  color:#171000!important;border:1px solid #ffe66f!important;border-radius:12px!important;
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.72),inset 0 -3px 0 rgba(153,92,0,.42),0 3px 0 #8d5700,0 8px 20px rgba(0,0,0,.48)!important;
-}
-#carrinhoFlutuante .carrinho-flutuante-info strong:after{
-  content:'VER CARRINHO'!important;font-size:12px!important;font-weight:1000!important;letter-spacing:.35px!important;
-}
-/* contador da quantidade — sem ícone de carrinho */
-#carrinhoFlutuante .carrinho-flutuante-info span{
-  position:absolute!important;right:-9px!important;top:-9px!important;
-  min-width:24px!important;height:24px!important;padding:0 6px!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  background:#e50914!important;color:#fff!important;border:2px solid #070707!important;border-radius:999px!important;
-  font-size:10px!important;font-weight:1000!important;line-height:1!important;box-shadow:0 5px 14px rgba(0,0,0,.45)!important;
-}
-#carrinhoFlutuante .carrinho-flutuante-direita{display:none!important}
-
-/* Garante que nenhum pseudo-elemento antigo volte a desenhar 🛒 */
-#carrinhoFlutuante:before,#carrinhoFlutuante:after,
-#carrinhoFlutuante .carrinho-flutuante-info:before,#carrinhoFlutuante .carrinho-flutuante-info:after{content:none!important;display:none!important}
-
-/* Melhor leitura e toque sem alterar a identidade do site */
-.btn-add,.categoria-btn,.btn-ver-carrinho,.btn-finalizar-pedido,.nd-v4-next,.nd-v4-back{touch-action:manipulation}
-.produto h3{line-height:1.2!important}
-.produto p{line-height:1.45!important}
-.produto .preco{font-variant-numeric:tabular-nums!important}
-
-@media(max-width:900px){
-  #carrinhoFlutuante{right:10px!important;top:10px!important}
-  .modern-search{z-index:9300!important}
-}
-@media(max-width:600px){
-  #carrinhoFlutuante .carrinho-flutuante-info strong{min-height:42px!important;padding:9px 12px!important;border-radius:11px!important}
-  #carrinhoFlutuante .carrinho-flutuante-info strong:after{font-size:10px!important}
-  #carrinhoFlutuante .carrinho-flutuante-info span{right:-7px!important;top:-7px!important;min-width:22px!important;height:22px!important;font-size:9px!important}
-  .produto:hover{transform:none!important}
-}
-@media(prefers-reduced-motion:reduce){
-  #carrinhoFlutuante,.produto,.btn-add{animation:none!important;transition:none!important}
-}
-</style>
-<script id="nd-r12-safe-improvements">
-(function(){
-'use strict';
-function enhance(){
-  /* remove resíduos de versões antigas, caso algum script velho tente recriá-los */
-  ['ndCartFab','ndCartLabel','ndFxCartbar'].forEach(function(id){var el=document.getElementById(id);if(el)el.remove();});
-  document.querySelectorAll('.nd-v3-buybar,.nd-cart-fab,.nd-cart-label').forEach(function(el){el.remove();});
-
-  var cart=document.getElementById('carrinhoFlutuante');
-  if(cart){
-    cart.setAttribute('role','button');
-    cart.setAttribute('tabindex','0');
-    cart.setAttribute('aria-label','Ver carrinho');
-    if(cart.dataset.r12Key!=='1'){
-      cart.dataset.r12Key='1';
-      cart.addEventListener('keydown',function(e){
-        if(e.key==='Enter'||e.key===' '){e.preventDefault();if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();}
-      });
-    }
+  body{padding-left:245px!important}
+  #nd18Sidebar{
+    position:fixed!important;left:14px!important;top:92px!important;
+    width:210px!important;height:calc(100vh - 108px)!important;max-height:none!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+    padding:12px!important;border-radius:20px!important;z-index:120000!important;
+    background:
+      radial-gradient(circle at 50% 0,rgba(255,90,0,.15),transparent 38%),
+      linear-gradient(180deg,#111214,#070707)!important;
+    border:1px solid rgba(255,106,0,.62)!important;
+    box-shadow:0 0 18px rgba(255,70,0,.18),0 0 45px rgba(255,120,0,.10),0 18px 55px rgba(0,0,0,.72)!important;
   }
-
-  /* performance: imagens fora da primeira tela carregam sob demanda */
-  document.querySelectorAll('img.produto-imagem').forEach(function(img,i){
-    img.decoding='async';
-    if(i>3)img.loading='lazy';
-  });
-
-  /* acessibilidade básica sem alterar comportamento */
-  var busca=document.getElementById('busca');if(busca&&!busca.getAttribute('aria-label'))busca.setAttribute('aria-label','Buscar no cardápio');
-  document.querySelectorAll('.btn-add').forEach(function(btn){
-    if(!btn.getAttribute('aria-label')){var n=btn.closest('.produto')?.querySelector('h3')?.textContent.trim()||'produto';btn.setAttribute('aria-label','Adicionar '+n);}
-  });
+  #nd18Sidebar:before{
+    content:"";display:block;height:2px;margin:0 12px 8px;
+    background:linear-gradient(90deg,transparent,var(--nd-orange),var(--nd-orange2),transparent);
+    box-shadow:0 0 14px var(--nd-orange);
+  }
+  #nd18Sidebar .nd18-title{color:#ff9d42!important;text-shadow:0 0 12px rgba(255,90,0,.55)!important}
+  #nd18Sidebar button{
+    position:relative!important;overflow:hidden!important;
+    background:linear-gradient(135deg,#151619,#0b0c0e)!important;
+    border:1px solid rgba(255,106,0,.22)!important;color:#ddd!important;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),0 4px 14px rgba(0,0,0,.28)!important;
+    text-shadow:0 0 7px rgba(255,255,255,.12);
+  }
+  #nd18Sidebar button:before{
+    content:"";position:absolute;inset:-80% 40% auto -40%;height:220%;
+    background:linear-gradient(100deg,transparent,rgba(255,157,0,.18),transparent);
+    transform:rotate(15deg);animation:ndSideLight 3.8s linear infinite;pointer-events:none;
+  }
+  #nd18Sidebar button:hover,#nd18Sidebar button.ativo{
+    color:#fff!important;border-color:var(--nd-orange)!important;
+    background:linear-gradient(135deg,#29130a,#17100c)!important;
+    box-shadow:0 0 15px rgba(255,90,0,.20),inset 0 0 18px rgba(255,90,0,.06)!important;
+    transform:translateX(3px)!important;
+  }
+  #nd18Sidebar::-webkit-scrollbar{width:5px}
+  #nd18Sidebar::-webkit-scrollbar-thumb{background:linear-gradient(var(--nd-orange),var(--nd-orange2));border-radius:20px}
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
-/* uma segunda passada cobre elementos criados dinamicamente sem manter timer contínuo */
-setTimeout(enhance,900);
-})();
-</script>
-
-<!-- ND BURGS — RODADA 27 / R15 — AJUSTE VISUAL DE PREÇOS -->
-<style id="nd-r13-price-clean">
-/* Sem sombra no valor TOTAL DO COMBO */
-.r11-combo-total strong,
-#r11ComboTotal{
-  text-shadow:none!important;
+@keyframes ndSideLight{to{transform:translateX(180%) rotate(15deg)}}
+@media(max-width:900px){
+  #nd18Sidebar{
+    position:sticky!important;top:64px!important;width:calc(100% - 12px)!important;
+    max-height:none!important;margin:7px auto!important;z-index:9000!important;
+    background:#08090a!important;border:1px solid rgba(255,90,0,.42)!important;
+    box-shadow:0 8px 28px rgba(0,0,0,.6),0 0 20px rgba(255,90,0,.08)!important;
+  }
+  #nd18Sidebar button{border-color:rgba(255,106,0,.25)!important}
 }
-/* Sem sombra no POR R$ 7,90 da Surpresa de Uva */
-.r11-promo-price{
-  text-shadow:none!important;
+/* Carrinho: texto amarelo 3D no canto superior direito */
+#carrinhoFlutuante{
+  position:fixed!important;right:18px!important;left:auto!important;
+  top:78px!important;bottom:auto!important;transform:translateX(0)!important;
+  width:auto!important;max-width:none!important;min-width:0!important;
+  display:none!important;align-items:center!important;
+  padding:0!important;border:0!important;background:transparent!important;
+  box-shadow:none!important;z-index:130000!important;cursor:pointer!important;
 }
-</style>
-
-
-<!-- =========================================================
-     ND BURGS — RODADA 27 / R15
-     UX PREMIUM + PIX + CONFIRMAÇÃO + UPSELL INTELIGENTE
-     ========================================================= -->
-<style id="nd-r13-premium-upgrades">
-/* Preços pedidos: sem sombra */
-.r11-combo-total strong,#r11ComboTotal,.r11-promo-price{ text-shadow:none!important; }
-
-/* Hero de entrada: brilho 3D + animações premium */
-#ndFxIntro{
-  position:relative;isolation:isolate;overflow:hidden;
-  margin:16px auto 22px;padding:30px 22px 24px;max-width:1100px;
-  border:1px solid rgba(255,157,0,.32);border-radius:24px;
-  background:radial-gradient(circle at 50% 0%,rgba(255,157,0,.22),transparent 42%),linear-gradient(145deg,#17110b,#080808 62%);
-  box-shadow:0 18px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.08),0 0 35px rgba(255,90,0,.08);
-  transform:translateZ(0);animation:ndHeroIn .7s ease both;
+#carrinhoFlutuante.ativo{display:flex!important}
+#carrinhoFlutuante:before{display:none!important;content:none!important}
+#carrinhoFlutuante .carrinho-flutuante-info,
+#carrinhoFlutuante .carrinho-flutuante-total{display:none!important}
+#carrinhoFlutuante .carrinho-flutuante-direita{display:block!important}
+#carrinhoFlutuante .btn-ver-carrinho{
+  position:relative!important;display:inline-flex!important;align-items:center!important;gap:9px!important;
+  background:linear-gradient(180deg,#ffe83b,#ffbf00)!important;color:#151000!important;
+  border:1px solid #fff0a0!important;border-radius:13px!important;
+  padding:11px 15px!important;font-size:13px!important;font-weight:1000!important;
+  text-transform:uppercase!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.55),0 2px 0 rgba(120,70,0,.22)!important;
+  box-shadow:0 3px 0 #a66b00,0 7px 20px rgba(255,180,0,.28),0 0 18px rgba(255,210,26,.18)!important;
 }
-#ndFxIntro:before,#ndFxIntro:after{content:"";position:absolute;pointer-events:none;border-radius:999px;filter:blur(2px)}
-#ndFxIntro:before{width:220px;height:220px;right:-80px;top:-90px;background:radial-gradient(circle,rgba(255,180,0,.26),transparent 68%);animation:ndOrb 4.5s ease-in-out infinite}
-#ndFxIntro:after{width:160px;height:160px;left:-70px;bottom:-80px;background:radial-gradient(circle,rgba(255,59,0,.18),transparent 68%);animation:ndOrb 5.5s ease-in-out infinite reverse}
-#ndFxIntro .ndFx-kicker{position:relative;z-index:1;display:inline-block;padding:6px 10px;border:1px solid rgba(255,210,26,.35);border-radius:999px;color:#ffd21a;font-size:10px;font-weight:1000;letter-spacing:1.6px;background:rgba(255,210,26,.06);box-shadow:0 0 18px rgba(255,210,26,.08);animation:ndGlow 2.2s ease-in-out infinite}
-#ndFxIntro .ndFx-title{position:relative;z-index:1;margin-top:10px;font-size:clamp(34px,5vw,62px);font-weight:1000;line-height:.98;letter-spacing:-1.8px;text-shadow:0 3px 0 #4c2b00,0 7px 22px rgba(0,0,0,.8);animation:ndTitleFloat 3.5s ease-in-out infinite}
-#ndFxIntro .ndFx-title span{display:inline-block;color:#ffd21a;background:linear-gradient(180deg,#fff6a1,#ffd21a 48%,#e59b00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 0 #805400) drop-shadow(0 8px 18px rgba(255,174,0,.18));animation:ndShine 3.8s linear infinite;background-size:180% auto}
-#ndFxIntro .ndFx-sub{position:relative;z-index:1;max-width:760px;margin:14px 0 0;color:#c8c8c8;font-size:13px;line-height:1.6}
-#ndFxIntro .ndFx-actions{position:relative;z-index:1;display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-#ndFxIntro .ndFx-action{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:12px 15px;background:linear-gradient(145deg,#191919,#0c0c0c);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 5px 0 #050505,0 12px 28px rgba(0,0,0,.3);transition:transform .2s ease,box-shadow .2s ease,filter .2s ease}
-#ndFxIntro .ndFx-action.primary{background:linear-gradient(145deg,#fff36b,#ffd21a 52%,#e99d00);color:#171000;border-color:#ffe66f;box-shadow:inset 0 2px 0 rgba(255,255,255,.75),0 5px 0 #8d5700,0 12px 28px rgba(255,157,0,.2)}
-#ndFxIntro .ndFx-action:hover{transform:translateY(-3px) scale(1.02);filter:brightness(1.08)}
-#ndFxIntro .ndFx-action:active{transform:translateY(1px) scale(.985)}
-
-/* Caixa inteligente: só aparece para item individual que participa de combo */
-#ndSmartComboOffer{position:fixed;inset:0;z-index:450000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.78);backdrop-filter:blur(10px)}
-#ndSmartComboOffer.show{display:flex;animation:ndFadeIn .22s ease both}
-.nd-smart-panel{width:min(620px,100%);padding:22px;border:1px solid rgba(255,174,0,.55);border-radius:24px;background:radial-gradient(circle at 50% 0,rgba(255,157,0,.18),transparent 45%),linear-gradient(155deg,#1a130d,#080808 72%);box-shadow:0 30px 100px rgba(0,0,0,.82),0 0 45px rgba(255,120,0,.12);text-align:center;animation:ndSmartPop .38s cubic-bezier(.2,.8,.2,1) both}
-.nd-smart-kicker{color:#ffd21a;font-size:10px;font-weight:1000;letter-spacing:1.5px}.nd-smart-panel h2{margin:7px 0 5px;font-size:clamp(25px,6vw,40px);line-height:1.02;text-shadow:0 3px 0 #4d2c00}.nd-smart-panel p{margin:0 auto;color:#aaa;font-size:12px;line-height:1.5;max-width:470px}.nd-smart-price{margin:13px 0;font-size:27px;font-weight:1000;color:#ffd21a;text-shadow:0 3px 0 #765000}.nd-smart-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.nd-smart-actions button{border:0;border-radius:13px;padding:14px 10px;font-weight:1000;cursor:pointer}.nd-smart-keep{background:#171717;color:#fff;border:1px solid #333!important}.nd-smart-change{background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;box-shadow:0 5px 0 #8d5700,0 12px 25px rgba(255,157,0,.18)}
-
-/* PIX: aparece somente quando PIX estiver selecionado */
-#ndPixBox{display:none;margin-top:13px;padding:14px;border:1px solid rgba(255,210,26,.35);border-radius:15px;background:linear-gradient(145deg,#171207,#0b0b0b);box-shadow:0 10px 28px rgba(0,0,0,.3)}
-#ndPixBox.show{display:block;animation:ndSmartPop .3s ease both}
-#ndPixBox .nd-pix-title{font-size:12px;font-weight:1000;color:#ffd21a}.nd-pix-key{margin:8px 0;padding:10px;border-radius:10px;background:#050505;border:1px dashed #594600;color:#fff;font-weight:1000;word-break:break-all}.nd-pix-total{font-size:19px;font-weight:1000;color:#fff}.nd-pix-total b{color:#ffd21a}.nd-pix-copy{width:100%;margin-top:9px;border:0;border-radius:11px;padding:12px;background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;font-weight:1000;cursor:pointer;box-shadow:0 4px 0 #8d5700}.nd-pix-copy.copied{filter:brightness(1.12)}
-
-/* Confirmação gigante após envio */
-#ndOrderSuccess{position:fixed;inset:0;z-index:600000;display:none;place-items:center;padding:20px;background:radial-gradient(circle at 50% 42%,rgba(255,174,0,.22),transparent 34%),rgba(3,3,3,.96);backdrop-filter:blur(15px)}
-#ndOrderSuccess.show{display:grid;animation:ndFadeIn .25s ease both}.nd-success-card{text-align:center;width:min(760px,100%);animation:ndSuccessPop .65s cubic-bezier(.16,1,.3,1) both}.nd-success-check{width:96px;height:96px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;font-size:48px;background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;box-shadow:inset 0 4px 0 rgba(255,255,255,.7),0 8px 0 #8d5700,0 0 55px rgba(255,174,0,.28);animation:ndCheck 1.4s ease-in-out infinite}.nd-success-card h2{margin:0;font-size:clamp(34px,7vw,72px);line-height:.94;color:#fff;text-shadow:0 4px 0 #4c2b00,0 12px 35px #000}.nd-success-card h2 span{display:block;color:#ffd21a}.nd-success-card p{margin:18px auto 0;max-width:650px;color:#ddd;font-size:clamp(14px,2.5vw,19px);font-weight:800;line-height:1.45}.nd-success-timer{margin-top:14px;color:#888;font-size:10px;font-weight:900;letter-spacing:.8px}
-
-@keyframes ndHeroIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}@keyframes ndOrb{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-15px,12px,0) scale(1.08)}}@keyframes ndGlow{0%,100%{box-shadow:0 0 10px rgba(255,210,26,.05)}50%{box-shadow:0 0 28px rgba(255,210,26,.18)}}@keyframes ndTitleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}@keyframes ndShine{0%{background-position:180% 0}100%{background-position:-180% 0}}@keyframes ndFadeIn{from{opacity:0}to{opacity:1}}@keyframes ndSmartPop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}@keyframes ndSuccessPop{0%{opacity:0;transform:scale(.75) translateY(30px)}65%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}@keyframes ndCheck{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(3deg)}}
-@media(max-width:600px){#ndFxIntro{margin:10px 8px 18px;padding:23px 16px 18px;border-radius:20px}#ndFxIntro .ndFx-title{font-size:36px}.nd-smart-actions{grid-template-columns:1fr}.nd-smart-panel{padding:18px}.nd-success-check{width:78px;height:78px;font-size:39px}.nd-success-card h2{font-size:42px}}
-@media(prefers-reduced-motion:reduce){#ndFxIntro,#ndFxIntro .ndFx-title,#ndFxIntro .ndFx-title span,#ndFxIntro .ndFx-kicker,.nd-smart-panel,#ndPixBox,#ndOrderSuccess,.nd-success-card,.nd-success-check{animation:none!important}.ndFx-action{transition:none!important}}
-</style>
-<script id="nd-r13-premium-js">
-(function(){
-'use strict';
-const COMBO_MAP={
- 'X-SALADA':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'X-BURGUER':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'X-EGG':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'X-BACON':{combo:'COMBO MAIS VENDIDO',price:20.90,kind:'trad'},
- 'NUNES':{combo:'COMBO MOTOCA ND',price:32.90,kind:'nunes'},
- 'GAROTINHO':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'DINA':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'GADEIA':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'PATÃO':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'},
- 'BERENICE':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80,kind:'art'}
-};
-let pending=null;
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-function cart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(_){return[]}}
-function ensureSmart(){if($('#ndSmartComboOffer'))return;const d=document.createElement('div');d.id='ndSmartComboOffer';d.innerHTML='<div class="nd-smart-panel" role="dialog" aria-modal="true"><div class="nd-smart-kicker">🔥 OPORTUNIDADE PARA SEU PEDIDO</div><h2 id="ndSmartTitle">QUER TRANSFORMAR EM COMBO?</h2><p id="ndSmartText"></p><div class="nd-smart-price" id="ndSmartPrice"></div><div class="nd-smart-actions"><button type="button" class="nd-smart-keep" id="ndSmartKeep">NÃO, MANTER ITEM</button><button type="button" class="nd-smart-change" id="ndSmartChange">SIM, TROCAR POR COMBO</button></div></div>';document.body.appendChild(d);$('#ndSmartKeep').onclick=closeSmart;$('#ndSmartChange').onclick=changeToCombo;d.addEventListener('click',e=>{if(e.target===d)closeSmart()})}
-function closeSmart(){const d=$('#ndSmartComboOffer');if(d)d.classList.remove('show');pending=null}
-function openSmart(name){const key=norm(name),cfg=COMBO_MAP[key];if(!cfg)return;ensureSmart();pending={name:key,cfg};$('#ndSmartText').textContent='Você adicionou '+key+' sozinho. Se quiser, pode trocar este item pelo '+cfg.combo+' e montar o combo com as opções.';$('#ndSmartPrice').textContent=cfg.combo+' • '+money(cfg.price);$('#ndSmartComboOffer').classList.add('show')}
-function changeToCombo(){if(!pending)return;const p=pending;closeSmart();if(typeof window.abrirComboPersonalizacao==='function'){window.abrirComboPersonalizacao(p.cfg.combo,p.cfg.price);return}if(typeof window.adicionar==='function')window.adicionar(p.cfg.combo,p.cfg.price)}
-function maybeOffer(name){const key=norm(name);const units=cart().reduce((s,i)=>s+(Number(i.quantidade)||1),0);if(COMBO_MAP[key]&&units===1)setTimeout(()=>openSmart(key),120)}
-function patchAdd(){if(typeof window.adicionar!=='function'||window.adicionar.__ndR13smart)return;const old=window.adicionar;window.adicionar=function(nome,preco){const result=old.apply(this,arguments);maybeOffer(nome);return result};window.adicionar.__ndR13smart=true}
-
-function ensurePix(){
- const step=$('[data-content="3"]');if(!step)return;let box=$('#ndPixBox');if(!box){box=document.createElement('div');box.id='ndPixBox';box.innerHTML='<div class="nd-pix-title">💠 PAGAMENTO VIA PIX</div><div style="font-size:11px;color:#aaa;margin-top:3px">Copie a chave abaixo e faça o pagamento no valor exato do pedido.</div><div class="nd-pix-key">11963973846</div><div class="nd-pix-total">Valor para pagar: <b id="ndPixTotal">R$ 0,00</b></div><button type="button" class="nd-pix-copy" id="ndPixCopy">📋 COPIAR CHAVE PIX</button><div style="font-size:9px;color:#777;margin-top:8px">SABRINA SELLIS DINIZ • CONTA NEON</div>';const select=$('#pagamentoModal');if(select)select.insertAdjacentElement('afterend',box);else step.appendChild(box);$('#ndPixCopy').onclick=async function(){try{await navigator.clipboard.writeText('11963973846');this.textContent='✅ CHAVE COPIADA!';this.classList.add('copied');setTimeout(()=>{this.textContent='📋 COPIAR CHAVE PIX';this.classList.remove('copied')},1800)}catch(_){const ta=document.createElement('textarea');ta.value='11963973846';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();this.textContent='✅ CHAVE COPIADA!';setTimeout(()=>this.textContent='📋 COPIAR CHAVE PIX',1800)}}}
- const total=$('#ndV4Total')?.textContent||'R$ 0,00';const pt=$('#ndPixTotal');if(pt)pt.textContent=total;
- const pay=$('#pagamentoModal')?.value;box.classList.toggle('show',pay==='PIX');
+#carrinhoFlutuante .btn-ver-carrinho:after{
+  content:attr(data-qty);display:inline-grid;place-items:center;
+  min-width:23px;height:23px;padding:0 6px;border-radius:999px;
+  background:#111;color:#ffd21a;border:1px solid #ffd21a;font-size:11px;font-weight:1000;
+  box-shadow:0 2px 0 #000,0 0 10px rgba(255,210,26,.3);
 }
-function patchPay(){if(typeof window.ndPay!=='function'||window.ndPay.__ndR13)return;const old=window.ndPay;window.ndPay=function(pay){const r=old.apply(this,arguments);ensurePix();return r};window.ndPay.__ndR13=true}
-function observePix(){const total=$('#ndV4Total');if(total){const ob=new MutationObserver(ensurePix);ob.observe(total,{childList:true,characterData:true,subtree:true})}const pay=$('#pagamentoModal');if(pay)pay.addEventListener('change',ensurePix);ensurePix()}
-
-function ensureSuccess(){if($('#ndOrderSuccess'))return;const d=document.createElement('div');d.id='ndOrderSuccess';d.innerHTML='<div class="nd-success-card"><div class="nd-success-check">✓</div><h2>OBRIGADO POR ESCOLHER <span>#NDBURGS</span></h2><p>SEU PEDIDO ESTÁ <b>CONFIRMADO</b>, IRÁ PARA PRODUÇÃO E SERÁ ENTREGUE ENTRE <b>40 A 50 MINUTINHOS</b>. 🍔🔥</p><div class="nd-success-timer">ENVIANDO SEU PEDIDO PARA A ND BURGS...</div></div>';document.body.appendChild(d)}
-function showSuccess(){ensureSuccess();$('#ndOrderSuccess').classList.add('show')}
-function patchFinish(){if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndR13)return;const old=window.finalizarPedidoModal;window.finalizarPedidoModal=function(){
- const c=cart();if(!c.length)return alert('Seu carrinho está vazio.');
- const nome=$('#nomeModal')?.value.trim()||'',tel=($('#telefoneModal')?.value||'').replace(/\D/g,''),tipo=$('#tipoPedidoModal')?.value||'ENTREGA',rua=$('#ruaModal')?.value||'',num=$('#numeroModal')?.value.trim()||'',pay=$('#pagamentoModal')?.value||'';
- const sub=c.reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0),fee=tipo==='ENTREGA'?Number(window.taxas?.[rua]||0):0;
- if(!nome)return alert('Digite seu nome.');if(tel.length<10||tel.length>11)return alert('Digite um WhatsApp válido com DDD.');if(tipo==='ENTREGA'&&(!rua||!num))return alert('Complete seu endereço.');if(!pay)return alert('Escolha o pagamento.');if(sub<11.90)return alert('O pedido mínimo é '+money(11.90)+'. Faltam '+money(11.90-sub)+'.');
- showSuccess();setTimeout(()=>{try{old.apply(this,arguments)}catch(e){const d=$('#ndOrderSuccess');if(d)d.classList.remove('show');throw e}},2400);
-};window.finalizarPedidoModal.__ndR13=true}
-
-function init(){patchAdd();patchPay();ensurePix();observePix();ensureSuccess();patchFinish();setTimeout(()=>{patchAdd();patchPay();ensurePix();patchFinish()},700)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();setTimeout(init,1200);
-})();
-</script>
-
-<!-- =========================================================
-     ND BURGS — RODADA 27 / R15
-     VISUAL 3D + DESTAQUES DIÁRIOS + PIX + CONFIRMAÇÃO
-     ========================================================= -->
-<style id="nd-r14-final-polish">
-/* Valores sem sombra: combo e promoção */
-.r11-combo-total strong,
-#r11ComboTotal,
-.r11-promo-price,
-#ndV4Total,
-.nd-v4-final-total,
-.nd-smart-price,
-#ndPixTotal{ text-shadow:none!important; filter:none!important; }
-
-/* Hero/intro: tipografia 3D dourada, brilho e movimento */
-#ndFxIntro .ndFx-kicker,
-#ndFxIntro .ndFx-title,
-#ndFxIntro .ndFx-title span,
-#ndFxIntro .ndFx-sub,
-#ndFxIntro .ndFx-action{will-change:transform,filter,opacity}
-#ndFxIntro .ndFx-title{
-  text-shadow:0 2px 0 #5b3b00,0 4px 0 #2b1c00,0 9px 24px rgba(0,0,0,.72)!important;
-  animation:ndR14Title 3.8s ease-in-out infinite!important;
-}
-#ndFxIntro .ndFx-title span{
-  color:#ffd21a!important;
-  background:linear-gradient(180deg,#fffde0 0%,#fff36b 22%,#ffd21a 52%,#f2a900 78%,#a96b00 100%)!important;
-  -webkit-background-clip:text!important;background-clip:text!important;
-  -webkit-text-fill-color:transparent!important;
-  filter:drop-shadow(0 2px 0 #8b5b00) drop-shadow(0 5px 10px rgba(255,196,0,.35))!important;
-  background-size:220% auto!important;
-  animation:ndR14Shine 3s linear infinite!important;
-}
-#ndFxIntro .ndFx-sub{animation:ndR14Fade .8s ease .15s both}
-#ndFxIntro .ndFx-action.primary{
-  color:#171000!important;
-  text-shadow:0 1px 0 rgba(255,255,255,.55);
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.8),0 4px 0 #8d5700,0 10px 26px rgba(255,157,0,.22),0 0 20px rgba(255,210,26,.12)!important;
-  animation:ndR14Button 2.6s ease-in-out infinite;
-}
-#ndFxIntro .ndFx-action:not(.primary){text-shadow:0 2px 10px rgba(255,210,26,.15)}
-
-/* 3 cards diários: destaque forte */
-#ndAutoBest .r11-best-head h2{color:#fff!important;text-shadow:0 2px 0 #4a2b00,0 0 18px rgba(255,210,26,.18)!important}
-#ndAutoBest .nd-daily-best-card{position:relative;overflow:hidden;border-color:rgba(255,210,26,.38)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 30px rgba(0,0,0,.35),0 0 22px rgba(255,174,0,.07)!important;animation:ndR14CardIn .55s cubic-bezier(.2,.8,.2,1) both}
-#ndAutoBest .nd-daily-best-card:nth-child(2){animation-delay:.09s}
-#ndAutoBest .nd-daily-best-card:nth-child(3){animation-delay:.18s}
-#ndAutoBest .nd-daily-best-card:before{content:"";position:absolute;inset:-60%;background:linear-gradient(115deg,transparent 42%,rgba(255,244,130,.16) 50%,transparent 58%);transform:translateX(-45%) rotate(8deg);animation:ndR14Sweep 4.8s linear infinite;pointer-events:none}
-#ndAutoBest .nd-daily-best-card>*{position:relative;z-index:1}
-#ndAutoBest .nd-daily-best-card img{border:1px solid rgba(255,210,26,.20);box-shadow:0 5px 18px rgba(0,0,0,.35)}
-#ndAutoBest .nd-daily-best-card strong{font-size:13px;text-shadow:0 1px 8px rgba(255,210,26,.12)}
-#ndAutoBest .nd-daily-best-card span{font-size:15px!important;text-shadow:none!important}
-#ndAutoBest .nd-daily-best-card small{display:block;color:#ffd21a;font-size:9px;font-weight:1000;letter-spacing:.7px;margin-top:4px}
-#ndAutoBest .nd-daily-best-card button{box-shadow:0 4px 0 #8d4300,0 8px 18px rgba(255,90,0,.16);transition:.18s ease}
-#ndAutoBest .nd-daily-best-card button:hover{transform:translateY(-2px);filter:brightness(1.08)}
-.nd-best-rank{position:absolute!important;top:7px;left:7px;z-index:3!important;min-width:25px;padding:4px 6px;border-radius:999px;background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;font-size:9px;font-weight:1000;text-align:center;box-shadow:0 3px 0 #8d5700}
-
-/* Modal de oportunidade: deixa claro que o cliente pode manter o item */
-#ndSmartComboOffer .nd-smart-panel{border-width:1px}
-#ndSmartComboOffer .nd-smart-keep{box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
-#ndSmartComboOffer .nd-smart-change{box-shadow:inset 0 2px 0 rgba(255,255,255,.75),0 5px 0 #8d5700,0 12px 25px rgba(255,157,0,.18)}
-
-/* PIX: valor grande, claro e copiável */
-#ndPixBox .nd-pix-total{margin-top:10px;padding:10px;border-radius:10px;background:#080808;border:1px solid rgba(255,210,26,.16)}
-#ndPixBox .nd-pix-copy,#ndPixCopyValue{min-height:46px}
-
-/* Confirmação gigante */
-#ndOrderSuccess{z-index:600000!important}
-#ndOrderSuccess .nd-success-card h2{letter-spacing:-1.6px;text-shadow:0 4px 0 #4c2b00,0 12px 35px #000!important}
-#ndOrderSuccess .nd-success-card h2 span{filter:drop-shadow(0 4px 0 #805400) drop-shadow(0 0 20px rgba(255,210,26,.22))}
-
-@keyframes ndR14Title{0%,100%{transform:translateY(0) rotateX(0)}50%{transform:translateY(-3px) rotateX(1deg)}}
-@keyframes ndR14Shine{0%{background-position:220% 0}100%{background-position:-220% 0}}
-@keyframes ndR14Button{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-@keyframes ndR14Fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes ndR14CardIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
-@keyframes ndR14Sweep{0%{transform:translateX(-70%) rotate(8deg)}55%,100%{transform:translateX(70%) rotate(8deg)}}
 @media(max-width:700px){
- #ndAutoBest .nd-daily-best-card{min-width:285px}
- #ndFxIntro .ndFx-title{font-size:36px!important}
+  #carrinhoFlutuante{right:10px!important;top:70px!important}
+  #carrinhoFlutuante .btn-ver-carrinho{padding:9px 11px!important;font-size:11px!important}
 }
-@media(prefers-reduced-motion:reduce){
- #ndFxIntro .ndFx-title,#ndFxIntro .ndFx-title span,#ndFxIntro .ndFx-action.primary,#ndFxIntro .ndFx-sub,#ndAutoBest .nd-daily-best-card,#ndAutoBest .nd-daily-best-card:before{animation:none!important}
+/* Brilho nas categorias e combos */
+.categoria{position:relative}
+.categoria:before{
+  content:"";position:absolute;left:-18px;right:-18px;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,90,0,.35),transparent);
+  box-shadow:0 0 18px rgba(255,90,0,.25);
 }
+#combos .categoria-titulo,#combosArtesanais .categoria-titulo{
+  text-shadow:0 0 12px rgba(255,90,0,.30);
+}
+/* Promoção */
+#ndSitePromoUva{
+  margin:18px 0 22px;padding:13px;
+  border:1px solid rgba(255,90,0,.38);border-radius:22px;
+  background:linear-gradient(145deg,#17100b,#0d0d0e);
+  box-shadow:0 15px 45px rgba(0,0,0,.45),0 0 35px rgba(255,90,0,.08);
+  display:flex;align-items:center;gap:18px;overflow:hidden;
+}
+#ndSitePromoUva img{width:150px;height:150px;object-fit:contain;flex:none;filter:drop-shadow(0 18px 20px rgba(0,0,0,.65))}
+#ndSitePromoUva .promo-copy{flex:1}
+#ndSitePromoUva .promo-kicker{font-size:10px;letter-spacing:2px;color:#ff8b38;font-weight:1000}
+#ndSitePromoUva h2{margin:4px 0 2px!important;padding:0!important;border:0!important;color:#fff!important;font-size:clamp(20px,3vw,30px)!important}
+#ndSitePromoUva p{color:#aaa;font-size:12px;line-height:1.45}
+#ndSitePromoUva .promo-price{margin:7px 0;font-weight:1000}
+#ndSitePromoUva .old-price{color:#777;text-decoration:line-through;font-size:13px;margin-right:7px}
+#ndSitePromoUva .new-price{
+  display:inline-block;color:#111;background:linear-gradient(180deg,#fff4a8,#ffd21a);
+  padding:5px 10px;border-radius:9px;font-size:22px;line-height:1;
+  box-shadow:0 3px 0 #a66b00,0 8px 18px rgba(255,210,26,.2);
+  transform:rotate(-1deg);
+}
+#ndSitePromoUva button{width:auto;min-width:210px;background:linear-gradient(135deg,#ff5a00,#ffad00)!important;color:#fff!important}
+@media(max-width:650px){
+  #ndSitePromoUva{gap:9px;padding:10px}
+  #ndSitePromoUva img{width:100px;height:100px}
+  #ndSitePromoUva .new-price{font-size:18px}
+  #ndSitePromoUva button{min-width:0;width:100%}
+}
+/* Modal dos combos */
+#ndComboModal{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  padding:12px;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);z-index:250000;
+}
+#ndComboModal.show{display:flex}
+#ndComboPanel{
+  width:min(720px,100%);max-height:94vh;overflow:auto;
+  background:linear-gradient(160deg,#191a1d,#090a0c);
+  border:1px solid rgba(255,106,0,.72);border-radius:24px;padding:18px;
+  box-shadow:0 0 35px rgba(255,90,0,.16),0 25px 90px rgba(0,0,0,.8);
+}
+.ndc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:-18px;padding:2px 0 12px;background:linear-gradient(#191a1d 78%,transparent);z-index:2}
+.ndc-head h2{margin:0!important;border:0!important;padding:0!important;color:#fff!important;font-size:23px!important}
+.ndc-close{width:40px;height:40px;border:1px solid #333;border-radius:12px;background:#16171a;color:#fff;font-size:23px;cursor:pointer}
+.ndc-intro{margin:4px 0 12px;color:#ffb35c;font-size:12px;font-weight:900}
+.ndc-section{margin-top:14px;padding:13px;border:1px solid rgba(255,255,255,.08);border-radius:17px;background:rgba(255,255,255,.025)}
+.ndc-section-title{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:10px}
+.ndc-section-title strong{color:#fff;font-size:14px}
+.ndc-section-title span{font-size:9px;color:#ff9d42;font-weight:900}
+.ndc-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.ndc-option{position:relative;display:flex;align-items:center;gap:9px;padding:10px;border:1px solid #2d2e33;border-radius:12px;background:#0e0f11;cursor:pointer;transition:.16s}
+.ndc-option:hover{border-color:rgba(255,106,0,.5);transform:translateY(-1px)}
+.ndc-option:has(input:checked){border-color:#ff6a00;background:rgba(255,90,0,.09);box-shadow:0 0 15px rgba(255,90,0,.08)}
+.ndc-option input{width:auto;margin:0;accent-color:#ff6a00}
+.ndc-option img{width:54px;height:54px;object-fit:contain;border-radius:9px;background:#08090a;flex:none}
+.ndc-option .ndc-text{font-size:12px;color:#eee;font-weight:800;line-height:1.25}
+.ndc-option small{display:block;color:#ffbd62;margin-top:3px;font-weight:900}
+.ndc-fixed{border-color:rgba(255,210,26,.3)!important;background:rgba(255,210,26,.045)!important}
+.ndc-fixed b{color:#ffd21a}
+.ndc-required{color:#ff705f!important}
+.ndc-lanche-message{
+  margin:10px 0 0;padding:13px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(255,90,0,.13),rgba(255,210,26,.06));
+  border:1px solid rgba(255,106,0,.35);color:#fff;font-size:14px;font-weight:1000;text-align:center;
+  animation:ndCGlow 1.8s ease-in-out infinite alternate;
+}
+@keyframes ndCGlow{to{box-shadow:0 0 25px rgba(255,90,0,.16)}}
+.ndc-bottom{position:sticky;bottom:-18px;margin:15px -18px -18px;padding:12px 18px 18px;background:linear-gradient(transparent,#090a0c 22%);z-index:3}
+.ndc-add{
+  width:100%;border:0;border-radius:14px;padding:15px;background:linear-gradient(135deg,#ff5a00,#ffb000);
+  color:#fff;font-size:15px;font-weight:1000;cursor:pointer;box-shadow:0 8px 25px rgba(255,90,0,.22)
+}
+.ndc-add:disabled{opacity:.45;filter:grayscale(.4);cursor:not-allowed}
+.ndc-summary{margin-top:8px;text-align:center;color:#888;font-size:11px}
+.ndc-limit{color:#ffb35c;font-size:10px;margin-top:7px}
+@media(max-width:600px){
+  #ndComboPanel{padding:14px;border-radius:20px}
+  .ndc-head{top:-14px}
+  .ndc-options{grid-template-columns:1fr}
+  .ndc-option img{width:48px;height:48px}
+  .ndc-bottom{margin:15px -14px -14px;padding:12px 14px 14px}
+}
+/* Confirmação gigante */
+#ndSuccessModal{
+ position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;
+ background:rgba(0,0,0,.94);backdrop-filter:blur(12px);z-index:400000;text-align:center;
+}
+#ndSuccessModal.show{display:flex}
+#ndSuccessBox{
+ width:min(720px,100%);padding:35px 22px;border:1px solid #ff8a00;border-radius:30px;
+ background:radial-gradient(circle at 50% 0,rgba(255,140,0,.22),transparent 58%),#0d0e10;
+ box-shadow:0 0 40px rgba(255,90,0,.24),0 25px 100px rgba(0,0,0,.8);
+ animation:ndSuccessIn .5s cubic-bezier(.2,.9,.2,1);
+}
+#ndSuccessBox .check{font-size:64px;animation:ndSuccessPulse 1.2s ease-in-out infinite}
+#ndSuccessBox h2{margin:10px 0!important;padding:0!important;border:0!important;color:#fff!important;font-size:clamp(27px,6vw,52px)!important;line-height:1.02!important}
+#ndSuccessBox p{color:#ffbf72;font-size:clamp(15px,3vw,21px);font-weight:1000;line-height:1.45}
+#ndSuccessBox small{display:block;color:#888;margin-top:13px}
+#ndSuccessClose{margin-top:20px;width:100%;max-width:360px;border:0;border-radius:14px;padding:14px;background:#ffd21a;color:#111;font-weight:1000;cursor:pointer}
+@keyframes ndSuccessIn{from{opacity:0;transform:scale(.72) translateY(30px)}to{opacity:1;transform:none}}
+@keyframes ndSuccessPulse{50%{transform:scale(1.12) rotate(-3deg)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
 </style>
-<script id="nd-r14-logic">
+
+<script id="nd-combos-final-js">
 (function(){
 'use strict';
-const R14_MAP={
- 'X-SALADA':{combo:'COMBO MAIS VENDIDO',price:20.90},'X-BURGUER':{combo:'COMBO MAIS VENDIDO',price:20.90},'X-EGG':{combo:'COMBO MAIS VENDIDO',price:20.90},'X-BACON':{combo:'COMBO MAIS VENDIDO',price:20.90},
- 'NUNES':{combo:'COMBO MOTOCA ND',price:32.90},
- 'GAROTINHO':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80},'DINA':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80},'GADEIA':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80},'PATÃO':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80},'BERENICE':{combo:'ARTESANAL COMBO MAIS VENDIDO',price:34.80}
-};
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-const cart=()=>Array.isArray(window.carrinho)?window.carrinho:[];
-function removeOne(name){const a=cart(),i=a.findIndex(x=>norm(x.nome)===norm(name)&&!x.detalhes);if(i<0)return false;if(Number(a[i].quantidade)>1)a[i].quantidade--;else a.splice(i,1);if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();try{localStorage.setItem('carrinho',JSON.stringify(a));localStorage.setItem('ndburgs_carrinho',JSON.stringify(a))}catch(_){}return true}
-function patchSmart(){
- if(typeof window.adicionar!=='function'||window.adicionar.__ndR14smart)return;
- const old=window.adicionar;
- window.adicionar=function(nome,preco){
-   const key=norm(nome),cfg=R14_MAP[key];
-   const before=cart().find(x=>norm(x.nome)===key&&!x.detalhes);
-   const result=old.apply(this,arguments);
-   /* Só oferece quando o cliente adiciona pela primeira vez aquele item individual. */
-   const totalUnits=cart().reduce((s,i)=>s+(Number(i.quantidade)||1),0);
-   if(cfg&&!before&&totalUnits===1){
-     setTimeout(()=>{
-       const box=document.getElementById('ndSmartComboOffer');
-       const title=document.getElementById('ndSmartTitle'),text=document.getElementById('ndSmartText'),price=document.getElementById('ndSmartPrice');
-       if(!box||!title||!text||!price)return;
-       box.dataset.item=key;box.dataset.combo=cfg.combo;box.dataset.price=cfg.price;
-       title.textContent='QUER TRANSFORMAR EM COMBO?';
-       text.textContent='Você adicionou '+key+' sozinho. Se quiser, pode trocar este item pelo combo e escolher as opções incluídas.';
-       price.textContent=cfg.combo+' • R$ '+cfg.price.toFixed(2).replace('.',',');
-       box.classList.add('show');
-       const keep=document.getElementById('ndSmartKeep'),change=document.getElementById('ndSmartChange');
-       if(keep)keep.textContent='NÃO, MANTER ITEM';
-       if(change){change.textContent='SIM, TROCAR POR COMBO';change.onclick=function(){const n=box.dataset.item,c=box.dataset.combo,p=Number(box.dataset.price);box.classList.remove('show');removeOne(n);setTimeout(()=>{if(typeof window.abrirComboPersonalizacao==='function')window.abrirComboPersonalizacao(c,p)},80)}}
-     },140);
+if(window.__NDBURGS_COMBOS_FINAL__)return; window.__NDBURGS_COMBOS_FINAL__=true;
+
+const BURGERS=['X-SALADA','X-BURGUER','X-EGG','X-BACON'];
+const ART=['GAROTINHO','DINA','GADEIA','PATAO','BERENICE'];
+const DRINKS=['SPRITE','COCA COLA LATA','COCA COLA ZERO LATA','FANTA UVA','FANTA LARANJA','GUARANA ANTARCTICA','AGUA MINERAL'];
+const SAUCES=['CHEDDAR','BARBECUE','CATUPIRY','MAIONESE','MOSTARDA','KETCHUP','MAIONESE VERDE'];
+const ACOMP=[
+ ['CALDA DE MORANGO',0],['CALDA DE CHOCOLATE',0],['LEITE CONDENSADO',0],['PAÇOCA',0],
+ ['OREO',0],['CONFETE',0],['OVOMALTINE',0],['NESQUIK',0],['NUTELLA',5],['SUCRILHOS',0],
+ ['GRANOLA',0],['MORANGO',0],['MANGA',0],['BANANA',0],['LEITE EM PÓ',0],['KIT KAT',3],
+ ['CHOCOBALL',0],['DOCE DE LEITE',0],['CREME DE NINHO',3],['KIWI',0]
+];
+const EXTRA=[
+ ['POTINHO MAIONESE ARTESANAL',3,'https://i.ibb.co/jkHr0B4H/maionese-artesanal.png'],
+ ['ADICIONAL CHEDDAR',3,'https://i.ibb.co/5X4GXyCY/adicional-molho-cheddar.png'],
+ ['POTINHO BARBECUE',3,'https://i.ibb.co/MyZdQG1z/potinho-barbecue.png'],
+ ['ADICIONAL BACON',3,'https://i.ibb.co/cd0tjTg/adicional-bacon.png'],
+ ['POTINHO CHEDDAR',3,'https://i.ibb.co/qFDf9H71/potinho-cheddar.png'],
+ ['HAMBURGUER EXTRA ARTESANAL',9,'https://i.ibb.co/nMythJdt/hamburguer-artesanal.png'],
+ ['POTINHO MAIONESE VERDE',3,'https://i.ibb.co/7dDQ4tjT/potinho-maionese-verde.png'],
+ ['FATIA QUEIJO CHEDDAR EXTRA',3,'https://i.ibb.co/qLwtXw6h/fatia-de-queijo.png']
+];
+
+const IMG={};
+const cardImages=()=>[...document.querySelectorAll('.produto')].reduce((o,c)=>{const h=c.querySelector('h3'),im=c.querySelector('img');if(h&&im)o[h.textContent.trim().toUpperCase()]=im.src;return o},{});
+let images={};
+function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function cart(){return Array.isArray(window.carrinho)?window.carrinho:[]}
+function qty(){return cart().reduce((s,i)=>s+(Number(i.quantidade)||0),0)}
+function total(){return cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||0),0)}
+function esc(v){return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+
+const CONFIG={};
+/* Tradicionais */
+CONFIG['COMBO MAIS VENDIDO']={price:20.90,sections:[
+ {id:'lanche',title:'🍔 ESCOLHA 1 LANCHE',type:'radio',options:BURGERS},
+ {id:'batata',title:'🍟 ACOMPANHAMENTO',type:'fixed',options:['BATATA P']},
+ {id:'bebida',title:'🥤 ESCOLHA 1 REFRIGERANTE LATA',type:'radio',options:DRINKS}
+]};
+CONFIG['COMBO DOCE']={price:32.90,sections:[
+ {id:'lanche',title:'🍔 ESCOLHA 1 LANCHE',type:'radio',options:BURGERS},
+ {id:'batata',title:'🍟 ACOMPANHAMENTO FIXO',type:'fixed',options:['BATATA P']},
+ {id:'bebida',title:'🥤 ESCOLHA 1 REFRIGERANTE LATA',type:'radio',options:DRINKS},
+ {id:'doce',title:'🍇 SOBREMESA FIXA',type:'fixed',options:['SURPRESA DE UVA']}
+]};
+CONFIG['COMBO GELADO']={price:40.90,sections:[
+ {id:'lanche',title:'🍔 ESCOLHA 1 LANCHE',type:'radio',options:BURGERS},
+ {id:'batata',title:'🍟 ACOMPANHAMENTO FIXO',type:'fixed',options:['BATATA P COMPLETA COM CHEDDAR E BACON']},
+ {id:'bebida',title:'🥤 ESCOLHA 1 REFRIGERANTE LATA',type:'radio',options:DRINKS},
+ {id:'acai',title:'🥤 AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS',type:'checks',options:ACOMP.map(x=>x[0]),prices:Object.fromEntries(ACOMP)}
+]};
+CONFIG['COMBO 5 ESTRELAS']={price:45.90,sections:[
+ {id:'lanches',title:'🍔 ESCOLHA 2 LANCHES',type:'multi2',options:BURGERS},
+ {id:'fixos',title:'🍟 ACOMPANHAMENTOS FIXOS',type:'fixed',options:['BATATA M','NUGGETS P','ANEL DE CEBOLA P']},
+ {id:'molhos',title:'🥣 ESCOLHA 2 MOLHOS',type:'sauce2',options:SAUCES}
+]};
+CONFIG['COMBO DIETA SÓ SEGUNDA']={price:27.90,sections:[
+ {id:'pastel',title:'🥟 ESCOLHA 1 PASTEL SALGADO',type:'pastel'}
+ ,{id:'bebida',title:'🥤 ESCOLHA 1 REFRIGERANTE LATA',type:'radio',options:DRINKS},
+ {id:'doce',title:'🍇 SOBREMESA FIXA',type:'fixed',options:['SURPRESA DE UVA']}
+]};
+CONFIG['COMBO MOTOCA ND']={price:32.90,sections:[
+ {id:'lanche',title:'🍔 LANCHE FIXO',type:'fixed',options:['NUNES']},
+ {id:'batata',title:'🍟 ACOMPANHAMENTO FIXO',type:'fixed',options:['BATATA P']},
+ {id:'bebida',title:'🥤 ESCOLHA 1 REFRIGERANTE LATA',type:'radio',options:DRINKS}
+]};
+CONFIG['COMBO SÓ LOVE']={price:71.90,sections:[
+ {id:'lanches',title:'🍔 ESCOLHA 2 LANCHES',type:'multi2',options:BURGERS},
+ {id:'fixos',title:'🍟 ACOMPANHAMENTOS FIXOS',type:'fixed',options:['BATATA M COM CHEDDAR E BACON','NUGGETS P','ANEL DE CEBOLA P','FRANGO FRITO P']},
+ {id:'molhos',title:'🥣 ESCOLHA 2 MOLHOS',type:'sauce2',options:SAUCES},
+ {id:'brinde',title:'🎁 BRINDE FIXO',type:'fixed',options:['DOLLY 2 LITROS']}
+]};
+CONFIG['01 ND BURGS']={price:50.90,sections:[
+ {id:'fixos',title:'🍔 LANCHES FIXOS',type:'fixed',options:['X-BURGUER','X-EGG','X-SALADA','X-BACON']},
+ {id:'batata',title:'🍟 ACOMPANHAMENTO FIXO',type:'fixed',options:['BATATA M COMPLETA COM CHEDDAR E BACON']}
+]};
+CONFIG['DATE COM NDBURGS']={price:70.90,sections:[
+ {id:'lanches',title:'🍔 ESCOLHA 2 LANCHES',type:'multi2',options:BURGERS},
+ {id:'doces',title:'🍇 SOBREMESAS FIXAS',type:'fixed',options:['2 SURPRESAS DE UVA']},
+ {id:'brinde',title:'🥤 BRINDE FIXO',type:'fixed',options:['1 COCA-COLA 600ML']},
+ {id:'acais',title:'🥤 2 AÇAÍS 300ML — ESCOLHA OS ACOMPANHAMENTOS',type:'acai2',options:ACOMP.map(x=>x[0]),prices:Object.fromEntries(ACOMP)}
+]};
+
+/* Artesanais: mesma estrutura, trocando os lanches */
+['ARTESANAL COMBO MAIS VENDIDO','ARTESANAL COMBO DOCE','ARTESANAL COMBO GELADO','ARTESANAL COMBO 5 ESTRELAS','ARTESANAL COMBO SÓ LOVE','ARTESANAL DATE COM NDBURGS'].forEach(n=>{
+ const base=n.replace('ARTESANAL ','');
+ if(CONFIG[base]) CONFIG[n]={price:{'ARTESANAL COMBO MAIS VENDIDO':34.80,'ARTESANAL COMBO DOCE':44.80,'ARTESANAL COMBO GELADO':52.80,'ARTESANAL COMBO 5 ESTRELAS':70.80,'ARTESANAL COMBO SÓ LOVE':90.80,'ARTESANAL DATE COM NDBURGS':91.80}[n],sections:JSON.parse(JSON.stringify(CONFIG[base].sections))};
+ CONFIG[n].sections.forEach(sec=>{
+   if(sec.id==='lanche'||sec.id==='lanches'){
+     sec.options=sec.type==='multi2'?ART.slice():ART.slice();
    }
-   return result;
- };
- window.adicionar.__ndR14smart=true;
+ });
+});
+CONFIG['ARTESANAL MOTOCA ND']={price:41.80,sections:[
+ {id:'lanche',title:'🍔 LANCHE FIXO',type:'fixed',options:['PÉZÃO']},
+ {id:'batata',title:'🍟 ACOMPANHAMENTO FIXO',type:'fixed',options:['BATATA P']},
+ {id:'bebida',title:'🥤 ESCOLHA 1 REFRIGERANTE LATA',type:'radio',options:DRINKS}
+]};
+CONFIG['ARTESANAL 01 ND BURGS']={price:96.80,sections:[
+ {id:'fixos',title:'🍔 LANCHES FIXOS',type:'fixed',options:['GAROTINHO','DINA','GADEIA','PATÃO']},
+ {id:'batata',title:'🍟 ACOMPANHAMENTO FIXO',type:'fixed',options:['BATATA M COMPLETA COM CHEDDAR E BACON']}
+]};
+
+/* Modal */
+function ensureModal(){
+ if(document.getElementById('ndComboModal'))return;
+ const m=document.createElement('div');m.id='ndComboModal';
+ m.innerHTML='<div id="ndComboPanel" role="dialog" aria-modal="true"><div class="ndc-head"><div><h2 id="ndcTitle">PERSONALIZAR COMBO</h2><div class="ndc-intro">Escolha obrigatoriamente as opções do seu combo.</div></div><button class="ndc-close" type="button" id="ndcClose">×</button></div><div id="ndcBody"></div><div class="ndc-bottom"><button class="ndc-add" id="ndcAdd" type="button">ADICIONAR COMBO AO CARRINHO</button><div class="ndc-summary" id="ndcSummary"></div></div></div>';
+ document.body.appendChild(m);
+ document.getElementById('ndcClose').onclick=close;
+ m.addEventListener('click',e=>{if(e.target===m)close()});
+ document.getElementById('ndcAdd').onclick=confirm;
 }
-function patchPix(){
- if(typeof window.ndPay!=='function'||window.ndPay.__ndR14pix)return;
- const old=window.ndPay;
- window.ndPay=function(pay){const r=old.apply(this,arguments);setTimeout(refreshPix,40);return r};window.ndPay.__ndR14pix=true;
+let current=null;
+function open(name){
+ current=CONFIG[name]; if(!current)return;
+ images=cardImages();ensureModal();
+ document.getElementById('ndcTitle').textContent=name;
+ const body=document.getElementById('ndcBody');
+ let html='';
+ current.sections.forEach((sec,si)=>{
+   const required=sec.type!=='fixed'?' <span class="ndc-required">OBRIGATÓRIO</span>':'';
+   html+='<section class="ndc-section" data-sec="'+esc(sec.id)+'"><div class="ndc-section-title"><strong>'+esc(sec.title)+'</strong><span>'+required+'</span></div>';
+   if(sec.id==='lanche'||sec.id==='lanches') html+='<div class="ndc-lanche-message">🍔 QUER DEIXAR SEU LANCHE BITELO? ESCOLHA SEUS ADICIONAIS ABAIXO.</div>';
+   if(sec.type==='pastel'){
+     const vals=pastelOptions();
+     html+='<div class="ndc-options">'+vals.map((o,i)=>optionHtml(sec,'p'+i,o[0],o[1],false)).join('')+'</div>';
+   }else if(sec.type==='fixed'){
+     html+='<div class="ndc-options">'+sec.options.map((o,i)=>'<div class="ndc-option ndc-fixed"><span class="ndc-text"><b>✓ FIXO</b><br>'+esc(o)+'</span></div>').join('')+'</div>';
+   }else{
+     html+='<div class="ndc-options">'+sec.options.map((o,i)=>{
+       const price=sec.prices?Number(sec.prices[o]||0):0;
+       return optionHtml(sec,sec.id+'_'+i,o,price,sec.type==='checks'||sec.type==='acai2');
+     }).join('')+'</div>';
+     if(sec.type==='sauce2'||sec.type==='multi2')html+='<div class="ndc-limit">Escolha exatamente 2 opções.</div>';
+     if(sec.type==='checks'||sec.type==='acai2')html+='<div class="ndc-limit">Acompanhamentos grátis; extras pagos aparecem com o valor.</div>';
+   }
+   html+='</section>';
+ });
+ html+='<section class="ndc-section"><div class="ndc-section-title"><strong>➕ ADICIONAIS DO LANCHE</strong><span>OPCIONAL</span></div><div class="ndc-options">'+EXTRA.map((x,i)=>'<label class="ndc-option"><input type="checkbox" data-extra="'+i+'"><img src="'+x[2]+'" alt="'+esc(x[0])+'"><span class="ndc-text">'+esc(x[0])+'<small>+ '+money(x[1])+'</small></span></label>').join('')+'</div></section>';
+ body.innerHTML=html;
+ document.getElementById('ndComboModal').classList.add('show');
+ document.body.style.overflow='hidden';
+ update();
+ body.querySelectorAll('input').forEach(x=>x.addEventListener('change',update));
+ update();
 }
-function refreshPix(){
- const box=document.getElementById('ndPixBox'),sel=document.getElementById('pagamentoModal');if(!box||!sel)return;
- const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA',rua=document.getElementById('ruaModal')?.value||'';
- const sub=cart().reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0),fee=tipo==='ENTREGA'?Number(window.taxas?.[rua]||0):0,total=sub+fee;
- const pt=document.getElementById('ndPixTotal');if(pt)pt.textContent=total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
- box.classList.toggle('show',sel.value==='PIX');
- if(sel.value==='PIX'&&!document.getElementById('ndPixCopyValue')){const b=document.createElement('button');b.id='ndPixCopyValue';b.type='button';b.className='nd-pix-copy';b.textContent='💰 COPIAR VALOR';b.onclick=async()=>{const val=total.toFixed(2).replace('.',',');try{await navigator.clipboard.writeText(val)}catch(_){const ta=document.createElement('textarea');ta.value=val;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}b.textContent='✅ VALOR COPIADO!';setTimeout(()=>b.textContent='💰 COPIAR VALOR',1600)};box.appendChild(b)}
+function optionHtml(sec,id,name,price,check){
+ const type=sec.type==='multi2'?'checkbox':(check?'checkbox':'radio');
+ return '<label class="ndc-option"><input type="'+type+'" name="ndc_'+esc(sec.id)+'" value="'+esc(name)+'" data-price="'+price+'"><span class="ndc-text">'+esc(name)+(price>0?'<small>+ '+money(price)+'</small>':'<small>GRÁTIS</small>')+'</span></label>';
+}
+function pastelOptions(){
+ const a=(window.saboresPasteis?.salgados||[]).filter(x=>String(x[0]).toUpperCase()!=='PASTEL ESPECIAL');
+ return a.filter(x=>!/^PASTEL (A MODA CAROL|DE NUTELLA|DE DOCE|DE NINHO|DE KITKAT|DE NINHO|DUO)/i.test(x[0]));
+}
+function selected(name){
+ return [...document.querySelectorAll('#ndComboModal input[name="ndc_'+CSS.escape(name)+'"]:checked')];
+}
+function update(){
+ if(!current)return;
+ let valid=true,parts=[];
+ current.sections.forEach(sec=>{
+   if(sec.type==='radio'||sec.type==='pastel'){
+     const a=selected(sec.id); if(!a.length)valid=false; else parts.push(sec.title.split('—')[0].replace(/^[^A-Z🍔🥤🥟🍟]+/,'')+': '+a[0].value);
+   }else if(sec.type==='multi2'||sec.type==='sauce2'){
+     const a=selected(sec.id); if(a.length!==2)valid=false; else parts.push(sec.title.split('—')[0]+': '+a.map(x=>x.value).join(' + '));
+   }else if(sec.type==='checks'||sec.type==='acai2'){
+     const a=selected(sec.id); let extra=a.reduce((s,x)=>s+Number(x.dataset.price||0),0);
+     if(sec.type==='acai2' && a.length===0){valid=true}
+     parts.push(sec.id==='acai2'?'Acompanhamentos dos 2 AÇAÍS: '+(a.length?a.map(x=>x.value).join(', '):'sem adicionais'):'Açaí 300ML: '+(a.length?a.map(x=>x.value).join(', '):'sem adicionais'));
+     if(extra>0)parts.push('Extras do açaí: '+money(extra));
+   }else if(sec.type==='fixed'){
+     parts.push(sec.title+': '+sec.options.join(', '));
+   }
+ });
+ const extras=[...document.querySelectorAll('#ndComboModal [data-extra]:checked')];
+ let ext=0;extras.forEach(x=>ext+=EXTRA[Number(x.dataset.extra)][1]);
+ if(extras.length)parts.push('ADICIONAIS: '+extras.map(x=>EXTRA[Number(x.dataset.extra)][0]).join(', '));
+ let acoes=0;
+ document.querySelectorAll('#ndComboModal input:checked').forEach(x=>acoes+=Number(x.dataset.price||0));
+ const total=current.price+acoes+ext;
+ document.getElementById('ndcAdd').disabled=!valid;
+ document.getElementById('ndcSummary').textContent=valid?'Total do combo: '+money(total):'Complete todas as escolhas obrigatórias para adicionar.';
+ document.getElementById('ndcAdd').dataset.total=total;
+ current.__parts=parts;current.__extraTotal=acoes+ext;
+}
+function confirm(){
+ if(!current)return;
+ update(); if(document.getElementById('ndcAdd').disabled){alert('Escolha todas as opções obrigatórias do combo.');return}
+ const details=(current.__parts||[]).slice();
+ const item={nome:document.getElementById('ndcTitle').textContent,preco:Number(current.price)+Number(current.__extraTotal||0),quantidade:1,detalhes:details};
+ cart().push(item);
+ try{localStorage.setItem('ndburgs_carrinho',JSON.stringify(cart()))}catch(_){}
+ if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();
+ syncCart();
+ close();
+ showTiny('🔥 COMBO ADICIONADO COM TODAS AS ESCOLHAS!');
+}
+function close(){const m=document.getElementById('ndComboModal');if(m)m.classList.remove('show');document.body.style.overflow='';current=null}
+function showTiny(t){
+ let x=document.getElementById('ndComboTiny');if(!x){x=document.createElement('div');x.id='ndComboTiny';Object.assign(x.style,{position:'fixed',left:'50%',top:'90px',transform:'translateX(-50%)',zIndex:390000,padding:'11px 16px',borderRadius:'999px',background:'linear-gradient(135deg,#ff5a00,#ffb000)',color:'#fff',fontWeight:'1000',boxShadow:'0 10px 35px rgba(0,0,0,.5)'});document.body.appendChild(x)}x.textContent=t;x.style.display='block';clearTimeout(x._t);x._t=setTimeout(()=>x.style.display='none',1800)
+}
+window.abrirCombo=open;
+function comboNameFromTarget(t){
+ let card=t.closest('.produto'); if(card)return card.querySelector('h3')?.textContent.trim().toUpperCase();
+ let r3=t.closest('.nd-r3-card'); if(r3)return r3.querySelector('strong')?.textContent.trim().toUpperCase();
+ let b=t.closest('.nd20-best-card'); if(b)return b.querySelector('strong')?.textContent.trim().toUpperCase();
+ return null;
+}
+function intercept(e){
+ const t=e.target.closest('.produto .btn-add,.produto .nd-fx-add,.nd-r3-add,.nd20-best-add');
+ if(!t)return;
+ const name=comboNameFromTarget(t);
+ if(name&&CONFIG[name]){
+   e.preventDefault();e.stopImmediatePropagation();
+   open(name);return false;
+ }
+}
+document.addEventListener('click',intercept,true);
+
+/* Cart sync + quantity */
+function syncCart(){
+ const bar=document.getElementById('carrinhoFlutuante'),btn=bar?.querySelector('.btn-ver-carrinho');if(!bar||!btn)return;
+ const n=qty();btn.textContent='VER CARRINHO';btn.setAttribute('data-qty',n);
+ bar.classList.toggle('ativo',n>0);
+}
+const oldUpdate=window.atualizarCarrinho;
+if(typeof oldUpdate==='function'&&!oldUpdate.__ndComboSync){
+ window.atualizarCarrinho=function(){const r=oldUpdate.apply(this,arguments);setTimeout(syncCart,0);return r};
+ window.atualizarCarrinho.__ndComboSync=true;
+}
+function removeOldCart(){
+ const f=document.getElementById('ndCartFab');if(f)f.remove();
+ const l=document.getElementById('ndCartLabel');if(l)l.remove();
+ const old=document.getElementById('ndFxCartbar');if(old)old.remove();
+}
+function moveBestAndQuick(){
+ const status=document.getElementById('statusHorario');
+ const best=document.getElementById('nd20Best');
+ if(status&&best)status.closest('.horarios')?.after(best);
+ const quick=document.getElementById('ndR3Quick');
+ if(quick){
+   const cont=document.querySelector('.container'); if(cont)cont.appendChild(quick);
+ }
+}
+function promo(){
+ if(document.getElementById('ndSitePromoUva'))return;
+ const c=document.querySelector('.container');if(!c)return;
+ const sec=document.createElement('section');sec.id='ndSitePromoUva';
+ sec.innerHTML='<img src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="Doce surpresa de uva"><div class="promo-copy"><div class="promo-kicker">OFERTA EXCLUSIVA NO SITE</div><h2>🍇 DOCE SURPRESA DE UVA</h2><p>Oferta especial para quem pede diretamente pelo site da ND BURGS.</p><div class="promo-price"><span class="old-price">R$ 12,00</span><span class="new-price">R$ 7,90</span></div><button class="btn btn-add" type="button">ADICIONAR AO CARRINHO</button></div>';
+ sec.querySelector('button').onclick=()=>{if(typeof window.adicionar==='function')window.adicionar('SURPRESA DE UVA',7.90);syncCart()};
+ const h=document.getElementById('statusHorario');if(h&&h.closest('.horarios'))h.closest('.horarios').after(sec);else c.insertBefore(sec,c.firstElementChild);
+}
+function successModal(){
+ if(document.getElementById('ndSuccessModal'))return;
+ const m=document.createElement('div');m.id='ndSuccessModal';m.innerHTML='<div id="ndSuccessBox"><div class="check">🎉</div><h2>OBRIGADO POR ESCOLHER<br>ND BURGS!</h2><p>SEU PEDIDO ESTÁ CONFIRMADO<br>E SERÁ ENTREGUE DE 40 A 50 MINUTINHOS.</p><small>O WhatsApp foi aberto para enviar os detalhes do pedido.</small><button id="ndSuccessClose">FECHAR</button></div>';document.body.appendChild(m);m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')});document.getElementById('ndSuccessClose').onclick=()=>m.classList.remove('show');
 }
 function patchFinish(){
- if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndR14finish)return;
+ if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndComboFinish)return;
  const old=window.finalizarPedidoModal;
  window.finalizarPedidoModal=function(){
-   const result=old.apply(this,arguments);
-   return result;
+   const before=cart().length;
+   const r=old.apply(this,arguments);
+   if(before>0){
+     successModal();setTimeout(()=>document.getElementById('ndSuccessModal')?.classList.add('show'),450);
+   }
+   return r;
  };
- window.finalizarPedidoModal.__ndR14finish=true;
+ window.finalizarPedidoModal.__ndComboFinish=true;
 }
-function patchIntro(){const btn=[...document.querySelectorAll('.ndFx-action')].find(x=>norm(x.textContent).includes('VER MAIS VENDIDOS'));if(!btn||btn.dataset.ndR14btn)return;btn.dataset.ndR14btn='1';btn.onclick=()=>{const sec=document.getElementById('ndAutoBest');if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'})}}
-function init(){patchSmart();patchPix();refreshPix();patchIntro();setTimeout(()=>{patchSmart();patchPix();refreshPix();patchIntro()},700)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-setTimeout(init,1400);
-})();
-</script>
-
-<!-- =========================================================
-     ND BURGS — RODADA 27 / R15
-     LUZES AZUIS/ROXAS + PIX COMPLETO + ANIMAÇÃO DE ADIÇÃO
-     ========================================================= -->
-<style id="nd-r15-final">
-/* ===== TOTAL DO COMBO E PROMOÇÃO SEM SOMBRA ===== */
-.r11-combo-total strong,#r11ComboTotal,.r11-promo-price,#ndV4Total,.nd-v4-final-total,#totalCarrinhoModal,#totalFinalizarModal,#total{
-  text-shadow:none!important;filter:none!important;
-}
-
-/* ===== HERO: LUZES AZUIS E ROXAS SE MOVENDO ===== */
-#ndFxIntro{
-  isolation:isolate!important;
-  background:
-    radial-gradient(circle at 15% 15%,rgba(48,105,255,.22),transparent 28%),
-    radial-gradient(circle at 88% 20%,rgba(155,55,255,.25),transparent 30%),
-    radial-gradient(circle at 55% 100%,rgba(46,82,255,.16),transparent 34%),
-    linear-gradient(145deg,#070912,#090612 55%,#050509)!important;
-  border-color:rgba(105,92,255,.38)!important;
-  box-shadow:0 18px 55px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08),0 0 42px rgba(72,86,255,.14),0 0 70px rgba(155,55,255,.08)!important;
-}
-#ndFxIntro:before,#ndFxIntro:after{content:""!important;pointer-events:none!important;z-index:0!important;filter:blur(2px)!important}
-#ndFxIntro:before{
-  width:380px!important;height:115px!important;right:-110px!important;top:18px!important;border-radius:999px!important;
-  background:linear-gradient(90deg,transparent,rgba(58,103,255,.55),rgba(145,54,255,.48),transparent)!important;
-  transform:rotate(-14deg)!important;animation:ndR15LightA 5.5s ease-in-out infinite!important;
-}
-#ndFxIntro:after{
-  width:330px!important;height:95px!important;left:-100px!important;bottom:12px!important;border-radius:999px!important;
-  background:linear-gradient(90deg,transparent,rgba(151,55,255,.48),rgba(49,91,255,.55),transparent)!important;
-  transform:rotate(13deg)!important;animation:ndR15LightB 6.5s ease-in-out infinite!important;
-}
-#ndFxIntro>*{position:relative;z-index:2}
-#ndFxIntro .ndFx-kicker{
-  border-color:rgba(112,126,255,.5)!important;
-  color:#b9c4ff!important;background:rgba(67,82,255,.08)!important;
-  box-shadow:0 0 18px rgba(72,94,255,.18),0 0 30px rgba(156,58,255,.08)!important;
-}
-#ndFxIntro .ndFx-title span{
-  background:linear-gradient(100deg,#dce4ff 0%,#7d9dff 28%,#d18cff 50%,#6e8dff 72%,#f0d7ff 100%)!important;
-  background-size:220% auto!important;
-  filter:drop-shadow(0 0 10px rgba(92,115,255,.42)) drop-shadow(0 0 18px rgba(174,75,255,.22))!important;
-}
-#ndFxIntro .ndFx-sub{color:#d1d4e6!important}
-#ndFxIntro .ndFx-action.primary{
-  background:linear-gradient(135deg,#dbe4ff,#8ea8ff 46%,#9b55ff)!important;
-  color:#090914!important;border-color:rgba(214,224,255,.75)!important;
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.75),0 4px 0 #40358c,0 10px 28px rgba(79,91,255,.28),0 0 25px rgba(156,65,255,.16)!important;
-}
-#ndFxIntro .ndFx-action:not(.primary){
-  border-color:rgba(120,123,190,.35)!important;background:linear-gradient(145deg,#121525,#090b13)!important;
-  box-shadow:0 5px 0 #03040a,0 12px 28px rgba(0,0,0,.35),0 0 18px rgba(80,96,255,.08)!important;
-}
-
-/* ===== BRILHO EM TODA A FAIXA DE INTRODUÇÃO ===== */
-#ndFxIntro .ndFx-title{filter:drop-shadow(0 0 7px rgba(78,99,255,.12))}
-
-/* ===== ANIMAÇÃO AO ADICIONAR ITEM ===== */
-.produto.nd-r15-added{animation:ndR15Added .55s cubic-bezier(.2,.85,.25,1) both!important}
-.btn-add.nd-r15-btn-added{animation:ndR15Btn .5s ease both!important}
-.nd-r15-toast{
-  position:fixed;right:18px;top:18px;z-index:800000;max-width:min(360px,calc(100vw - 36px));
-  padding:12px 15px;border:1px solid rgba(139,122,255,.65);border-radius:14px;
-  background:linear-gradient(135deg,rgba(13,18,45,.97),rgba(31,10,55,.97));color:#fff;
-  box-shadow:0 15px 40px rgba(0,0,0,.55),0 0 28px rgba(93,89,255,.22);
-  font-size:12px;font-weight:1000;pointer-events:none;animation:ndR15Toast .9s ease both;
-}
-.nd-r15-toast b{color:#bba7ff}
-
-/* ===== PIX: CHAVE + VALOR + BOTÕES DE CÓPIA ===== */
-#ndPixBox{border-color:rgba(101,114,255,.42)!important;background:linear-gradient(145deg,#0d1020,#100918)!important;box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 25px rgba(80,90,255,.09)!important}
-#ndPixBox .nd-pix-title{color:#b9c4ff!important}
-#ndPixBox .nd-pix-key{border-color:rgba(115,98,255,.5)!important}
-#ndPixBox .nd-pix-total{border-color:rgba(115,98,255,.32)!important}
-#ndPixBox .nd-pix-total b{color:#c6a8ff!important;text-shadow:none!important}
-#ndPixBox .nd-pix-copy{background:linear-gradient(135deg,#dbe4ff,#91a8ff 48%,#a25cff)!important;color:#090914!important;box-shadow:0 4px 0 #40358c,0 0 20px rgba(94,100,255,.15)!important}
-#ndPixBox #ndPixCopyValue{background:linear-gradient(135deg,#fff,#c7d2ff 48%,#c98cff)!important}
-
-/* ===== CONFIRMAÇÃO GIGANTE ===== */
-#ndOrderSuccess{
-  background:
-    radial-gradient(circle at 50% 35%,rgba(67,91,255,.25),transparent 25%),
-    radial-gradient(circle at 20% 75%,rgba(163,59,255,.18),transparent 28%),
-    rgba(3,3,8,.97)!important;
-}
-#ndOrderSuccess:before,#ndOrderSuccess:after{content:"";position:absolute;pointer-events:none;border-radius:999px;filter:blur(5px)}
-#ndOrderSuccess:before{width:65vw;height:18vw;background:linear-gradient(90deg,transparent,rgba(54,96,255,.22),rgba(165,58,255,.22),transparent);animation:ndR15SuccessLight 4s ease-in-out infinite}
-#ndOrderSuccess:after{width:48vw;height:12vw;background:linear-gradient(90deg,transparent,rgba(168,61,255,.16),rgba(60,93,255,.18),transparent);animation:ndR15SuccessLight 5s ease-in-out infinite reverse}
-#ndOrderSuccess .nd-success-card{position:relative;z-index:2}
-#ndOrderSuccess .nd-success-check{background:linear-gradient(145deg,#e2e8ff,#8ea8ff,#a55cff)!important;color:#080914!important;box-shadow:inset 0 4px 0 rgba(255,255,255,.75),0 8px 0 #40358c,0 0 55px rgba(85,103,255,.34),0 0 75px rgba(167,66,255,.18)!important}
-#ndOrderSuccess .nd-success-card h2 span{color:#c5a8ff!important;filter:drop-shadow(0 0 18px rgba(156,74,255,.35))!important}
-#ndOrderSuccess .nd-success-card p b{color:#aabaff!important}
-
-@keyframes ndR15LightA{0%,100%{transform:translate3d(30px,0,0) rotate(-14deg);opacity:.35}50%{transform:translate3d(-190px,38px,0) rotate(-8deg);opacity:.85}}
-@keyframes ndR15LightB{0%,100%{transform:translate3d(-20px,0,0) rotate(13deg);opacity:.3}50%{transform:translate3d(190px,-30px,0) rotate(7deg);opacity:.8}}
-@keyframes ndR15Added{0%{transform:scale(1);filter:brightness(1)}35%{transform:scale(1.035);filter:brightness(1.35) drop-shadow(0 0 14px rgba(94,107,255,.5))}100%{transform:scale(1);filter:none}}
-@keyframes ndR15Btn{0%{transform:scale(1)}45%{transform:scale(.94);filter:brightness(1.35)}100%{transform:scale(1)}}
-@keyframes ndR15Toast{0%{opacity:0;transform:translateY(-12px) scale(.96)}18%{opacity:1;transform:none}78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-8px) scale(.98)}}
-@keyframes ndR15SuccessLight{0%,100%{transform:translateX(-18%) rotate(-6deg);opacity:.35}50%{transform:translateX(18%) rotate(6deg);opacity:.85}}
-@media(max-width:600px){
- #ndFxIntro:before{width:280px!important;height:90px!important}
- #ndFxIntro:after{width:250px!important;height:75px!important}
- .nd-r15-toast{top:10px;right:10px;left:10px;max-width:none;text-align:center}
-}
-@media(prefers-reduced-motion:reduce){
- #ndFxIntro:before,#ndFxIntro:after,.produto.nd-r15-added,.btn-add.nd-r15-btn-added,.nd-r15-toast,#ndOrderSuccess:before,#ndOrderSuccess:after{animation:none!important}
-}
-</style>
-<script id="nd-r15-final-js">
-(function(){
-'use strict';
-const q=s=>document.querySelector(s),qa=s=>Array.from(document.querySelectorAll(s));
-function money(n){return 'R$ '+Number(n||0).toFixed(2).replace('.',',')}
-function animateAdded(name){
-  const key=String(name||'').trim().toUpperCase();
-  const card=qa('.produto').find(c=>(c.querySelector('h3')?.textContent||'').trim().toUpperCase()===key);
-  if(card){card.classList.remove('nd-r15-added');void card.offsetWidth;card.classList.add('nd-r15-added');setTimeout(()=>card.classList.remove('nd-r15-added'),650);}
-  const btn=card?.querySelector('.btn-add');
-  if(btn){btn.classList.remove('nd-r15-btn-added');void btn.offsetWidth;btn.classList.add('nd-r15-btn-added');setTimeout(()=>btn.classList.remove('nd-r15-btn-added'),600);}
-  let t=document.querySelector('.nd-r15-toast');if(t)t.remove();
-  t=document.createElement('div');t.className='nd-r15-toast';t.innerHTML='✅ <b>'+String(name).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))+'</b> adicionado ao carrinho';document.body.appendChild(t);setTimeout(()=>t.remove(),950);
-}
-function patchAdicionar(){
- if(typeof window.adicionar!=='function'||window.adicionar.__ndR15)return;
- const old=window.adicionar;
- window.adicionar=function(nome,preco){const r=old.apply(this,arguments);animateAdded(nome);return r};
- window.adicionar.__ndR15=true;
-}
-function patchComboConfirm(){
- if(typeof window.confirmarComboPersonalizacao!=='function'||window.confirmarComboPersonalizacao.__ndR15)return;
- const old=window.confirmarComboPersonalizacao;
- window.confirmarComboPersonalizacao=function(){const r=old.apply(this,arguments);animateAdded(document.getElementById('r11ComboTitle')?.textContent?.replace(/^🍔\s*/,'' )||'COMBO');return r};
- window.confirmarComboPersonalizacao.__ndR15=true;
-}
-function ensurePixButtons(){
- const box=q('#ndPixBox');if(!box)return;
- const totalText=q('#ndPixTotal')?.textContent||'R$ 0,00';
- let b=q('#ndPixCopyValue');
- if(!b){b=document.createElement('button');b.id='ndPixCopyValue';b.type='button';b.className='nd-pix-copy';b.textContent='💰 COPIAR VALOR DO PEDIDO';box.appendChild(b)}
- b.onclick=async function(){
-   const raw=q('#ndPixTotal')?.textContent||totalText;
-   const val=raw.replace(/[^0-9,.-]/g,'').trim();
-   try{await navigator.clipboard.writeText(val)}catch(_){const ta=document.createElement('textarea');ta.value=val;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
-   b.textContent='✅ VALOR COPIADO!';setTimeout(()=>b.textContent='💰 COPIAR VALOR DO PEDIDO',1700);
+/* PIX com total e botão copiar */
+function patchPix(){
+ if(typeof window.ndPay!=='function'||window.ndPay.__ndComboPix)return;
+ const old=window.ndPay;
+ window.ndPay=function(pay){
+   const r=old.apply(this,arguments);
+   let box=document.getElementById('ndPixBox');
+   if(!box){
+     const anchor=document.getElementById('trocoAreaModal');
+     if(!anchor)return r;
+     box=document.createElement('div');box.id='ndPixBox';
+     box.style.cssText='display:none;margin-top:12px;padding:14px;border:1px solid rgba(255,210,26,.45);border-radius:14px;background:rgba(255,210,26,.06);color:#fff';
+     anchor.after(box);
+   }
+   if(pay==='PIX'){
+     const fee=(document.getElementById('tipoPedidoModal')?.value==='ENTREGA')?Number(window.taxas?.[document.getElementById('ruaModal')?.value]||0):0;
+     const val=total()+fee;
+     box.innerHTML='<strong style="color:#ffd21a;font-size:15px">💠 PAGUE POR PIX</strong><div style="margin-top:7px;font-size:12px;color:#aaa">VALOR A PAGAR</div><div id="ndPixValue" style="font-size:28px;font-weight:1000;color:#fff;margin:3px 0 10px">'+money(val)+'</div><div style="font-size:12px;color:#ccc;line-height:1.5"><b>Chave PIX:</b> 11963973846<br><b>Nome:</b> SABRINA SELLIS DINIZ<br><b>Banco:</b> CONTA NEON</div><button type="button" id="ndPixCopy" style="margin-top:10px;width:100%;border:0;border-radius:10px;padding:11px;background:#ffd21a;color:#111;font-weight:1000;cursor:pointer">📋 COPIAR CHAVE PIX</button>';
+     box.style.display='block';
+     document.getElementById('ndPixCopy').onclick=async()=>{try{await navigator.clipboard.writeText('11963973846');showTiny('✅ CHAVE PIX COPIADA');}catch(_){alert('Chave PIX: 11963973846')}};
+   }else box.style.display='none';
+   return r;
  };
+ window.ndPay.__ndComboPix=true;
 }
-function init(){patchAdicionar();patchComboConfirm();ensurePixButtons();setTimeout(()=>{patchAdicionar();patchComboConfirm();ensurePixButtons()},800)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-
-
-<!-- =========================================================
-     ND BURGS — RODADA 30 / R18
-     HERO AZUL/ROXO + SEM SOMBRAS NOS VALORES + PIX + CONFIRMAÇÃO
-     + UPSELL DE COMBO SOMENTE PARA 1 ITEM INDIVIDUAL
-     ========================================================= -->
-<style id="nd-r16-final">
-/* TOTAL DO COMBO E SURPRESA DE UVA: ZERO SOMBRA */
-.r11-combo-total strong,#r11ComboTotal,.r11-promo-price,#ndUvaPromo .r11-promo-price{
-  text-shadow:none!important;filter:none!important;box-shadow:none!important;
+function updateBest(){
+ const best=document.getElementById('nd20Best');if(best)moveBestAndQuick();
 }
-
-/* TOPO: todas as letras brancas, sem sombra, com brilho contínuo sem sombra tipográfica */
-#ndFxIntro .ndFx-kicker,
-#ndFxIntro .ndFx-title,
-#ndFxIntro .ndFx-title span,
-#ndFxIntro .ndFx-sub{
-  color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important;
-  text-shadow:none!important;filter:none!important;
+function init(){
+ removeOldCart();promo();moveBestAndQuick();syncCart();patchFinish();patchPix();
+ setTimeout(()=>{removeOldCart();promo();moveBestAndQuick();syncCart();patchFinish();patchPix()},700);
+ setTimeout(()=>{moveBestAndQuick();syncCart();patchFinish();patchPix()},1600);
 }
-#ndFxIntro .ndFx-kicker{border-color:rgba(125,135,255,.55)!important;background:rgba(75,85,255,.08)!important}
-#ndFxIntro .ndFx-title,#ndFxIntro .ndFx-title span,#ndFxIntro .ndFx-kicker,#ndFxIntro .ndFx-sub{
-  animation:ndR16TextGlow 2.4s ease-in-out infinite!important;
-}
-#ndFxIntro .ndFx-sub{animation-delay:.35s!important}
-#ndFxIntro .ndFx-kicker{animation-delay:.15s!important}
-#ndFxIntro{
-  background:
-    radial-gradient(circle at 10% 18%,rgba(47,99,255,.27),transparent 30%),
-    radial-gradient(circle at 92% 22%,rgba(170,58,255,.29),transparent 32%),
-    radial-gradient(circle at 48% 105%,rgba(85,69,255,.19),transparent 38%),
-    linear-gradient(145deg,#050713,#0b0615 58%,#040408)!important;
-  border-color:rgba(104,104,255,.48)!important;
-  box-shadow:0 18px 55px rgba(0,0,0,.55),0 0 44px rgba(65,86,255,.16),0 0 75px rgba(154,56,255,.10)!important;
-}
-#ndFxIntro:before,#ndFxIntro:after{filter:blur(3px)!important;mix-blend-mode:screen!important}
-#ndFxIntro:before{
-  background:linear-gradient(90deg,transparent,rgba(42,104,255,.72),rgba(174,57,255,.62),transparent)!important;
-  animation:ndR16BeamA 5.2s ease-in-out infinite!important;
-}
-#ndFxIntro:after{
-  background:linear-gradient(90deg,transparent,rgba(175,58,255,.62),rgba(55,101,255,.70),transparent)!important;
-  animation:ndR16BeamB 6.2s ease-in-out infinite!important;
-}
-#ndFxIntro .ndFx-action{position:relative;isolation:isolate}
-#ndFxIntro .ndFx-action:before{content:"";position:absolute;inset:-2px auto -2px -55%;width:38%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-18deg);animation:ndR16ButtonSweep 3.4s linear infinite;z-index:-1;pointer-events:none}
-
-/* Animação extra ao adicionar: card + botão + contador do carrinho */
-#carrinhoFlutuante.nd-r16-cart-pop{animation:ndR16CartPop .52s cubic-bezier(.2,.9,.25,1)!important}
-.produto.nd-r16-product-pop{animation:ndR16ProductPop .58s cubic-bezier(.2,.85,.25,1)!important}
-
-/* Oferta de combo grande e clara */
-#ndSmartComboOffer .nd-smart-panel{border-color:rgba(115,108,255,.62)!important;box-shadow:0 24px 85px rgba(0,0,0,.82),0 0 40px rgba(80,90,255,.18),0 0 55px rgba(161,57,255,.10)!important}
-#ndSmartComboOffer .nd-smart-kicker{color:#bfc8ff!important}
-#ndSmartComboOffer .nd-smart-price{color:#fff!important;text-shadow:none!important}
-
-/* PIX: valor e chave bem visíveis */
-#ndPixBox{display:none}
-#ndPixBox.show{display:block!important;animation:ndR16PixIn .35s ease both}
-#ndPixBox .nd-pix-key{font-size:17px!important;letter-spacing:.7px!important;text-align:center!important}
-#ndPixBox .nd-pix-total{font-size:20px!important;text-align:center!important}
-#ndPixBox .nd-pix-total b{font-size:24px!important;color:#fff!important;text-shadow:none!important}
-
-/* Confirmação final gigante */
-#ndOrderSuccess.show{display:flex!important}
-#ndOrderSuccess .nd-success-card{width:min(980px,94vw)!important;padding:clamp(24px,5vw,56px)!important}
-#ndOrderSuccess .nd-success-card h2{font-size:clamp(44px,7vw,92px)!important;line-height:.92!important;color:#fff!important;text-shadow:none!important;animation:ndR16SuccessTitle 1.8s ease-in-out infinite!important}
-#ndOrderSuccess .nd-success-card h2 span{color:#fff!important;filter:none!important;text-shadow:none!important}
-#ndOrderSuccess .nd-success-card p{font-size:clamp(18px,2.5vw,31px)!important;line-height:1.3!important;color:#fff!important}
-#ndOrderSuccess .nd-success-card p b{color:#fff!important;text-shadow:none!important}
-#ndOrderSuccess .nd-success-timer{margin-top:18px;font-size:12px!important;color:#c7caff!important;letter-spacing:1px!important}
-
-@keyframes ndR16TextGlow{0%,100%{opacity:.82}50%{opacity:1}}
-@keyframes ndR16BeamA{0%,100%{transform:translate3d(55px,-5px,0) rotate(-14deg);opacity:.25}50%{transform:translate3d(-210px,42px,0) rotate(-8deg);opacity:.95}}
-@keyframes ndR16BeamB{0%,100%{transform:translate3d(-45px,8px,0) rotate(13deg);opacity:.23}50%{transform:translate3d(215px,-35px,0) rotate(7deg);opacity:.88}}
-@keyframes ndR16ButtonSweep{0%{left:-55%}65%,100%{left:135%}}
-@keyframes ndR16CartPop{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
-@keyframes ndR16ProductPop{0%{transform:scale(1)}35%{transform:scale(1.028);outline:2px solid rgba(116,107,255,.58)}100%{transform:scale(1);outline-color:transparent}}
-@keyframes ndR16PixIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes ndR16SuccessTitle{0%,100%{transform:scale(1);opacity:.92}50%{transform:scale(1.025);opacity:1}}
-@media(max-width:600px){#ndOrderSuccess .nd-success-card h2{font-size:42px!important}#ndOrderSuccess .nd-success-card p{font-size:18px!important}}
-@media(prefers-reduced-motion:reduce){#ndFxIntro:before,#ndFxIntro:after,#ndFxIntro .ndFx-title,#ndFxIntro .ndFx-title span,#ndFxIntro .ndFx-kicker,#ndFxIntro .ndFx-sub,#ndFxIntro .ndFx-action:before,#ndOrderSuccess .nd-success-card h2{animation:none!important}}
-</style>
-<script id="nd-r16-final-js">
-(function(){
-'use strict';
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-
-/* Garante as fotos novas exatamente nos produtos enviados pelo usuário. */
-const PHOTO_MAP={
- 'FATIA QUEIJO CHEDDAR EXTRA':'https://i.ibb.co/ZRydT4hD/fatia-de-queijo.png',
- 'POTINHO MAIONESE VERDE':'https://i.ibb.co/DDCZpVLW/potinho-maionese-verde.png',
- 'HAMBURGUER EXTRA ARTESANAL':'https://i.ibb.co/wZfS9rn1/hamburguer-artesanal.png',
- 'POTINHO CHEDDAR':'https://i.ibb.co/DHNQ0kwS/potinho-cheddar.png',
- 'BACON':'https://i.ibb.co/6RxLhQBG/adicional-bacon.png',
- 'ADICIONAL BACON':'https://i.ibb.co/6RxLhQBG/adicional-bacon.png',
- 'POTINHO BARBECUE':'https://i.ibb.co/n8KHqTMg/potinho-barbecue.png',
- 'ADICIONAL CHEDDAR':'https://i.ibb.co/cHt8ZjS/adicional-molho-cheddar.png',
- 'POTINHO MAIONESE ARTESANAL':'https://i.ibb.co/Y4DcTLwD/maionese-artesanal.png',
- 'HAMBURGUER EXTRA TRADICIONAL':'https://i.ibb.co/TqhkXgRF/HAMBURGUER-TRADICIONAL.png',
- 'COCA COLA LATA':'https://i.ibb.co/r2zDycx0/Chat-GPT-Image-4-09-2026-21-18-50.png',
- 'SURPRESA DE UVA':'https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png'
-};
-function applyPhotos(){
- $$('.produto').forEach(card=>{const name=norm(card.querySelector('h3')?.textContent);const src=PHOTO_MAP[name];if(!src)return;let img=card.querySelector('img.produto-imagem');if(!img){img=document.createElement('img');img.className='produto-imagem';img.loading='lazy';img.decoding='async';card.insertBefore(img,card.firstChild)}img.src=src;img.alt=name;});
- const promo=$('#ndUvaPromo img');if(promo)promo.src=PHOTO_MAP['SURPRESA DE UVA'];
-}
-
-/* Botão VER MAIS VENDIDOS sempre funcional e atualiza os 3 destaques do dia antes de rolar. */
-function bindBest(){
- const btn=$$('.ndFx-action').find(b=>norm(b.textContent).includes('VER MAIS VENDIDOS'));if(!btn||btn.dataset.ndR16Best)return;btn.dataset.ndR16Best='1';
- btn.onclick=function(){if(typeof window.renderBest==='function')try{window.renderBest()}catch(_){}const sec=$('#ndAutoBest');if(sec){sec.scrollIntoView({behavior:'smooth',block:'start'});sec.animate?.([{transform:'scale(1)'},{transform:'scale(1.01)'},{transform:'scale(1)'}],{duration:550})}};
-}
-
-/* Animação adicional ao adicionar qualquer item. */
-function pop(name){
- const key=norm(name),card=$$('.produto').find(c=>norm(c.querySelector('h3')?.textContent)===key);if(card){card.classList.remove('nd-r16-product-pop');void card.offsetWidth;card.classList.add('nd-r16-product-pop');setTimeout(()=>card.classList.remove('nd-r16-product-pop'),650)}
- const cart=$('#carrinhoFlutuante');if(cart){cart.classList.remove('nd-r16-cart-pop');void cart.offsetWidth;cart.classList.add('nd-r16-cart-pop');setTimeout(()=>cart.classList.remove('nd-r16-cart-pop'),600)}
-}
-function patchAdd(){if(typeof window.adicionar!=='function'||window.adicionar.__ndR16)return;const old=window.adicionar;window.adicionar=function(nome,preco){const r=old.apply(this,arguments);pop(nome);return r};window.adicionar.__ndR16=true}
-
-/* PIX: mantém chave e valor sincronizados com o total visível. */
-function refreshPix(){
- const box=$('#ndPixBox'),pay=$('#pagamentoModal');if(!box||!pay)return;box.classList.toggle('show',pay.value==='PIX');
- const total=$('#ndV4Total')?.textContent||$('#totalFinalizarModal')?.textContent||'R$ 0,00';const out=$('#ndPixTotal');if(out)out.textContent=total;
-}
-function bindPix(){const pay=$('#pagamentoModal');if(pay&&!pay.dataset.ndR16){pay.dataset.ndR16='1';pay.addEventListener('change',refreshPix)}const total=$('#ndV4Total');if(total&&!total.dataset.ndR16Obs){total.dataset.ndR16Obs='1';new MutationObserver(refreshPix).observe(total,{subtree:true,childList:true,characterData:true})}refreshPix()}
-
-/* Ajusta o texto da confirmação, inclusive se uma camada antiga recriar o modal. */
-function fixSuccess(){const h=$('#ndOrderSuccess .nd-success-card h2'),p=$('#ndOrderSuccess .nd-success-card p'),t=$('#ndOrderSuccess .nd-success-timer');if(h)h.innerHTML='OBRIGADO POR ESCOLHER <span>#NDBURGS</span>';if(p)p.innerHTML='SEU PEDIDO ESTÁ <b>CONFIRMADO</b>, IRÁ PARA PRODUÇÃO E SERÁ ENTREGUE ENTRE <b>40 A 50 MINUTINHOS</b>. 🍔🔥';if(t)t.textContent='ENVIANDO SEU PEDIDO PARA A ND BURGS...'}
-
-function init(){applyPhotos();bindBest();patchAdd();bindPix();fixSuccess();setTimeout(()=>{applyPhotos();bindBest();patchAdd();bindPix();fixSuccess()},800)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-
-
-
-<!-- ND BURGS RODADA 30 / R18 — FAVORITOS + AVALIAÇÕES PÚBLICAS -->
-<style id="nd-r18-favorites-public">
-#ndFavoritesCategory{margin-top:28px!important;scroll-margin-top:125px!important;display:none}
-#ndFavoritesCategory.nd-has-favs{display:block!important}
-#ndFavoritesCategory .nd-r18-fav-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:13px}
-#ndFavoritesCategory .nd-r18-fav-head h2{margin:0!important;color:#fff!important;font-size:clamp(21px,3vw,30px)!important}
-#ndFavoritesCategory .nd-r18-fav-head p{margin:0;color:#888;font-size:11px;text-align:right}
-#ndFavoritesCategory .nd-r18-empty{padding:25px 16px;border:1px dashed #343442;border-radius:16px;background:#0c0c10;color:#999;text-align:center}
-#ndFavoritesCategory .nd-r18-empty b{display:block;color:#fff;margin-bottom:5px}
-#ndFavoritesCategory .produtos .produto{animation:ndR18FavIn .35s ease both}
-#ndFavoritesCategory .nd-fav{display:none!important}
-#ndFavoritesCategory .nd-r18-remove{position:absolute;top:10px;right:10px;z-index:4;width:36px;height:36px;border:1px solid #3b3145;border-radius:50%;background:#110d15;color:#ff7b9a;font-size:17px;cursor:pointer}
-#ndR18ReviewNotice{margin-top:8px;font-size:10px;color:#8f8ea5}
-#ndFxReviewList .nd-r18-source{font-size:9px;color:#777;margin-top:4px}
-@keyframes ndR18FavIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
-@media(max-width:600px){#ndFavoritesCategory .nd-r18-fav-head{display:block}#ndFavoritesCategory .nd-r18-fav-head p{text-align:left;margin-top:5px}}
-</style>
-<script id="nd-r18-favorites-public-js">
-(function(){
-'use strict';
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-const favKey='ndburgs_favoritos_v2';
-function getFavs(){try{const a=JSON.parse(localStorage.getItem(favKey)||'[]');return new Set(Array.isArray(a)?a:[])}catch(_){return new Set()}}
-function saveFavs(set){try{localStorage.setItem(favKey,JSON.stringify([...set]))}catch(_){}}
-function ensureFavoritesSection(){
- if($('#ndFavoritesCategory'))return $('#ndFavoritesCategory');
- const menu=$('.categoria-menu'), first=$('#combos')||$('.categoria'); if(!first)return null;
- const sec=document.createElement('section');sec.id='ndFavoritesCategory';sec.className='categoria';
- sec.innerHTML='<div class="nd-r18-fav-head"><div><div class="ndFx-kicker">SEUS ESCOLHIDOS</div><h2>❤️ FAVORITOS</h2></div><p>Itens que você marcou para encontrar mais rápido.</p></div><div class="produtos" id="ndFavoritesProducts"></div><div class="nd-r18-empty" id="ndFavoritesEmpty"><b>AINDA NÃO HÁ FAVORITOS ❤️</b>Clique no coração de qualquer produto para colocá-lo aqui.</div>';
- first.parentNode.insertBefore(sec,first);
- return sec;
-}
-function addFavNav(){
- const nav=$('#ndCategoryNav'); if(!nav||nav.querySelector('[data-fav-nav]'))return;
- const b=document.createElement('button');b.type='button';b.className='nd-cat-btn';b.dataset.favNav='1';b.textContent='❤️ FAVORITOS';
- b.onclick=()=>{$('#ndFavoritesCategory')?.scrollIntoView({behavior:'smooth',block:'start'});renderFavorites()};
- nav.prepend(b);
- const menu=$('.categoria-menu'); if(menu&&!menu.querySelector('[data-fav-menu]')){
-  const mb=document.createElement('button');mb.type='button';mb.className='categoria-btn';mb.dataset.favMenu='1';mb.textContent='❤️ FAVORITOS';mb.onclick=()=>{$('#ndFavoritesCategory')?.scrollIntoView({behavior:'smooth',block:'start'});renderFavorites()};menu.prepend(mb);
- }
-}
-function originalCards(){return $$('.produto').filter(c=>!c.closest('#ndFavoritesCategory'));}
-function cardId(card){return norm(card.dataset.nome||card.querySelector('h3')?.textContent||'')}
-function renderFavorites(){
- const sec=ensureFavoritesSection(), box=$('#ndFavoritesProducts'), empty=$('#ndFavoritesEmpty'); if(!sec||!box)return;
- const favs=getFavs(); box.innerHTML='';
- const cards=originalCards().filter(c=>favs.has(cardId(c)));
- cards.forEach((src,i)=>{
-  const clone=src.cloneNode(true); clone.dataset.ndR18Clone='1'; clone.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
-  const oldFav=clone.querySelector('.nd-fav'); if(oldFav)oldFav.remove();
-  const rem=document.createElement('button');rem.type='button';rem.className='nd-r18-remove';rem.textContent='×';rem.title='Remover dos favoritos';rem.setAttribute('aria-label','Remover dos favoritos');
-  rem.onclick=e=>{e.stopPropagation();const set=getFavs();set.delete(cardId(src));saveFavs();const real=src.querySelector('.nd-fav');if(real){real.classList.remove('ativo');real.textContent='♡'}renderFavorites();window.ndToast?.('Removido dos favoritos')};
-  clone.appendChild(rem);box.appendChild(clone);
- });
- sec.classList.toggle('nd-has-favs',cards.length>0); if(empty)empty.style.display=cards.length?'none':'';
-}
-function bindFavoriteRefresh(){
- document.addEventListener('click',e=>{if(e.target.closest('.nd-fav'))setTimeout(renderFavorites,30)});
-}
-function makeReviewsPublicReady(){
- const st=$('#ndPublicReviewStatus'); if(!st)return;
- const ep=String(window.ND_PUBLIC_REVIEWS_ENDPOINT||'').trim();
- const note=$('#ndR18ReviewNotice'); if(note)note.textContent=ep?'Avaliações públicas conectadas: todos os clientes podem visualizar as avaliações aprovadas.':'As avaliações estão preparadas para publicação pública. Para serem realmente compartilhadas entre aparelhos, é necessário conectar uma base online da loja.';
-}
-function init(){ensureFavoritesSection();addFavNav();renderFavorites();bindFavoriteRefresh();makeReviewsPublicReady();setTimeout(()=>{ensureFavoritesSection();addFavNav();renderFavorites();makeReviewsPublicReady()},700)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-
-<!-- ND BURGS RODADA 29 / R17 — avaliações públicas + experiência -->
-<style id="nd-r17-public-reviews">
-/* avaliações: sem sombras duras e com aparência de mural público */
-#ndFxReviews{position:relative;overflow:hidden;border-color:rgba(112,96,255,.34)!important;background:radial-gradient(circle at 10% 0%,rgba(65,93,255,.10),transparent 38%),radial-gradient(circle at 90% 100%,rgba(165,62,255,.10),transparent 42%),linear-gradient(160deg,#0d0e14,#08080c)!important}
-#ndFxReviews:before{content:"";position:absolute;inset:-45%;background:linear-gradient(110deg,transparent 42%,rgba(76,92,255,.08) 48%,rgba(177,70,255,.10) 52%,transparent 58%);animation:ndR17ReviewBeam 7s linear infinite;pointer-events:none}
-#ndFxReviews>*{position:relative;z-index:1}
-#ndPublicReviewStatus{color:#b9b7d8!important}
-#ndFxComment{border:1px solid #2a2b3d!important;background:#08090e!important;color:#fff!important;box-shadow:none!important}
-#ndFxReviewStats{margin:10px 0 2px}
-.nd-public-review-summary{display:flex;align-items:center;gap:9px;color:#aaa;font-size:10px}.nd-public-review-summary b{font-size:18px;color:#fff}
-.ndFx-review{border-color:#24263a!important;background:rgba(8,9,14,.86)!important;box-shadow:none!important;animation:ndR17ReviewIn .35s ease both}
-.ndFx-review strong{color:#c8b8ff!important;text-shadow:none!important}
-.ndFx-review p{color:#eee!important}.ndFx-review small{color:#777!important}
-@keyframes ndR17ReviewBeam{0%{transform:translateX(-20%) rotate(7deg)}100%{transform:translateX(20%) rotate(7deg)}}
-@keyframes ndR17ReviewIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){#ndFxReviews:before,.ndFx-review{animation:none!important}}
-</style>
-<script id="nd-r17-config">
-/*
-  PUBLICAÇÃO REAL DAS AVALIAÇÕES:
-  Para ficarem públicas entre aparelhos, defina abaixo uma URL online que aceite:
-  GET  -> retorna [] ou {reviews:[...]}
-  POST -> recebe {stars,comment,date} em JSON.
-  Sem essa URL, o site mantém fallback local e não finge que a avaliação é pública.
-*/
-window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
-</script>
-
-
-<!-- ND BURGS RODADA 31 / R19 — FAVORITOS + REGRA AÇAÍ + REVIEWS -->
-<style id="nd-r19-final">
-/* FAVORITOS: categoria sempre disponível no menu; conteúdo aparece quando houver itens */
-#ndFavoritesCategory{scroll-margin-top:125px!important}
-#ndFavoritesCategory .nd-r18-remove{box-shadow:none!important}
-#ndFavoritesCategory .produto .btn-add{display:block!important}
-.nd-r19-fav-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;margin-left:5px;border-radius:99px;background:#ff3b30;color:#fff;font-size:9px;font-weight:1000}
-
-/* AÇAÍ: no máximo 3 acompanhamentos GRATUITOS por açaí. Pagos continuam liberados. */
-.r11-note.r19-acai-note{color:#c9c9d3!important;border-color:rgba(112,96,255,.28)!important;background:rgba(78,72,145,.08)!important}
-.r11-addon.r19-paid label{border-color:rgba(255,193,7,.24)!important}
-.r11-addon.r19-free-limit label{position:relative}
-.r11-addon.r19-free-limit label:after{content:'GRÁTIS • LIMITE 3';display:block;margin-top:3px;color:#8e8ea0;font-size:7px;letter-spacing:.4px}
-
-/* Avaliações públicas */
-#ndFxReviews .nd-r19-public-badge{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:5px 8px;border:1px solid rgba(78,96,255,.35);border-radius:99px;background:rgba(69,82,255,.07);color:#bfc6ff;font-size:9px;font-weight:900}
-#ndFxReviews .nd-r19-public-badge.offline{border-color:#333;color:#888;background:#111}
-#ndFxReviewList .ndFx-review{position:relative}
-#ndFxReviewList .nd-r19-approved{display:inline-block;margin-left:5px;color:#7f86ff;font-size:9px;font-weight:900}
-#ndFxReviewList .nd-r19-name{display:block;color:#aaa;font-size:10px;margin-top:3px}
-@media(max-width:600px){.nd-r19-fav-count{min-width:17px;height:17px}.r11-addon.r19-free-limit label:after{font-size:6.5px}}
-</style>
-<script id="nd-r19-final-js">
-(function(){
-'use strict';
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-const favKey='ndburgs_favoritos_v2';
-function favSet(){try{return new Set(JSON.parse(localStorage.getItem(favKey)||'[]'))}catch(_){return new Set()}}
-function favCount(){return favSet().size}
-function ensureFavMenu(){
- const menu=$('.categoria-menu'); if(!menu)return;
- let b=menu.querySelector('[data-fav-menu="1"]');
- if(!b){
-  b=document.createElement('button');b.type='button';b.className='categoria-btn';b.dataset.favMenu='1';
-  b.onclick=()=>{const sec=$('#ndFavoritesCategory');if(sec){sec.style.display='block';sec.scrollIntoView({behavior:'smooth',block:'start'});if(typeof window.renderFavorites==='function')window.renderFavorites()}};
-  menu.prepend(b);
- }
- b.innerHTML='❤️ FAVORITOS <span class="nd-r19-fav-count">'+favCount()+'</span>';
-}
-function refreshFavMenu(){ensureFavMenu();}
-function markFavCount(){
- const n=String(favCount());$$('[data-fav-menu="1"] .nd-r19-fav-count').forEach(x=>x.textContent=n);
-}
-/* Atualiza a categoria imediatamente após clicar em qualquer coração. */
-document.addEventListener('click',e=>{if(e.target.closest('.nd-fav'))setTimeout(()=>{markFavCount();if(typeof window.renderFavorites==='function')window.renderFavorites()},40)},true);
-
-/* AÇAÍ: contabiliza somente os acompanhamentos com preço 0 como gratuitos. */
-function isAcaiCheckbox(c){return c&&c.dataset&&c.dataset.acai==='1'}
-function freeChecked(prefix){return $$('[id^="'+CSS.escape(prefix)+'_a_"][data-acai="1"]:checked').filter(x=>(Number(x.dataset.price)||0)===0)}
-function enforceAcaiLimit(c){
- if(!isAcaiCheckbox(c)||c.checked===false)return;
- const id=c.id||'';const m=id.match(/^(.*)_a_\d+$/);if(!m)return;
- const prefix=m[1];const free=freeChecked(prefix);
- if(free.length>3){
-  c.checked=false;
-  const paid=(Number(c.dataset.price)||0)>0;
-  if(!paid) alert('⚠️ Este açaí permite até 3 acompanhamentos gratuitos. Para mais itens, escolha um dos adicionais pagos: Nutella R$ 5,00, Creme de Ninho R$ 3,00 ou KitKat R$ 3,00.');
- }
-}
-document.addEventListener('change',e=>{if(isAcaiCheckbox(e.target))enforceAcaiLimit(e.target)},true);
-function decorateAcai(){
- $$('#r11ComboContent input[data-acai="1"]').forEach(c=>{
-  const label=c.closest('.r11-addon');if(!label)return;
-  const price=Number(c.dataset.price)||0;
-  label.classList.toggle('r19-paid',price>0);label.classList.toggle('r19-free-limit',price===0);
- });
- $$('#r11ComboContent .r11-note').forEach(n=>{
-  if(norm(n.textContent).includes('ACOMPANHAMENTOS NORMAIS')){
-   n.classList.add('r19-acai-note');n.textContent='🥤 Até 3 acompanhamentos gratuitos por AÇAÍ. NUTELLA +R$ 5,00 • CREME DE NINHO +R$ 3,00 • KITKAT +R$ 3,00. Os adicionais pagos podem ser escolhidos normalmente.';
-  }
- });
-}
-const oldOpen=window.abrirComboPersonalizacao;
-if(typeof oldOpen==='function'&&!oldOpen.__ndR19){
- window.abrirComboPersonalizacao=function(){const r=oldOpen.apply(this,arguments);setTimeout(decorateAcai,30);return r};window.abrirComboPersonalizacao.__ndR19=true;
-}
-/* Evita observar o body: o observer anterior atualizava o próprio menu dentro do callback,
-   criando um ciclo contínuo de mutações e deixando a página pesada/travada. */
-function init(){ensureFavMenu();markFavCount();decorateAcai();setTimeout(()=>{ensureFavMenu();markFavCount();decorateAcai()},500)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-
-<!-- REVIEWS: adaptador público. O site só chama de público quando um endpoint online estiver configurado. -->
-<script id="nd-r19-public-review-adapter">
-(function(){
-'use strict';
-/* Cole aqui a URL de um endpoint online GET/POST quando quiser compartilhar avaliações entre aparelhos. */
-window.ND_PUBLIC_REVIEWS_ENDPOINT=window.ND_PUBLIC_REVIEWS_ENDPOINT||'';
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+setInterval(()=>{syncCart();patchFinish();patchPix()},1000);
 })();
 </script>
 
 </body>
-
-<!-- =========================================================
-     ND BURGS RODADA 32 — AÇAÍ + CATEGORIAS + UX PREMIUM
-     Preserva as funções anteriores e adiciona apenas camadas finais.
-========================================================= -->
-<style id="nd-r32-final-style">
-/* CATEGORIAS: trilho lateral azul/roxo + selecionada laranja */
-.categoria-menu{
-  position:fixed!important;left:12px;top:112px;width:178px;z-index:8900;
-  display:flex!important;flex-direction:column!important;gap:8px!important;
-  margin:0!important;padding:10px!important;border:1px solid #25205a!important;
-  border-radius:18px!important;background:linear-gradient(180deg,rgba(8,12,32,.97),rgba(18,7,35,.97))!important;
-  box-shadow:0 14px 40px rgba(0,0,0,.5),0 0 25px rgba(74,50,255,.10)!important;
-  backdrop-filter:blur(12px);
-  max-height:calc(100vh - 135px);overflow:auto;
-}
-.categoria-menu::-webkit-scrollbar{width:4px}.categoria-menu::-webkit-scrollbar-thumb{background:#3730a3;border-radius:20px}
-.categoria-btn{
-  width:100%!important;min-height:44px!important;padding:10px 9px!important;
-  border:1px solid #3d43a8!important;border-radius:12px!important;color:#fff!important;
-  background:linear-gradient(135deg,#123a92,#5421a7)!important;
-  font-weight:900!important;font-size:11px!important;letter-spacing:.2px!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 5px 16px rgba(30,20,120,.18)!important;
-  transition:.22s ease!important;cursor:pointer!important;
-}
-.categoria-btn:nth-child(even){background:linear-gradient(135deg,#2632b7,#7620ad)!important}
-.categoria-btn:hover{transform:translateX(3px)!important;border-color:#7180ff!important;filter:brightness(1.12)}
-.categoria-btn.nd-r32-active{background:linear-gradient(135deg,#ff7a00,#ffb000)!important;border-color:#ffb000!important;color:#120b00!important;box-shadow:0 0 22px rgba(255,128,0,.28),inset 0 1px 0 rgba(255,255,255,.35)!important;transform:translateX(3px)!important}
-.categoria-menu [data-fav-menu]{background:linear-gradient(135deg,#243bbd,#7c20bd)!important}
-.categoria-menu [data-fav-menu].nd-r32-active{background:linear-gradient(135deg,#ff7a00,#ffb000)!important}
-/* espaço para o menu não ficar sobre os cards */
-.categoria-menu ~ .categoria{margin-left:202px!important;max-width:calc(100% - 202px)!important}
-#ndFavoritesCategory{scroll-margin-top:115px!important}
-/* contador visual do açaí */
-.nd-r32-acai-counter{margin:9px 0 3px;padding:9px 11px;border:1px solid #38306b;border-radius:11px;background:linear-gradient(135deg,#101634,#190d28);font-size:11px;font-weight:900;color:#ddd;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.nd-r32-acai-counter strong{color:#fff;font-size:14px}.nd-r32-acai-counter .free{color:#65d9ff}.nd-r32-acai-counter .paid{color:#ffb15c}
-.r11-addon.nd-r32-paid label{border-color:#ff8b22!important}.r11-addon.nd-r32-free label{border-color:#31315c!important}
-.r11-addon.nd-r32-selected label{box-shadow:0 0 0 2px #ff8b22,0 0 20px rgba(255,139,34,.16)!important}
-/* preços de açaí dentro dos combos ficam sempre claros */
-.nd-r32-price-note{font-size:9px!important;color:#9fa4c9!important;line-height:1.4;margin-top:6px}
-/* badges */
-.nd-r32-badge{position:absolute;left:9px;top:9px;z-index:5;padding:6px 8px;border-radius:999px;background:linear-gradient(135deg,#ff7a00,#ffb000);color:#150b00;font-size:9px;font-weight:1000;box-shadow:0 5px 15px rgba(0,0,0,.35)}
-.nd-r32-badge.promo{background:linear-gradient(135deg,#ff3b30,#ff8a00);color:#fff}
-.nd-r32-badge.best{background:linear-gradient(135deg,#ffd21a,#ff8a00)}
-.produto{position:relative}
-/* favorito mais responsivo */
-.nd-fav.nd-r32-heart-pulse{animation:ndR32Heart .45s ease}
-@keyframes ndR32Heart{35%{transform:scale(1.25)}70%{transform:scale(.92)}100%{transform:scale(1)}}
-/* mobile: mantém categorias no lado esquerdo sem ocupar a tela inteira */
-@media(max-width:800px){
- .categoria-menu{left:7px;top:105px;width:126px;padding:7px;gap:6px;border-radius:15px}
- .categoria-btn{min-height:39px!important;padding:8px 5px!important;font-size:9px!important;border-radius:10px!important}
- .categoria-menu ~ .categoria{margin-left:143px!important;max-width:calc(100% - 143px)!important}
-}
-@media(max-width:520px){
- .categoria-menu{width:104px}
- .categoria-menu ~ .categoria{margin-left:118px!important;max-width:calc(100% - 118px)!important}
- .categoria-btn{font-size:8px!important;min-height:36px!important;padding:7px 3px!important}
-}
-</style>
-<script id="nd-r32-final-js">
-(function(){
-'use strict';
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
-
-/* =========================================================
-   AÇAÍ DOS COMBOS — REGRA DEFINITIVA
-   • Até 3 acompanhamentos normais por AÇAÍ: GRÁTIS.
-   • Do 4º normal em diante: +R$3,00 cada.
-   • NUTELLA: +R$5,00 sempre.
-   • CREME DE NINHO: +R$3,00 sempre.
-   • KIT KAT: +R$3,00 sempre.
-   Os pagos não consomem as 3 vagas grátis.
-========================================================= */
-function acaiUnitCharge(name, freeUsed){
-  const n=norm(name);
-  if(n==='NUTELLA') return 5;
-  if(n==='CREME DE NINHO') return 3;
-  if(n==='KIT KAT'||n==='KITKAT') return 3;
-  return freeUsed<3 ? 0 : 3;
-}
-function acaiSectionInfo(section){
-  const boxes=section.includes('[id^=') ? $$(section+':checked') : $$(section+' input[data-acai="1"]:checked');
-  let free=0,total=0;
-  const charges=[];
-  boxes.forEach(input=>{
-    const charge=acaiUnitCharge(input.dataset.name,free);
-    if(charge===0)free++;
-    total+=charge;charges.push({input,charge});
-  });
-  return {free,total,charges};
-}
-function updateAcaiSection(section){
-  const info=acaiSectionInfo(section);
-  info.charges.forEach(({input,charge})=>{
-    const card=input.closest('.r11-addon');
-    if(!card)return;
-    card.classList.toggle('nd-r32-selected',input.checked);
-    card.classList.toggle('nd-r32-paid',input.checked&&charge>0);
-    card.classList.toggle('nd-r32-free',input.checked&&charge===0);
-    const b=card.querySelector('label b');
-    if(b)b.textContent=charge===0?'GRÁTIS':'+'+money(charge);
-  });
-  return info;
-}
-function allComboExtras(){
-  let extra=0;
-  $$('#r11ComboContent input[type="checkbox"]:checked').forEach(input=>{
-    if(input.dataset.acai==='1')return;
-    extra+=Number(input.dataset.price)||0;
-  });
-  /* Cada bloco de açaí tem suas próprias 3 vagas grátis. */
-  const seen=new Set();
-  $$('#r11ComboContent input[data-acai="1"]').forEach(input=>{
-    const id=input.id.replace(/_a_\d+$/,'');
-    if(seen.has(id))return;seen.add(id);
-    const info=updateAcaiSection('#r11ComboContent [id^="'+CSS.escape(id)+'_a_"]');
-    extra+=info.total;
-  });
-  return extra;
-}
-function refreshComboTotal(){
-  const total=$('#r11ComboTotal');if(!total)return;
-  const base=Number(total.dataset.ndR32Base||0);
-  total.textContent=money(base+allComboExtras());
-}
-function installAcaiPricing(){
-  const content=$('#r11ComboContent');if(!content)return;
-  $$('#r11ComboContent input[data-acai="1"]').forEach(input=>{
-    if(input.dataset.ndR32Bound==='1')return;
-    input.dataset.ndR32Bound='1';
-    input.addEventListener('change',()=>{refreshComboTotal();updateAllCounters()});
-  });
-  updateAllCounters();refreshComboTotal();
-}
-function updateAllCounters(){
-  $$('.nd-r32-acai-counter').forEach(el=>{
-    const sel=el.dataset.section;
-    const info=acaiSectionInfo(sel);
-    el.innerHTML='<span><span class="free">GRÁTIS</span> <strong>'+info.free+'/3</strong></span><span class="paid">PAGOS: '+money(info.total)+'</span>';
-  });
-}
-function injectAcaiCounters(){
-  $$('#r11ComboContent .r11-section').forEach(sec=>{
-    const first=sec.querySelector('input[data-acai="1"]');if(!first)return;
-    if(sec.querySelector('.nd-r32-acai-counter'))return;
-    const prefix=first.id.replace(/_a_\d+$/,'');
-    const c=document.createElement('div');c.className='nd-r32-acai-counter';c.dataset.section='#r11ComboContent [id^="'+prefix+'_a_"]';
-    c.innerHTML='<span><span class="free">GRÁTIS</span> <strong>0/3</strong></span><span class="paid">PAGOS: R$ 0,00</span>';
-    const grid=first.closest('.r11-addon-grid');
-    if(grid)grid.parentNode.insertBefore(c,grid.nextSibling);
-  });
-}
-
-/* Corrige o cálculo interno antigo antes de chamar a função original. */
-function patchComboConfirm(){
-  const original=window.confirmarComboPersonalizacao;
-  if(typeof original!=='function'||original.__ndR32)return;
-  const wrapped=function(){
-    const inputs=$$('#r11ComboContent input[data-acai="1"]');
-    const old=new Map();
-    const groups={};
-    inputs.forEach(input=>{
-      const prefix=input.id.replace(/_a_\d+$/,'');
-      (groups[prefix]||(groups[prefix]=[])).push(input);
-    });
-    Object.values(groups).forEach(arr=>{
-      let free=0;
-      arr.filter(x=>x.checked).forEach(input=>{
-        old.set(input,input.dataset.price);
-        input.dataset.price=String(acaiUnitCharge(input.dataset.name,free));
-        if(Number(input.dataset.price)===0)free++;
-      });
-    });
-    try{return original.apply(this,arguments)}
-    finally{inputs.forEach(input=>{if(old.has(input))input.dataset.price=old.get(input)});}
-  };
-  wrapped.__ndR32=true;window.confirmarComboPersonalizacao=wrapped;
-}
-
-/* Quando o combo abre, guarda o preço-base e ativa a nova regra. */
-function patchOpen(){
-  const original=window.abrirComboPersonalizacao;
-  if(typeof original!=='function'||original.__ndR32)return;
-  const wrapped=function(name,price){
-    const result=original.apply(this,arguments);
-    const total=$('#r11ComboTotal');
-    if(total){total.dataset.ndR32Base=String(Number(price)||0)}
-    setTimeout(()=>{injectAcaiCounters();installAcaiPricing();patchComboConfirm();refreshComboTotal()},0);
-    return result;
-  };
-  wrapped.__ndR32=true;window.abrirComboPersonalizacao=wrapped;
-}
-
-/* Caso alguma camada antiga reabra o modal, reaplica sem duplicar eventos. */
-function watchCombo(){
-  const m=$('#ndComboModal');if(!m||m.dataset.ndR32Watch)return;
-  m.dataset.ndR32Watch='1';
-  new MutationObserver(()=>{if(m.classList.contains('show')){injectAcaiCounters();installAcaiPricing();patchComboConfirm()}}).observe(m,{attributes:true,childList:true,subtree:true});
-}
-
-/* =========================================================
-   CATEGORIAS LATERAIS — azul/roxo, ativa laranja
-========================================================= */
-function categoryButtons(){return $$('.categoria-menu .categoria-btn').filter(b=>!b.dataset.favMenu===true)}
-function setActiveCategory(id){
-  const buttons=$$('.categoria-menu .categoria-btn');
-  buttons.forEach(b=>b.classList.remove('nd-r32-active'));
-  const target=buttons.find(b=>{
-    const m=(b.getAttribute('onclick')||'').match(/irPara\(['"]([^'"]+)/);return m&&m[1]===id;
-  });
-  if(target)target.classList.add('nd-r32-active');
-}
-function patchCategoryClicks(){
-  $$('.categoria-menu .categoria-btn').forEach(b=>{
-    if(b.dataset.ndR32Cat==='1')return;b.dataset.ndR32Cat='1';
-    const old=b.getAttribute('onclick')||'';
-    const m=old.match(/irPara\(['"]([^'"]+)/);
-    if(m){b.addEventListener('click',()=>setActiveCategory(m[1]));}
-  });
-  const fav=$('.categoria-menu [data-fav-menu]');
-  if(fav&&!fav.dataset.ndR32Cat){fav.dataset.ndR32Cat='1';fav.addEventListener('click',()=>{setTimeout(()=>{fav.classList.add('nd-r32-active')},0)})}
-}
-function observeCategories(){
-  patchCategoryClicks();
-  const secs=$$('.categoria[id]');
-  if(!secs.length)return;
-  const obs=new IntersectionObserver(entries=>{
-    const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-    if(visible)setActiveCategory(visible.target.id);
-  },{rootMargin:'-25% 0px -55% 0px',threshold:[.05,.2,.5]});
-  secs.forEach(s=>obs.observe(s));
-}
-
-/* =========================================================
-   BADGES + FAVORITOS + ANIMAÇÃO
-========================================================= */
-function addBadges(){
-  const best=['COMBO MAIS VENDIDO','X-BACON','X-BURGUER','X-SALADA'];
-  $$('.produto').forEach(card=>{
-    if(card.closest('#ndFavoritesCategory')||card.querySelector('.nd-r32-badge'))return;
-    const name=norm(card.querySelector('h3')?.textContent);
-    let text='',cls='best';
-    if(name==='SURPRESA DE UVA'){text='🔥 PROMOÇÃO';cls='promo'}
-    else if(best.includes(name)||name.includes('MAIS VENDIDO'))text='🔥 MAIS VENDIDO';
-    if(text){const b=document.createElement('span');b.className='nd-r32-badge '+cls;b.textContent=text;card.appendChild(b)}
-  });
-}
-function bindFavoritePulse(){
-  $$('.nd-fav').forEach(b=>{
-    if(b.dataset.ndR32Pulse==='1')return;b.dataset.ndR32Pulse='1';
-    b.addEventListener('click',()=>{b.classList.remove('nd-r32-heart-pulse');void b.offsetWidth;b.classList.add('nd-r32-heart-pulse')},{passive:true});
-  });
-}
-
-/* Evita clique duplo no botão de adicionar de combos e produtos por alguns ms. */
-function preventRapidAdd(){
-  $$('.btn-add').forEach(btn=>{
-    if(btn.dataset.ndR32Rapid==='1')return;btn.dataset.ndR32Rapid='1';
-    btn.addEventListener('click',()=>{if(btn.dataset.ndR32Busy==='1')return;btn.dataset.ndR32Busy='1';setTimeout(()=>delete btn.dataset.ndR32Busy,650)},true);
-  });
-}
-
-function init(){
-  patchOpen();patchComboConfirm();watchCombo();patchCategoryClicks();observeCategories();addBadges();bindFavoritePulse();preventRapidAdd();
-  setTimeout(()=>{patchOpen();patchComboConfirm();patchCategoryClicks();observeCategories();addBadges();bindFavoritePulse();preventRapidAdd();},900);
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-
 </html>
