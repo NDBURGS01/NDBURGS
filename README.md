@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260904-R10">
+<meta name="nd-site-version" content="20260905-R13">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260904-R10";
@@ -704,7 +704,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO DOCE</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 32,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('COMBO DOCE',32.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO DOCE',32.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -712,7 +712,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO GELADO</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 40,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('COMBO GELADO',40.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO GELADO',40.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -720,7 +720,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO 5 ESTRELAS</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 45,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('COMBO 5 ESTRELAS',45.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO 5 ESTRELAS',45.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -728,7 +728,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO DIETA SÓ SEGUNDA</h3>
 <p>Coca lata + doce surpresa + pastel.</p>
 <div class="preco">R$ 27,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('COMBO DIETA SÓ SEGUNDA',27.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO DIETA SÓ SEGUNDA',27.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -736,7 +736,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO MAIS VENDIDO</h3>
 <p>Um dos combos especiais da ND BURGS.</p>
 <div class="preco">R$ 20,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('COMBO MAIS VENDIDO',20.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO MAIS VENDIDO',20.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -744,7 +744,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO MOTOCA ND</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 32,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('COMBO MOTOCA ND',32.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO MOTOCA ND',32.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -752,7 +752,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO SÓ LOVE</h3>
 <p>Combo especial para compartilhar.</p>
 <div class="preco">R$ 71,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('COMBO SÓ LOVE',71.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('COMBO SÓ LOVE',71.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -760,7 +760,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>DATE COM NDBURGS</h3>
 <p>Combo especial para o seu date.</p>
 <div class="preco">R$ 70,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('DATE COM NDBURGS',70.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('DATE COM NDBURGS',70.90)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -768,7 +768,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>01 ND BURGS</h3>
 <p>Combo especial.</p>
 <div class="preco">R$ 50,90</div>
-<button class="btn btn-add" onclick="adicionarComboND('01 ND BURGS',50.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('01 ND BURGS',50.90)">ADICIONAR</button>
 </div>
 
 </div>
@@ -905,7 +905,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO SÓ LOVE</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 90,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL COMBO SÓ LOVE',90.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO SÓ LOVE',90.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -913,7 +913,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO 5 ESTRELAS</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 70,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL COMBO 5 ESTRELAS',70.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO 5 ESTRELAS',70.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -921,7 +921,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO MAIS VENDIDO</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 34,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL COMBO MAIS VENDIDO',34.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO MAIS VENDIDO',34.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -929,7 +929,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO DOCE</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 44,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL COMBO DOCE',44.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO DOCE',44.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -937,7 +937,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL COMBO GELADO</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 52,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL COMBO GELADO',52.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL COMBO GELADO',52.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -945,7 +945,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL DATE COM NDBURGS</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 91,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL DATE COM NDBURGS',91.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL DATE COM NDBURGS',91.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -953,7 +953,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL MOTOCA ND</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 41,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL MOTOCA ND',41.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL MOTOCA ND',41.80)">ADICIONAR</button>
 </div>
 
 <div class="produto">
@@ -961,7 +961,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>ARTESANAL 01 ND BURGS</h3>
 <p>Combo artesanal especial.</p>
 <div class="preco">R$ 96,80</div>
-<button class="btn btn-add" onclick="adicionarComboND('ARTESANAL 01 ND BURGS',96.80)">ADICIONAR</button>
+<button class="btn btn-add" onclick="adicionar('ARTESANAL 01 ND BURGS',96.80)">ADICIONAR</button>
 </div>
 
 </div>
@@ -6743,170 +6743,131 @@ setInterval(()=>{forceSingleCart();buildRatings();patchAdd()},1200);
 </script>
 
 <!-- =========================================================
-     ND BURGS — SISTEMA OFICIAL DE COMBOS PERSONALIZÁVEIS
-     Cada combo abre imediatamente suas escolhas obrigatórias.
-     Os itens escolhidos entram em DETALHES do combo, sem alterar
-     o preço do combo. Extras do açaí seguem a tabela existente.
+     ND BURGS — SISTEMA DE COMBOS PERSONALIZADOS 2026
+     Cada combo abre suas escolhas imediatamente ao clicar em ADICIONAR.
      ========================================================= -->
-<style id="nd-combos-v2-style">
-.nd-combo-modal-note{color:#999;font-size:12px;line-height:1.45;margin:-6px 0 8px}
-.nd-combo-required{color:#ff4d4d;font-size:10px;font-weight:900;margin-left:5px}
-.nd-combo-fixed{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
-.nd-combo-fixed span{display:inline-flex;align-items:center;gap:5px;padding:8px 10px;border:1px solid #2c2c32;background:#0d0d10;border-radius:10px;color:#ddd;font-size:12px;font-weight:800}
-.nd-combo-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.nd-combo-choice{display:flex;align-items:center;gap:9px;padding:11px;border:1px solid #303038;background:#0c0c0f;border-radius:11px;cursor:pointer;transition:.15s}
-.nd-combo-choice:has(input:checked){border-color:#e50914;background:#241012}
-.nd-combo-choice input{width:auto!important;margin:0!important;min-height:auto!important;accent-color:#e50914}
-.nd-combo-choice span{font-size:12px;font-weight:800;color:#eee}
-.nd-combo-slot{padding:10px;border:1px solid #292930;border-radius:13px;background:#101014;margin-top:9px}
-.nd-combo-slot-title{font-size:12px;font-weight:950;color:#fff;margin-bottom:8px}
-.nd-combo-limit{font-size:10px;color:#999;margin-top:6px}
-.nd-combo-error{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;background:#351014;border:1px solid #a51e28;color:#ff8585;font-size:12px;font-weight:800}
-.nd-combo-summary{margin-top:14px;padding:12px;border-radius:12px;background:#09090b;border:1px solid #292930;color:#bbb;font-size:12px;line-height:1.55}
-.nd-combo-summary b{color:#fff}
-@media(max-width:600px){.nd-combo-choice-grid{grid-template-columns:1fr}.nd-combo-choice{padding:12px}.nd-combo-choice span{font-size:12px}}
+<style id="nd-combos-2026">
+#ndCartFab,#ndCartLabel,#carrinhoFlutuante,#nd20Finish{display:none!important}
+#ndComboFinish{position:fixed;top:12px;right:14px;z-index:250000;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(18,18,20,.94);backdrop-filter:blur(14px);color:#fff;min-height:40px;padding:9px 12px;font-size:11px;font-weight:950;letter-spacing:.2px;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,.38);transition:.18s;display:flex;align-items:center;gap:7px}
+#ndComboFinish:hover{background:#e50914;border-color:#ff4b51;transform:translateY(-1px)}
+#ndComboFinish .ndcf-count{display:inline-flex;min-width:20px;height:20px;padding:0 6px;border-radius:999px;align-items:center;justify-content:center;background:#e50914;color:#fff;font-size:10px}
+#ndComboFinish.empty .ndcf-count{background:#333;color:#aaa}
+.nd-combo-modal{position:fixed;inset:0;z-index:260000;background:rgba(0,0,0,.86);backdrop-filter:blur(9px);display:none;align-items:center;justify-content:center;padding:12px}
+.nd-combo-modal.show{display:flex}
+.nd-combo-panel{width:min(620px,100%);max-height:94vh;overflow:auto;background:linear-gradient(160deg,#18191c,#0b0c0e);border:1px solid rgba(229,9,20,.72);border-radius:22px;box-shadow:0 25px 90px rgba(0,0,0,.78);padding:18px}
+.nd-combo-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:12px;border-bottom:1px solid #29292e;position:sticky;top:-18px;background:linear-gradient(180deg,#18191c 82%,transparent);z-index:3}
+.nd-combo-head h2{margin:0!important;padding:0!important;border:0!important;color:#fff!important;font-size:21px!important}
+.nd-combo-close{width:38px;height:38px;border:1px solid #36363d;border-radius:11px;background:#24252a;color:#fff;font-size:22px;cursor:pointer}
+.nd-combo-price{margin:12px 0;padding:11px 13px;border:1px solid #2d2d32;border-radius:12px;background:#101114;display:flex;justify-content:space-between;align-items:center}.nd-combo-price strong{color:#ffd166;font-size:20px}
+.ndc-section{margin-top:15px;padding-top:14px;border-top:1px solid #29292e}.ndc-section:first-child{border-top:0;padding-top:0}.ndc-section h3{margin:0 0 9px;color:#ff7a5d;font-size:14px;letter-spacing:.2px}.ndc-help{font-size:10px;color:#888;margin:-3px 0 9px}
+.ndc-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.ndc-option{position:relative}.ndc-option input{position:absolute;opacity:0;pointer-events:none}.ndc-option label{display:flex!important;align-items:center;justify-content:space-between;gap:8px;margin:0!important;padding:12px 11px!important;border:1px solid #303137;border-radius:11px;background:#111216;color:#ddd;cursor:pointer;font-size:12px;font-weight:800;min-height:46px}.ndc-option label:before{content:'○';color:#777;font-size:17px}.ndc-option input:checked+label{border-color:#e50914;background:#2a0d0f;color:#fff;box-shadow:inset 0 0 0 1px rgba(229,9,20,.15)}.ndc-option input:checked+label:before{content:'●';color:#ff3038}.ndc-fixed{display:flex;align-items:center;gap:9px;padding:11px 12px;border:1px solid #2b2b31;border-radius:11px;background:#111216;color:#ddd;font-size:12px;font-weight:800}.ndc-fixed b{color:#fff}.ndc-selects{display:grid;grid-template-columns:1fr 1fr;gap:9px}.ndc-select-wrap label{display:block!important;margin:0 0 6px!important;color:#aaa;font-size:10px;font-weight:900}.ndc-select-wrap select{min-height:45px!important;margin:0!important}
+.ndc-acai-box{border:1px solid #2b2b31;border-radius:13px;padding:11px;background:#101114;margin-top:9px}.ndc-acai-title{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px;font-size:12px;font-weight:900}.ndc-acai-title span{color:#ffd166}.ndc-acai-list{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.ndc-acai-list label{display:flex!important;align-items:center;gap:7px;margin:0!important;padding:8px 9px!important;border:1px solid #292a2f;border-radius:9px;background:#0b0c0e;font-size:10px;color:#ccc}.ndc-acai-list input{width:auto!important;min-height:auto!important}.ndc-add-price{color:#ffd166;font-weight:900;margin-left:auto;white-space:nowrap}
+.ndc-summary{margin-top:15px;padding:12px;border-radius:12px;background:#090a0c;border:1px solid #2a2b30;font-size:11px;color:#aaa;line-height:1.55}.ndc-summary strong{color:#fff}.ndc-total{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:13px;border-radius:12px;background:#141518;border:1px solid #34353a;font-size:15px;font-weight:900}.ndc-total strong{font-size:21px;color:#ff3038}.ndc-confirm{width:100%;margin-top:10px!important;min-height:52px;border:0;border-radius:13px;background:linear-gradient(135deg,#e50914,#ff3038);color:#fff;font-weight:950;font-size:14px;cursor:pointer;box-shadow:0 10px 28px rgba(229,9,20,.2)}.ndc-confirm:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.nd-r3-quick{order:9999!important}.nd20-best-card{order:9998!important}
+@media(max-width:700px){#ndComboFinish{top:8px;right:8px;padding:8px 9px;font-size:10px;min-height:38px}.nd-combo-modal{padding:0;align-items:flex-end}.nd-combo-panel{max-height:96vh;border-radius:20px 20px 0 0;padding:15px}.nd-combo-head{top:-15px}.ndc-options,.ndc-selects{grid-template-columns:1fr}.ndc-acai-list{grid-template-columns:1fr 1fr}.nd-combo-head h2{font-size:19px!important}}
 </style>
-<script id="nd-combos-v2-script">
+
+<div id="ndComboFinish" class="empty" role="button" aria-label="Finalizar pedido">
+  <span>FINALIZAR PEDIDO</span><span class="ndcf-count">0</span>
+</div>
+
+<div id="ndComboModal" class="nd-combo-modal" aria-hidden="true">
+  <div class="nd-combo-panel" role="dialog" aria-modal="true" aria-labelledby="ndComboTitle">
+    <div class="nd-combo-head"><h2 id="ndComboTitle">PERSONALIZE SEU COMBO</h2><button type="button" class="nd-combo-close" id="ndComboClose">×</button></div>
+    <div class="nd-combo-price"><span>Valor do combo</span><strong id="ndComboBasePrice">R$ 0,00</strong></div>
+    <div id="ndComboBody"></div>
+    <div class="ndc-summary" id="ndComboSummary">Escolha as opções obrigatórias para continuar.</div>
+    <div class="ndc-total"><span>TOTAL</span><strong id="ndComboTotal">R$ 0,00</strong></div>
+    <button type="button" class="ndc-confirm" id="ndComboConfirm" disabled>ADICIONAR COMBO AO PEDIDO</button>
+  </div>
+</div>
+
+<script id="nd-combos-2026-js">
 (function(){
 'use strict';
-
-const BURGERS_TRAD=['X-SALADA','X-BURGUER','X-EGG','X-BACON'];
-const BURGERS_ART=['GAROTINHO','DINA','GADEIA','PATÃO','BERENICE'];
-const REFRIS=['SPRITE LATA','COCA COLA LATA','COCA COLA ZERO LATA','FANTA UVA LATA','FANTA LARANJA LATA','GUARANA LATA','ÁGUA MINERAL'];
-const MOLHOS=['CHEDDAR','BARBECUE','CATUPIRY','MAIONESE','MOSTARDA','KETCHUP','MAIONESE VERDE'];
-const ACAI= (window.__ndAcaiAcomp || [
- ['CALDA DE MORANGO',0],['CALDA DE CHOCOLATE',0],['LEITE CONDENSADO',0],['PAÇOCA',0],['OREO',0],['CONFETE',0],['OVOMALTINE',0],['NESQUIK',0],['NUTELLA',5],['SUCRILHOS',0],['GRANOLA',0],['MORANGO',0],['MANGA',0],['BANANA',0],['LEITE EM PÓ',0],['KIT KAT',3],['CHOCOBALL',0],['DOCE DE LEITE',0],['CREME DE NINHO',3],['KIWI',0]
-]);
-
-const defs={
- 'COMBO MAIS VENDIDO':{type:'burgerDrink',price:20.90,title:'🔥 COMBO MAIS VENDIDO',burgers:BURGERS_TRAD,fixed:['🍟 Batata P']},
- 'COMBO DOCE':{type:'burgerDrinkDessert',price:32.90,title:'🍇 COMBO DOCE',burgers:BURGERS_TRAD,fixed:['🍟 Batata P','🍇 1 Surpresa de Uva']},
- 'COMBO GELADO':{type:'burgerDrinkAcai',price:40.90,title:'🥤 COMBO GELADO',burgers:BURGERS_TRAD,fixed:['🍟 Batata P completa com cheddar e bacon']},
- 'COMBO 5 ESTRELAS':{type:'fiveStars',price:45.90,title:'⭐ 5 ESTRELAS ND BURGS',burgers:BURGERS_TRAD,fixed:['🍟 Batata M','🍗 Nuggets P','🧅 Anel de Cebola P']},
- 'COMBO DIETA SÓ SEGUNDA':{type:'pastelDrinkDessert',price:27.90,title:'🥟 COMBO DIETA SÓ SEGUNDA',fixed:['🍇 1 Surpresa de Uva']},
- 'COMBO MOTOCA ND':{type:'fixedDrink',price:32.90,title:'🏍️ COMBO MOTOCA ND',fixed:['🍔 NUNES','🍟 Batata P']},
- 'COMBO SÓ LOVE':{type:'love',price:71.90,title:'❤️ COMBO SÓ LOVE',burgers:BURGERS_TRAD,fixed:['🍟 Batata M com cheddar e bacon','🍗 Nuggets P','🧅 Anel de Cebola P','🍗 Frango Frito P','🥤 Dolly 2 litros de brinde']},
- 'DATE COM NDBURGS':{type:'date',price:70.90,title:'❤️ DATE COM NDBURGS',burgers:BURGERS_TRAD,fixed:['🍇 2 Surpresas de Uva','🥤 Coca-Cola 600ML de brinde']},
- '01 ND BURGS':{type:'fixed01',price:50.90,title:'🍔 01 É NDBURGS',fixed:['🍔 X-BURGUER','🍔 X-EGG','🍔 X-SALADA','🍔 X-BACON','🍟 Batata M completa com cheddar e bacon']},
- 'ARTESANAL COMBO MAIS VENDIDO':{type:'burgerDrink',price:34.80,title:'🔥 ARTESANAL COMBO MAIS VENDIDO',burgers:BURGERS_ART,fixed:['🍟 Batata P']},
- 'ARTESANAL COMBO DOCE':{type:'burgerDrinkDessert',price:44.80,title:'🍇 ARTESANAL COMBO DOCE',burgers:BURGERS_ART,fixed:['🍟 Batata P','🍇 1 Surpresa de Uva']},
- 'ARTESANAL COMBO GELADO':{type:'burgerDrinkAcai',price:52.80,title:'🥤 ARTESANAL COMBO GELADO',burgers:BURGERS_ART,fixed:['🍟 Batata P completa com cheddar e bacon']},
- 'ARTESANAL COMBO 5 ESTRELAS':{type:'fiveStars',price:70.80,title:'⭐ ARTESANAL 5 ESTRELAS ND BURGS',burgers:BURGERS_ART,fixed:['🍟 Batata M','🍗 Nuggets P','🧅 Anel de Cebola P']},
- 'ARTESANAL COMBO SÓ LOVE':{type:'love',price:90.80,title:'❤️ ARTESANAL COMBO SÓ LOVE',burgers:BURGERS_ART,fixed:['🍟 Batata M com cheddar e bacon','🍗 Nuggets P','🧅 Anel de Cebola P','🍗 Frango Frito P','🥤 Dolly 2 litros de brinde']},
- 'ARTESANAL DATE COM NDBURGS':{type:'date',price:91.80,title:'❤️ ARTESANAL DATE COM NDBURGS',burgers:BURGERS_ART,fixed:['🍇 2 Surpresas de Uva','🥤 Coca-Cola 600ML de brinde']},
- 'ARTESANAL 01 ND BURGS':{type:'fixed01art',price:96.80,title:'🍔 ARTESANAL 01 É NDBURGS',fixed:['🍔 GAROTINHO','🍔 DINA','🍔 GADEIA','🍔 PATÃO','🍔 BERENICE','🍟 Batata M completa com cheddar e bacon']},
- 'ARTESANAL MOTOCA ND':{type:'fixedDrink',price:41.80,title:'🏍️ ARTESANAL MOTOCA ND',fixed:['🍔 PÉZÃO','🍟 Batata P']}
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+const burgerTrad=[['X-SALADA',11.90],['X-BURGUER',10.90],['X-EGG',11.90],['X-BACON',11.90]];
+const burgerArt=[['GAROTINHO',22.90],['DINA',20.90],['GADEIA',20.90],['PATAO',23.90],['BERENICE',22.90]];
+const drinks=['SPRITE','COCA-COLA LATA','COCA-COLA LATA ZERO','FANTA UVA','FANTA LARANJA','GUARANÁ ANTARCTICA','ÁGUA MINERAL'];
+const sauces=['CHEDDAR','BARBECUE','CATUPIRY','MAIONESE','MOSTARDA','KETCHUP','MAIONESE VERDE'];
+const acaiToppings=[['CALDA DE MORANGO',0],['CALDA DE CHOCOLATE',0],['LEITE CONDENSADO',0],['PAÇOCA',0],['OREO',0],['CONFETE',0],['OVOMALTINE',0],['NESQUIK',0],['NUTELLA',5],['SUCRILHOS',0],['GRANOLA',0],['MORANGO',0],['MANGA',0],['BANANA',0],['LEITE EM PÓ',0],['KIT KAT',3],['CHOCOBALL',0],['DOCE DE LEITE',0],['CREME DE NINHO',3],['KIWI',0]];
+const configs={
+ 'COMBO MAIS VENDIDO':{price:20.90,trad:true,sections:['burger1','batataP','drink1']},
+ 'COMBO DOCE':{price:32.90,trad:true,sections:['burger1','batataP','drink1','surpresa']},
+ 'COMBO GELADO':{price:40.90,trad:true,sections:['burger1','batataCompletaP','drink1','acai1']},
+ 'COMBO 5 ESTRELAS':{price:45.90,trad:true,sections:['burger2','batataM','nuggetsP','anelP','molhos2']},
+ 'COMBO DIETA SÓ SEGUNDA':{price:27.90,trad:true,sections:['pastel','drink1','surpresa']},
+ 'COMBO MOTOCA ND':{price:32.90,sections:['nunes','batataP','drink1']},
+ 'COMBO SÓ LOVE':{price:71.90,trad:true,sections:['burger2','batataCompletaM','nuggetsP','anelP','frangoP','molhos2','dolly']},
+ '01 ND BURGS':{price:50.90,sections:['fixedTrad4','batataCompletaM']},
+ 'DATE COM NDBURGS':{price:70.90,trad:true,sections:['burger2','surpresa2','coca600','acai2']},
+ 'ARTESANAL COMBO MAIS VENDIDO':{price:34.80,art:true,sections:['burger1','batataP','drink1']},
+ 'ARTESANAL COMBO DOCE':{price:44.80,art:true,sections:['burger1','batataP','drink1','surpresa']},
+ 'ARTESANAL COMBO GELADO':{price:52.80,art:true,sections:['burger1','batataCompletaP','drink1','acai1']},
+ 'ARTESANAL COMBO 5 ESTRELAS':{price:70.80,art:true,sections:['burger2','batataM','nuggetsP','anelP','molhos2']},
+ 'ARTESANAL COMBO SÓ LOVE':{price:90.80,art:true,sections:['burger2','batataCompletaM','nuggetsP','anelP','frangoP','molhos2','dolly']},
+ 'ARTESANAL DATE COM NDBURGS':{price:91.80,art:true,sections:['burger2','surpresa2','coca600','acai2']},
+ 'ARTESANAL MOTOCA ND':{price:41.80,sections:['pezao','batataP','drink1']},
+ 'ARTESANAL 01 ND BURGS':{price:96.80,sections:['fixedArt5','batataCompletaM']}
 };
-
-function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(e){return[]}}
-function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
-function radioOptions(name,items){return '<div class="nd-combo-choice-grid">'+items.map((x,i)=>`<label class="nd-combo-choice"><input type="radio" name="${name}" value="${i}"><span>${esc(x)}</span></label>`).join('')+'</div>';}
-function checkboxOptions(name,items){return '<div class="nd-combo-choice-grid">'+items.map((x,i)=>`<label class="nd-combo-choice"><input type="checkbox" name="${name}" value="${i}"><span>${esc(Array.isArray(x)?x[0]:x)}</span></label>`).join('')+'</div>';}
-function fixedHtml(items){return '<div class="nd-combo-fixed">'+items.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>';}
-function section(title,html,required=true){return `<div class="modal-secao"><h3>${title}${required?'<span class="nd-combo-required">OBRIGATÓRIO</span>':''}</h3>${html}</div>`;}
-
-function build(def,name){
- let h='<div class="nd-combo-modal-note">Selecione as opções do seu combo. Você só poderá adicionar depois de completar todas as escolhas obrigatórias.</div>';
- if(def.fixed?.length) h+=section('📦 ITENS FIXOS',fixedHtml(def.fixed),false);
- if(def.type==='burgerDrink'||def.type==='burgerDrinkDessert'||def.type==='burgerDrinkAcai'||def.type==='love'||def.type==='date'){
-   h+=section('🍔 ESCOLHA SEU LANCHE',radioOptions('ndcbBurger1',def.burgers));
- }
- if(def.type==='fiveStars'||def.type==='love'||def.type==='date'){
-   h+=section(def.type==='fiveStars'||def.type==='love'||def.type==='date'?'🍔 ESCOLHA O 2º LANCHE':'🍔 ESCOLHA SEU LANCHE',radioOptions('ndcbBurger2',def.burgers));
- }
- if(def.type==='burgerDrink'||def.type==='burgerDrinkDessert'||def.type==='burgerDrinkAcai'||def.type==='fixedDrink'||def.type==='date'){
-   h+=section('🥤 ESCOLHA SEU REFRIGERANTE',radioOptions('ndcbDrink',REFRIS));
- }
- if(def.type==='fiveStars'||def.type==='love'){
-   h+=section('🥫 ESCOLHA 2 MOLHOS','<div class="nd-combo-modal-note">Escolha exatamente 2 opções.</div>'+checkboxOptions('ndcbMolhos',MOLHOS));
- }
- if(def.type==='pastelDrinkDessert'){
-   const pastel=(window.saboresPasteis?.salgados)||[['PASTEL DE CARNE',11],['PASTEL DE CARNE COM QUEIJO',11],['PASTEL DE CARNE COM CHEDDAR',11],['PASTEL DE CARNE COM CATUPIRY',11],['PASTEL DE QUEIJO',11],['PASTEL DE FRANGO',11],['PASTEL DE FRANGO COM QUEIJO',11],['PASTEL DE FRANGO COM CATUPIRY',11],['PASTEL DE FRANGO COM CHEDDAR',11],['PASTEL DE BAURU',11],['PASTEL DE PIZZA',11],['PASTEL DE FRANGO COM QUEIJO E OVO',11],['PASTEL DE CARNE COM OVO',11],['PASTEL DE PRESUNTO COM QUEIJO',11],['PASTEL 3 QUEIJOS',11],['PASTEL ND',11]];
-   h+=section('🥟 ESCOLHA 1 SABOR DE PASTEL',radioOptions('ndcbPastel',pastel.map(x=>x[0])));
-   h+='<div class="nd-combo-modal-note">Somente pastéis salgados. Pastel especial e pastéis doces não fazem parte deste combo.</div>';
- }
- if(def.type==='burgerDrinkAcai'||def.type==='date'){
-   const acaiBox=checkboxOptions('ndcbAcai1',ACAI);
-   h+=section('🥤 AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS','<div class="nd-combo-modal-note">Selecione os acompanhamentos desejados. Os adicionais que já possuem preço seguem a tabela do açaí.</div>'+acaiBox);
-   if(def.type==='date') h+=section('🥤 2º AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS','<div class="nd-combo-modal-note">Monte o segundo açaí separadamente.</div>'+checkboxOptions('ndcbAcai2',ACAI));
- }
- h+=`<div id="ndComboError" class="nd-combo-error"></div><div class="modal-total"><span>TOTAL</span><strong>${money(def.price)}</strong></div><button class="btn btn-confirmar-personalizacao" type="button" id="ndComboConfirm">✅ ADICIONAR COMBO AO CARRINHO</button>`;
- return h;
+let current=null;
+function cart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(e){return[]}}
+function cartQty(){return cart().reduce((s,i)=>s+(Number(i.quantidade)||0),0)}
+function updateFinish(){const n=cartQty(),b=$('#ndComboFinish'),c=b?.querySelector('.ndcf-count');if(c)c.textContent=n;if(b)b.classList.toggle('empty',!n)}
+function optionRadio(name,items){return '<div class="ndc-options">'+items.map((x,i)=>`<div class="ndc-option"><input type="radio" name="${name}" id="${name}_${i}" value="${i}"><label for="${name}_${i}"><span>${x[0]}</span><b>${money(x[1])}</b></label></div>`).join('')+'</div>'}
+function fixed(text){return `<div class="ndc-fixed">✓ <b>${text}</b></div>`}
+function section(title,content,help=''){return `<div class="ndc-section"><h3>${title}</h3>${help?`<div class="ndc-help">${help}</div>`:''}${content}</div>`}
+function acaiBox(id){return `<div class="ndc-acai-box"><div class="ndc-acai-title"><span>AÇAÍ 300ML</span><small>Escolha os acompanhamentos</small></div><div class="ndc-acai-list">${acaiToppings.map((x,i)=>`<label><input type="checkbox" data-acai="${id}" value="${i}"><span>${x[0]}</span>${x[1]?`<b class="ndc-add-price">+${money(x[1])}</b>`:''}</label>`).join('')}</div></div>`}
+function buildSections(cfg){let html=''; const burgers=cfg.art?burgerArt:burgerTrad;
+ cfg.sections.forEach(sec=>{
+  if(sec==='burger1')html+=section('🍔 ESCOLHA SEU LANCHE',optionRadio('ndBurger1',burgers),'Escolha 1 opção.');
+  if(sec==='burger2')html+=section('🍔 ESCOLHA SEUS LANCHES',optionRadio('ndBurger1',burgers)+optionRadio('ndBurger2',burgers),'Escolha 2 lanches.');
+  if(sec==='batataP')html+=section('🍟 BATATA — FIXA',fixed('Batata P'));
+  if(sec==='batataM')html+=section('🍟 BATATA — FIXA',fixed('Batata M'));
+  if(sec==='batataCompletaP')html+=section('🍟 BATATA — FIXA',fixed('Batata P completa com cheddar e bacon'));
+  if(sec==='batataCompletaM')html+=section('🍟 BATATA — FIXA',fixed('Batata M completa com cheddar e bacon'));
+  if(sec==='nuggetsP')html+=section('🍗 NUGGETS — FIXO',fixed('Nuggets P'));
+  if(sec==='anelP')html+=section('🧅 ANEL DE CEBOLA — FIXO',fixed('Anel de Cebola P'));
+  if(sec==='frangoP')html+=section('🍗 FRANGO FRITO — FIXO',fixed('Frango Frito P'));
+  if(sec==='drink1')html+=section('🥤 ESCOLHA O REFRIGERANTE',optionRadio('ndDrink1',drinks.map(x=>[x,0])),'Escolha 1 opção.');
+  if(sec==='surpresa')html+=section('🍇 SOBREMESA — FIXA',fixed('1 Surpresa de Uva'));
+  if(sec==='surpresa2')html+=section('🍇 SOBREMESAS — FIXAS',fixed('2 Surpresas de Uva'));
+  if(sec==='dolly')html+=section('🎁 BRINDE — FIXO',fixed('1 Dolly 2 litros de brinde'));
+  if(sec==='coca600')html+=section('🥤 BRINDE — FIXO',fixed('1 Coca-Cola 600ML de brinde'));
+  if(sec==='nunes')html+=section('🍔 LANCHE — FIXO',fixed('NUNES'));
+  if(sec==='pezao')html+=section('🍔 LANCHE — FIXO',fixed('PÉZÃO'));
+  if(sec==='fixedTrad4')html+=section('🍔 LANCHES — FIXOS',fixed('1 X-BURGUER + 1 X-EGG + 1 X-SALADA + 1 X-BACON'));
+  if(sec==='fixedArt5')html+=section('🍔 LANCHES — FIXOS',fixed('1 GAROTINHO + 1 DINA + 1 GADEIA + 1 PATAO + 1 BERENICE'));
+  if(sec==='molhos2')html+=section('🥫 ESCOLHA 2 MOLHOS',`<div class="ndc-selects"><div class="ndc-select-wrap"><label>1º MOLHO</label><select name="ndSauce1"><option value="">Escolha</option>${sauces.map(x=>`<option>${x}</option>`).join('')}</select></div><div class="ndc-select-wrap"><label>2º MOLHO</label><select name="ndSauce2"><option value="">Escolha</option>${sauces.map(x=>`<option>${x}</option>`).join('')}</select></div></div>`,'Escolha os dois potinhos.');
+  if(sec==='pastel'){
+    let opts=[]; try{if(window.saboresPasteis?.salgados)opts=window.saboresPasteis.salgados.filter(x=>norm(x[0])!=='PASTEL ESPECIAL');}catch(e){}
+    if(!opts.length)opts=[['PASTEL DE CARNE',11],['PASTEL DE CARNE COM QUEIJO',11],['PASTEL DE CARNE COM CHEDDAR',11],['PASTEL DE CARNE COM CATUPIRY',11],['PASTEL DE QUEIJO',11],['PASTEL DE FRANGO',11],['PASTEL DE FRANGO COM QUEIJO',11],['PASTEL DE FRANGO COM CATUPIRY',11],['PASTEL DE FRANGO COM CHEDDAR',11],['PASTEL DE BAURU',11],['PASTEL DE PIZZA',11],['PASTEL DE FRANGO COM QUEIJO E OVO',11],['PASTEL DE CARNE COM OVO',11],['PASTEL DE PRESUNTO COM QUEIJO',11],['PASTEL 3 QUEIJOS',11],['PASTEL ND',11]];
+    html+=section('🥟 ESCOLHA O SABOR DO PASTEL',optionRadio('ndPastel',opts),'Somente pastéis salgados. Pastel especial e pastéis doces não entram neste combo.');
+  }
+  if(sec==='acai1')html+=section('🥤 AÇAÍ DO COMBO',acaiBox(1),'Acompanha 1 Açaí 300ML. Os acompanhamentos seguem as regras do Açaí da ND BURGS.');
+  if(sec==='acai2')html+=section('🥤 AÇAÍS DO COMBO',acaiBox(1)+acaiBox(2),'Acompanha 2 Açaís de 300ML. Escolha os acompanhamentos de cada um.');
+ }); return html;
 }
-
-function selected(name){return document.querySelector(`input[name="${name}"]:checked`)}
-function selectedMany(name){return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))}
-function checkAcaiExtras(name){return selectedMany(name).map(el=>{const a=ACAI[Number(el.value)];return a[0]+(Number(a[1])>0?' ('+money(a[1])+')':'')})}
-
-function validate(def){
- if(def.type==='burgerDrink'||def.type==='burgerDrinkDessert'||def.type==='burgerDrinkAcai'||def.type==='love'||def.type==='date') if(!selected('ndcbBurger1')) return 'Escolha o primeiro lanche.';
- if(def.type==='fiveStars'||def.type==='love'||def.type==='date') if(!selected('ndcbBurger2')) return 'Escolha o segundo lanche.';
- if(def.type==='burgerDrink'||def.type==='burgerDrinkDessert'||def.type==='burgerDrinkAcai'||def.type==='fixedDrink'||def.type==='date') if(!selected('ndcbDrink')) return 'Escolha o refrigerante.';
- if(def.type==='fiveStars'||def.type==='love') if(selectedMany('ndcbMolhos').length!==2) return 'Escolha exatamente 2 molhos.';
- if(def.type==='pastelDrinkDessert') if(!selected('ndcbPastel')) return 'Escolha 1 sabor de pastel salgado.';
- if(def.type==='burgerDrinkAcai') if(!document.querySelector('input[name="ndcbAcai1"]')) return 'Não foi possível carregar os acompanhamentos do açaí.';
- if(def.type==='date' && !document.querySelector('input[name="ndcbAcai2"]')) return 'Não foi possível carregar os acompanhamentos do segundo açaí.';
- return '';
+function checkedRadio(name,items){const e=document.querySelector(`input[name="${name}"]:checked`);return e?items[Number(e.value)]:null}
+function valid(){if(!current)return false;let ok=true;const burgers=current.art?burgerArt:burgerTrad;current.cfg.sections.forEach(sec=>{if(sec==='burger1'&&!checkedRadio('ndBurger1',burgers))ok=false;if(sec==='burger2'&&(!checkedRadio('ndBurger1',burgers)||!checkedRadio('ndBurger2',burgers)))ok=false;if(sec==='drink1'&&!checkedRadio('ndDrink1',drinks.map(x=>[x,0])))ok=false;if(sec==='pastel'&&!document.querySelector('input[name="ndPastel"]:checked'))ok=false;if(sec==='molhos2'){if(!$('select[name="ndSauce1"]')?.value||!$('select[name="ndSauce2"]')?.value)ok=false}});return ok}
+function acaiExtra(id){let total=0,details=[];$$(`input[data-acai="${id}"]:checked`).forEach(e=>{const x=acaiToppings[Number(e.value)];if(x){total+=x[1];details.push(x[0]+(x[1]?` (+${money(x[1])})`:'') )}});return{total,details}}
+function renderSummary(){if(!current)return;const cfg=current.cfg;let lines=[];let extra=0;const burgers=cfg.art?burgerArt:burgerTrad;
+ cfg.sections.forEach(sec=>{if(sec==='burger1'){const x=checkedRadio('ndBurger1',burgers);if(x)lines.push(x[0])}if(sec==='burger2'){const a=checkedRadio('ndBurger1',burgers),b=checkedRadio('ndBurger2',burgers);if(a)lines.push(a[0]);if(b)lines.push(b[0])}if(sec==='drink1'){const e=checkedRadio('ndDrink1',drinks.map(x=>[x,0]));if(e)lines.push(e[0])}if(sec==='molhos2'){const a=$('select[name="ndSauce1"]')?.value,b=$('select[name="ndSauce2"]')?.value;if(a)lines.push('Molho: '+a);if(b)lines.push('Molho: '+b)}if(sec==='pastel'){const e=document.querySelector('input[name="ndPastel"]:checked');if(e){const items=(window.saboresPasteis?.salgados||[]).filter(x=>norm(x[0])!=='PASTEL ESPECIAL');const x=items[Number(e.value)];if(x)lines.push(x[0])}}if(sec==='acai1'){const x=acaiExtra(1);extra+=x.total;lines.push('Açaí 300ML'+(x.details.length?' • '+x.details.join(', '):''))}if(sec==='acai2'){[1,2].forEach(id=>{const x=acaiExtra(id);extra+=x.total;lines.push('Açaí 300ML #'+id+(x.details.length?' • '+x.details.join(', '):''))})}});
+ $('#ndComboTotal').textContent=money(cfg.price+extra);$('#ndComboSummary').innerHTML=lines.length?'<strong>Selecionado:</strong> '+lines.join(' • '):'Escolha as opções obrigatórias para continuar.';$('#ndComboConfirm').disabled=!valid();
 }
-
-function addCombo(name,price,def){
- const details=[];
- const b1=selected('ndcbBurger1'),b2=selected('ndcbBurger2'),drink=selected('ndcbDrink'),pastel=selected('ndcbPastel');
- if(b1) details.push('Lanche 1: '+def.burgers[Number(b1.value)]);
- if(b2) details.push('Lanche 2: '+def.burgers[Number(b2.value)]);
- if(drink) details.push('Refrigerante: '+REFRIS[Number(drink.value)]);
- if(pastel){const arr=(window.saboresPasteis?.salgados)||[];details.push('Pastel: '+(arr[Number(pastel.value)]?.[0]||pastel.value));}
- const molhos=selectedMany('ndcbMolhos').map(x=>MOLHOS[Number(x.value)]);if(molhos.length)details.push('Molhos: '+molhos.join(', '));
- if(def.type==='burgerDrinkAcai'||def.type==='date'){
-   details.push('Açaí 300ML #1: '+checkAcaiExtras('ndcbAcai1').join(', '));
-   if(def.type==='date') details.push('Açaí 300ML #2: '+checkAcaiExtras('ndcbAcai2').join(', '));
- }
- const fixed=def.fixed?.join(' | ');if(fixed)details.push('Itens fixos: '+fixed);
- getCart().push({nome:name,preco:Number(price),quantidade:1,detalhes:details});
- if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();
- if(typeof window.fecharPersonalizacao==='function')window.fecharPersonalizacao();
- if(typeof window.mostrarToast==='function')window.mostrarToast('✅ '+name+' adicionado');
-}
-
-function openCombo(name,price){
- const def=defs[name];if(!def)return;
- const modal=document.getElementById('modalPersonalizacao'),content=document.getElementById('modalConteudo'),title=document.getElementById('modalTitulo');
- if(!modal||!content||!title)return;
- window.__ndComboActive={name,price,def};
- title.innerText=def.title;
- content.innerHTML=build(def,name);
- modal.style.display='flex';document.body.style.overflow='hidden';
- const confirm=document.getElementById('ndComboConfirm');
- confirm.onclick=function(){
-   const error=validate(def);const box=document.getElementById('ndComboError');
-   if(error){box.textContent='⚠️ '+error;box.style.display='block';return;}
-   box.style.display='none';addCombo(name,price,def);
- };
- content.addEventListener('change',function(e){
-   if(e.target.matches('input[name="ndcbMolhos"]')){
-     const all=selectedMany('ndcbMolhos');if(all.length>2)e.target.checked=false;
-   }
- });
-}
-
-window.adicionarComboND=openCombo;
-
-// Faz com que qualquer botão de combo existente no HTML use o novo sistema,
-// inclusive cards adicionados por scripts anteriores.
-function patchComboButtons(){
- document.querySelectorAll('button[onclick]').forEach(btn=>{
-   const raw=btn.getAttribute('onclick')||'';
-   const m=raw.match(/adicionarComboND\(['"](.+?)['"],\s*([0-9.]+)\)/);
-   if(m && defs[m[1]]){btn.onclick=function(e){e.preventDefault();openCombo(m[1],Number(m[2]));};btn.removeAttribute('onclick');}
- });
-}
-
-// O açaí já existe no sistema original; capturamos sua lista para manter os mesmos nomes/preços.
-try{if(typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?.acompanhamentos)window.__ndAcaiAcomp=produtosPersonalizaveis.acai.acompanhamentos;}catch(e){}
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{patchComboButtons();setTimeout(patchComboButtons,300);setTimeout(patchComboButtons,1000)});else{patchComboButtons();setTimeout(patchComboButtons,300);setTimeout(patchComboButtons,1000)}
-setInterval(patchComboButtons,1500);
+function openCombo(name,price){const key=norm(name);let found=Object.keys(configs).find(k=>norm(k)===key);if(!found)return false;const cfg=configs[found];current={name:found,cfg};$('#ndComboTitle').textContent=found;$('#ndComboBasePrice').textContent=money(price||cfg.price);$('#ndComboBody').innerHTML=buildSections(cfg);$('#ndComboTotal').textContent=money(cfg.price);$('#ndComboSummary').textContent='Escolha as opções obrigatórias para continuar.';$('#ndComboConfirm').disabled=true;$('#ndComboModal').classList.add('show');$('#ndComboModal').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';$('#ndComboPanel')?.scrollTo(0,0);$$('#ndComboBody input,#ndComboBody select').forEach(e=>e.addEventListener('change',renderSummary));return true}
+function closeCombo(){$('#ndComboModal')?.classList.remove('show');$('#ndComboModal')?.setAttribute('aria-hidden','true');document.body.style.overflow='';current=null}
+function addDirect(name,price,details){try{if(typeof window.carrinho==='undefined'||!Array.isArray(window.carrinho))return;window.carrinho.push({nome:name,preco:price,quantidade:1,detalhes:details||[]});if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();}catch(e){}}
+function confirmCombo(){if(!current||!valid())return;const cfg=current.cfg,burgers=cfg.art?burgerArt:burgerTrad;let extra=0,details=[];cfg.sections.forEach(sec=>{if(sec==='burger1'){const x=checkedRadio('ndBurger1',burgers);if(x)details.push('Lanche: '+x[0])}if(sec==='burger2'){const a=checkedRadio('ndBurger1',burgers),b=checkedRadio('ndBurger2',burgers);if(a)details.push('Lanche 1: '+a[0]);if(b)details.push('Lanche 2: '+b[0])}if(sec==='drink1'){const x=checkedRadio('ndDrink1',drinks.map(x=>[x,0]));if(x)details.push('Refrigerante: '+x[0])}if(sec==='molhos2'){details.push('Molhos: '+$('select[name="ndSauce1"]').value+' + '+$('select[name="ndSauce2"]').value)}if(sec==='pastel'){const e=document.querySelector('input[name="ndPastel"]:checked');const items=(window.saboresPasteis?.salgados||[]).filter(x=>norm(x[0])!=='PASTEL ESPECIAL');const x=items[Number(e?.value)];if(x)details.push('Pastel: '+x[0])}if(sec==='acai1'){const x=acaiExtra(1);extra+=x.total;details.push('Açaí 300ML'+(x.details.length?' • '+x.details.join(', '):''))}if(sec==='acai2'){[1,2].forEach(id=>{const x=acaiExtra(id);extra+=x.total;details.push('Açaí 300ML #'+id+(x.details.length?' • '+x.details.join(', '):''))})}if(sec==='batataP')details.push('Batata P (fixa)');if(sec==='batataM')details.push('Batata M (fixa)');if(sec==='batataCompletaP')details.push('Batata P completa com cheddar e bacon (fixa)');if(sec==='batataCompletaM')details.push('Batata M completa com cheddar e bacon (fixa)');if(sec==='nuggetsP')details.push('Nuggets P (fixo)');if(sec==='anelP')details.push('Anel de Cebola P (fixo)');if(sec==='frangoP')details.push('Frango Frito P (fixo)');if(sec==='surpresa')details.push('1 Surpresa de Uva (fixa)');if(sec==='surpresa2')details.push('2 Surpresas de Uva (fixas)');if(sec==='dolly')details.push('Dolly 2 litros (brinde)');if(sec==='coca600')details.push('Coca-Cola 600ML (brinde)');if(sec==='nunes')details.push('NUNES (fixo)');if(sec==='pezao')details.push('PÉZÃO (fixo)');if(sec==='fixedTrad4')details.push('X-BURGUER + X-EGG + X-SALADA + X-BACON (fixos)');if(sec==='fixedArt5')details.push('GAROTINHO + DINA + GADEIA + PATAO + BERENICE (fixos)')});addDirect(current.name,cfg.price+extra,details);closeCombo();updateFinish()}
+function patchAdicionar(){if(typeof window.adicionar!=='function'||window.adicionar.__ndCombo2026)return;const old=window.adicionar;function wrapped(nome,preco){if(openCombo(nome,preco))return;return old.apply(this,arguments)}wrapped.__ndCombo2026=true;window.adicionar=wrapped}
+function moveQuickToEnd(){const q=$('#ndR3Quick');if(q){const container=q.closest('.container')||q.parentElement;if(container)container.appendChild(q)}const best=$('#nd20Best');if(best){const container=best.closest('.container')||best.parentElement;if(container)container.appendChild(best)}}
+function removeCartIcons(){['ndCartFab','ndCartLabel'].forEach(id=>document.getElementById(id)?.remove());$$('#carrinhoFlutuante').forEach(e=>e.style.display='none')}
+function init(){removeCartIcons();patchAdicionar();moveQuickToEnd();updateFinish();setTimeout(()=>{patchAdicionar();moveQuickToEnd();removeCartIcons();updateFinish()},300);setTimeout(()=>{patchAdicionar();moveQuickToEnd();removeCartIcons();updateFinish()},1000)}
+document.addEventListener('DOMContentLoaded',init);setInterval(()=>{patchAdicionar();removeCartIcons();moveQuickToEnd();updateFinish()},700);
+$('#ndComboClose')?.addEventListener('click',closeCombo);$('#ndComboModal')?.addEventListener('click',e=>{if(e.target.id==='ndComboModal')closeCombo()});$('#ndComboConfirm')?.addEventListener('click',confirmCombo);$('#ndComboFinish')?.addEventListener('click',()=>{if(!cartQty()){alert('Seu pedido ainda está vazio.');return}if(typeof window.irParaFinalizarPedido==='function')window.irParaFinalizarPedido();else if(typeof window.abrirCarrinho==='function')window.abrirCarrinho()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#ndComboModal')?.classList.contains('show'))closeCombo()});
 })();
 </script>
 
