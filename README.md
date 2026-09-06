@@ -4968,7 +4968,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
   function createUI(){
     if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
-    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🟢 <b>ND BURGS ABERTO 24 HORAS</b> • TODOS OS DIAS • PEÇA PELO SITE';document.body.prepend(x)}
+    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML=' <b>EAI BORAS DE ND BURGS • PROMOÇÕES EXCLUSIVAS PELO SITE';document.body.prepend(x)}
     if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
     addTrust(); addLastOrder();
   }
@@ -6395,167 +6395,255 @@ header .logo{display:none!important}
 function bindFinishButton(){
     const btn = $('#modalFinalizar button[onclick*="finalizarPedidoModal"]');
 
-    if(btn){
-        btn.textContent = '✓ CONFERI E ESTÁ CORRETO — ENVIAR PARA PRODUÇÃO';
-        btn.onclick = ndFinish;
+    ```javascript
+if(btn){
+    btn.textContent = '✓ CONFERI E ESTÁ CORRETO — ENVIAR PARA PRODUÇÃO';
+    btn.onclick = ndFinish;
 
-        btn.classList.add('nd-btn-producao');
+    btn.classList.add('nd-btn-producao');
 
-        // Evita duplicar o CSS
-        if(!document.getElementById('nd-btn-producao-style')){
-            const style = document.createElement('style');
-            style.id = 'nd-btn-producao-style';
+    /* EVITA DUPLICAR O CSS */
+    if(!document.getElementById('nd-btn-producao-style')){
+        const style = document.createElement('style');
+        style.id = 'nd-btn-producao-style';
 
-            style.textContent = `
-                .nd-btn-producao{
-                    position:relative !important;
-                    width:100% !important;
-                    min-height:64px !important;
+        style.textContent = `
+            .nd-btn-producao{
+                position:relative !important;
+                width:100% !important;
+                min-height:72px !important;
 
-                    display:flex !important;
-                    align-items:center !important;
-                    justify-content:center !important;
+                display:flex !important;
+                align-items:center !important;
+                justify-content:center !important;
 
-                    padding:16px 22px !important;
+                padding:16px 24px !important;
 
-                    border:0 !important;
-                    border-radius:18px !important;
+                border:0 !important;
+                border-radius:20px !important;
 
-                    background:
-                        linear-gradient(
-                            180deg,
-                            #39ff88 0%,
-                            #14d968 45%,
-                            #08a94c 100%
-                        ) !important;
+                color:#fff !important;
 
-                    color:#061b0e !important;
+                font-size:16px !important;
+                font-weight:1000 !important;
+                letter-spacing:.3px !important;
+                line-height:1.15 !important;
+                text-align:center !important;
 
-                    font-size:16px !important;
-                    font-weight:1000 !important;
-                    letter-spacing:.2px !important;
-                    line-height:1.15 !important;
-                    text-align:center !important;
+                cursor:pointer !important;
 
-                    cursor:pointer !important;
+                overflow:hidden !important;
 
-                    box-shadow:
-                        0 7px 0 #057335,
-                        0 12px 24px rgba(0,255,110,.35),
-                        inset 0 2px 0 rgba(255,255,255,.65),
-                        inset 0 -5px 10px rgba(0,70,30,.20) !important;
+                /* 3D */
+                transform:translateY(0) perspective(500px) rotateX(0deg);
 
-                    transform:translateY(0);
-                    transition:
-                        transform .12s ease,
-                        box-shadow .12s ease,
-                        filter .15s ease;
+                background:
+                    linear-gradient(
+                        180deg,
+                        #5b8cff 0%,
+                        #075cff 42%,
+                        #0036b8 100%
+                    ) !important;
 
-                    overflow:hidden !important;
+                border-top:2px solid rgba(255,255,255,.55) !important;
 
-                    animation:ndProducaoPulse 2s infinite;
-                }
+                box-shadow:
+                    0 8px 0 #001f70,
+                    0 12px 22px rgba(0,75,255,.45),
+                    0 0 18px rgba(0,100,255,.55),
+                    inset 0 3px 0 rgba(255,255,255,.55),
+                    inset 0 -8px 12px rgba(0,0,70,.35) !important;
 
-                /* BRILHO PASSANDO PELO BOTÃO */
-                .nd-btn-producao::before{
-                    content:"";
-                    position:absolute;
-                    top:-40%;
-                    left:-80%;
+                animation:
+                    ndProducaoRGB 2.2s infinite,
+                    ndProducaoPulse 1.3s infinite;
 
-                    width:45%;
-                    height:180%;
+                transition:
+                    transform .12s ease,
+                    filter .15s ease;
+            }
 
-                    background:linear-gradient(
+            /* CAMADA DE BRILHO */
+            .nd-btn-producao::before{
+                content:"";
+
+                position:absolute;
+                top:-100%;
+                left:-65%;
+
+                width:45%;
+                height:300%;
+
+                background:
+                    linear-gradient(
                         90deg,
                         transparent,
-                        rgba(255,255,255,.75),
+                        rgba(255,255,255,.85),
                         transparent
                     );
 
-                    transform:skewX(-20deg);
+                transform:rotate(22deg);
 
-                    animation:ndProducaoShine 3s infinite;
-                    pointer-events:none;
-                }
+                animation:ndProducaoShine 2.5s infinite;
 
-                /* PEQUENO EFEITO DE BORDA */
-                .nd-btn-producao::after{
-                    content:"";
-                    position:absolute;
-                    inset:3px;
+                pointer-events:none;
+            }
 
-                    border:1px solid rgba(255,255,255,.35);
-                    border-radius:15px;
+            /* BORDA INTERNA */
+            .nd-btn-producao::after{
+                content:"";
 
-                    pointer-events:none;
-                }
+                position:absolute;
+                inset:3px;
 
-                .nd-btn-producao:hover{
-                    filter:brightness(1.08);
-                    transform:translateY(-2px);
+                border-radius:17px;
+
+                border:2px solid rgba(255,255,255,.28);
+
+                box-shadow:
+                    inset 0 0 8px rgba(255,255,255,.18);
+
+                pointer-events:none;
+            }
+
+            /* HOVER */
+            .nd-btn-producao:hover{
+                filter:brightness(1.15);
+
+                transform:
+                    translateY(-3px)
+                    perspective(500px)
+                    rotateX(2deg);
+
+                box-shadow:
+                    0 11px 0 #001f70,
+                    0 17px 35px rgba(0,90,255,.65),
+                    0 0 28px rgba(0,110,255,.75),
+                    inset 0 3px 0 rgba(255,255,255,.7),
+                    inset 0 -8px 12px rgba(0,0,70,.35) !important;
+            }
+
+            /* CLIQUE */
+            .nd-btn-producao:active{
+                transform:
+                    translateY(7px)
+                    perspective(500px)
+                    rotateX(-2deg) !important;
+
+                box-shadow:
+                    0 1px 0 #001f70,
+                    0 5px 12px rgba(0,70,255,.35),
+                    inset 0 5px 10px rgba(0,0,70,.35) !important;
+
+                animation:none;
+            }
+
+            /*
+             * 🔵🔴 AZUL ↔ VERMELHO
+             * O BOTÃO MUDA DE COR INTEIRO
+             */
+            @keyframes ndProducaoRGB{
+
+                0%,45%{
+                    background:
+                        linear-gradient(
+                            180deg,
+                            #5b8cff 0%,
+                            #075cff 42%,
+                            #0036b8 100%
+                        ) !important;
 
                     box-shadow:
-                        0 9px 0 #057335,
-                        0 16px 30px rgba(0,255,110,.45),
-                        inset 0 2px 0 rgba(255,255,255,.7),
-                        inset 0 -5px 10px rgba(0,70,30,.20) !important;
+                        0 8px 0 #001f70,
+                        0 12px 22px rgba(0,75,255,.45),
+                        0 0 20px rgba(0,100,255,.60),
+                        inset 0 3px 0 rgba(255,255,255,.55),
+                        inset 0 -8px 12px rgba(0,0,70,.35) !important;
                 }
 
-                .nd-btn-producao:active{
-                    transform:translateY(6px) !important;
+                50%,95%{
+                    background:
+                        linear-gradient(
+                            180deg,
+                            #ff6262 0%,
+                            #f00000 42%,
+                            #9b0000 100%
+                        ) !important;
 
                     box-shadow:
-                        0 1px 0 #057335,
-                        0 5px 12px rgba(0,255,110,.25),
-                        inset 0 3px 8px rgba(0,70,30,.25) !important;
-
-                    animation:none;
+                        0 8px 0 #650000,
+                        0 12px 22px rgba(255,0,0,.45),
+                        0 0 20px rgba(255,0,0,.65),
+                        inset 0 3px 0 rgba(255,255,255,.55),
+                        inset 0 -8px 12px rgba(70,0,0,.35) !important;
                 }
 
-                @keyframes ndProducaoPulse{
-                    0%,100%{
-                        box-shadow:
-                            0 7px 0 #057335,
-                            0 12px 24px rgba(0,255,110,.30),
-                            inset 0 2px 0 rgba(255,255,255,.65),
-                            inset 0 -5px 10px rgba(0,70,30,.20);
-                    }
+                100%{
+                    background:
+                        linear-gradient(
+                            180deg,
+                            #5b8cff 0%,
+                            #075cff 42%,
+                            #0036b8 100%
+                        ) !important;
+                }
+            }
 
-                    50%{
-                        box-shadow:
-                            0 7px 0 #057335,
-                            0 12px 32px rgba(0,255,110,.60),
-                            0 0 10px rgba(70,255,150,.35),
-                            inset 0 2px 0 rgba(255,255,255,.65),
-                            inset 0 -5px 10px rgba(0,70,30,.20);
-                    }
+            /* PULSO */
+            @keyframes ndProducaoPulse{
+
+                0%,100%{
+                    transform:scale(1);
                 }
 
-                @keyframes ndProducaoShine{
-                    0%{
-                        left:-80%;
-                    }
+                50%{
+                    transform:scale(1.015);
+                }
+            }
 
-                    55%,100%{
-                        left:140%;
-                    }
+            /* BRILHO PASSANDO */
+            @keyframes ndProducaoShine{
+
+                0%{
+                    left:-70%;
                 }
 
-                @media(max-width:480px){
-                    .nd-btn-producao{
-                        min-height:68px !important;
-                        padding:14px 16px !important;
-                        font-size:14px !important;
-                        border-radius:17px !important;
-                    }
+                45%{
+                    left:140%;
                 }
-            `;
 
-            document.head.appendChild(style);
-        }
+                100%{
+                    left:140%;
+                }
+            }
+
+            /* CELULAR */
+            @media(max-width:480px){
+
+                .nd-btn-producao{
+                    min-height:72px !important;
+
+                    padding:14px 16px !important;
+
+                    font-size:14px !important;
+
+                    border-radius:18px !important;
+
+                    box-shadow:
+                        0 7px 0 #001f70,
+                        0 10px 20px rgba(0,75,255,.45),
+                        0 0 16px rgba(0,100,255,.55),
+                        inset 0 3px 0 rgba(255,255,255,.55),
+                        inset 0 -7px 10px rgba(0,0,70,.35) !important;
+                }
+            }
+        `;
+
+        document.head.appendChild(style);
     }
 }
+```
+
  function ndFinish(){
    if(!cart().length)return alert('Seu carrinho está vazio.');
    const nome=$('#nomeModal')?.value.trim()||'', tel=$('#telefoneModal')?.value.trim()||'', tipo=$('#tipoPedidoModal')?.value||'ENTREGA', rua=$('#ruaModal')?.value||'', numero=$('#numeroModal')?.value.trim()||'', comp=$('#complementoModal')?.value.trim()||'', pagamento=$('#pagamentoModal')?.value||'', troco=$('#trocoModal')?.value||'', obs=$('#observacaoModal')?.value.trim()||'';
