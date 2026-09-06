@@ -7972,10 +7972,10 @@ else init();
 </style>
 <section id="ndR20DeliveryHighlight" aria-label="Tempo médio de entrega"><span class="nd-r20-spark s1"></span><span class="nd-r20-spark s2"></span><span class="nd-r20-spark s3"></span><span class="nd-r20-spark s4"></span><div class="nd-r20-inner"><div class="nd-r20-icon" aria-hidden="true">🛵</div><div class="nd-r20-copy"><p class="nd-r20-kicker">⏱️ TEMPO MÉDIO DE ENTREGA HOJE</p><h2 class="nd-r20-title">SEU PEDIDO A CAMINHO</h2><div class="nd-r20-time">40 A 50 MINUTINHOS</div><p class="nd-r20-sub">Pedimos esse tempinho para preparar tudo com carinho e enviar bem fresquinho. 💜</p><div class="nd-r20-line"></div></div></div></section>
 <!-- =========================================================
-     ND BURGS R21 — PRODUTO ALEATÓRIO DO DIA + MOBILE TURBO
+     ND BURGS R21 — PRODUTO  DO DIA + MOBILE TURBO
      ========================================================= -->
 <style id="nd-r21-daily-mobile">
-/* ===== PRODUTO ALEATÓRIO DO DIA ===== */
+/* ===== INDICAÇÃO DO DIA PARA VOÇÊ EXPERIMENTAR ===== */
 #ndR17FirstBuy{position:relative;overflow:hidden}
 #ndR17FirstBuy:after{content:'';position:absolute;inset:-45%;background:radial-gradient(circle,rgba(58,0,255,.13),transparent 55%);pointer-events:none}
 #ndR17FirstBuy>*{position:relative;z-index:1}
@@ -8092,5 +8092,177 @@ else{init();setTimeout(init,500);setTimeout(init,1200)}
 })();
 </script>
 
+
+<style id="nd-r22-uva-premium">
+/* =========================================================
+   ND BURGS — RODADA 22
+   DESCONTO EXCLUSIVO — DOCE SURPRESA DE UVA
+   Visual inspirado no layout de referência:
+   azul + roxo neon, card premium, brilho e CTA forte.
+   ========================================================= */
+#ndUvaPromo{
+  width:min(1000px,calc(100% - 28px)) !important;
+  min-height:250px !important;
+  margin:18px auto 26px !important;
+  padding:28px 30px !important;
+  display:grid !important;
+  grid-template-columns:minmax(190px,280px) minmax(0,1fr) !important;
+  align-items:center !important;
+  gap:28px !important;
+  position:relative !important;
+  overflow:hidden !important;
+  isolation:isolate !important;
+  border:1px solid rgba(89,109,255,.72) !important;
+  border-radius:24px !important;
+  background:
+    radial-gradient(circle at 5% 0%,rgba(43,93,255,.34),transparent 34%),
+    radial-gradient(circle at 100% 0%,rgba(145,44,255,.42),transparent 40%),
+    linear-gradient(115deg,#090b1b 0%,#0c0b20 43%,#18092b 72%,#10071c 100%) !important;
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.65),
+    0 0 28px rgba(80,91,255,.16),
+    inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+#ndUvaPromo:before{
+  content:"" !important;
+  position:absolute !important;
+  z-index:-1 !important;
+  width:72% !important;
+  height:130% !important;
+  right:-15% !important;
+  top:-50% !important;
+  background:linear-gradient(135deg,transparent 28%,rgba(119,65,255,.16) 45%,rgba(80,123,255,.10) 58%,transparent 72%) !important;
+  transform:rotate(-8deg) !important;
+  filter:blur(2px) !important;
+}
+#ndUvaPromo:after{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  z-index:-1 !important;
+  background:radial-gradient(circle at 22% 100%,rgba(36,78,255,.10),transparent 28%) !important;
+  pointer-events:none !important;
+}
+#ndUvaPromo img{
+  width:100% !important;
+  max-width:280px !important;
+  height:205px !important;
+  object-fit:contain !important;
+  filter:drop-shadow(0 22px 22px rgba(0,0,0,.75)) drop-shadow(0 0 16px rgba(102,83,255,.20)) !important;
+  flex:none !important;
+  justify-self:center !important;
+}
+#ndUvaPromo .r11-promo-copy{
+  position:relative !important;
+  z-index:2 !important;
+  text-align:left !important;
+  min-width:0 !important;
+}
+#ndUvaPromo .r11-promo-copy .k{
+  display:inline-flex !important;
+  align-items:center !important;
+  min-height:30px !important;
+  padding:0 12px !important;
+  border:1px solid rgba(112,128,255,.72) !important;
+  border-radius:999px !important;
+  background:rgba(7,10,31,.58) !important;
+  color:#d8dcff !important;
+  font-size:10px !important;
+  font-weight:1000 !important;
+  letter-spacing:1.5px !important;
+  box-shadow:0 0 18px rgba(75,89,255,.12),inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+#ndUvaPromo .r11-promo-copy h2{
+  margin:12px 0 7px !important;
+  padding:0 !important;
+  border:0 !important;
+  color:#f1f2ff !important;
+  font-size:clamp(25px,3.5vw,42px) !important;
+  line-height:.98 !important;
+  font-weight:1000 !important;
+  letter-spacing:-1px !important;
+  text-transform:uppercase !important;
+  text-shadow:0 5px 18px rgba(0,0,0,.55) !important;
+}
+#ndUvaPromo .r11-promo-copy p{
+  margin:0 0 9px !important;
+  color:#b9bad0 !important;
+  font-size:12px !important;
+  line-height:1.45 !important;
+}
+#ndUvaPromo .r11-promo-old{
+  color:#77798d !important;
+  font-size:13px !important;
+  font-weight:800 !important;
+  text-decoration:line-through !important;
+  text-decoration-thickness:2px !important;
+}
+#ndUvaPromo .r11-promo-price{
+  display:inline-block !important;
+  margin:2px 0 13px !important;
+  padding:5px 13px !important;
+  border:1px solid rgba(122,100,255,.72) !important;
+  border-radius:11px !important;
+  background:linear-gradient(100deg,#765cff 0%,#5e8cff 52%,#9a54ff 100%) !important;
+  color:#fff !important;
+  font-size:clamp(25px,3vw,34px) !important;
+  line-height:1.05 !important;
+  font-weight:1000 !important;
+  letter-spacing:-.5px !important;
+  text-shadow:0 2px 10px rgba(0,0,0,.48) !important;
+  box-shadow:0 0 16px rgba(91,91,255,.32),0 8px 24px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.30) !important;
+}
+#ndUvaPromo .r11-promo-copy button{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:46px !important;
+  padding:12px 19px !important;
+  border:1px solid rgba(198,205,255,.65) !important;
+  border-radius:13px !important;
+  background:linear-gradient(135deg,#b5c5ff 0%,#7b83ff 44%,#a24dff 100%) !important;
+  color:#08091a !important;
+  font-size:11px !important;
+  font-weight:1000 !important;
+  letter-spacing:.25px !important;
+  cursor:pointer !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.72),
+    0 4px 0 rgba(49,38,122,.75),
+    0 10px 26px rgba(88,83,255,.30) !important;
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease !important;
+}
+#ndUvaPromo .r11-promo-copy button:hover{
+  transform:translateY(-2px) !important;
+  filter:brightness(1.08) !important;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.78),0 5px 0 rgba(49,38,122,.75),0 14px 32px rgba(113,83,255,.42) !important;
+}
+#ndUvaPromo .r11-promo-copy button:active{transform:translateY(2px) !important;box-shadow:inset 0 2px 0 rgba(255,255,255,.65),0 2px 0 rgba(49,38,122,.75),0 7px 18px rgba(113,83,255,.25) !important}
+@media(max-width:700px){
+  #ndUvaPromo{
+    width:calc(100% - 14px) !important;
+    min-height:0 !important;
+    grid-template-columns:105px minmax(0,1fr) !important;
+    gap:10px !important;
+    padding:18px 13px !important;
+    border-radius:20px !important;
+  }
+  #ndUvaPromo img{width:105px !important;height:125px !important}
+  #ndUvaPromo .r11-promo-copy .k{font-size:8px !important;letter-spacing:1px !important;padding:0 8px !important;min-height:26px !important;white-space:nowrap !important}
+  #ndUvaPromo .r11-promo-copy h2{font-size:21px !important;line-height:1.02 !important;letter-spacing:-.4px !important;margin:8px 0 5px !important}
+  #ndUvaPromo .r11-promo-copy p{font-size:9px !important;margin-bottom:5px !important}
+  #ndUvaPromo .r11-promo-old{font-size:10px !important}
+  #ndUvaPromo .r11-promo-price{display:block !important;width:max-content !important;max-width:100% !important;font-size:24px !important;margin:2px 0 9px !important;padding:5px 9px !important}
+  #ndUvaPromo .r11-promo-copy button{width:100% !important;min-height:43px !important;padding:10px 8px !important;font-size:9px !important}
+}
+@media(max-width:390px){
+  #ndUvaPromo{grid-template-columns:88px minmax(0,1fr) !important;padding:15px 9px !important;gap:7px !important}
+  #ndUvaPromo img{width:88px !important;height:112px !important}
+  #ndUvaPromo .r11-promo-copy h2{font-size:18px !important}
+  #ndUvaPromo .r11-promo-copy .k{font-size:7px !important;letter-spacing:.6px !important}
+  #ndUvaPromo .r11-promo-price{font-size:21px !important}
+}
+@media(prefers-reduced-motion:reduce){#ndUvaPromo .r11-promo-copy button{transition:none !important}}
+</style>
 </body>
 </html>
