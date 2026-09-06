@@ -4958,7 +4958,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
   function createUI(){
     if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
-    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🟢 <b>EAI BORA DE #NDBURGS</b> • TERÇA A DOMINGO DAS 18:00 AS 00:30 • PEÇA PELO SITE';document.body.prepend(x)}
+ if(!document.querySelector('.nd-v3-strip')){
+    const x=document.createElement('div');
+    x.className='nd-v3-strip';
+    x.innerHTML='<b style="color:#fff!important;">EAI BORA DE #NDBURGS</b> <span style="color:#1677ff!important;">• OFERTAS EXCLUSIVAS PELO SITE</span>';
+    document.body.prepend(x);
+}
     if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
     addTrust(); addLastOrder();
   }
