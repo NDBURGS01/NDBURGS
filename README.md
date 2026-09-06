@@ -6381,8 +6381,45 @@ header .logo{display:none!important}
  function openGateIfNeeded(){if(!localStorage.getItem('nd17_tipo'))showGate();else{ensureMainForms();updateBar();cartTotalSync()}}
  function patchOpenCart(){if(window.__nd17Cart)return;const old=window.abrirCarrinho;if(typeof old!=='function')return;window.abrirCarrinho=function(){ensureMainForms();const r=old.apply(this,arguments);setTimeout(cartTotalSync,30);return r};window.__nd17Cart=true}
  function patchBuildCheckout(){if(typeof window.buildCheckout==='function'&&!window.buildCheckout.__nd17){const old=window.buildCheckout;window.buildCheckout=function(){const r=old.apply(this,arguments);setTimeout(()=>{ensureMainForms();cartTotalSync();setupAutocomplete();bindFinishButton()},20);return r};window.buildCheckout.__nd17=true}}
- function bindFinishButton(){const btn=$('#modalFinalizar button[onclick*="finalizarPedidoModal"]');if(btn){btn.textContent='ENVIAR PARA PRODUÇÃO NA #NDBURGS';btn.onclick=ndFinish}}
- function ndFinish(){
+function bindFinishButton(){
+    const btn = $('#modalFinalizar button[onclick*="finalizarPedidoModal"]');
+
+    if(btn){
+        btn.textContent = 'ENVIAR PARA PRODUÇÃO NA #NDBURGS';
+        btn.onclick = ndFinish;
+
+        btn.style.cssText += `
+            background: linear-gradient(
+                135deg,
+                #300000,
+                #650000,
+                #a00000,
+                #ff0000,
+                #650000,
+                #300000
+            ) !important;
+            background-size: 500% 500% !important;
+            color: #fff !important;
+            border: 2px solid #ff3030 !important;
+            border-radius: 12px !important;
+            font-weight: 900 !important;
+            font-size: 15px !important;
+            letter-spacing: .5px !important;
+            text-shadow: 0 0 8px #000, 0 0 15px #ff0000 !important;
+
+            box-shadow:
+                0 0 8px #ff0000,
+                0 0 20px #ff0000,
+                0 0 40px rgba(255,0,0,.8) !important;
+
+            animation:
+                ndBotaoPisca 1s infinite,
+                ndBotaoPsy 2s infinite linear !important;
+        `;
+    }
+}
+
+function ndFinish(){
    if(!cart().length)return alert('Seu carrinho está vazio.');
    const nome=$('#nomeModal')?.value.trim()||'', tel=$('#telefoneModal')?.value.trim()||'', tipo=$('#tipoPedidoModal')?.value||'ENTREGA', rua=$('#ruaModal')?.value||'', numero=$('#numeroModal')?.value.trim()||'', comp=$('#complementoModal')?.value.trim()||'', pagamento=$('#pagamentoModal')?.value||'', troco=$('#trocoModal')?.value||'', obs=$('#observacaoModal')?.value.trim()||'';
    if(!nome)return alert('Digite seu nome.'); const td=tel.replace(/\D/g,'');if(td.length<10||td.length>11)return alert('Digite um WhatsApp válido com DDD.');
