@@ -23,8 +23,6 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preconnect" href="https://i.ibb.co" crossorigin>
-<link rel="dns-prefetch" href="//i.ibb.co">
 <title>ND BURGS | Faça seu pedido</title>
 
 <style>
@@ -568,7 +566,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 <style id="nd-r17-conversion">
 /* =========================================================
-   ND BURGS R21 — CONVERSÃO + FAVORITOS + PEDIR NOVAMENTE
+   ND BURGS R19 — CONVERSÃO + FAVORITOS + PEDIR NOVAMENTE
    + HORÁRIO REAL + PRIMEIRA COMPRA + NAVEGAÇÃO MOBILE
    ========================================================= */
 #ndR17FirstBuy{
@@ -705,112 +703,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   #ndR19Reviews .r19-grid{grid-template-columns:1fr}
 }
 </style>
-
-
-<!-- =========================================================
-     ND BURGS — RODADA 21 — TURBO DE FOTOS + PERFORMANCE
-     Não altera a lógica do cardápio/carrinho; apenas reduz
-     trabalho inicial, evita reatribuições de imagens e melhora
-     a prioridade de carregamento.
-     ========================================================= -->
-<style id="nd-r21-performance-css">
-  /* Renderização: deixa seções fora da tela mais leves sem esconder conteúdo. */
-  .categoria{content-visibility:auto;contain-intrinsic-size:700px;}
-  .produto{contain:layout paint;}
-  .produto-imagem{background:#09090b;contain:paint;}
-  /* Evita transições/efeitos caros enquanto a página ainda está carregando. */
-  html.nd-r21-boot .produto{transition:none!important;}
-  /* Skeleton discreto somente enquanto uma imagem ainda não terminou. */
-  img.nd-r21-pending{background:linear-gradient(110deg,#0b0b0d 8%,#17171b 18%,#0b0b0d 33%);background-size:200% 100%;animation:ndR21Shimmer 1.2s linear infinite;}
-  @keyframes ndR21Shimmer{to{background-position:-200% 0}}
-  @media(prefers-reduced-motion:reduce){img.nd-r21-pending{animation:none!important}}
-</style>
-<script id="nd-r21-performance-js">
-(function(){
-  'use strict';
-  if(window.__NDBURGS_R21__) return;
-  window.__NDBURGS_R21__=true;
-  const $all=(s,c=document)=>Array.from(c.querySelectorAll(s));
-  const HERO='https://i.ibb.co/nMmfSSt1/Chat-GPT-Image-28-de-jul-de-2026-22-33-11.png';
-
-  function tuneImages(){
-    const imgs=$all('img');
-    let productIndex=0;
-    imgs.forEach(img=>{
-      img.decoding='async';
-      const isHero=img.classList.contains('nd-v4-art-burger') || img.currentSrc===HERO || img.src===HERO;
-      if(isHero){
-        img.loading='eager';
-        img.fetchPriority='high';
-        img.setAttribute('fetchpriority','high');
-        return;
-      }
-      if(img.classList.contains('produto-imagem')){
-        /* Só as primeiras imagens realmente acima da dobra têm prioridade alta. */
-        if(productIndex<4){
-          img.loading='eager';
-          img.fetchPriority='high';
-          img.setAttribute('fetchpriority','high');
-        }else{
-          img.loading='lazy';
-          img.fetchPriority='low';
-          img.setAttribute('fetchpriority','low');
-        }
-        productIndex++;
-      }else if(!img.closest('header') && !img.hasAttribute('loading')){
-        img.loading='lazy';
-        img.fetchPriority='low';
-        img.setAttribute('fetchpriority','low');
-      }
-      if(img.loading==='lazy') img.classList.add('nd-r21-pending');
-      if(!img.dataset.ndR21Bound){
-        img.dataset.ndR21Bound='1';
-        img.addEventListener('load',()=>img.classList.remove('nd-r21-pending'),{once:true,passive:true});
-        img.addEventListener('error',()=>img.classList.remove('nd-r21-pending'),{once:true,passive:true});
-      }
-    });
-  }
-
-  function preventPhotoReassignment(){
-    /* A R16 reaplica PHOTO_MAP. Não fazemos nova requisição quando a URL já é a mesma. */
-    $all('.produto').forEach(card=>{
-      const img=card.querySelector('img.produto-imagem');
-      if(!img || img.dataset.ndR21SrcGuard) return;
-      img.dataset.ndR21SrcGuard='1';
-      let last=img.getAttribute('src')||'';
-      const desc=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');
-      if(!desc || !desc.set || !desc.get) return;
-      Object.defineProperty(img,'src',{configurable:true,enumerable:desc.enumerable,get(){return desc.get.call(this)},set(v){
-        if(String(v||'')===last) return;
-        last=String(v||'');
-        desc.set.call(this,v);
-      }});
-    });
-  }
-
-  function preloadCritical(){
-    if(document.head.querySelector('link[data-nd-r21-hero]')) return;
-    const l=document.createElement('link');
-    l.rel='preload';l.as='image';l.href=HERO;l.setAttribute('fetchpriority','high');l.dataset.ndR21Hero='1';
-    document.head.appendChild(l);
-  }
-
-  function boot(){
-    document.documentElement.classList.add('nd-r21-boot');
-    preloadCritical();
-    tuneImages();
-    preventPhotoReassignment();
-    requestAnimationFrame(()=>document.documentElement.classList.remove('nd-r21-boot'));
-    /* Camadas antigas podem criar imagens depois do carregamento. */
-    setTimeout(tuneImages,120);
-    setTimeout(preventPhotoReassignment,250);
-    setTimeout(tuneImages,900);
-  }
-
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
-  else boot();
-})();
-</script>
 
 </head>
 
@@ -7777,7 +7669,7 @@ const PHOTO_MAP={
  'SURPRESA DE UVA':'https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png'
 };
 function applyPhotos(){
- $$('.produto').forEach(card=>{const name=norm(card.querySelector('h3')?.textContent);const src=PHOTO_MAP[name];if(!src)return;let img=card.querySelector('img.produto-imagem');if(!img){img=document.createElement('img');img.className='produto-imagem';img.loading='lazy';img.decoding='async';card.insertBefore(img,card.firstChild)}if(img.getAttribute('src')!==src)img.src=src;img.alt=name;});
+ $$('.produto').forEach(card=>{const name=norm(card.querySelector('h3')?.textContent);const src=PHOTO_MAP[name];if(!src)return;let img=card.querySelector('img.produto-imagem');if(!img){img=document.createElement('img');img.className='produto-imagem';img.loading='lazy';img.decoding='async';card.insertBefore(img,card.firstChild)}img.src=src;img.alt=name;});
  const promo=$('#ndUvaPromo img');if(promo)promo.src=PHOTO_MAP['SURPRESA DE UVA'];
 }
 
@@ -8079,5 +7971,126 @@ else init();
 @media(max-width:600px){#ndR20DeliveryHighlight{margin:30px auto 22px;padding:17px 14px;border-radius:20px}.nd-r20-inner{gap:12px}.nd-r20-icon{width:43px;height:43px;flex-basis:43px;font-size:22px;border-radius:13px}.nd-r20-kicker{font-size:9px;letter-spacing:1.2px}.nd-r20-title{font-size:16px}.nd-r20-time{font-size:28px}.nd-r20-sub{font-size:10px}}
 </style>
 <section id="ndR20DeliveryHighlight" aria-label="Tempo médio de entrega"><span class="nd-r20-spark s1"></span><span class="nd-r20-spark s2"></span><span class="nd-r20-spark s3"></span><span class="nd-r20-spark s4"></span><div class="nd-r20-inner"><div class="nd-r20-icon" aria-hidden="true">🛵</div><div class="nd-r20-copy"><p class="nd-r20-kicker">⏱️ TEMPO MÉDIO DE ENTREGA HOJE</p><h2 class="nd-r20-title">SEU PEDIDO A CAMINHO</h2><div class="nd-r20-time">40 A 50 MINUTINHOS</div><p class="nd-r20-sub">Pedimos esse tempinho para preparar tudo com carinho e enviar bem fresquinho. 💜</p><div class="nd-r20-line"></div></div></div></section>
+<!-- =========================================================
+     ND BURGS R21 — PRODUTO ALEATÓRIO DO DIA + MOBILE TURBO
+     ========================================================= -->
+<style id="nd-r21-daily-mobile">
+/* ===== PRODUTO ALEATÓRIO DO DIA ===== */
+#ndR17FirstBuy{position:relative;overflow:hidden}
+#ndR17FirstBuy:after{content:'';position:absolute;inset:-45%;background:radial-gradient(circle,rgba(58,0,255,.13),transparent 55%);pointer-events:none}
+#ndR17FirstBuy>*{position:relative;z-index:1}
+.nd-r21-daily-kicker{color:#8b7bff!important}
+.nd-r21-daily-name{color:#fff;font-weight:1000;font-size:clamp(22px,3.6vw,31px);line-height:1.05;margin-top:5px}
+.nd-r21-daily-price{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:7px 17px;border-radius:15px;color:#fff!important;font-size:25px!important;font-weight:1000!important;background:linear-gradient(135deg,#7a00ff 0%,#315cff 55%,#00b7ff 100%);border:1px solid rgba(164,120,255,.9);box-shadow:0 0 10px rgba(91,0,255,.65),0 0 26px rgba(0,119,255,.42),inset 0 1px 0 rgba(255,255,255,.25);text-shadow:0 0 9px rgba(255,255,255,.45);animation:ndR21PriceGlow 1.8s ease-in-out infinite}
+@keyframes ndR21PriceGlow{50%{box-shadow:0 0 15px rgba(119,0,255,.9),0 0 38px rgba(0,132,255,.65),inset 0 1px 0 rgba(255,255,255,.3);transform:translateY(-1px)}}
+.nd-r21-daily-btn{border:1px solid rgba(173,122,255,.9)!important;border-radius:14px!important;padding:13px 18px!important;background:linear-gradient(135deg,#7200ff,#3d45ff 55%,#008cff)!important;color:#fff!important;font-weight:1000!important;cursor:pointer;box-shadow:0 0 10px rgba(104,0,255,.55),0 9px 25px rgba(0,74,255,.25),inset 0 1px 0 rgba(255,255,255,.22)!important;text-shadow:0 0 7px rgba(255,255,255,.45);transition:transform .18s,filter .18s,box-shadow .18s!important}
+.nd-r21-daily-btn:hover{transform:translateY(-2px) scale(1.02)!important;filter:brightness(1.13);box-shadow:0 0 18px rgba(116,0,255,.85),0 0 38px rgba(0,126,255,.55),inset 0 1px 0 rgba(255,255,255,.3)!important}
+
+/* ===== MOBILE TURBO ===== */
+html{scroll-behavior:smooth}
+img{content-visibility:auto}
+@media(max-width:700px){
+  body{overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  .container,.categoria,#nd20Best,#nd20QuickNav,#ndR17FirstBuy,#ndR17Trust{width:calc(100% - 12px)!important;max-width:none!important}
+  .produto{min-width:0!important;overflow:hidden;border-radius:16px!important}
+  .produto-imagem{width:100%!important;height:auto!important;aspect-ratio:1/1;object-fit:cover;display:block}
+  .produto h3{font-size:15px!important;line-height:1.12!important;margin:9px 0 5px!important}
+  .produto p{font-size:11px!important;line-height:1.4!important}
+  .produto .preco{font-size:18px!important}
+  .btn,.btn-add{min-height:44px!important;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  button,a{touch-action:manipulation}
+  input,select,textarea{font-size:16px!important}
+  #ndR17FirstBuy{padding:15px!important;border-radius:18px!important;margin-left:auto!important;margin-right:auto!important}
+  .nd-r17-fb-row{display:flex!important;align-items:stretch!important;gap:9px!important;flex-direction:column!important}
+  .nd-r21-daily-price{width:100%;box-sizing:border-box;font-size:23px!important}
+  .nd-r21-daily-btn{width:100%!important;min-height:50px!important;font-size:12px!important}
+  #ndR17Trust{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .nd-r17-trust-card{min-width:0!important;padding:12px 9px!important}
+  #nd20QuickNav{position:sticky!important;top:0!important;z-index:99999!important}
+  #nd20QuickCats{overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  .nd20-qcat{min-height:40px!important}
+  #nd20Finish{min-height:42px!important}
+  .nd20-best-grid{gap:8px!important}
+  .nd20-best-card{min-width:calc(100vw - 42px)!important}
+  .nd20-best-card img{width:70px!important;height:70px!important}
+  #carrinhoFlutuante{right:10px!important;bottom:max(10px,env(safe-area-inset-bottom))!important;width:58px!important;height:58px!important;z-index:100000!important}
+  .modal,.modal-content,.modal-box{max-width:calc(100vw - 16px)!important}
+}
+@media(max-width:420px){
+  .produto h3{font-size:14px!important}
+  .produto p{font-size:10px!important}
+  .nd-r21-daily-name{font-size:23px!important}
+  #ndR17Trust{grid-template-columns:1fr 1fr!important}
+}
+@media(prefers-reduced-motion:reduce){.nd-r21-daily-price,.nd-r21-daily-btn{animation:none!important;transition:none!important}}
+</style>
+<script id="nd-r21-daily-mobile-script">
+(function(){
+'use strict';
+const R21_KEY='ndburgs_produto_aleatorio_dia_v1';
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+function hashDate(){
+  const d=new Date();
+  const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  let h=2166136261; for(let i=0;i<key.length;i++){h^=key.charCodeAt(i);h=Math.imul(h,16777619)}
+  return h>>>0;
+}
+function productCards(){
+  return $$('.produto').map(card=>{
+    const name=card.querySelector('h3')?.textContent?.trim()||'';
+    const priceEl=card.querySelector('.preco');
+    const priceText=priceEl?.textContent?.trim()||'';
+    const price=Number((priceText||'').replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'))||0;
+    const btn=card.querySelector('.btn-add,.nd-fx-add,button[onclick*="adicionar"],button[onclick*="abrir"]');
+    const img=card.querySelector('img')?.src||'';
+    if(!name||!price||!btn)return null;
+    const n=norm(name);
+    /* Não usar itens técnicos/adicionais como destaque do dia. */
+    const blocked=['ADICIONAL','FATIA DE QUEIJO','MOLHO','KETCHUP','MOSTARDA','MAIONESE','CATUPIRY','NUTELLA','NINHO','KITKAT'];
+    if(blocked.some(x=>n.includes(x)))return null;
+    return {card,name,price,priceText:priceEl?.textContent?.trim()||money(price),btn,img};
+  }).filter(Boolean);
+}
+function chooseDaily(){
+  const list=productCards(); if(!list.length)return null;
+  const index=hashDate()%list.length;
+  return list[index];
+}
+function bindDaily(){
+  const box=$('#ndR17FirstBuy');
+  if(!box)return false;
+  const item=chooseDaily(); if(!item)return false;
+  const title=box.querySelector('.nd-r17-fb-title');
+  const text=box.querySelector('.nd-r17-fb-text');
+  const price=box.querySelector('.nd-r17-fb-price');
+  const btn=box.querySelector('#ndR17FirstBuyBtn');
+  const kicker=box.querySelector('.nd-r17-fb-kicker');
+  if(kicker){kicker.textContent='🎁 PRODUTO ALEATÓRIO DO DIA';kicker.classList.add('nd-r21-daily-kicker')}
+  if(title){title.textContent=item.name;title.classList.add('nd-r21-daily-name')}
+  if(text)text.innerHTML='Uma escolha diferente todos os dias para você descobrir um dos favoritos da <b>ND BURGS</b>.';
+  if(price){price.textContent=item.priceText;price.classList.add('nd-r21-daily-price')}
+  if(btn){btn.textContent='🔥 QUERO O PRODUTO DE HOJE';btn.classList.add('nd-r21-daily-btn');btn.onclick=function(e){e.preventDefault();item.card.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{try{item.btn.click()}catch(_){ }},280)}}
+  box.dataset.r21Product=norm(item.name);
+  try{localStorage.setItem(R21_KEY,JSON.stringify({date:new Date().toISOString().slice(0,10),name:item.name}))}catch(_){ }
+  return true;
+}
+function mobilePerf(){
+  $$('.produto-imagem').forEach((img,i)=>{
+    img.decoding='async';
+    if(i<4){img.loading='eager';img.fetchPriority='high'}else{img.loading='lazy';img.fetchPriority='low'}
+  });
+}
+function init(){
+  mobilePerf();
+  bindDaily();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,500);setTimeout(init,1200)}, {once:true});
+else{init();setTimeout(init,500);setTimeout(init,1200)}
+})();
+</script>
+
 </body>
 </html>
