@@ -5149,7 +5149,7 @@ function buildCheckout(){
     <div id="trocoAreaModal" style="display:none;margin-top:12px"><label>Troco para quanto?</label><input id="trocoModal" type="number" step="0.01" placeholder="Ex.: 50"></div>
     <label style="margin-top:14px">Observação <small>(opcional)</small></label>
     <textarea id="observacaoModal" placeholder="Ex.: sem cebola, tocar campainha..."></textarea>
-    <button class="nd-v4-next" type="button" onclick="ndNext(3)">REVISAR PEDIDO →</button>
+    <button class="nd-v4-next" type="button" onclick="ndNext(3)">CONFIRA SEU ITENS DO PEDIDO ANTES DE FINALIZAR→</button>
     <button class="nd-v4-back" type="button" onclick="ndBack(3)">← VOLTAR</button>
   </div>
   <div class="nd-v4-step-content" data-content="4">
@@ -6382,7 +6382,7 @@ header .logo{display:none!important}
  function openGateIfNeeded(){if(!localStorage.getItem('nd17_tipo'))showGate();else{ensureMainForms();updateBar();cartTotalSync()}}
  function patchOpenCart(){if(window.__nd17Cart)return;const old=window.abrirCarrinho;if(typeof old!=='function')return;window.abrirCarrinho=function(){ensureMainForms();const r=old.apply(this,arguments);setTimeout(cartTotalSync,30);return r};window.__nd17Cart=true}
  function patchBuildCheckout(){if(typeof window.buildCheckout==='function'&&!window.buildCheckout.__nd17){const old=window.buildCheckout;window.buildCheckout=function(){const r=old.apply(this,arguments);setTimeout(()=>{ensureMainForms();cartTotalSync();setupAutocomplete();bindFinishButton()},20);return r};window.buildCheckout.__nd17=true}}
- function bindFinishButton(){const btn=$('#modalFinalizar button[onclick*="finalizarPedidoModal"]');if(btn){btn.textContent='CONCLUIR PEDIDO E ENVIAR PARA NDBURGS';btn.onclick=ndFinish}}
+ function bindFinishButton(){const btn=$('#modalFinalizar button[onclick*="finalizarPedidoModal"]');if(btn){btn.textContent='PEDIDO CONFIRMADO ENVIAR PARA PRODUÇÃO #NDBURGS';btn.onclick=ndFinish}}
  function ndFinish(){
    if(!cart().length)return alert('Seu carrinho está vazio.');
    const nome=$('#nomeModal')?.value.trim()||'', tel=$('#telefoneModal')?.value.trim()||'', tipo=$('#tipoPedidoModal')?.value||'ENTREGA', rua=$('#ruaModal')?.value||'', numero=$('#numeroModal')?.value.trim()||'', comp=$('#complementoModal')?.value.trim()||'', pagamento=$('#pagamentoModal')?.value||'', troco=$('#trocoModal')?.value||'', obs=$('#observacaoModal')?.value.trim()||'';
