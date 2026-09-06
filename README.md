@@ -7979,6 +7979,16 @@ else init();
 })();
 </script>
 
+<style id="nd-r20-delivery-highlight-css">
+#ndR18Delivery{display:none!important}
+#ndR20DeliveryHighlight{width:min(920px,calc(100% - 28px));margin:42px auto 28px;position:relative;overflow:hidden;border-radius:24px;padding:20px 22px;box-sizing:border-box;isolation:isolate;background:radial-gradient(circle at 18% 50%,rgba(126,74,255,.28),transparent 34%),radial-gradient(circle at 82% 45%,rgba(42,116,255,.24),transparent 34%),linear-gradient(135deg,#090913,#11102a 48%,#080b18);border:1px solid rgba(149,108,255,.55);box-shadow:0 0 18px rgba(117,76,255,.32),0 0 48px rgba(45,101,255,.18),inset 0 0 30px rgba(122,83,255,.08)}
+#ndR20DeliveryHighlight:before,#ndR20DeliveryHighlight:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;filter:blur(34px);opacity:.42;z-index:-1;pointer-events:none}
+#ndR20DeliveryHighlight:before{background:#7a43ff;left:-55px;top:-70px}#ndR20DeliveryHighlight:after{background:#1677ff;right:-55px;bottom:-75px}
+.nd-r20-spark{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff,0 0 16px #8f70ff;opacity:.8;animation:ndR20Twinkle 2.8s ease-in-out infinite}.nd-r20-spark.s1{left:13%;top:18%}.nd-r20-spark.s2{left:34%;bottom:19%;animation-delay:.7s}.nd-r20-spark.s3{right:25%;top:17%;animation-delay:1.2s}.nd-r20-spark.s4{right:11%;bottom:22%;animation-delay:1.8s}@keyframes ndR20Twinkle{0%,100%{transform:scale(.6);opacity:.25}50%{transform:scale(1.35);opacity:1}}
+.nd-r20-inner{display:flex;align-items:center;justify-content:center;gap:20px;position:relative;z-index:2;text-align:center}.nd-r20-icon{width:52px;height:52px;flex:0 0 52px;border-radius:16px;display:grid;place-items:center;font-size:27px;background:rgba(255,255,255,.07);border:1px solid rgba(173,139,255,.42);box-shadow:0 0 18px rgba(109,72,255,.25)}.nd-r20-copy{min-width:0}.nd-r20-kicker{margin:0 0 4px;font-size:11px;font-weight:900;letter-spacing:1.7px;color:#c8b9ff;text-transform:uppercase}.nd-r20-title{margin:0;font-size:clamp(18px,3vw,27px);font-weight:1000;letter-spacing:.2px;color:#fff;text-shadow:0 0 14px rgba(130,92,255,.45)}.nd-r20-time{display:inline-block;margin:5px 0 2px;font-size:clamp(24px,4.8vw,38px);line-height:1;font-weight:1000;letter-spacing:.4px;background:linear-gradient(90deg,#bba3ff,#fff,#7fb8ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(116,91,255,.35))}.nd-r20-sub{margin:4px 0 0;color:rgba(255,255,255,.74);font-size:12px;font-weight:700}.nd-r20-line{width:70px;height:2px;margin:9px auto 0;border-radius:10px;background:linear-gradient(90deg,transparent,#8f6cff,#5ca4ff,transparent);box-shadow:0 0 10px rgba(111,90,255,.65)}
+@media(max-width:600px){#ndR20DeliveryHighlight{margin:30px auto 22px;padding:17px 14px;border-radius:20px}.nd-r20-inner{gap:12px}.nd-r20-icon{width:43px;height:43px;flex-basis:43px;font-size:22px;border-radius:13px}.nd-r20-kicker{font-size:9px;letter-spacing:1.2px}.nd-r20-title{font-size:16px}.nd-r20-time{font-size:28px}.nd-r20-sub{font-size:10px}}
+</style>
+<section id="ndR20DeliveryHighlight" aria-label="Tempo médio de entrega"><span class="nd-r20-spark s1"></span><span class="nd-r20-spark s2"></span><span class="nd-r20-spark s3"></span><span class="nd-r20-spark s4"></span><div class="nd-r20-inner"><div class="nd-r20-icon" aria-hidden="true">🛵</div><div class="nd-r20-copy"><p class="nd-r20-kicker">⏱️ TEMPO MÉDIO DE ENTREGA HOJE</p><h2 class="nd-r20-title">SEU PEDIDO A CAMINHO</h2><div class="nd-r20-time">40 A 50 MINUTINHOS</div><p class="nd-r20-sub">ESSE PRAZO DE ENTREGA É PARA RECEBER SEU PEDIDO NDBURGS COM QUALIDADE E TUDO FRESQUINHO 💜</p><div class="nd-r20-line"></div></div></div></section>
 <!-- =========================================================
      ND BURGS R21 — PRODUTO  DO DIA + MOBILE TURBO
      ========================================================= -->
@@ -8965,333 +8975,384 @@ if(document.readyState==='loading'){
 })();
 </script>
 
+
+
 <!-- =========================================================
-     ND BURGS — AJUSTES FINAIS 06/09/2026
-     Endereço no topo + Pix + revisão + busca + entrega
+     ND BURGS — AJUSTE FINAL 20260906
+     ENDEREÇO ÚNICO NO TOPO + ENTREGA 40–50 + PIX + BUSCA
      ========================================================= -->
-<style id="nd-final-r26-css">
-/* ===== TOPO: ENDEREÇO / RETIRADA — ÚNICO AVISO VISÍVEL ===== */
-#ndTopAddressHighlight{
-  width:min(1180px,calc(100% - 28px));
-  margin:12px auto 8px;
-  padding:14px 16px;
-  position:relative;
-  overflow:hidden;
-  isolation:isolate;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  border:1px solid rgba(255,130,20,.72);
-  border-radius:18px;
+<style id="nd-final-user-request-css">
+/* Remove as antigas superfícies duplicadas de endereço/tempo. */
+#nd17Gate,
+#nd17AddressBar,
+#ndR20DeliveryHighlight{display:none!important}
+#enderecoAreaModal,
+#enderecoArea{display:none!important}
+
+/* Única área de endereço visível: topo. */
+#ndTopOrderInfo{
+  position:relative;isolation:isolate;overflow:hidden;
+  width:min(1180px,calc(100% - 24px));
+  margin:12px auto 10px;
+  padding:16px;
+  border-radius:22px;
+  border:1px solid rgba(255,132,0,.55);
   background:
-    radial-gradient(circle at 8% 50%,rgba(255,95,0,.28),transparent 30%),
-    radial-gradient(circle at 92% 50%,rgba(25,120,255,.28),transparent 30%),
-    linear-gradient(135deg,#120907,#08101b 52%,#0b0614);
+    radial-gradient(circle at 12% 0%,rgba(255,104,0,.24),transparent 29%),
+    radial-gradient(circle at 91% 8%,rgba(31,119,255,.28),transparent 31%),
+    linear-gradient(145deg,#121318 0%,#0b0c11 52%,#09090b 100%);
   box-shadow:
-    0 12px 36px rgba(0,0,0,.55),
-    0 0 24px rgba(255,92,0,.18),
-    0 0 34px rgba(30,119,255,.14),
+    0 20px 55px rgba(0,0,0,.46),
+    0 0 26px rgba(255,103,0,.10),
+    0 0 42px rgba(20,100,255,.10),
     inset 0 1px 0 rgba(255,255,255,.08);
-  transform:perspective(900px) rotateX(.7deg);
+  transform:perspective(1000px) rotateX(.6deg);
 }
-#ndTopAddressHighlight::before,#ndTopAddressHighlight::after{
+#ndTopOrderInfo:before,#ndTopOrderInfo:after{
   content:"";position:absolute;pointer-events:none;border-radius:999px;filter:blur(24px);z-index:-1;
 }
-#ndTopAddressHighlight::before{width:220px;height:100px;left:-90px;top:-15px;background:rgba(255,96,0,.42);animation:ndR26LightA 4s ease-in-out infinite}
-#ndTopAddressHighlight::after{width:220px;height:100px;right:-90px;bottom:-15px;background:rgba(27,115,255,.42);animation:ndR26LightB 4.8s ease-in-out infinite}
-.nd-r26-address-copy{min-width:0}
-.nd-r26-address-kicker{font-size:10px;font-weight:1000;letter-spacing:1.6px;color:#ffb16c;margin-bottom:3px}
-.nd-r26-address-title{font-size:clamp(16px,2.4vw,24px);font-weight:1000;line-height:1.08;color:#fff}
-.nd-r26-address-title span{color:#7eb8ff}
-.nd-r26-address-sub{margin-top:4px;font-size:11px;color:#c0c3cc;line-height:1.45}
-#ndTopAddressHighlight button{
-  flex:0 0 auto;
-  min-height:46px;
-  border:1px solid rgba(255,168,71,.7);
-  border-radius:12px;
-  padding:11px 15px;
-  background:linear-gradient(135deg,#ff6500,#ff9d1f);
-  color:#fff;
-  font-weight:1000;
-  cursor:pointer;
-  box-shadow:0 8px 22px rgba(255,89,0,.22),0 0 18px rgba(255,119,0,.18),inset 0 1px 0 rgba(255,255,255,.24);
+#ndTopOrderInfo:before{width:240px;height:120px;left:-70px;top:-55px;background:rgba(255,91,0,.33);}
+#ndTopOrderInfo:after{width:250px;height:130px;right:-75px;bottom:-65px;background:rgba(27,107,255,.34);}
+.nd-top-glow-line{
+  position:absolute;left:7%;right:7%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#ff6a00 22%,#fff 49%,#267dff 78%,transparent);
+  box-shadow:0 0 15px rgba(255,106,0,.55),0 0 18px rgba(38,125,255,.55);
+  opacity:.95;
 }
-#ndTopAddressHighlight button:hover{filter:brightness(1.08);transform:translateY(-1px)}
-#nd17AddressBar{display:none!important}
+.nd-top-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px}
+.nd-top-kicker{font-size:10px;font-weight:1000;letter-spacing:1.5px;color:#ffb06b;text-transform:uppercase}
+.nd-top-title{margin-top:3px;font-size:clamp(18px,3vw,26px);font-weight:1000;line-height:1.05;color:#fff;letter-spacing:-.5px}
+.nd-top-title span{color:#76adff}
+.nd-top-important{flex:0 0 auto;padding:8px 10px;border-radius:12px;background:linear-gradient(135deg,rgba(255,94,0,.18),rgba(28,112,255,.18));border:1px solid rgba(255,255,255,.13);font-size:10px;font-weight:1000;color:#fff;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 20px rgba(0,0,0,.25)}
+.nd-top-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.nd-top-mode{min-height:46px;border:1px solid #2f3037;border-radius:13px;background:#111217;color:#cfd2dc;font-weight:1000;font-size:12px;cursor:pointer;transition:.18s ease}
+.nd-top-mode.active{border-color:#ff6b00;background:linear-gradient(135deg,rgba(255,86,0,.25),rgba(30,120,255,.14));color:#fff;box-shadow:0 0 16px rgba(255,92,0,.11),inset 0 1px 0 rgba(255,255,255,.06)}
+.nd-top-delivery{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:9px}
+.nd-top-field{position:relative}
+.nd-top-field label{display:block;margin:0 0 6px;color:#aeb1bb;font-size:10px;font-weight:900;letter-spacing:.7px}
+.nd-top-field input{width:100%;height:48px;padding:12px 14px;border-radius:12px;border:1px solid #31323a;background:#08090c;color:#fff;outline:none;font-size:15px}
+.nd-top-field input:focus{border-color:#4f8dff;box-shadow:0 0 0 3px rgba(44,126,255,.10),0 0 20px rgba(255,95,0,.08)}
+.nd-top-suggest{position:absolute;left:0;right:0;top:calc(100% + 6px);display:none;max-height:230px;overflow:auto;z-index:120000;background:#111217;border:1px solid rgba(72,129,255,.55);border-radius:13px;box-shadow:0 18px 50px rgba(0,0,0,.72)}
+.nd-top-suggest.show{display:block}
+.nd-top-option{padding:11px 12px;border-bottom:1px solid #23242b;color:#fff;font-size:12px;font-weight:800;cursor:pointer}
+.nd-top-option:last-child{border-bottom:0}
+.nd-top-option:hover,.nd-top-option.active{background:linear-gradient(90deg,rgba(255,98,0,.18),rgba(36,122,255,.16));color:#fff}
+.nd-top-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}
+.nd-top-status{font-size:11px;color:#a9acb5;line-height:1.4}
+.nd-top-status b{color:#fff}
+.nd-top-save{border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#ff6200,#ff8d00 48%,#2378ff);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 9px 22px rgba(255,81,0,.18),0 0 20px rgba(35,120,255,.14);white-space:nowrap}
+.nd-top-pickup-note{display:none;margin-top:10px;padding:11px 12px;border-radius:12px;border:1px solid rgba(62,131,255,.35);background:linear-gradient(135deg,rgba(35,80,170,.11),rgba(255,98,0,.08));color:#dfe4ef;font-size:12px;line-height:1.45}
+.nd-top-pickup-note.show{display:block}
 
-/* ===== DELIVERY FINAL: novo bloco minimalista ===== */
-#ndR20DeliveryHighlight{display:none!important}
-#ndR26DeliveryNote{
-  width:min(720px,calc(100% - 28px));
-  margin:28px auto 24px;
-  padding:13px 16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:11px;
-  border:1px solid rgba(88,128,255,.34);
+/* Aviso de entrega minimalista, logo abaixo do endereço. */
+#ndDeliveryMiniNotice{
+  width:min(720px,calc(100% - 24px));
+  margin:10px auto 16px;
+  padding:10px 14px;
+  border:1px solid rgba(255,132,0,.28);
   border-radius:14px;
-  background:linear-gradient(135deg,rgba(17,18,27,.96),rgba(11,12,18,.96));
-  box-shadow:0 8px 25px rgba(0,0,0,.34),0 0 22px rgba(68,105,255,.08);
+  background:linear-gradient(90deg,rgba(255,94,0,.08),rgba(34,117,255,.08));
+  box-shadow:0 7px 22px rgba(0,0,0,.24),0 0 18px rgba(46,111,255,.06);
+  text-align:center;color:#d8dbe4;font-size:11px;line-height:1.45;
 }
-#ndR26DeliveryNote .nd-r26-delivery-icon{font-size:19px;line-height:1}
-#ndR26DeliveryNote .nd-r26-delivery-text{font-size:11px;line-height:1.4;color:#aeb3c0;text-align:center}
-#ndR26DeliveryNote .nd-r26-delivery-text strong{color:#fff;font-size:14px;display:block;margin-bottom:2px}
-#ndR26DeliveryNote .nd-r26-delivery-time{color:#7faaff;font-weight:1000;font-size:14px}
+#ndDeliveryMiniNotice strong{display:block;color:#fff;font-size:13px}
+#ndDeliveryMiniNotice b{color:#ffb16a}
 
-/* ===== PIX: AVISO GRANDE E BOTÃO DE PAGAMENTO CONCLUÍDO ===== */
-#ndPixBox .nd-r26-pix-warning{
-  margin:12px 0 10px;
-  padding:15px;
-  border:2px solid #ff6a00;
-  border-radius:14px;
-  background:linear-gradient(145deg,rgba(82,28,0,.55),rgba(36,12,0,.78));
-  color:#fff;
-  text-align:center;
-  box-shadow:0 0 22px rgba(255,89,0,.17),inset 0 1px 0 rgba(255,255,255,.08);
+/* Checkout: confirmação com coluna de prazo. */
+#ndCheckoutDeliveryTime{
+  display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:10px;
+  margin:12px 0;padding:11px 12px;border-radius:13px;
+  border:1px solid rgba(57,125,255,.28);
+  background:linear-gradient(135deg,rgba(27,80,180,.10),rgba(255,92,0,.07));
 }
-#ndPixBox .nd-r26-pix-warning b{display:block;color:#ffd27f;font-size:clamp(17px,4vw,25px);line-height:1.08;letter-spacing:.1px}
-#ndPixBox .nd-r26-pix-warning span{display:block;margin-top:7px;color:#fff;font-size:12px;line-height:1.45;font-weight:800}
-#ndPixBox .nd-r26-pix-paid{
-  width:100%;
-  min-height:54px;
-  margin-top:10px;
-  border:1px solid rgba(79,171,255,.7);
-  border-radius:13px;
-  background:linear-gradient(135deg,#0d74ff,#6d3cff);
-  color:#fff;
-  font-weight:1000;
-  font-size:14px;
-  cursor:pointer;
-  box-shadow:0 10px 28px rgba(45,95,255,.23),0 0 22px rgba(78,98,255,.14);
-}
-#ndPixBox .nd-r26-pix-paid:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#ndCheckoutDeliveryTime .nd-time-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#101218;border:1px solid rgba(255,255,255,.08);font-size:21px}
+#ndCheckoutDeliveryTime .nd-time-copy small{display:block;color:#9195a0;font-size:9px;font-weight:900;letter-spacing:1px}
+#ndCheckoutDeliveryTime .nd-time-copy strong{display:block;margin-top:2px;color:#fff;font-size:14px}
+#ndCheckoutDeliveryTime .nd-time-value{font-size:16px;font-weight:1000;color:#78a9ff;white-space:nowrap;text-align:right}
 
-/* ===== ETAPA 4: REVISÃO + COLUNA DE TEMPO ===== */
-#modalFinalizar .nd-v4-step[data-step="4"]{font-size:0}
-#modalFinalizar .nd-v4-step[data-step="4"]::after{content:"4 • REVISÃO";font-size:9px}
-#ndR26DeliveryReview{
-  margin:0 0 13px;
-  padding:12px 14px;
-  border:1px solid rgba(65,130,255,.38);
-  border-radius:13px;
-  background:linear-gradient(135deg,#0d1220,#0a0b12);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-#ndR26DeliveryReview .nd-r26-review-label{font-size:10px;color:#9fa6b7;font-weight:900;letter-spacing:.8px}
-#ndR26DeliveryReview .nd-r26-review-time{font-size:clamp(16px,3.5vw,22px);font-weight:1000;color:#7faaff;text-align:right;white-space:nowrap}
-#ndR26DeliveryReview .nd-r26-review-time small{display:block;color:#818796;font-size:9px;font-weight:700;margin-top:2px}
+/* PIX: aviso grande e ação pós-pagamento. */
+#ndPixSafetyBox{margin-top:12px;padding:16px;border-radius:16px;border:1px solid rgba(255,98,0,.5);background:radial-gradient(circle at 10% 10%,rgba(255,88,0,.15),transparent 32%),linear-gradient(145deg,#19120e,#0b0c12);box-shadow:0 12px 30px rgba(0,0,0,.38),0 0 20px rgba(34,111,255,.08)}
+#ndPixSafetyBox .nd-pix-alert-icon{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:1000;color:#fff}
+#ndPixSafetyBox .nd-pix-alert-icon b{color:#ff9b54}
+#ndPixSafetyBox .nd-pix-warning{margin-top:7px;font-size:clamp(17px,3.5vw,27px);line-height:1.06;font-weight:1000;color:#fff;text-transform:uppercase;letter-spacing:-.4px}
+#ndPixSafetyBox .nd-pix-warning span{color:#ffb16a}
+#ndPixSafetyBox .nd-pix-note{margin-top:9px;color:#c8cbd5;font-size:11px;line-height:1.5}
+#ndPixSafetyBox .nd-pix-paid{width:100%;margin-top:12px;min-height:52px;border:0;border-radius:13px;background:linear-gradient(135deg,#ff5e00,#ff8d00 48%,#2678ff);color:#fff;font-size:13px;font-weight:1000;cursor:pointer;box-shadow:0 10px 26px rgba(255,87,0,.18),0 0 24px rgba(36,119,255,.12)}
+#ndPixSafetyBox .nd-pix-paid:hover{filter:brightness(1.07);transform:translateY(-1px)}
+#ndPixSafetyBox .nd-pix-security{margin-top:9px;padding:9px 10px;border-radius:10px;background:#090a0d;border:1px solid #25262d;color:#aeb2bd;font-size:10px;line-height:1.45;text-align:center}
+#ndPixSafetyBox .nd-pix-security strong{color:#fff}
+#ndPixBox .nd-pix-copy{min-height:46px!important}
 
-/* ===== BUSCA: uma camada final que vence as buscas antigas ===== */
-#buscaProdutos{cursor:text!important}
-#ndR26SearchEmpty{
-  display:none;
-  margin:-4px 0 14px;
-  padding:17px 14px;
-  text-align:center;
-  border:1px dashed #3a3a42;
-  border-radius:13px;
-  color:#9da1aa;
-  background:#09090b;
-}
-#ndR26SearchEmpty strong{display:block;color:#fff;font-size:15px;margin-bottom:4px}
-
-@keyframes ndR26LightA{0%,100%{transform:translate3d(0,0,0);opacity:.55}50%{transform:translate3d(95px,14px,0);opacity:1}}
-@keyframes ndR26LightB{0%,100%{transform:translate3d(0,0,0);opacity:.45}50%{transform:translate3d(-95px,-12px,0);opacity:1}}
 @media(max-width:700px){
-  #ndTopAddressHighlight{width:calc(100% - 14px);padding:12px;gap:10px;align-items:stretch}
-  .nd-r26-address-title{font-size:16px}.nd-r26-address-sub{font-size:10px}
-  #ndTopAddressHighlight button{padding:10px 11px;min-height:44px;font-size:10px}
-  #ndR26DeliveryNote{width:calc(100% - 14px);margin:22px auto 18px;padding:11px 12px}
-  #ndR26DeliveryNote .nd-r26-delivery-text strong{font-size:12px}.nd-r26-delivery-time{font-size:12px!important}
-  #ndR26DeliveryReview{padding:11px 12px}
-  #ndR26DeliveryReview .nd-r26-review-time{font-size:15px}
+  #ndTopOrderInfo{width:calc(100% - 12px);margin-top:9px;padding:14px;border-radius:19px}
+  .nd-top-head{gap:9px}.nd-top-important{font-size:9px;padding:7px 8px}
+  .nd-top-title{font-size:20px}.nd-top-delivery{grid-template-columns:1fr 108px}
+  .nd-top-field input{height:46px;font-size:16px}.nd-top-bottom{align-items:stretch;flex-direction:column}
+  .nd-top-save{width:100%;min-height:47px}
+  #ndDeliveryMiniNotice{width:calc(100% - 12px);margin-top:8px}
+  #ndCheckoutDeliveryTime{grid-template-columns:45px 1fr;gap:9px}.nd-time-value{grid-column:2;text-align:left!important}
+  #ndPixSafetyBox .nd-pix-warning{font-size:20px}
 }
-@media(prefers-reduced-motion:reduce){#ndTopAddressHighlight::before,#ndTopAddressHighlight::after{animation:none!important}}
+@media(max-width:420px){.nd-top-delivery{grid-template-columns:1fr}.nd-top-important{display:none}.nd-top-toggle{gap:6px}.nd-top-mode{font-size:11px}}
 </style>
 
-<script id="nd-final-r26-js">
+<script id="nd-final-user-request-js">
 (function(){
 'use strict';
-const $=s=>document.querySelector(s);
-const $$=s=>Array.from(document.querySelectorAll(s));
-const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
 
-function openAddressGate(){
-  const gate=$('#nd17Gate');
-  if(gate){gate.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>$('#nd17GateStreet')?.focus(),80);}
+function taxes(){try{return window.taxas||taxas||{}}catch(_){return{}}}
+function streets(){return Object.keys(taxes()).filter(x=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(norm(x))).sort((a,b)=>a.localeCompare(b,'pt-BR'))}
+function addr(){return{type:localStorage.getItem('nd17_tipo')||'ENTREGA',street:localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd17_numero')||''}}
+function setAddr(type,street,num){localStorage.setItem('nd17_tipo',type);localStorage.setItem('nd17_rua',street||'');localStorage.setItem('nd17_numero',num||'')}
+
+function buildTop(){
+  if($('#ndTopOrderInfo')){ensureDeliveryNotice();return;}
+  const host=$('.horarios'); if(!host)return;
+  const wrap=document.createElement('section');
+  wrap.id='ndTopOrderInfo';
+  wrap.setAttribute('aria-label','Endereço do pedido');
+  wrap.innerHTML=`
+    <div class="nd-top-glow-line"></div>
+    <div class="nd-top-head">
+      <div><div class="nd-top-kicker">ATENÇÃO ANTES DE PEDIR</div><div class="nd-top-title">COLOQUE SEU <span>ENDEREÇO</span></div></div>
+      <div class="nd-top-important">ESSA PARTE É<br>IMPORTANTE PARA<br>SEU PEDIDO</div>
+    </div>
+    <div class="nd-top-toggle">
+      <button type="button" class="nd-top-mode active" data-mode="ENTREGA">🛵 DELIVERY</button>
+      <button type="button" class="nd-top-mode" data-mode="RETIRADA">🏪 RETIRADA NA LOJA</button>
+    </div>
+    <div class="nd-top-delivery">
+      <div class="nd-top-field">
+        <label>ENDEREÇO / RUA</label>
+        <input id="ndTopStreet" type="search" autocomplete="off" placeholder="Digite para buscar sua rua...">
+        <div id="ndTopStreetList" class="nd-top-suggest"></div>
+      </div>
+      <div class="nd-top-field">
+        <label>NÚMERO</label>
+        <input id="ndTopNumber" type="text" inputmode="numeric" placeholder="Ex.: 123">
+      </div>
+    </div>
+    <div id="ndTopPickupNote" class="nd-top-pickup-note">🏪 <b>Retirada na loja selecionada.</b><br>Não é necessário informar endereço ou número.</div>
+    <div class="nd-top-bottom">
+      <div id="ndTopStatus" class="nd-top-status"><b>Busque sua rua na lista.</b><br>Os endereços disponíveis são os cadastrados para entrega.</div>
+      <button type="button" id="ndTopSave" class="nd-top-save">SALVAR ENDEREÇO E CONTINUAR →</button>
+    </div>`;
+  host.insertAdjacentElement('afterend',wrap);
+  $('#ndTopSave').addEventListener('click',saveTop);
+  $$('.nd-top-mode').forEach(b=>b.addEventListener('click',()=>setTopMode(b.dataset.mode)));
+  const input=$('#ndTopStreet');
+  input.addEventListener('input',()=>renderTopSuggestions(true));
+  input.addEventListener('focus',()=>renderTopSuggestions(false));
+  $('#ndTopNumber').addEventListener('input',()=>syncHidden());
+  document.addEventListener('click',e=>{
+    if(!wrap.contains(e.target))$('#ndTopStreetList')?.classList.remove('show');
+  });
+  loadTop();
+  ensureDeliveryNotice();
 }
-
-function buildTopAddress(){
-  if($('#ndTopAddressHighlight'))return;
-  const header=$('header'); if(!header)return;
-  const box=document.createElement('section');
-  box.id='ndTopAddressHighlight';
-  box.setAttribute('aria-label','Endereço ou retirada');
-  box.innerHTML=
-    '<div class="nd-r26-address-copy">'+
-      '<div class="nd-r26-address-kicker">⚠️ ESSA PARTE É MUITO IMPORTANTE PARA SEU PEDIDO</div>'+
-      '<div class="nd-r26-address-title">COLOQUE SEU <span>ENDEREÇO</span> OU SE FOR RETIRAR, SELECIONE <span>RETIRADA NA LOJA</span></div>'+
-      '<div class="nd-r26-address-sub" id="ndR26AddressState">Precisamos dessa informação para calcular sua taxa e preparar seu pedido corretamente.</div>'+ 
-    '</div>'+ 
-    '<button type="button" id="ndR26AddressButton">📍 INFORMAR AGORA</button>';
-  header.insertAdjacentElement('afterend',box);
-  $('#ndR26AddressButton').onclick=openAddressGate;
-  updateTopAddress();
+function ensureDeliveryNotice(){
+  if($('#ndDeliveryMiniNotice'))return;
+  const top=$('#ndTopOrderInfo'); if(!top)return;
+  const d=document.createElement('div');
+  d.id='ndDeliveryMiniNotice';
+  d.innerHTML='<strong>🛵 TEMPO DE ENTREGA: <b>40 A 50 MINUTINHOS</b></strong><span>Para que seu pedido chegue fresquinho na sua residência.</span>';
+  top.insertAdjacentElement('afterend',d);
 }
-
-function updateTopAddress(){
-  const state=$('#ndR26AddressState');
-  const button=$('#ndR26AddressButton');
-  if(!state||!button)return;
-  const tipo=localStorage.getItem('nd17_tipo')||'';
-  const rua=localStorage.getItem('nd17_rua')||'';
-  const num=localStorage.getItem('nd17_numero')||'';
-  if(tipo==='RETIRADA'){
-    state.textContent='🏪 Retirada selecionada: você irá retirar seu pedido na loja.';
-    button.textContent='✏️ ALTERAR';
-  }else if(rua){
-    state.textContent='📍 Endereço selecionado: '+rua+(num?', Nº '+num:'')+'.';
-    button.textContent='✏️ ALTERAR';
+function setTopMode(mode){
+  $$('.nd-top-mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+  const delivery=mode==='ENTREGA';
+  $('.nd-top-delivery').style.display=delivery?'grid':'none';
+  $('#ndTopPickupNote').classList.toggle('show',!delivery);
+  const st=$('#ndTopStatus');
+  if(delivery)st.innerHTML='<b>Busque sua rua na lista.</b><br>Os endereços disponíveis são os cadastrados para entrega.';
+  else st.innerHTML='<b>Retirada na loja.</b><br>Sem taxa de entrega e sem necessidade de endereço.';
+  syncHidden();
+}
+function renderTopSuggestions(filtering){
+  const input=$('#ndTopStreet'),list=$('#ndTopStreetList'); if(!input||!list)return;
+  const q=norm(input.value);
+  let arr=streets().filter(s=>!q||norm(s).includes(q)).slice(0,30);
+  list.innerHTML='';
+  arr.forEach((s,i)=>{
+    const el=document.createElement('div');el.className='nd-top-option';el.textContent=s+'  •  '+money(taxes()[s]);el.dataset.index=i;
+    el.addEventListener('mousedown',e=>e.preventDefault());
+    el.addEventListener('click',()=>{
+      input.value=s;input.dataset.selected=s;list.classList.remove('show');
+      $('#ndTopStatus').innerHTML='<b>Rua selecionada:</b> '+s+'<br>Agora informe o número da residência.';
+      syncHidden();$('#ndTopNumber')?.focus();
+    });
+    list.appendChild(el);
+  });
+  list.classList.toggle('show',arr.length>0);
+}
+function loadTop(){
+  const a=addr();
+  if(a.type==='RETIRADA')setTopMode('RETIRADA');else setTopMode('ENTREGA');
+  if($('#ndTopStreet')){$('#ndTopStreet').value=a.street;$('#ndTopStreet').dataset.selected=a.street}
+  if($('#ndTopNumber'))$('#ndTopNumber').value=a.number;
+  updateTopStatus();
+  syncHidden();
+}
+function updateTopStatus(){
+  const a=addr(),st=$('#ndTopStatus');if(!st)return;
+  if(a.type==='RETIRADA'){st.innerHTML='<b>Retirada na loja.</b><br>Sem taxa de entrega e sem endereço.';return}
+  if(a.street){const f=Number(taxes()[a.street]||0);st.innerHTML='<b>Endereço salvo:</b> '+a.street+(a.number?', Nº '+a.number:'')+'<br>Taxa de entrega: '+money(f);}
+}
+function syncHidden(){
+  const mode=$('.nd-top-mode.active')?.dataset.mode||'ENTREGA';
+  const street=$('#ndTopStreet')?.dataset.selected||$('#ndTopStreet')?.value.trim()||'';
+  const num=$('#ndTopNumber')?.value.trim()||'';
+  if(mode==='ENTREGA'){
+    const real=streets().find(s=>norm(s)===norm(street));
+    if(real)setAddr('ENTREGA',real,num);
+    const type=$('#tipoPedido');if(type)type.value='ENTREGA';
+    const typeM=$('#tipoPedidoModal');if(typeM)typeM.value='ENTREGA';
+    const rua=$('#rua');if(rua&&real&&[...rua.options].some(o=>o.value===real))rua.value=real;
+    const ruaM=$('#ruaModal');if(ruaM&&real&&[...ruaM.options].some(o=>o.value===real))ruaM.value=real;
+    const n=$('#numero');if(n)n.value=num;const nm=$('#numeroModal');if(nm)nm.value=num;
   }else{
-    state.textContent='Precisamos dessa informação para calcular sua taxa e preparar seu pedido corretamente.';
-    button.textContent='📍 INFORMAR AGORA';
+    setAddr('RETIRADA','','');
+    const type=$('#tipoPedido');if(type)type.value='RETIRADA';
+    const typeM=$('#tipoPedidoModal');if(typeM)typeM.value='RETIRADA';
   }
 }
-
-function addDeliveryNote(){
-  if($('#ndR26DeliveryNote'))return;
-  const footer=$('footer'); if(!footer)return;
-  const sec=document.createElement('section');
-  sec.id='ndR26DeliveryNote';
-  sec.innerHTML='<div class="nd-r26-delivery-icon">🛵</div><div class="nd-r26-delivery-text"><strong>Para chegar fresquinho na sua residência</strong><span class="nd-r26-delivery-time">NOSSO TEMPO DE ENTREGA É DE 40 A 50 MINUTINHOS</span></div>';
-  footer.parentNode.insertBefore(sec,footer);
+function saveTop(){
+  const mode=$('.nd-top-mode.active')?.dataset.mode||'ENTREGA';
+  if(mode==='RETIRADA'){
+    setAddr('RETIRADA','','');syncHidden();updateTopStatus();notify('🏪 RETIRADA NA LOJA SELECIONADA');return;
+  }
+  const input=$('#ndTopStreet'),street=streets().find(s=>norm(s)===norm(input?.dataset.selected||input?.value||''));
+  const num=$('#ndTopNumber')?.value.trim()||'';
+  if(!street){renderTopSuggestions(true);return alert('Selecione uma rua da lista de endereços.');}
+  if(!num)return alert('Digite o número da residência.');
+  setAddr('ENTREGA',street,num);syncHidden();updateTopStatus();
+  notify('📍 ENDEREÇO SALVO: '+street+' Nº '+num);
+}
+function notify(text){
+  let n=$('#ndTopNotify');
+  if(!n){n=document.createElement('div');n.id='ndTopNotify';n.style.cssText='position:fixed;top:86px;right:16px;z-index:300000;padding:11px 14px;border:1px solid rgba(80,130,255,.45);border-radius:12px;background:rgba(10,12,18,.96);color:#fff;font-size:12px;font-weight:900;box-shadow:0 14px 36px rgba(0,0,0,.55)';document.body.appendChild(n)}
+  n.textContent=text;n.style.opacity='1';clearTimeout(n._t);n._t=setTimeout(()=>n.style.opacity='0',1700);
 }
 
-function addReviewTime(){
-  const step=$('#modalFinalizar .nd-v4-step-content[data-content="4"]'); if(!step)return;
-  let box=$('#ndR26DeliveryReview');
-  if(!box){
-    box=document.createElement('div');
-    box.id='ndR26DeliveryReview';
-    step.insertBefore(box,step.firstElementChild);
-  }
-  const tipo=$('#tipoPedidoModal')?.value||'ENTREGA';
-  if(tipo==='RETIRADA'){
-    box.innerHTML='<div class="nd-r26-review-label">FORMA DE RECEBIMENTO</div><div class="nd-r26-review-time">RETIRADA NA LOJA<small>Sem taxa de entrega</small></div>';
-  }else{
-    box.innerHTML='<div class="nd-r26-review-label">TEMPO DE ENTREGA</div><div class="nd-r26-review-time">40 A 50 MINUTINHOS<small>para seu pedido chegar fresquinho</small></div>';
-  }
+/* Garante que o cadastro interno continue sincronizado com o endereço único do topo. */
+function mirrorHidden(){
+  const a=addr();
+  const type=$('#tipoPedidoModal');if(type)type.value=a.type;
+  const rua=$('#ruaModal');if(rua&&a.street&&[...rua.options].some(o=>o.value===a.street))rua.value=a.street;
+  const num=$('#numeroModal');if(num)num.value=a.number;
+  const type2=$('#tipoPedido');if(type2)type2.value=a.type;
+  const rua2=$('#rua');if(rua2&&a.street&&[...rua2.options].some(o=>o.value===a.street))rua2.value=a.street;
+  const num2=$('#numero');if(num2)num2.value=a.number;
 }
 
-function wirePix(){
-  const box=$('#ndPixBox'); if(!box)return;
-  let warning=box.querySelector('.nd-r26-pix-warning');
-  if(!warning){
-    warning=document.createElement('div');
-    warning.className='nd-r26-pix-warning';
-    warning.innerHTML='<b>⚠️ ATENÇÃO</b><span>COPIE O PIX, MAS FAÇA O PAGAMENTO APENAS APÓS A CONFIRMAÇÃO DO SEU PEDIDO.</span>';
-    const key=box.querySelector('.nd-pix-key');
-    if(key)key.insertAdjacentElement('afterend',warning); else box.prepend(warning);
-  }
-  let btn=box.querySelector('#ndR26PixPaid');
-  if(!btn){
-    btn=document.createElement('button');
-    btn.type='button';
-    btn.id='ndR26PixPaid';
-    btn.className='nd-r26-pix-paid';
-    btn.textContent='✅ JÁ PAGUEI — CONCLUIR MEU PEDIDO!';
-    btn.onclick=function(){
-      if(typeof window.ndStep==='function')window.ndStep(4);
-      else document.querySelector('.nd-v4-step-content[data-content="4"]')?.classList.add('active');
-      setTimeout(addReviewTime,30);
-    };
-    box.appendChild(btn);
-  }
-}
-
-function improveSearch(){
-  const input=$('#buscaProdutos'); if(!input)return;
-  if(input.dataset.ndR26==='1')return;
-  input.dataset.ndR26='1';
-  let empty=$('#ndR26SearchEmpty');
-  if(!empty){
-    empty=document.createElement('div');
-    empty.id='ndR26SearchEmpty';
-    empty.innerHTML='<strong>NENHUM PRODUTO ENCONTRADO</strong><span>Tente outro nome, sabor ou categoria.</span>';
-    input.closest('.modern-search')?.insertAdjacentElement('afterend',empty);
-  }
-  const apply=()=>{
+/* Busca de produtos: implementação final, acentos e categorias tratados. */
+function setupSearch(){
+  const input=$('#buscaProdutos');if(!input||input.dataset.ndFinalSearch==='1')return;
+  input.dataset.ndFinalSearch='1';
+  const counter=$('#contadorBusca');
+  const empty=$('#semResultados');
+  const run=()=>{
     const q=norm(input.value);
-    const cards=$$('.produto');
-    let visible=0;
-    cards.forEach(card=>{
+    let visible=0,total=0;
+    $$('.produto').forEach(card=>{
+      total++;
       const text=norm(card.innerText||card.textContent||'');
       const ok=!q||text.includes(q);
       card.classList.toggle('search-hidden',!ok);
-      card.style.setProperty('display',ok?'':'none','important');
+      card.style.display=ok?'':'none';
       if(ok)visible++;
     });
     $$('.categoria').forEach(cat=>{
-      const has=[...cat.querySelectorAll('.produto')].some(c=>getComputedStyle(c).display!=='none');
-      cat.style.setProperty('display',has?'':'none','important');
+      const has=[...cat.querySelectorAll('.produto')].some(c=>getComputedStyle(c).display!=='none'&&!c.classList.contains('search-hidden'));
+      cat.style.display=has?'':'none';
     });
-    const counter=$('#contadorBusca');
-    if(counter)counter.textContent=q?(visible+' resultado'+(visible===1?'':'s')):'';
+    if(counter)counter.textContent=q?visible+' produto'+(visible===1?'':'s'):'';
     if(empty)empty.style.display=q&&visible===0?'block':'none';
   };
-  input.addEventListener('input',apply,true);
-  input.addEventListener('search',apply,true);
-  input.addEventListener('keydown',e=>{if(e.key==='Escape'){input.value='';apply();}},true);
-  apply();
+  input.addEventListener('input',run);
+  input.addEventListener('search',run);
+  run();
 }
 
-function bindObservers(){
-  const root=document.body;
-  if(!root)return;
-  const ob=new MutationObserver(()=>{
-    buildTopAddress();updateTopAddress();addDeliveryNote();addReviewTime();wirePix();improveSearch();
+/* Estimativa de entrega: 40–50 min em todas as superfícies visíveis. */
+function replaceDeliveryCopy(){
+  $$('.nd-v4-delivery-estimate').forEach(el=>{
+    const t=norm(el.textContent);
+    if(t.includes('ESTIMATIVA')||t.includes('MINUTOS'))el.innerHTML='🕐 <b>Tempo de entrega:</b> 40 a 50 minutinhos.';
   });
-  ob.observe(root,{childList:true,subtree:true});
+  $$('#ndR20DeliveryHighlight').remove();
+}
+
+function updateConfirmColumn(){
+  const step=$('[data-content="4"]');if(!step)return;
+  let box=$('#ndCheckoutDeliveryTime');
+  if(!box){
+    box=document.createElement('div');box.id='ndCheckoutDeliveryTime';
+    box.innerHTML='<div class="nd-time-icon">🛵</div><div class="nd-time-copy"><small>PRAZO ESTIMADO</small><strong>Seu pedido fresquinho</strong></div><div class="nd-time-value">40 A 50<br>MINUTINHOS</div>';
+    const summary=step.querySelector('.nd-v4-summary');
+    if(summary)summary.insertAdjacentElement('afterend',box);else step.insertBefore(box,step.firstChild);
+  }
+}
+
+/* PIX: mantém chave/valor e cria aviso de segurança + botão para ir à etapa 4. */
+function upgradePix(){
+  const box=$('#ndPixBox');if(!box)return;
+  const key=box.querySelector('.nd-pix-key');if(key)key.textContent='11963973846';
+  const total=box.querySelector('#ndPixTotal');if(total && !total.textContent)total.textContent='R$ 0,00';
+  let safety=$('#ndPixSafetyBox');
+  if(!safety){
+    safety=document.createElement('div');safety.id='ndPixSafetyBox';
+    safety.innerHTML=`
+      <div class="nd-pix-alert-icon">⚠️ <b>ATENÇÃO PARA SUA SEGURANÇA</b></div>
+      <div class="nd-pix-warning">COPIE O PIX, MAS FAÇA O PAGAMENTO <span>APENAS APÓS A CONFIRMAÇÃO DO SEU PEDIDO.</span></div>
+      <div class="nd-pix-note">O pagamento não é feito pelo site. Confira o valor do seu pedido, efetue o PIX e, depois, conclua seu pedido aqui no site.</div>
+      <button type="button" class="nd-pix-paid" id="ndPixPaidBtn">✅ JÁ PAGUEI, CONCLUA MEU PEDIDO!</button>
+      <div class="nd-pix-security"><strong>🔒 PAGAMENTO FORA DO SITE</strong><br>Após efetuar o pagamento, volte aqui e finalize o pedido na etapa 4: CONFIRMAR.</div>`;
+    box.appendChild(safety);
+    $('#ndPixPaidBtn').addEventListener('click',()=>{
+      if(typeof window.ndSummary==='function')window.ndSummary();
+      if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('[data-content="4"]')?.classList.add('active');
+      const panel=$('#modalFinalizar .painel-finalizar');if(panel)panel.scrollTop=0;
+    });
+  }
+  const copyKey=box.querySelector('#ndPixCopy');if(copyKey)copyKey.textContent='📋 COPIAR PIX';
+  const copyVal=box.querySelector('#ndPixCopyValue');if(copyVal)copyVal.textContent='💰 COPIAR VALOR DO PEDIDO';
+}
+
+/* No passo 2, deixa apenas o resumo do endereço já escolhido no topo. */
+function patchStep2(){
+  const c=$('[data-content="2"]');if(!c)return;
+  let info=$('#ndTopCheckoutAddressSummary');
+  if(!info){
+    info=document.createElement('div');info.id='ndTopCheckoutAddressSummary';info.className='nd-v4-delivery-estimate';
+    const buttons=c.querySelector('.nd-v4-payment-grid'); if(buttons)buttons.insertAdjacentElement('afterend',info); else c.insertBefore(info,c.firstChild);
+  }
+  const a=addr();
+  info.innerHTML=a.type==='RETIRADA'?'🏪 <b>Retirada na loja:</b> seu pedido será preparado para você buscar no local.':'📍 <b>Endereço escolhido:</b> '+(a.street||'Selecione no campo do topo')+(a.number?', Nº '+a.number:'');
+}
+
+function keepTopOnly(){
+  $('#nd17Gate')?.classList.remove('show');
+  $('#nd17AddressBar')?.remove();
+  document.body.style.overflow='';
+  mirrorHidden();
 }
 
 function init(){
-  buildTopAddress();
-  updateTopAddress();
-  addDeliveryNote();
-  addReviewTime();
-  wirePix();
-  improveSearch();
-  bindObservers();
-  setTimeout(()=>{buildTopAddress();updateTopAddress();addDeliveryNote();addReviewTime();wirePix();improveSearch()},500);
-  setTimeout(()=>{buildTopAddress();updateTopAddress();addDeliveryNote();addReviewTime();wirePix();improveSearch()},1300);
+  buildTop();ensureDeliveryNotice();setupSearch();replaceDeliveryCopy();updateConfirmColumn();upgradePix();patchStep2();keepTopOnly();
+  setTimeout(()=>{buildTop();ensureDeliveryNotice();setupSearch();replaceDeliveryCopy();updateConfirmColumn();upgradePix();patchStep2();keepTopOnly()},600);
+  setTimeout(()=>{setupSearch();replaceDeliveryCopy();updateConfirmColumn();upgradePix();patchStep2();mirrorHidden()},1400);
 }
-
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-
-/* Atualiza o aviso do topo sempre que o cliente escolher Delivery/Retirada. */
-document.addEventListener('click',e=>{
-  const b=e.target.closest('#nd17GateSave,#nd17GatePickup,[data-type="ENTREGA"],[data-type="RETIRADA"]');
-  if(b)setTimeout(updateTopAddress,80);
+const mo=new MutationObserver(()=>{
+  if(!$('#ndTopOrderInfo'))buildTop();
+  ensureDeliveryNotice();
+  setupSearch();replaceDeliveryCopy();updateConfirmColumn();upgradePix();patchStep2();keepTopOnly();mirrorHidden();
 });
-
-/* A tela inicial não abre o modal de endereço automaticamente: o aviso do topo é o ponto único de entrada. */
-document.addEventListener('DOMContentLoaded',()=>{
-  setTimeout(()=>{
-    const gate=$('#nd17Gate');
-    if(gate && !localStorage.getItem('nd17_tipo')){gate.classList.remove('show');document.body.style.overflow='';}
-  },30);
-},{once:true});
-
-document.addEventListener('change',e=>{
-  if(e.target?.id==='tipoPedidoModal'||e.target?.id==='pagamentoModal'){
-    setTimeout(()=>{addReviewTime();wirePix();updateTopAddress()},30);
-  }
-});
+if(document.body)mo.observe(document.body,{childList:true,subtree:true});
 })();
 </script>
 
