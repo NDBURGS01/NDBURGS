@@ -5116,193 +5116,63 @@ function buildCheckout(){
  if(!panel)return;
  panel.innerHTML=`
   <div class="cabecalho-finalizar">
-```html
-<div><span style="color:#ff6a00;font-size:11px;font-weight:900">FINALIZAR PEDIDO</span><h2 style="margin-top:3px">QUASE LÁ 🍔</h2></div>
-<button class="btn-fechar-finalizar" onclick="fecharModalFinalizar()">×</button>
+    <div><span style="color:#ff6a00;font-size:11px;font-weight:900">FINALIZAR PEDIDO</span><h2 style="margin-top:3px">QUASE LÁ 🍔</h2></div>
+    <button class="btn-fechar-finalizar" onclick="fecharModalFinalizar()">×</button>
   </div>
-
   <div class="nd-v4-stepbar">
-   <div class="nd-v4-step active" data-step="1">1 • DADOS</div>
-   <div class="nd-v4-step" data-step="2">2 • ENTREGA</div>
-   <div class="nd-v4-step" data-step="3">3 • PAGAMENTO</div>
-   <div class="nd-v4-step" data-step="4">4 • CONFIRMAR</div>
+   <div class="nd-v4-step active" data-step="1">1 • DADOS</div><div class="nd-v4-step" data-step="2">2 • ENTREGA</div><div class="nd-v4-step" data-step="3">3 • PAGAMENTO</div><div class="nd-v4-step" data-step="4">4 • CONFIRMAR</div>
   </div>
-
   <div class="nd-v4-step-content active" data-content="1">
-    <label>Seu nome</label>
-    <input id="nomeModal" type="text" placeholder="Como podemos te chamar?">
-
-    <label>WhatsApp</label>
-    <input id="telefoneModal" type="tel" placeholder="(11) 99999-9999">
-
-    <div class="nd-v4-delivery-estimate" style="margin-top:14px">
-      🔒 <b>Seus dados ficam apenas para realizar seu pedido.</b>
-    </div>
-
-    <button class="nd-v4-next" type="button" onclick="ndNext(1)">
-      CONTINUAR →
-    </button>
+    <label>Seu nome</label><input id="nomeModal" type="text" placeholder="Como podemos te chamar?">
+    <label>WhatsApp</label><input id="telefoneModal" type="tel" placeholder="(11) 99999-9999">
+    <div class="nd-v4-delivery-estimate" style="margin-top:14px">🔒 <b>Seus dados ficam apenas para realizar seu pedido.</b></div>
+    <button class="nd-v4-next" type="button" onclick="ndNext(1)">CONTINUAR →</button>
   </div>
-
   <div class="nd-v4-step-content" data-content="2">
     <label>Como receber?</label>
-
     <div class="nd-v4-payment-grid" style="grid-template-columns:1fr 1fr;margin-bottom:12px">
-      <button type="button" class="nd-v4-pay active" data-type="ENTREGA" onclick="ndTipo('ENTREGA')">
-        🛵<br>DELIVERY
-      </button>
-
-      <button type="button" class="nd-v4-pay" data-type="RETIRADA" onclick="ndTipo('RETIRADA')">
-        🏪<br>RETIRADA
-      </button>
+      <button type="button" class="nd-v4-pay active" data-type="ENTREGA" onclick="ndTipo('ENTREGA')">🛵<br>DELIVERY</button>
+      <button type="button" class="nd-v4-pay" data-type="RETIRADA" onclick="ndTipo('RETIRADA')">🏪<br>RETIRADA</button>
     </div>
-
-    <select id="tipoPedidoModal" style="display:none">
-      <option value="ENTREGA">ENTREGA</option>
-      <option value="RETIRADA">RETIRADA</option>
-    </select>
-
+    <select id="tipoPedidoModal" style="display:none"><option value="ENTREGA">ENTREGA</option><option value="RETIRADA">RETIRADA</option></select>
     <div id="enderecoAreaModal">
       <label>Pesquise sua rua</label>
       <input id="ruaBuscaModal" type="search" autocomplete="off" placeholder="🔎 Digite o nome da rua">
-
-      <select id="ruaModal" onchange="calcularTaxaModal()">
-        <option value="">Selecione sua rua</option>
-      </select>
-
-      <label>Número</label>
-      <input id="numeroModal" type="text" placeholder="Número">
-
-      <label>Complemento <small>(opcional)</small></label>
-      <input id="complementoModal" type="text" placeholder="Casa, apto, bloco...">
-
+      <select id="ruaModal" onchange="calcularTaxaModal()"><option value="">Selecione sua rua</option></select>
+      <label>Número</label><input id="numeroModal" type="text" placeholder="Número">
+      <label>Complemento <small>(opcional)</small></label><input id="complementoModal" type="text" placeholder="Casa, apto, bloco...">
       <div id="avisoTaxaModal" class="aviso-taxa" style="display:none"></div>
     </div>
-
-    <div id="ndRetiradaInfo" style="display:none" class="nd-v4-delivery-estimate">
-      🏪 <b>Retirada no local</b><br>
-      Sem taxa de entrega.
-    </div>
-
-    <div class="nd-v4-delivery-estimate">
-      🕐 <b>Estimativa:</b> normalmente 30–50 minutos após a confirmação.
-    </div>
-
-    <button class="nd-v4-next" type="button" onclick="ndNext(2)">
-      CONTINUAR →
-    </button>
-
-    <button class="nd-v4-back" type="button" onclick="ndBack(2)">
-      ← VOLTAR
-    </button>
+    <div id="ndRetiradaInfo" style="display:none" class="nd-v4-delivery-estimate">🏪 <b>Retirada no local</b><br>Sem taxa de entrega.</div>
+    <div class="nd-v4-delivery-estimate">🕐 <b>Estimativa:</b> normalmente 30–50 minutos após a confirmação.</div>
+    <button class="nd-v4-next" type="button" onclick="ndNext(2)">CONTINUAR →</button>
+    <button class="nd-v4-back" type="button" onclick="ndBack(2)">← VOLTAR</button>
   </div>
-
   <div class="nd-v4-step-content" data-content="3">
-
     <label>Escolha o pagamento</label>
-
     <div class="nd-v4-payment-grid">
-      <button type="button" class="nd-v4-pay" data-pay="PIX" onclick="ndPay('PIX')">
-        💠<br>PIX
-      </button>
-
-      <button type="button" class="nd-v4-pay" data-pay="DINHEIRO" onclick="ndPay('DINHEIRO')">
-        💵<br>DINHEIRO
-      </button>
-
-      <button type="button" class="nd-v4-pay" data-pay="CARTÃO" onclick="ndPay('CARTÃO')">
-        💳<br>CARTÃO
-      </button>
+      <button type="button" class="nd-v4-pay" data-pay="PIX" onclick="ndPay('PIX')">💠<br>PIX</button>
+      <button type="button" class="nd-v4-pay" data-pay="DINHEIRO" onclick="ndPay('DINHEIRO')">💵<br>DINHEIRO</button>
+      <button type="button" class="nd-v4-pay" data-pay="CARTÃO" onclick="ndPay('CARTÃO')">💳<br>CARTÃO</button>
     </div>
-
-    <select id="pagamentoModal" style="display:none">
-      <option value="">Selecione</option>
-      <option value="PIX">PIX</option>
-      <option value="DINHEIRO">DINHEIRO</option>
-      <option value="CARTÃO">CARTÃO</option>
-    </select>
-
-    <div id="trocoAreaModal" style="display:none;margin-top:12px">
-      <label>Troco para quanto?</label>
-      <input id="trocoModal" type="number" step="0.01" placeholder="Ex.: 50">
-    </div>
-
-    <label style="margin-top:14px">
-      Observação <small>(opcional)</small>
-    </label>
-
+    <select id="pagamentoModal" style="display:none"><option value="">Selecione</option><option value="PIX">PIX</option><option value="DINHEIRO">DINHEIRO</option><option value="CARTÃO">CARTÃO</option></select>
+    <div id="trocoAreaModal" style="display:none;margin-top:12px"><label>Troco para quanto?</label><input id="trocoModal" type="number" step="0.01" placeholder="Ex.: 50"></div>
+    <label style="margin-top:14px">Observação <small>(opcional)</small></label>
     <textarea id="observacaoModal" placeholder="Ex.: sem cebola, tocar campainha..."></textarea>
-
-    <button class="nd-v4-next" type="button" onclick="ndNext(3)">
-      CONTINUAR →
-    </button>
-
-    <button class="nd-v4-back" type="button" onclick="ndBack(3)">
-      ← VOLTAR
-    </button>
+    <button class="nd-v4-next" type="button" onclick="ndNext(3)">REVISAR PEDIDO →</button>
+    <button class="nd-v4-back" type="button" onclick="ndBack(3)">← VOLTAR</button>
   </div>
-
-  <!-- =========================================
-       4 • CONFIRMAR — REVISÃO DO PEDIDO
-       ========================================= -->
-
   <div class="nd-v4-step-content" data-content="4">
-
-    <!-- BOTÃO DE DESTAQUE NO TOPO DA REVISÃO -->
-    <button class="nd-v4-finalizar-luz" type="button" onclick="finalizarPedidoModal()">
-      <span class="nd-finalizar-brilho"></span>
-
-      <span class="nd-finalizar-conteudo">
-        <strong>🔥 PEDIDO CONFERIDO!</strong>
-        <small>ENVIAR PARA PRODUÇÃO #NDBURGS →</small>
-      </span>
-    </button>
-
-    <!-- REVISÃO DO PEDIDO -->
+    <div class="nd-v4-summary"><div class="nd-v4-summary-title">Seu pedido</div><div id="ndV4Items"></div></div>
     <div class="nd-v4-summary">
-      <div class="nd-v4-summary-title">Seu pedido</div>
-      <div id="ndV4Items"></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><b id="ndV4Sub">R$ 0,00</b></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Taxa</span><b id="ndV4Fee">R$ 0,00</b></div>
+      <div style="display:flex;justify-content:space-between;align-items:end"><span style="font-weight:900">TOTAL</span><span id="ndV4Total" class="nd-v4-final-total">R$ 0,00</span></div>
     </div>
-
-    <!-- VALORES -->
-    <div class="nd-v4-summary">
-
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-        <span>Subtotal</span>
-        <b id="ndV4Sub">R$ 0,00</b>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-        <span>Taxa</span>
-        <b id="ndV4Fee">R$ 0,00</b>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:end">
-        <span style="font-weight:900">TOTAL</span>
-        <span id="ndV4Total" class="nd-v4-final-total">R$ 0,00</span>
-      </div>
-
-    </div>
-
-    <div class="nd-v4-note">
-      Ao confirmar, o pedido será aberto no WhatsApp da ND BURGS.
-      Depois que o WhatsApp abrir, o carrinho será limpo neste aparelho.
-    </div>
-
-    <!-- BOTÃO FINAL ORIGINAL -->
-    <button class="nd-v4-next" type="button" onclick="finalizarPedidoModal()">
-      🟢 ENVIAR PEDIDO PELO WHATSAPP
-    </button>
-
-    <button class="nd-v4-back" type="button" onclick="ndBack(4)">
-      ← VOLTAR
-    </button>
-
+    <div class="nd-v4-note">Ao confirmar, o pedido será aberto no WhatsApp da ND BURGS. Depois que o WhatsApp abrir, o carrinho será limpo neste aparelho.</div>
+    <button class="nd-v4-next" type="button" onclick="finalizarPedidoModal()">🟢 ENVIAR PEDIDO PELO WHATSAPP</button>
+    <button class="nd-v4-back" type="button" onclick="ndBack(4)">← VOLTAR</button>
   </div>`;
-```
-
-**Importante:** o botão laranja iluminado agora está **somente na 4 • CONFIRMAR**, no topo da revisão. A etapa 3 não tem mais o botão de envio.
-
  loadModalData(); ndFilterStreet();
 }
 function loadModalData(){
