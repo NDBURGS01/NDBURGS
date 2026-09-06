@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R23">
+<meta name="nd-site-version" content="20260905-R24">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R23";
+  const ND_SITE_VERSION = "20260905-R24";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -8284,5 +8284,272 @@ else{init();setTimeout(init,500);setTimeout(init,1200)}
 }
 @media(prefers-reduced-motion:reduce){#ndUvaPromo .r11-promo-copy button{transition:none !important}}
 </style>
+
+<!-- =========================================================
+     ND BURGS R24 — POSICIONAMENTO FINAL + MELHORIAS COMPLETAS
+     ========================================================= -->
+<style id="nd-r24-final-upgrades">
+/* POSIÇÕES EXATAS DOS DESTAQUES */
+#ndUvaPromo{
+  order:initial!important;
+}
+#ndR17FirstBuy{
+  order:initial!important;
+}
+
+/* títulos internos da categoria unificada */
+.nd-r24-subtitulo{
+  grid-column:1/-1;
+  margin:18px 0 2px;
+  padding:11px 13px;
+  border-left:4px solid #e50914;
+  border-radius:10px;
+  background:linear-gradient(90deg,rgba(229,9,20,.12),transparent);
+  color:#fff;
+  font-size:16px;
+  font-weight:1000;
+  letter-spacing:.2px;
+}
+.nd-r24-subtitulo small{
+  display:block;
+  color:#888;
+  font-size:10px;
+  margin-top:3px;
+  font-weight:700;
+}
+#ndR17FirstBuy.nd-r24-daily{
+  grid-column:1/-1!important;
+  width:100%!important;
+  margin:18px 0!important;
+}
+#ndUvaPromo.nd-r24-uva{
+  position:relative!important;
+}
+.nd-r24-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:5;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#e50914;
+  color:#fff;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.5px;
+  box-shadow:0 5px 15px rgba(229,9,20,.3);
+}
+.nd-r24-added{
+  position:fixed;
+  left:50%;
+  top:85px;
+  transform:translate(-50%,-15px);
+  opacity:0;
+  pointer-events:none;
+  z-index:100010;
+  padding:11px 16px;
+  border-radius:999px;
+  background:#25d366;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+  transition:.22s ease;
+}
+.nd-r24-added.show{opacity:1;transform:translate(-50%,0)}
+.nd-r24-search-empty{
+  display:none;
+  margin:14px 0;
+  padding:25px 15px;
+  text-align:center;
+  border:1px dashed #333;
+  border-radius:16px;
+  color:#999;
+}
+.nd-r24-quick-buy{
+  margin-top:8px!important;
+  min-height:44px!important;
+}
+@media(max-width:700px){
+  .nd-r24-subtitulo{font-size:14px;padding:10px 11px}
+  #ndR17FirstBuy.nd-r24-daily{margin:14px 0!important}
+}
+</style>
+<script id="nd-r24-final-logic">
+(function(){
+'use strict';
+
+function q(s){return document.querySelector(s)}
+function qa(s){return Array.from(document.querySelectorAll(s))}
+function norm(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
+
+/* 1) FORÇA AS DUAS PROMOÇÕES PARA OS LUGARES EXATOS */
+function placeHighlights(){
+  const artes=q('#artesanais');
+  const promo=q('#ndUvaPromo');
+  if(artes && promo){
+    artes.insertAdjacentElement('afterend',promo);
+    promo.classList.add('nd-r24-uva');
+  }
+
+  const sobrem=q('#sobremesas');
+  const daily=q('#ndR17FirstBuy');
+  if(!sobrem || !daily)return;
+
+  const grid=sobrem.querySelector('.produtos');
+  if(!grid)return;
+
+  /* encontra o ÚLTIMO milkshake: os cards possuem alt começando por MILKSHAKE
+     ou nomes conhecidos da linha de milkshakes */
+  const milkNames=['OVOMALTINE','OREO','PAÇOCA','NESQUIK','LEITE NINHO','DE AÇAÍ'];
+  const cards=Array.from(grid.querySelectorAll('.produto'));
+  let milkCards=cards.filter(c=>{
+    const alt=(c.querySelector('img')?.getAttribute('alt')||'').toUpperCase();
+    const name=norm(c.querySelector('h3')?.textContent);
+    return alt.includes('MILKSHAKE') || milkNames.includes(name);
+  });
+  let lastMilk=milkCards[milkCards.length-1];
+
+  if(lastMilk){
+    grid.appendChild(daily);
+    lastMilk.insertAdjacentElement('afterend',daily);
+  }else{
+    grid.appendChild(daily);
+  }
+  daily.classList.add('nd-r24-daily');
+}
+
+/* 2) ORGANIZA A CATEGORIA UNIFICADA EM AÇAÍ / MILKSHAKES / SOBREMESAS */
+function addSubgroups(){
+  const grid=q('#sobremesas .produtos');
+  if(!grid || grid.dataset.r24Groups==='1')return;
+  const cards=Array.from(grid.children).filter(x=>x.classList.contains('produto'));
+  if(!cards.length)return;
+
+  const title=c=>norm(c.querySelector('h3')?.textContent);
+  const insert=(beforeCard,text,sub)=>{
+    if(!beforeCard)return;
+    const el=document.createElement('div');
+    el.className='nd-r24-subtitulo';
+    el.innerHTML=text+(sub?'<small>'+sub+'</small>':'');
+    grid.insertBefore(el,beforeCard);
+  };
+
+  const acai=cards.find(c=>['AÇAÍ','CASADINHO','AÇAÍ TRUFFADO','TENTAÇÃO DE MORANGO','CREME DE CUPUAÇU'].includes(title(c)));
+  const milk=cards.find(c=>['OVOMALTINE','OREO','PAÇOCA','NESQUIK','LEITE NINHO','DE AÇAÍ'].includes(title(c)));
+  const sweets=cards.find(c=>['KITKAT','SURPRESA DE UVA'].includes(title(c)));
+
+  insert(acai,'🍧 AÇAÍS E CREMES','Monte seu tamanho e escolha seus acompanhamentos.');
+  insert(milk,'🥤 MILKSHAKES','Escolha seu sabor favorito.');
+  insert(sweets,'🍫 SOBREMESAS','Doces para completar o pedido.');
+
+  grid.dataset.r24Groups='1';
+}
+
+/* 3) DEIXA O CTA DA PROMOÇÃO COM BADGE */
+function promoBadge(){
+  const p=q('#ndUvaPromo');
+  if(p && !p.querySelector('.nd-r24-badge')){
+    const b=document.createElement('div');
+    b.className='nd-r24-badge';
+    b.textContent='🔥 OFERTA EXCLUSIVA';
+    p.appendChild(b);
+  }
+}
+
+/* 4) FEEDBACK VISUAL AO ADICIONAR */
+function addFeedback(){
+  if(q('.nd-r24-added'))return;
+  const el=document.createElement('div');
+  el.className='nd-r24-added';
+  el.id='ndR24Added';
+  el.textContent='✓ ADICIONADO AO CARRINHO';
+  document.body.appendChild(el);
+
+  document.addEventListener('click',function(e){
+    const b=e.target.closest('.btn-add,.nd-fx-add,#ndR17FirstBuyBtn,#ndUvaPromo button');
+    if(!b)return;
+    setTimeout(()=>{
+      el.classList.add('show');
+      clearTimeout(el._t);
+      el._t=setTimeout(()=>el.classList.remove('show'),1300);
+    },80);
+  },true);
+}
+
+/* 5) BOTÕES DOS PRODUTOS MAIS CLAROS */
+function improveButtons(){
+  qa('.produto .btn-add,.produto .nd-fx-add').forEach(b=>{
+    b.classList.add('nd-r24-quick-buy');
+    if(!b.dataset.r24Label){
+      const txt=norm(b.textContent);
+      if(txt==='ADICIONAR') b.setAttribute('aria-label','Adicionar produto ao carrinho');
+      else b.setAttribute('aria-label','Escolher e adicionar produto ao carrinho');
+      b.dataset.r24Label='1';
+    }
+  });
+}
+
+/* 6) BUSCA: estado vazio mais claro */
+function improveSearch(){
+  const input=q('#buscaProdutos');
+  if(!input || input.dataset.r24==='1')return;
+  input.dataset.r24='1';
+  const empty=document.createElement('div');
+  empty.className='nd-r24-search-empty';
+  empty.id='ndR24SearchEmpty';
+  empty.innerHTML='<strong>NÃO ENCONTRAMOS ESSE PRODUTO</strong><br><small>Tente outro nome ou escolha uma categoria acima.</small>';
+  input.closest('.modern-search')?.insertAdjacentElement('afterend',empty);
+
+  input.addEventListener('input',()=>{
+    const value=norm(input.value);
+    if(!value){empty.style.display='none';return}
+    const visible=qa('.produto').some(c=>c.style.display!=='none'&&!c.classList.contains('search-hidden'));
+    empty.style.display=visible?'none':'block';
+  });
+}
+
+/* 7) META/SEO básico sem alterar o conteúdo do catálogo */
+function seo(){
+  if(!q('meta[name="description"]')){
+    const m=document.createElement('meta');
+    m.name='description';
+    m.content='ND BURGS — peça hambúrgueres, combos, porções, pastéis, açaís, milkshakes, sobremesas e bebidas pelo site.';
+    document.head.appendChild(m);
+  }
+}
+
+/* 8) GARANTE UMA ÚNICA EXECUÇÃO SEGURA */
+function init(){
+  placeHighlights();
+  addSubgroups();
+  promoBadge();
+  addFeedback();
+  improveButtons();
+  improveSearch();
+  seo();
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,500);setTimeout(init,1400)});
+}else{
+  init();setTimeout(init,500);setTimeout(init,1400);
+}
+})();
+</script>
 </body>
 </html>
+
+<script id="nd-r25-remove-daily-product">
+(function(){
+  function removeDaily(){
+    var el=document.getElementById('ndR17FirstBuy');
+    if(el) el.remove();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', removeDaily);
+  removeDaily();
+  setTimeout(removeDaily,100);
+  setTimeout(removeDaily,500);
+  setTimeout(removeDaily,1200);
+  new MutationObserver(removeDaily).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
