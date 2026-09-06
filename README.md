@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R20">
+<meta name="nd-site-version" content="20260905-R21">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R20";
+  const ND_SITE_VERSION = "20260905-R21";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -23,6 +23,8 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://i.ibb.co" crossorigin>
+<link rel="dns-prefetch" href="//i.ibb.co">
 <title>ND BURGS | Faça seu pedido</title>
 
 <style>
@@ -566,7 +568,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 <style id="nd-r17-conversion">
 /* =========================================================
-   ND BURGS R19 — CONVERSÃO + FAVORITOS + PEDIR NOVAMENTE
+   ND BURGS R21 — CONVERSÃO + FAVORITOS + PEDIR NOVAMENTE
    + HORÁRIO REAL + PRIMEIRA COMPRA + NAVEGAÇÃO MOBILE
    ========================================================= */
 #ndR17FirstBuy{
@@ -703,6 +705,112 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   #ndR19Reviews .r19-grid{grid-template-columns:1fr}
 }
 </style>
+
+
+<!-- =========================================================
+     ND BURGS — RODADA 21 — TURBO DE FOTOS + PERFORMANCE
+     Não altera a lógica do cardápio/carrinho; apenas reduz
+     trabalho inicial, evita reatribuições de imagens e melhora
+     a prioridade de carregamento.
+     ========================================================= -->
+<style id="nd-r21-performance-css">
+  /* Renderização: deixa seções fora da tela mais leves sem esconder conteúdo. */
+  .categoria{content-visibility:auto;contain-intrinsic-size:700px;}
+  .produto{contain:layout paint;}
+  .produto-imagem{background:#09090b;contain:paint;}
+  /* Evita transições/efeitos caros enquanto a página ainda está carregando. */
+  html.nd-r21-boot .produto{transition:none!important;}
+  /* Skeleton discreto somente enquanto uma imagem ainda não terminou. */
+  img.nd-r21-pending{background:linear-gradient(110deg,#0b0b0d 8%,#17171b 18%,#0b0b0d 33%);background-size:200% 100%;animation:ndR21Shimmer 1.2s linear infinite;}
+  @keyframes ndR21Shimmer{to{background-position:-200% 0}}
+  @media(prefers-reduced-motion:reduce){img.nd-r21-pending{animation:none!important}}
+</style>
+<script id="nd-r21-performance-js">
+(function(){
+  'use strict';
+  if(window.__NDBURGS_R21__) return;
+  window.__NDBURGS_R21__=true;
+  const $all=(s,c=document)=>Array.from(c.querySelectorAll(s));
+  const HERO='https://i.ibb.co/nMmfSSt1/Chat-GPT-Image-28-de-jul-de-2026-22-33-11.png';
+
+  function tuneImages(){
+    const imgs=$all('img');
+    let productIndex=0;
+    imgs.forEach(img=>{
+      img.decoding='async';
+      const isHero=img.classList.contains('nd-v4-art-burger') || img.currentSrc===HERO || img.src===HERO;
+      if(isHero){
+        img.loading='eager';
+        img.fetchPriority='high';
+        img.setAttribute('fetchpriority','high');
+        return;
+      }
+      if(img.classList.contains('produto-imagem')){
+        /* Só as primeiras imagens realmente acima da dobra têm prioridade alta. */
+        if(productIndex<4){
+          img.loading='eager';
+          img.fetchPriority='high';
+          img.setAttribute('fetchpriority','high');
+        }else{
+          img.loading='lazy';
+          img.fetchPriority='low';
+          img.setAttribute('fetchpriority','low');
+        }
+        productIndex++;
+      }else if(!img.closest('header') && !img.hasAttribute('loading')){
+        img.loading='lazy';
+        img.fetchPriority='low';
+        img.setAttribute('fetchpriority','low');
+      }
+      if(img.loading==='lazy') img.classList.add('nd-r21-pending');
+      if(!img.dataset.ndR21Bound){
+        img.dataset.ndR21Bound='1';
+        img.addEventListener('load',()=>img.classList.remove('nd-r21-pending'),{once:true,passive:true});
+        img.addEventListener('error',()=>img.classList.remove('nd-r21-pending'),{once:true,passive:true});
+      }
+    });
+  }
+
+  function preventPhotoReassignment(){
+    /* A R16 reaplica PHOTO_MAP. Não fazemos nova requisição quando a URL já é a mesma. */
+    $all('.produto').forEach(card=>{
+      const img=card.querySelector('img.produto-imagem');
+      if(!img || img.dataset.ndR21SrcGuard) return;
+      img.dataset.ndR21SrcGuard='1';
+      let last=img.getAttribute('src')||'';
+      const desc=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');
+      if(!desc || !desc.set || !desc.get) return;
+      Object.defineProperty(img,'src',{configurable:true,enumerable:desc.enumerable,get(){return desc.get.call(this)},set(v){
+        if(String(v||'')===last) return;
+        last=String(v||'');
+        desc.set.call(this,v);
+      }});
+    });
+  }
+
+  function preloadCritical(){
+    if(document.head.querySelector('link[data-nd-r21-hero]')) return;
+    const l=document.createElement('link');
+    l.rel='preload';l.as='image';l.href=HERO;l.setAttribute('fetchpriority','high');l.dataset.ndR21Hero='1';
+    document.head.appendChild(l);
+  }
+
+  function boot(){
+    document.documentElement.classList.add('nd-r21-boot');
+    preloadCritical();
+    tuneImages();
+    preventPhotoReassignment();
+    requestAnimationFrame(()=>document.documentElement.classList.remove('nd-r21-boot'));
+    /* Camadas antigas podem criar imagens depois do carregamento. */
+    setTimeout(tuneImages,120);
+    setTimeout(preventPhotoReassignment,250);
+    setTimeout(tuneImages,900);
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
+  else boot();
+})();
+</script>
 
 </head>
 
@@ -7669,7 +7777,7 @@ const PHOTO_MAP={
  'SURPRESA DE UVA':'https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png'
 };
 function applyPhotos(){
- $$('.produto').forEach(card=>{const name=norm(card.querySelector('h3')?.textContent);const src=PHOTO_MAP[name];if(!src)return;let img=card.querySelector('img.produto-imagem');if(!img){img=document.createElement('img');img.className='produto-imagem';img.loading='lazy';img.decoding='async';card.insertBefore(img,card.firstChild)}img.src=src;img.alt=name;});
+ $$('.produto').forEach(card=>{const name=norm(card.querySelector('h3')?.textContent);const src=PHOTO_MAP[name];if(!src)return;let img=card.querySelector('img.produto-imagem');if(!img){img=document.createElement('img');img.className='produto-imagem';img.loading='lazy';img.decoding='async';card.insertBefore(img,card.firstChild)}if(img.getAttribute('src')!==src)img.src=src;img.alt=name;});
  const promo=$('#ndUvaPromo img');if(promo)promo.src=PHOTO_MAP['SURPRESA DE UVA'];
 }
 
