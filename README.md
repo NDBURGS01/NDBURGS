@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260906-R27">
+<meta name="nd-site-version" content="20260906-R26">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260906-R27";
+  const ND_SITE_VERSION = "20260906-R26";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -9025,20 +9025,26 @@ if(document.readyState==='loading'){
 #ndV4SingleAddressSummary strong{color:#fff;font-size:13px}
 #ndV4SingleAddressSummary button{margin-top:8px;border:1px solid #283c60;background:#111827;color:#cfe2ff;border-radius:9px;padding:7px 10px;font-weight:900;cursor:pointer}
 
-/* Aviso minimalista de prazo — dentro do campo PAGAMENTO. */
-#nd26PaymentDeliveryMini{margin:10px 0 12px;padding:8px 10px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:rgba(255,255,255,.035);color:#9ea2aa;font-size:10px;line-height:1.45;text-align:left}
-#nd26PaymentDeliveryMini b{color:#e8e8eb;font-weight:900}
-#nd26PaymentDeliveryMini span{color:#b9bdc6}
+/* Aviso minimalista de prazo dentro do checkout. */
+#nd26DeliveryMini{margin:12px 0 0;padding:9px 11px;border:1px solid rgba(75,147,255,.20);border-radius:10px;background:rgba(32,40,58,.4);color:#aebbd0;font-size:10px;line-height:1.45}
+#nd26DeliveryMini b{color:#eaf2ff}
 
 /* PIX: aviso de segurança + CTA de pagamento. */
-#ndPixAttention{margin:12px 0 10px;padding:14px 13px;border:1px solid rgba(255,74,74,.55);border-radius:15px;background:radial-gradient(circle at 10% 10%,rgba(255,64,64,.12),transparent 34%),linear-gradient(145deg,#210d0f,#12090b);box-shadow:0 8px 24px rgba(0,0,0,.25)}
-#ndPixAttention .nd26-attn-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;background:#351317;border:1px solid #7a2730;color:#ff9ca2;font-size:10px;font-weight:1000;letter-spacing:1px}
-#ndPixAttention .nd26-attn-big{margin-top:9px;font-size:clamp(20px,4vw,31px);line-height:1.02;font-weight:1000;letter-spacing:-.8px;color:#fff}
-#ndPixAttention .nd26-attn-big span{color:#ff626b}
-#ndPixAttention p{margin-top:8px;color:#d1bfc2;font-size:11px;line-height:1.5}
-#ndPixSafe{margin:9px 0 0;padding:10px 11px;border-left:3px solid #ff5b65;border-radius:9px;background:rgba(255,255,255,.035);color:#c9c9d0;font-size:10px;line-height:1.5}
-#nd26AlreadyPaid{width:100%;margin-top:11px;min-height:52px;border:1px solid rgba(83,196,255,.75);border-radius:13px;background:linear-gradient(135deg,#0f66d8,#5139ff);color:#fff;font-size:13px;font-weight:1000;letter-spacing:.2px;cursor:pointer;box-shadow:0 0 22px rgba(44,121,255,.22),0 10px 26px rgba(0,0,0,.35);transition:.18s ease}
-#nd26AlreadyPaid:hover{transform:translateY(-1px);filter:brightness(1.08)}
+#ndPixAttention{margin:16px 0 12px;padding:20px 17px;border:2px solid #ff3038;border-radius:18px;background:radial-gradient(circle at 10% 5%,rgba(255,48,56,.24),transparent 38%),radial-gradient(circle at 90% 95%,rgba(255,140,0,.13),transparent 38%),linear-gradient(145deg,#2b090c,#100708);box-shadow:0 12px 35px rgba(0,0,0,.45),0 0 28px rgba(229,9,20,.13);position:relative;overflow:hidden}
+#ndPixAttention:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#ff3038,#ff8a00,#ff3038);box-shadow:0 0 18px rgba(255,48,56,.7)}
+#ndPixAttention .nd26-attn-badge{display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;padding:8px 13px;border-radius:999px;background:#4a1015;border:1px solid #ff4d57;color:#fff;font-size:13px;font-weight:1000;letter-spacing:1.4px;box-shadow:0 0 18px rgba(255,48,56,.18)}
+#ndPixAttention .nd26-attn-big{margin-top:13px;font-size:clamp(25px,5.3vw,43px);line-height:1.01;font-weight:1000;letter-spacing:-1.1px;color:#fff;text-transform:uppercase;text-shadow:0 4px 18px rgba(0,0,0,.55)}
+#ndPixAttention .nd26-attn-big span{color:#ff4d57;text-shadow:0 0 18px rgba(255,48,56,.22)}
+#ndPixAttention p{margin-top:12px;color:#eee0e2;font-size:13px;font-weight:800;line-height:1.5}
+#ndPixSafe{margin:13px 0 0;padding:13px 14px;border:1px solid rgba(255,255,255,.13);border-left:5px solid #ffd166;border-radius:11px;background:rgba(0,0,0,.28);color:#fff;font-size:12px;line-height:1.55;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+#ndPixSafe:before{content:"🛡️";font-size:19px;margin-right:7px;vertical-align:-2px}
+#ndPixSafe strong{color:#ffd166;font-size:13px}
+#nd26AlreadyPaid{width:100%;margin-top:13px;min-height:62px;border:2px solid #61c8ff;border-radius:15px;background:linear-gradient(135deg,#0879ff,#4d35ff);color:#fff;font-size:clamp(14px,3vw,18px);font-weight:1000;letter-spacing:.3px;cursor:pointer;box-shadow:0 0 28px rgba(44,121,255,.30),0 12px 30px rgba(0,0,0,.42);transition:.18s ease;position:relative;overflow:hidden}
+#nd26AlreadyPaid:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.25) 50%,transparent 75%);transform:translateX(-110%);animation:ndPixPaidSweep 2.8s linear infinite}
+#nd26AlreadyPaid:hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 0 34px rgba(44,121,255,.38),0 14px 32px rgba(0,0,0,.45)}
+#nd26AlreadyPaid:active{transform:scale(.985)}
+@keyframes ndPixPaidSweep{0%{transform:translateX(-110%)}60%,100%{transform:translateX(110%)}}
+@media(max-width:600px){#ndPixAttention{padding:18px 14px}#ndPixAttention .nd26-attn-big{font-size:clamp(24px,7.5vw,34px)}#ndPixAttention p{font-size:12px}#ndPixSafe{font-size:11px}#nd26AlreadyPaid{min-height:64px;font-size:14px}}
 #ndPixBox .nd-pix-copy,#ndPixCopyValue{min-height:48px!important}
 
 /* Botão da etapa 3 renomeado. */
@@ -9161,7 +9167,7 @@ function patchCheckout(){
  if(typeof original!=='function'||original.__nd26)return;
  const wrapped=function(){
    const r=original.apply(this,arguments);
-   setTimeout(()=>{syncCheckoutAddr();decorateStep2();decoratePaymentDelivery();decoratePix();renameReview();addressSummary()},0);
+   setTimeout(()=>{syncCheckoutAddr();decorateStep2();decoratePix();renameReview();addressSummary()},0);
    return r;
  };
  wrapped.__nd26=true;wrapped.__nd26Original=original;window.buildCheckout=wrapped;
@@ -9170,18 +9176,8 @@ function decorateStep2(){
  const step=$('#modalFinalizar .nd-v4-step-content[data-content="2"]');if(!step)return;
  ['#enderecoAreaModal','#ndRetiradaInfo'].forEach(sel=>{const x=$(sel);if(x)x.style.display='none'});
  let box=$('#ndV4SingleAddressSummary');if(!box){box=document.createElement('div');box.id='ndV4SingleAddressSummary';step.insertBefore(box,step.querySelector('.nd-v4-next'))}
+ if(!$('#nd26DeliveryMini')){const m=document.createElement('div');m.id='nd26DeliveryMini';m.innerHTML='🕐 <b>Tempo de entrega:</b> 40 a 50 minutinhos para o seu pedido chegar fresquinho na sua residência.';box.insertAdjacentElement('afterend',m)}
  syncCheckoutAddr();addressSummary();
-}
-function decoratePaymentDelivery(){
- const step=$('#modalFinalizar .nd-v4-step-content[data-content="3"]');if(!step)return;
- let note=$('#nd26PaymentDeliveryMini');
- const paymentGrid=step.querySelector('.nd-v4-payment-grid');
- if(!note && paymentGrid){
-   note=document.createElement('div');
-   note.id='nd26PaymentDeliveryMini';
-   note.innerHTML='🕐 <b>Tempo de entrega: 40 a 50 minutinhos.</b> <span>Preparamos tudo com carinho para seu pedido chegar fresquinho na sua residência.</span>';
-   paymentGrid.insertAdjacentElement('beforebegin',note);
- }
 }
 function renameReview(){const b=$('#modalFinalizar .nd-v4-step-content[data-content="3"] .nd-v4-next');if(b){b.id='nd26ReviewButton';b.textContent='CONCLUIR PEDIDO AGORA →'}}
 function pixTotal(){
@@ -9191,11 +9187,11 @@ function pixTotal(){
 function decoratePix(){
  const step=$('#modalFinalizar .nd-v4-step-content[data-content="3"]'),box=$('#ndPixBox');if(!step||!box)return;
  if(!$('#ndPixAttention')){
-  const d=document.createElement('div');d.id='ndPixAttention';d.innerHTML='<div class="nd26-attn-badge">⚠️ ATENÇÃO</div><div class="nd26-attn-big">ATENÇÃO: COPIE O PIX, FAÇA O PAGAMENTO E <span>RETORNE AQUI NO SITE</span> E CLIQUE EM FINALIZAR PEDIDO!</div><p>Copie a chave PIX, faça o pagamento e retorne para esta etapa para concluir seu pedido.</p><div id="ndPixSafe">🛡️ <strong>ATENÇÃO PARA SUA SEGURANÇA:</strong> o pagamento não é feito pelo site. Então, após efetuar o pagamento, finalize o seu pedido aqui no site.</div></div>';
+  const d=document.createElement('div');d.id='ndPixAttention';d.innerHTML='<div class="nd26-attn-badge">⚠️ ATENÇÃO</div><div class="nd26-attn-big">ATENÇÃO: COPIE O PIX, FAÇA O PAGAMENTO E <span>RETORNE AQUI NO SITE</span> E CLIQUE EM FINALIZAR PEDIDO!</div><p>Depois de efetuar o pagamento, retorne aqui no site e clique em “JÁ PAGUEI • CONCLUA MEU PEDIDO”.</p><div id="ndPixSafe"><strong>ATENÇÃO PARA SUA SEGURANÇA:</strong> O PAGAMENTO NÃO É FEITO PELO SITE. ENTÃO, APÓS EFETUAR O PAGAMENTO, FINALIZE O SEU PEDIDO AQUI NO SITE.</div></div>';
   box.insertAdjacentElement('afterend',d);
  }
  if(!$('#nd26AlreadyPaid')){
-  const b=document.createElement('button');b.id='nd26AlreadyPaid';b.type='button';b.textContent='✅ JÁ PAGUEI • CONCLUA MEU PEDIDO!';b.onclick=()=>{if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]')?.click();};
+  const b=document.createElement('button');b.id='nd26AlreadyPaid';b.type='button';b.textContent='✅ JÁ PAGUEI • CONCLUA MEU PEDIDO → ETAPA 4';b.onclick=()=>{if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]')?.click();};
   $('#ndPixAttention').insertAdjacentElement('afterend',b);
  }
  const pay=$('#pagamentoModal');
@@ -9227,10 +9223,10 @@ function buildSuperOffer(){
  $('#nd26OfferBtn').onclick=()=>{if(typeof window.adicionar==='function'){window.adicionar(d.name,offerPrice)}};
 }
 function init(){
- buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();decoratePaymentDelivery();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();
+ buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();
  syncCheckoutAddr();
- setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();decoratePaymentDelivery();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},500);
- setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();decorateStep2();decoratePaymentDelivery();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},1300);
+ setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},500);
+ setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},1300);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
