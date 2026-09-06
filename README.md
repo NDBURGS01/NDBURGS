@@ -6392,7 +6392,170 @@ header .logo{display:none!important}
  function openGateIfNeeded(){if(!localStorage.getItem('nd17_tipo'))showGate();else{ensureMainForms();updateBar();cartTotalSync()}}
  function patchOpenCart(){if(window.__nd17Cart)return;const old=window.abrirCarrinho;if(typeof old!=='function')return;window.abrirCarrinho=function(){ensureMainForms();const r=old.apply(this,arguments);setTimeout(cartTotalSync,30);return r};window.__nd17Cart=true}
  function patchBuildCheckout(){if(typeof window.buildCheckout==='function'&&!window.buildCheckout.__nd17){const old=window.buildCheckout;window.buildCheckout=function(){const r=old.apply(this,arguments);setTimeout(()=>{ensureMainForms();cartTotalSync();setupAutocomplete();bindFinishButton()},20);return r};window.buildCheckout.__nd17=true}}
- function bindFinishButton(){const btn=$('#modalFinalizar button[onclick*="finalizarPedidoModal"]');if(btn){btn.textContent='CONCLUIR PEDIDO E ENVIAR PARA NDBURGS';btn.onclick=ndFinish}}
+function bindFinishButton(){
+    const btn = $('#modalFinalizar button[onclick*="finalizarPedidoModal"]');
+
+    if(btn){
+        btn.textContent = '✓ CONFERI E ESTÁ CORRETO — ENVIAR PARA PRODUÇÃO';
+        btn.onclick = ndFinish;
+
+        btn.classList.add('nd-btn-producao');
+
+        // Evita duplicar o CSS
+        if(!document.getElementById('nd-btn-producao-style')){
+            const style = document.createElement('style');
+            style.id = 'nd-btn-producao-style';
+
+            style.textContent = `
+                .nd-btn-producao{
+                    position:relative !important;
+                    width:100% !important;
+                    min-height:64px !important;
+
+                    display:flex !important;
+                    align-items:center !important;
+                    justify-content:center !important;
+
+                    padding:16px 22px !important;
+
+                    border:0 !important;
+                    border-radius:18px !important;
+
+                    background:
+                        linear-gradient(
+                            180deg,
+                            #39ff88 0%,
+                            #14d968 45%,
+                            #08a94c 100%
+                        ) !important;
+
+                    color:#061b0e !important;
+
+                    font-size:16px !important;
+                    font-weight:1000 !important;
+                    letter-spacing:.2px !important;
+                    line-height:1.15 !important;
+                    text-align:center !important;
+
+                    cursor:pointer !important;
+
+                    box-shadow:
+                        0 7px 0 #057335,
+                        0 12px 24px rgba(0,255,110,.35),
+                        inset 0 2px 0 rgba(255,255,255,.65),
+                        inset 0 -5px 10px rgba(0,70,30,.20) !important;
+
+                    transform:translateY(0);
+                    transition:
+                        transform .12s ease,
+                        box-shadow .12s ease,
+                        filter .15s ease;
+
+                    overflow:hidden !important;
+
+                    animation:ndProducaoPulse 2s infinite;
+                }
+
+                /* BRILHO PASSANDO PELO BOTÃO */
+                .nd-btn-producao::before{
+                    content:"";
+                    position:absolute;
+                    top:-40%;
+                    left:-80%;
+
+                    width:45%;
+                    height:180%;
+
+                    background:linear-gradient(
+                        90deg,
+                        transparent,
+                        rgba(255,255,255,.75),
+                        transparent
+                    );
+
+                    transform:skewX(-20deg);
+
+                    animation:ndProducaoShine 3s infinite;
+                    pointer-events:none;
+                }
+
+                /* PEQUENO EFEITO DE BORDA */
+                .nd-btn-producao::after{
+                    content:"";
+                    position:absolute;
+                    inset:3px;
+
+                    border:1px solid rgba(255,255,255,.35);
+                    border-radius:15px;
+
+                    pointer-events:none;
+                }
+
+                .nd-btn-producao:hover{
+                    filter:brightness(1.08);
+                    transform:translateY(-2px);
+
+                    box-shadow:
+                        0 9px 0 #057335,
+                        0 16px 30px rgba(0,255,110,.45),
+                        inset 0 2px 0 rgba(255,255,255,.7),
+                        inset 0 -5px 10px rgba(0,70,30,.20) !important;
+                }
+
+                .nd-btn-producao:active{
+                    transform:translateY(6px) !important;
+
+                    box-shadow:
+                        0 1px 0 #057335,
+                        0 5px 12px rgba(0,255,110,.25),
+                        inset 0 3px 8px rgba(0,70,30,.25) !important;
+
+                    animation:none;
+                }
+
+                @keyframes ndProducaoPulse{
+                    0%,100%{
+                        box-shadow:
+                            0 7px 0 #057335,
+                            0 12px 24px rgba(0,255,110,.30),
+                            inset 0 2px 0 rgba(255,255,255,.65),
+                            inset 0 -5px 10px rgba(0,70,30,.20);
+                    }
+
+                    50%{
+                        box-shadow:
+                            0 7px 0 #057335,
+                            0 12px 32px rgba(0,255,110,.60),
+                            0 0 10px rgba(70,255,150,.35),
+                            inset 0 2px 0 rgba(255,255,255,.65),
+                            inset 0 -5px 10px rgba(0,70,30,.20);
+                    }
+                }
+
+                @keyframes ndProducaoShine{
+                    0%{
+                        left:-80%;
+                    }
+
+                    55%,100%{
+                        left:140%;
+                    }
+                }
+
+                @media(max-width:480px){
+                    .nd-btn-producao{
+                        min-height:68px !important;
+                        padding:14px 16px !important;
+                        font-size:14px !important;
+                        border-radius:17px !important;
+                    }
+                }
+            `;
+
+            document.head.appendChild(style);
+        }
+    }
+}
  function ndFinish(){
    if(!cart().length)return alert('Seu carrinho está vazio.');
    const nome=$('#nomeModal')?.value.trim()||'', tel=$('#telefoneModal')?.value.trim()||'', tipo=$('#tipoPedidoModal')?.value||'ENTREGA', rua=$('#ruaModal')?.value||'', numero=$('#numeroModal')?.value.trim()||'', comp=$('#complementoModal')?.value.trim()||'', pagamento=$('#pagamentoModal')?.value||'', troco=$('#trocoModal')?.value||'', obs=$('#observacaoModal')?.value.trim()||'';
