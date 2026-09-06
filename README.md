@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260905-R21">
+<meta name="nd-site-version" content="20260905-R23">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260905-R21";
+  const ND_SITE_VERSION = "20260905-R23";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -704,6 +704,27 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 </style>
 
+
+
+<style id="nd-r23-menu-desserts-upgrade">
+/* ND BURGS R23 — categoria unificada + ofertas em posições estratégicas */
+#sobremesas .categoria-titulo{
+  font-size:clamp(20px,3vw,28px)!important;
+  line-height:1.15!important;
+}
+#ndUvaPromo{
+  scroll-margin-top:110px;
+}
+#ndR17FirstBuy{
+  scroll-margin-top:110px;
+}
+@media(max-width:700px){
+  #sobremesas .categoria-titulo{
+    font-size:19px!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -806,7 +827,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </button>
 
 <button class="categoria-btn" onclick="irPara('sobremesas')">
-🍓 SOBREMESAS
+🍨 AÇAÍS - MILKSHAKES E SOBREMESAS
 </button>
 
 <button class="categoria-btn" onclick="irPara('adicionais')">
@@ -1169,82 +1190,49 @@ ESCOLHER SABOR
 </div>
 </section>
 
-<section id="acai" class="categoria">
+<section id="sobremesas" class="categoria">
 
 <div class="categoria-titulo">
-🥤 AÇAÍ
+🍨 AÇAÍS - MILKSHAKES E SOBREMESAS
 </div>
 
 <div class="produtos">
 
 <div class="produto">
-
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/Kxj5h5Km/Chat-GPT-Image-28-07-2026-18-32-28.png" alt="AÇAÍ">
-
 <h3>AÇAÍ</h3>
-
 <p>Escolha o tamanho e seus acompanhamentos.</p>
-
 <div class="preco">A partir de R$ 11,90</div>
-
-<button class="btn btn-add" onclick="abrirPersonalizacao('acai')">
-ESCOLHER
-</button>
-
+<button class="btn btn-add" onclick="abrirPersonalizacao('acai')">ESCOLHER</button>
 </div>
 
 <div class="produto">
-
 <h3>CASADINHO</h3>
-
-<p>Açaí casadinho.</p>
-
-<div class="preco">R$ 11,90</div>
-
-<button class="btn btn-add" onclick="abrirPersonalizacao('casadinho')">
-ESCOLHER
-</button>
-
+<p>Uma combinação cremosa de açaí e creme de cupuaçu.</p>
+<div class="preco">A partir de R$ 11,90</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('casadinho')">ESCOLHER</button>
 </div>
 
 <div class="produto">
-
 <h3>AÇAÍ TRUFFADO</h3>
-
 <p>Açaí truffado especial.</p>
-
 <div class="preco">A partir de R$ 26,00</div>
-
-<button class="btn btn-add" onclick="abrirPersonalizacao('truffado')">
-ESCOLHER
-</button>
-
+<button class="btn btn-add" onclick="abrirPersonalizacao('truffado')">ESCOLHER</button>
 </div>
 
 <div class="produto">
-
 <h3>TENTAÇÃO DE MORANGO</h3>
-
 <p>Açaí com combinação especial de morango.</p>
-
 <div class="preco">A partir de R$ 18,00</div>
-
-<button class="btn btn-add" onclick="abrirPersonalizacao('tentacao')">
-ESCOLHER
-</button>
-
+<button class="btn btn-add" onclick="abrirPersonalizacao('tentacao')">ESCOLHER</button>
 </div>
 
+<div class="produto">
+<h3>CREME DE CUPUAÇU</h3>
+<p>Escolha o tamanho e os mesmos acompanhamentos do açaí.</p>
+<div class="preco">A partir de R$ 11,90</div>
+<button class="btn btn-add" onclick="abrirPersonalizacao('cupuaçu')">ESCOLHER</button>
 </div>
-</section>
-
-<section id="milkshakes" class="categoria">
-
-<div class="categoria-titulo">
-🥤 MILKSHAKES
-</div>
-
-<div class="produtos">
 
 <div class="produto">
 <img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/PZD2DtDq/MILKSHAKE-DE-OVOMALTINE.png" alt="MILKSHAKE OVOMALTINE">
@@ -1292,6 +1280,22 @@ ESCOLHER
 <p>Milkshake de açaí.</p>
 <div class="preco">A partir de R$ 15,00</div>
 <button class="btn btn-add" onclick="abrirPersonalizacao('milkAcai')">ESCOLHER</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/ksyxPyr2/Chat-GPT-Image-26-06-2026-00-10-12.png" alt="KITKAT">
+<h3>KITKAT</h3>
+<p>Doce especial.</p>
+<div class="preco">R$ 7,00</div>
+<button class="btn btn-add" onclick="adicionar('KITKAT',7)">ADICIONAR</button>
+</div>
+
+<div class="produto">
+<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="SURPRESA DE UVA">
+<h3>SURPRESA DE UVA</h3>
+<p>Sobremesa especial.</p>
+<div class="preco">R$ 12,00</div>
+<button class="btn btn-add" onclick="adicionar('SURPRESA DE UVA',12)">ADICIONAR</button>
 </div>
 
 </div>
@@ -1395,49 +1399,6 @@ ESCOLHER
 <p>Refrigerante.</p>
 <div class="preco">R$ 9,00</div>
 <button class="btn btn-add" onclick="adicionar('DOLLY 2 LITROS GUARANÁ',9)">ADICIONAR</button>
-</div>
-
-</div>
-</section>
-
-<section id="sobremesas" class="categoria">
-
-<div class="categoria-titulo">
-🍓 SOBREMESAS
-</div>
-
-<div class="produtos">
-
-<div class="produto">
-
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/ksyxPyr2/Chat-GPT-Image-26-06-2026-00-10-12.png" alt="KITKAT">
-
-<h3>KITKAT</h3>
-
-<p>Doce especial.</p>
-
-<div class="preco">R$ 7,00</div>
-
-<button class="btn btn-add" onclick="adicionar('KITKAT',7)">
-ADICIONAR
-</button>
-
-</div>
-
-<div class="produto">
-
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="SURPRESA DE UVA">
-
-<h3>SURPRESA DE UVA</h3>
-
-<p>Sobremesa especial.</p>
-
-<div class="preco">R$ 12,00</div>
-
-<button class="btn btn-add" onclick="adicionar('SURPRESA DE UVA',12)">
-ADICIONAR
-</button>
-
 </div>
 
 </div>
@@ -2306,9 +2267,65 @@ acompanhamentos:[
 casadinho:{
 titulo:"CASADINHO",
 tamanhos:[
-["200ML",11.90]
+["200ML",11.90],
+["300ML",15.00],
+["400ML",18.00],
+["700ML",32.00]
 ],
-acompanhamentos:[]
+acompanhamentos:[
+["CALDA DE MORANGO",0],
+["CALDA DE CHOCOLATE",0],
+["LEITE CONDENSADO",0],
+["PAÇOCA",0],
+["OREO",0],
+["CONFETE",0],
+["OVOMALTINE",0],
+["NESQUIK",0],
+["NUTELLA",5],
+["SUCRILHOS",0],
+["GRANOLA",0],
+["MORANGO",0],
+["MANGA",0],
+["BANANA",0],
+["LEITE EM PÓ",0],
+["KIT KAT",3],
+["CHOCOBALL",0],
+["DOCE DE LEITE",0],
+["CREME DE NINHO",3],
+["KIWI",0]
+]
+},
+
+cupuaçu:{
+titulo:"CREME DE CUPUAÇU",
+tamanhos:[
+["200ML",11.90],
+["300ML",15.00],
+["400ML",18.00],
+["700ML",32.00]
+],
+acompanhamentos:[
+["CALDA DE MORANGO",0],
+["CALDA DE CHOCOLATE",0],
+["LEITE CONDENSADO",0],
+["PAÇOCA",0],
+["OREO",0],
+["CONFETE",0],
+["OVOMALTINE",0],
+["NESQUIK",0],
+["NUTELLA",5],
+["SUCRILHOS",0],
+["GRANOLA",0],
+["MORANGO",0],
+["MANGA",0],
+["BANANA",0],
+["LEITE EM PÓ",0],
+["KIT KAT",3],
+["CHOCOBALL",0],
+["DOCE DE LEITE",0],
+["CREME DE NINHO",3],
+["KIWI",0]
+]
 },
 
 truffado:{
@@ -6105,8 +6122,8 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     if(document.getElementById('nd15NavWrap')) return;
     var sections=Array.prototype.slice.call(document.querySelectorAll('section.categoria'));
     if(!sections.length) return;
-    var names=['Combos','Tradicionais','Artesanais','Combos Artesanais','Porções','Pastéis','Açaí','Milkshakes','Bebidas','Sobremesas','Adicionais'];
-    var icons=['❤️','🍔','🔥','🔥','🍟','🥟','🥤','🥤','🥤','🍓','➕'];
+    var names=['Combos','Tradicionais','Artesanais','Combos Artesanais','Porções','Pastéis','Açaís - Milkshakes e Sobremesas','Bebidas','Adicionais'];
+    var icons=['❤️','🍔','🔥','🔥','🍟','🥟','🍨','🥤','➕'];
     var used=[], nav=document.createElement('div'); nav.id='nd15NavWrap';
     var bar=document.createElement('nav'); bar.id='nd15Nav'; bar.setAttribute('aria-label','Categorias do cardápio');
     sections.forEach(function(sec,i){
@@ -6857,7 +6874,7 @@ function renderBest(){
 }
 function buildQuickNav(){
  if($('#nd20QuickNav'))return;const menu=$('.categoria-menu');if(!menu)return;const wrap=document.createElement('div');wrap.id='nd20QuickNav';wrap.innerHTML='<div id="nd20QuickCats"></div><button id="nd20Finish" type="button">FINALIZAR PEDIDO →</button>';menu.parentNode.insertBefore(wrap,menu);
- const cats=$$('.categoria');const names=['COMBOS','TRADICIONAIS','ARTESANAIS','COMBOS ARTESANAIS','PORÇÕES','PASTÉIS','AÇAÍ','MILKSHAKES','BEBIDAS','SOBREMESAS','ADICIONAIS'];const icons=['❤️','🍔','🔥','🔥','🍟','🥟','🥤','🥤','🥤','🍓','➕'];const box=$('#nd20QuickCats');cats.forEach((cat,i)=>{const b=document.createElement('button');b.type='button';b.className='nd20-qcat';b.textContent=(icons[i]||'•')+' '+(names[i]||('CATEGORIA '+(i+1)));b.onclick=()=>cat.scrollIntoView({behavior:'smooth',block:'start'});box.appendChild(b)});
+ const cats=$$('.categoria');const names=['COMBOS','TRADICIONAIS','ARTESANAIS','COMBOS ARTESANAIS','PORÇÕES','PASTÉIS','AÇAÍS - MILKSHAKES E SOBREMESAS','BEBIDAS','ADICIONAIS'];const icons=['❤️','🍔','🔥','🔥','🍟','🥟','🍨','🥤','➕'];const box=$('#nd20QuickCats');cats.forEach((cat,i)=>{const b=document.createElement('button');b.type='button';b.className='nd20-qcat';b.textContent=(icons[i]||'•')+' '+(names[i]||('CATEGORIA '+(i+1)));b.onclick=()=>cat.scrollIntoView({behavior:'smooth',block:'start'});box.appendChild(b)});
  $('#nd20Finish').onclick=()=>{if(typeof window.abrirCarrinho==='function'){window.abrirCarrinho()}else{$('#modalCarrinho')?.classList.add('ativo')}};
 }
 function patchIntroButton(){
@@ -7031,7 +7048,7 @@ function renderBest(){
  grid.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{const x=picks[i];if(configs[x.name])open(x.name,configs[x.name].price);else x.btn.click()});
  const head=s.querySelector('.r11-best-head p');if(head)head.textContent='3 escolhas aleatórias atualizadas todos os dias.';
 }
-function buildPromo(){if(document.getElementById('ndUvaPromo'))return;const h=document.querySelector('#ndAutoBest');if(!h)return;const p=document.createElement('section');p.id='ndUvaPromo';p.innerHTML='<img src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="Doce surpresa de uva"><div class="r11-promo-copy"><div class="k">🔥 DESCONTO EXCLUSIVO NO SITE</div><h2>DOCE SURPRESA DE UVA</h2><p>Somente pelo site da ND BURGS</p><div class="r11-promo-old">DE R$ 12,00</div><div class="r11-promo-price">POR R$ 7,90</div><button type="button">ADICIONAR AO CARRINHO</button></div>';h.insertAdjacentElement('afterend',p);p.querySelector('button').onclick=()=>{if(typeof window.adicionar==='function')window.adicionar('SURPRESA DE UVA',7.90)}}
+function buildPromo(){if(document.getElementById('ndUvaPromo'))return;const h=document.querySelector('#ndAutoBest');if(!h)return;const p=document.createElement('section');p.id='ndUvaPromo';p.innerHTML='<img src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="Doce surpresa de uva"><div class="r11-promo-copy"><div class="k">🔥 DESCONTO EXCLUSIVO NO SITE</div><h2>DOCE SURPRESA DE UVA</h2><p>Somente pelo site da ND BURGS</p><div class="r11-promo-old">DE R$ 12,00</div><div class="r11-promo-price">POR R$ 7,90</div><button type="button">ADICIONAR AO CARRINHO</button></div>';const destino=document.querySelector('#artesanais');if(destino)destino.insertAdjacentElement('afterend',p);else h.insertAdjacentElement('afterend',p);p.querySelector('button').onclick=()=>{if(typeof window.adicionar==='function')window.adicionar('SURPRESA DE UVA',7.90)}}
 function buildQuick(){if(document.getElementById('ndFinalQuick'))return;const footer=document.querySelector('footer');if(!footer)return;const picks=['COMBO MAIS VENDIDO','COMBO DOCE','COMBO GELADO','COMBO SÓ LOVE','X-BACON','NUNES','GADEIA','BATATA'];const cards=[...document.querySelectorAll('.produto')].map(productInfo).filter(Boolean);const data=picks.map(n=>cards.find(x=>norm(x.name)===norm(n))).filter(Boolean);const s=document.createElement('section');s.id='ndFinalQuick';s.innerHTML='<h2>⚡ ESCOLHAS RÁPIDAS</h2><p>Se já sabe o que quer, adicione em um toque.</p><div class="r11-quick-grid">'+data.map((x,i)=>'<div class="r11-q"><img src="'+x.img+'" alt="'+esc(x.name)+'"><div><b>'+esc(x.name)+'</b><span>'+esc(x.btn.closest('.produto').querySelector('.preco')?.textContent||'')+'</span><button type="button">ADICIONAR</button></div></div>').join('')+'</div>';footer.parentNode.insertBefore(s,footer);s.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{const x=data[i];if(configs[x.name])open(x.name,configs[x.name].price);else x.btn.click()})}
 function hideOld(){['#nd20Best','#ndR3Quick','#ndR7Reco','#ndR7Recent','#nd20QuickNav','#ndCartFab','#ndCartLabel'].forEach(sel=>document.querySelectorAll(sel).forEach(e=>e.style.display='none'))}
 function ensureStatusPosition(){const st=document.getElementById('ndR8Status');if(st)st.style.display='none'}
@@ -7748,12 +7765,13 @@ function addStaticSections(){
   const hero=qs('.nd-v4-hero')||qs('#ndFxIntro');
   if(hero && !qs('#ndR17FirstBuy')){
     const s=document.createElement('section');s.id='ndR17FirstBuy';
-    s.innerHTML='<div class="nd-r17-fb-kicker">🎁 PRIMEIRA VEZ NA ND BURGS?</div>'+
-      '<div class="nd-r17-fb-title">COMECE PELO NOSSO CAMPEÃO.</div>'+
-      '<div class="nd-r17-fb-text">O <b>COMBO MAIS VENDIDO</b> é uma escolha rápida para quem ainda não sabe por onde começar.</div>'+
-      '<div class="nd-r17-fb-row"><div class="nd-r17-fb-price">R$ 20,90</div><button class="nd-r17-fb-btn" type="button" id="ndR17FirstBuyBtn">🔥 QUERO O MAIS VENDIDO</button></div>'+
+    s.innerHTML='<div class="nd-r17-fb-kicker">🎁 PRODUTO ALEATÓRIO DO DIA</div>'+
+      '<div class="nd-r17-fb-title">CASADINHO</div>'+
+      '<div class="nd-r17-fb-text">Uma escolha diferente todos os dias para você descobrir um dos favoritos da <b>ND BURGS</b>.</div>'+
+      '<div class="nd-r17-fb-row"><div class="nd-r17-fb-price">R$ 11,90</div><button class="nd-r17-fb-btn" type="button" id="ndR17FirstBuyBtn">🔥 QUERO O PRODUTO DE HOJE</button></div>'+
       '<div id="ndR17StatusNote"></div>';
-    hero.insertAdjacentElement('afterend',s);
+    const dailyAnchor=document.querySelector('#sobremesas')||hero;
+    dailyAnchor.insertAdjacentElement('afterend',s);
     qs('#ndR17FirstBuyBtn').onclick=()=>openBestSeller();
   }
   const first=qs('#ndR17FirstBuy');
@@ -8056,6 +8074,8 @@ function productCards(){
 }
 function chooseDaily(){
   const list=productCards(); if(!list.length)return null;
+  const fixed=list.find(x=>norm(x.name)==='CASADINHO');
+  if(fixed)return fixed;
   const index=hashDate()%list.length;
   return list[index];
 }
