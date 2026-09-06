@@ -8976,342 +8976,372 @@ if(document.readyState==='loading'){
 </script>
 
 
+
 <!-- =========================================================
-     ND BURGS — R26
-     FLUXO PIX MAIS SEGURO + ENDEREÇO EM DESTAQUE
+     ND BURGS — RODADA 29 / R26
+     ENDEREÇO EM DESTAQUE + RECUPERAÇÃO DO PIX + FLUXO ANTIFALHA
      ========================================================= -->
 <style id="nd-r26-pix-address">
-/* ===== ENDEREÇO EM DESTAQUE ===== */
-#nd17AddressBar{
-  position:relative!important;
-  margin:14px auto 12px!important;
-  padding:14px 16px!important;
-  min-height:72px!important;
-  border:1px solid rgba(229,9,20,.45)!important;
-  border-radius:18px!important;
+/* ===== ENDEREÇO: BLOCO PRINCIPAL ===== */
+#nd26AddressHero{
+  width:min(1180px,calc(100% - 30px));
+  margin:12px auto 16px;
+  padding:16px;
+  border:1px solid rgba(80,145,255,.38);
+  border-radius:18px;
   background:
-    radial-gradient(circle at 0 50%,rgba(229,9,20,.14),transparent 38%),
-    linear-gradient(145deg,#171317,#0d0d10)!important;
-  box-shadow:0 12px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04)!important;
-  overflow:hidden!important;
+    radial-gradient(circle at 88% 10%,rgba(80,145,255,.18),transparent 32%),
+    radial-gradient(circle at 12% 85%,rgba(151,70,255,.10),transparent 30%),
+    linear-gradient(145deg,#10131d,#090a0e);
+  box-shadow:0 14px 40px rgba(0,0,0,.35),0 0 28px rgba(77,104,255,.08);
+  position:relative;overflow:hidden;
 }
-#nd17AddressBar:before{
-  content:'📍';
-  display:grid;
-  place-items:center;
-  width:42px;
-  height:42px;
-  min-width:42px;
-  border-radius:13px;
-  background:linear-gradient(145deg,#e50914,#ff3038);
-  font-size:21px;
-  box-shadow:0 8px 20px rgba(229,9,20,.22);
+#nd26AddressHero::before{
+  content:"";position:absolute;left:-20%;right:-20%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#6ea8ff,#a36cff,transparent);
+  opacity:.7;
 }
-#nd17AddressBar .nd17-address-copy{display:block;flex:1;min-width:0}
-#nd17AddressBar .nd17-address-kicker{display:block;color:#ff7378;font-size:9px;font-weight:1000;letter-spacing:1.4px;margin-bottom:4px}
-#nd17AddressBar .nd17-address-main{display:block;color:#fff;font-size:14px;font-weight:1000;line-height:1.25}
-#nd17AddressBar .nd17-address-sub{display:block;color:#aaa;font-size:11px;margin-top:4px;line-height:1.35}
-#nd17AddressBar .nd17-address-fee{color:#ffd166;font-weight:1000}
-#nd17AddressBar .nd17-address-edit{border:1px solid #3a3a40!important;background:#202126!important;color:#fff!important;border-radius:11px!important;padding:10px 12px!important;font-weight:1000!important;white-space:nowrap}
-#nd17AddressBar .nd17-address-edit:hover{background:#e50914!important;border-color:#e50914!important}
-
-/* Torna o modal de endereço impossível de passar despercebido. */
-#nd17Gate{background:rgba(0,0,0,.93)!important;backdrop-filter:blur(10px)!important}
-.nd17-gate-panel{
-  width:min(540px,100%)!important;
-  border:1px solid rgba(229,9,20,.65)!important;
-  border-radius:24px!important;
-  padding:24px!important;
-  background:
-    radial-gradient(circle at 50% 0,rgba(229,9,20,.12),transparent 40%),
-    linear-gradient(160deg,#17181b,#0b0b0d)!important;
-  box-shadow:0 25px 90px rgba(0,0,0,.82),0 0 40px rgba(229,9,20,.08)!important;
-}
-.nd17-kicker{color:#ff7378!important}
-.nd17-gate-panel h2{font-size:30px!important;line-height:1.05!important;margin:7px 0 8px!important}
-.nd17-gate-panel p{color:#c0c0c6!important;font-size:13px!important;line-height:1.55!important;margin-bottom:16px!important}
-.nd17-address-highlight{
-  margin:-3px 0 16px;
-  padding:13px 14px;
-  border-radius:14px;
-  border:1px solid rgba(245,196,0,.25);
-  background:linear-gradient(145deg,rgba(245,196,0,.08),rgba(255,255,255,.025));
-  color:#ddd;
-  font-size:12px;
-  line-height:1.5;
-}
-.nd17-address-highlight strong{color:#ffd166}
-.nd17-save-note{margin-top:9px;color:#888;font-size:10px;line-height:1.4;text-align:center}
-.nd17-gate-main{background:linear-gradient(135deg,#e50914,#ff3038)!important;box-shadow:0 10px 25px rgba(229,9,20,.20)!important}
-
-/* ===== PIX: COMUNICAÇÃO E RETORNO AO CHECKOUT ===== */
-#ndPixBox{
-  border-color:rgba(115,98,255,.55)!important;
-  background:
-    radial-gradient(circle at 90% 0,rgba(96,80,255,.15),transparent 45%),
-    linear-gradient(145deg,#11111a,#09090f)!important;
-  box-shadow:0 14px 35px rgba(38,24,100,.20)!important;
-}
-#ndPixBox .nd-pix-title{font-size:13px!important;color:#d4ccff!important;letter-spacing:.2px}
-#ndPixBox .nd-pix-key{border-color:rgba(145,125,255,.55)!important;background:#07070c!important;font-size:16px!important;text-align:center!important;padding:12px!important}
-#ndPixBox .nd-pix-total{margin-top:10px!important;padding:11px 12px!important;border:1px solid rgba(145,125,255,.22);border-radius:11px;background:#09090e!important;text-align:center!important;font-size:20px!important}
-#ndPixBox .nd-pix-total b{color:#fff!important;font-size:24px!important}
-#ndPixBox .nd-pix-copy{background:linear-gradient(135deg,#dbe4ff,#91a8ff 48%,#a25cff)!important;color:#090914!important;box-shadow:0 5px 18px rgba(94,100,255,.18)!important;min-height:48px!important}
-#ndPixBox .nd-pix-copy.copied{background:linear-gradient(135deg,#25d366,#16b957)!important;color:#fff!important;box-shadow:0 8px 22px rgba(37,211,102,.15)!important}
-#ndR26PixHelp{
-  margin-top:12px;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid rgba(229,9,20,.28);
-  background:rgba(229,9,20,.06);
-  color:#ddd;
-  font-size:11px;
-  line-height:1.55;
-}
-#ndR26PixHelp strong{color:#fff}
-#ndR26PixContinue{
-  width:100%;
-  margin-top:10px;
-  min-height:50px;
-  border:0;
-  border-radius:12px;
-  background:linear-gradient(135deg,#e50914,#ff3038);
-  color:#fff;
-  font-weight:1000;
-  font-size:13px;
-  cursor:pointer;
-  box-shadow:0 10px 25px rgba(229,9,20,.20);
-  transition:.18s ease;
-}
-#ndR26PixContinue:hover{filter:brightness(1.08);transform:translateY(-1px)}
-#ndR26PixContinue[disabled]{opacity:.55;cursor:not-allowed;transform:none}
-#ndR26PixPending{
-  margin-top:10px;
-  padding:10px 12px;
-  border-radius:11px;
-  background:rgba(37,211,102,.08);
-  border:1px solid rgba(37,211,102,.24);
-  color:#bceecb;
-  font-size:11px;
-  font-weight:900;
-  display:none;
-}
-#ndR26PixPending.show{display:block;animation:ndR26Pulse 1.8s ease-in-out infinite}
-@keyframes ndR26Pulse{0%,100%{box-shadow:0 0 0 rgba(37,211,102,0)}50%{box-shadow:0 0 22px rgba(37,211,102,.09)}}
-
-/* Recuperação caso o cliente volte ao site depois de pagar. */
-#ndR26PixResume{
-  position:fixed;
-  left:50%;
-  bottom:calc(92px + env(safe-area-inset-bottom));
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  z-index:12000;
-  width:min(620px,calc(100% - 24px));
-  padding:14px;
-  border-radius:17px;
-  border:1px solid rgba(37,211,102,.34);
-  background:linear-gradient(145deg,#121814,#0b0f0c);
-  box-shadow:0 18px 50px rgba(0,0,0,.62);
-  transition:.25s ease;
-}
-#ndR26PixResume.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
-#ndR26PixResume .title{font-size:13px;font-weight:1000;color:#fff}
-#ndR26PixResume .text{margin-top:4px;color:#aaa;font-size:11px;line-height:1.45}
-#ndR26PixResume .actions{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}
-#ndR26PixResume button{min-height:44px;border-radius:11px;border:0;font-weight:1000;cursor:pointer}
-#ndR26PixResume .go{background:linear-gradient(135deg,#25d366,#16b957);color:#fff;padding:10px 14px}
-#ndR26PixResume .dismiss{background:#202124;color:#ddd;padding:10px 12px}
-
+.nd26-addr-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;position:relative;z-index:1}
+.nd26-addr-copy{min-width:0}
+.nd26-addr-kicker{font-size:10px;font-weight:1000;letter-spacing:1.4px;color:#91b8ff;text-transform:uppercase}
+.nd26-addr-title{margin-top:4px;font-size:21px;font-weight:1000;line-height:1.08;color:#fff}
+.nd26-addr-text{margin-top:7px;color:#b0b4bf;font-size:12px;line-height:1.5;max-width:820px}
+.nd26-addr-card{margin-top:12px;padding:12px 13px;border:1px solid rgba(255,255,255,.09);border-radius:13px;background:rgba(255,255,255,.035);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nd26-addr-card strong{display:block;color:#fff;font-size:14px}
+.nd26-addr-card small{display:block;margin-top:4px;color:#a5a9b2;font-size:11px}
+.nd26-addr-fee{margin-top:5px;color:#76b2ff;font-weight:1000;font-size:12px}
+.nd26-addr-btn{border:0;border-radius:11px;min-height:44px;padding:11px 14px;background:linear-gradient(135deg,#377dff,#8a5cff);color:#fff;font-weight:1000;cursor:pointer;white-space:nowrap;box-shadow:0 8px 20px rgba(64,109,255,.18)}
+.nd26-addr-btn.secondary{background:#17181d;border:1px solid #30323a;box-shadow:none;color:#ddd}
+.nd26-addr-warning{margin-top:10px;padding:9px 11px;border-radius:11px;background:rgba(255,193,7,.055);border:1px solid rgba(255,193,7,.16);color:#c9c0a0;font-size:10px;line-height:1.45}
+.nd26-addr-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.nd26-addr-empty .nd26-addr-title{font-size:20px}
 @media(max-width:600px){
-  #nd17AddressBar{margin:10px 8px 10px!important;padding:12px!important;gap:10px!important}
-  #nd17AddressBar:before{width:38px;height:38px;min-width:38px;font-size:19px}
-  #nd17AddressBar .nd17-address-main{font-size:12px}
-  #nd17AddressBar .nd17-address-sub{font-size:10px}
-  #nd17AddressBar .nd17-address-edit{padding:10px 9px!important;font-size:10px!important}
-  .nd17-gate-panel{padding:20px!important}
-  .nd17-gate-panel h2{font-size:25px!important}
-  #ndR26PixResume{bottom:calc(82px + env(safe-area-inset-bottom))}
-  #ndR26PixResume .actions{grid-template-columns:1fr}
+  #nd26AddressHero{width:calc(100% - 14px);margin:9px auto 13px;padding:14px}
+  .nd26-addr-title{font-size:19px}
+  .nd26-addr-card{align-items:flex-start;flex-direction:column}
+  .nd26-addr-btn{width:100%}
+  .nd26-addr-actions{display:grid;grid-template-columns:1fr}
 }
-@media(prefers-reduced-motion:reduce){#ndR26PixResume,#ndR26PixPending,#ndR26PixContinue{transition:none!important;animation:none!important}}
+
+/* ===== PIX: FLUXO VISUAL E RECUPERAÇÃO ===== */
+#ndPixBox{position:relative}
+#ndPixBox.nd26-pix-active{border-color:rgba(113,120,255,.72)!important;box-shadow:0 0 0 1px rgba(113,120,255,.08),0 14px 35px rgba(50,55,140,.18)!important}
+.nd26-pix-after{display:none;margin-top:11px;padding:12px;border-radius:12px;background:linear-gradient(145deg,#0b1123,#11091c);border:1px solid rgba(121,127,255,.32)}
+#ndPixBox.nd26-pix-active .nd26-pix-after{display:block}
+.nd26-pix-after strong{display:block;color:#fff;font-size:13px}
+.nd26-pix-after span{display:block;margin-top:4px;color:#b4b7c2;font-size:10px;line-height:1.45}
+.nd26-pix-after b{color:#c9b6ff}
+.nd26-pix-confirm{width:100%;margin-top:9px;min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#5a73ff,#9b5cff);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 8px 22px rgba(83,88,255,.20)}
+#nd26PixRecovery{
+  position:fixed;left:16px;right:16px;bottom:92px;z-index:899999;display:none;
+}
+#nd26PixRecovery.show{display:block}
+.nd26-recovery-panel{
+  width:min(650px,100%);margin:0 auto;padding:15px;
+  border:1px solid rgba(155,112,255,.55);border-radius:18px;
+  background:linear-gradient(145deg,rgba(12,14,32,.98),rgba(20,10,30,.98));
+  box-shadow:0 20px 60px rgba(0,0,0,.65),0 0 28px rgba(105,76,255,.12);
+}
+.nd26-recovery-title{font-size:14px;font-weight:1000;color:#fff}
+.nd26-recovery-text{margin-top:5px;color:#b9bbc4;font-size:11px;line-height:1.45}
+.nd26-recovery-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.nd26-recovery-actions button{min-height:44px;border:0;border-radius:11px;font-weight:1000;cursor:pointer}
+#nd26RecoveryContinue{background:linear-gradient(135deg,#5b70ff,#9d5cff);color:#fff}
+#nd26RecoveryDismiss{background:#1a1b20;border:1px solid #30323a;color:#aaa}
+@media(max-width:600px){
+  #nd26PixRecovery{left:8px;right:8px;bottom:82px}
+  .nd26-recovery-actions{grid-template-columns:1fr}
+}
+
+/* ===== GATE DE ENDEREÇO: TEXTO MAIS EXPLICATIVO ===== */
+#nd17Gate .nd17-gate-panel p{font-size:12px!important;line-height:1.55!important;color:#b7bac4!important}
+#nd17Gate .nd17-kicker{color:#8fb7ff!important}
+#nd17Gate .nd17-gate-panel{border-color:rgba(76,130,255,.42)!important;box-shadow:0 25px 80px rgba(0,0,0,.8),0 0 30px rgba(72,108,255,.08)!important}
+
+/* ===== FINALIZAÇÃO PIX MAIS CLARA ===== */
+#ndFinalSendGate .nd-final-send-panel.nd26-pix-gate{border-color:#7e68ff!important;box-shadow:0 25px 90px rgba(0,0,0,.85),0 0 30px rgba(105,82,255,.15)!important}
+#ndFinalSendGate .nd-final-send-panel.nd26-pix-gate h2{font-size:28px}
+#ndFinalSendGate .nd26-pix-alert{margin:0 auto 16px;padding:11px 12px;border-radius:12px;background:rgba(126,104,255,.07);border:1px solid rgba(126,104,255,.24);color:#c6c7d3;font-size:11px;line-height:1.5}
+#ndFinalSendGate .nd26-pix-alert b{color:#d6c8ff}
 </style>
 
 <script id="nd-r26-pix-address-js">
 (function(){
 'use strict';
 const $=s=>document.querySelector(s);
-const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-const PIX_PENDING_KEY='ndburgs_pix_pending_v26';
+const $$=s=>Array.from(document.querySelectorAll(s));
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+const PIX_PENDING_KEY='ndburgs_pix_flow_v26';
+const PIX_PENDING_TTL=24*60*60*1000;
 
-function getCart(){return Array.isArray(window.carrinho)?window.carrinho:[]}
-function subtotal(){return getCart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
-function getSavedAddress(){
+function taxes(){try{return typeof window.taxas!=='undefined'?window.taxas:(typeof taxas!=='undefined'?taxas:{})}catch(_){return{}}}
+function savedAddress(){
   return {
-    type:localStorage.getItem('nd17_tipo')||'ENTREGA',
+    type:localStorage.getItem('nd17_tipo')||'',
     street:localStorage.getItem('nd17_rua')||'',
     number:localStorage.getItem('nd17_numero')||''
   };
 }
-function getFee(){const a=getSavedAddress();try{return a.type==='ENTREGA'?Number((window.taxas||{})[a.street]||0):0}catch(e){return 0}}
-function currentTotal(){
-  const tipo=$('#tipoPedidoModal')?.value||getSavedAddress().type;
-  const rua=$('#ruaModal')?.value||getSavedAddress().street;
-  const fee=tipo==='ENTREGA'?Number((window.taxas||{})[rua]||0):0;
-  return subtotal()+fee;
-}
+function feeFor(a){return a.type==='ENTREGA'&&a.street?Number(taxes()[a.street]||0):0}
+function cart(){return Array.isArray(window.carrinho)?window.carrinho:[]}
+function cartSubtotal(){return cart().reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
 
-/* Mensagem mais clara no bloco inicial de endereço. */
-function decorateGate(){
-  const panel=$('.nd17-gate-panel'); if(!panel||panel.dataset.nd26==='1')return;
-  panel.dataset.nd26='1';
-  const h=panel.querySelector('h2');
-  const p=panel.querySelector('p');
-  if(h)h.textContent='Cadastre seu endereço';
-  if(p)p.innerHTML='Coloque seu endereço e deixe salvo aqui para <b>próximos pedidos</b> e para <b>somar a taxa de entrega do seu pedido de hoje</b>.';
-  const old=panel.querySelector('.nd17-field');
-  if(old){
-    const note=document.createElement('div');
-    note.className='nd17-address-highlight';
-    note.innerHTML='<strong>📍 ATENÇÃO AO ENDEREÇO</strong><br>Se o pedido for para outro endereço diferente do que está salvo atualmente, por favor <b>troque o endereço</b> antes de continuar.';
-    old.parentNode.insertBefore(note,old);
-  }
-  const btn=panel.querySelector('#nd17GateSave');
-  if(btn)btn.textContent='✅ SALVAR ENDEREÇO E CONTINUAR';
-  if(panel&&!panel.querySelector('.nd17-save-note')){
-    const n=document.createElement('div');n.className='nd17-save-note';n.textContent='🔒 Salvo neste aparelho para facilitar seus próximos pedidos.';panel.appendChild(n);
-  }
-}
-
-/* Bloco fixo de endereço: texto explicativo + taxa. */
-function refreshAddressBar(){
-  const bar=$('#nd17AddressBar'); if(!bar)return;
-  const a=getSavedAddress(),fee=getFee();
-  bar.innerHTML='';
-  const copy=document.createElement('span');copy.className='nd17-address-copy';
-  if(a.type==='RETIRADA'){
-    copy.innerHTML='<span class="nd17-address-kicker">📍 COMO VOCÊ VAI RECEBER?</span><span class="nd17-address-main">Retirada no local</span><span class="nd17-address-sub">Sem taxa de entrega.</span>';
-  }else{
-    const address=(a.street||'Endereço não informado')+(a.number?', Nº '+a.number:'');
-    copy.innerHTML='<span class="nd17-address-kicker">📍 ENDEREÇO SALVO PARA ESTE PEDIDO</span><span class="nd17-address-main">'+address+'</span><span class="nd17-address-sub"><span class="nd17-address-fee">Taxa de entrega: '+money(fee)+'</span> • Vai pedir para outro endereço? <b>ALTERE AQUI.</b></span>';
-  }
-  const btn=document.createElement('button');btn.type='button';btn.className='nd17-address-edit';btn.textContent='ALTERAR';btn.onclick=()=>window.nd26ShowAddress();
-  bar.appendChild(copy);bar.appendChild(btn);
-}
-window.nd26ShowAddress=function(){
+/* =========================
+   ENDEREÇO EM DESTAQUE
+   ========================= */
+function openAddressGate(){
   const g=$('#nd17Gate');
-  if(g){
-    const a=getSavedAddress();
-    const st=$('#nd17GateStreet'),num=$('#nd17GateNumber');
-    if(st)st.value=a.street||'';
-    if(num)num.value=a.number||'';
-    g.classList.add('show');document.body.style.overflow='hidden';
-    setTimeout(()=>st?.focus(),60);
+  if(!g)return;
+  g.classList.add('show');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>$('#nd17GateStreet')?.focus(),60);
+}
+function ensureAddressHero(){
+  let hero=$('#nd26AddressHero');
+  const horarios=$('.horarios');
+  if(!horarios)return null;
+  if(!hero){
+    hero=document.createElement('section');
+    hero.id='nd26AddressHero';
+    horarios.insertAdjacentElement('afterend',hero);
   }
-};
+  const a=savedAddress(), f=feeFor(a);
+  if(a.type==='RETIRADA'){
+    hero.innerHTML=
+      '<div class="nd26-addr-head">'+
+        '<div class="nd26-addr-copy">'+
+          '<div class="nd26-addr-kicker">📍 LOCAL DO PEDIDO</div>'+
+          '<div class="nd26-addr-title">RETIRADA NO LOCAL</div>'+
+          '<div class="nd26-addr-text">Seu pedido está configurado para retirada. Você pode trocar para delivery a qualquer momento.</div>'+
+          '<div class="nd26-addr-actions"><button class="nd26-addr-btn secondary" type="button" data-nd26-address>ALTERAR ENDEREÇO / TIPO DE PEDIDO</button></div>'+
+        '</div>'+
+      '</div>';
+  }else if(a.street&&a.number){
+    hero.innerHTML=
+      '<div class="nd26-addr-head">'+
+        '<div class="nd26-addr-copy">'+
+          '<div class="nd26-addr-kicker">📍 SEU ENDEREÇO SALVO</div>'+
+          '<div class="nd26-addr-title">VAMOS ENTREGAR AQUI?</div>'+
+          '<div class="nd26-addr-text">'+
+            'Seu endereço fica salvo neste aparelho para facilitar seus próximos pedidos e já calcular a taxa de entrega do pedido de hoje.'+
+          '</div>'+
+          '<div class="nd26-addr-card">'+
+            '<div><strong>'+escapeHtml(a.street)+', Nº '+escapeHtml(a.number)+'</strong><small>Endereço usado para este pedido</small><div class="nd26-addr-fee">🚚 Taxa de entrega: '+money(f)+'</div></div>'+
+            '<button class="nd26-addr-btn" type="button" data-nd26-address>ALTERAR ENDEREÇO</button>'+
+          '</div>'+
+          '<div class="nd26-addr-warning">⚠️ <b>Vai pedir para outro endereço?</b> Troque o endereço salvo antes de finalizar para que a taxa e a entrega sejam calculadas corretamente.</div>'+
+        '</div>'+
+      '</div>';
+  }else{
+    hero.classList.add('nd26-addr-empty');
+    hero.innerHTML=
+      '<div class="nd26-addr-head">'+
+        '<div class="nd26-addr-copy">'+
+          '<div class="nd26-addr-kicker">📍 ENDEREÇO DE ENTREGA</div>'+
+          '<div class="nd26-addr-title">COLOQUE SEU ENDEREÇO</div>'+
+          '<div class="nd26-addr-text">Coloque seu endereço e deixe salvo aqui para os próximos pedidos e para somar a taxa de entrega do seu pedido de hoje.</div>'+
+          '<div class="nd26-addr-actions"><button class="nd26-addr-btn" type="button" data-nd26-address>COLOCAR MEU ENDEREÇO</button></div>'+
+        '</div>'+
+      '</div>';
+  }
+  hero.querySelectorAll('[data-nd26-address]').forEach(btn=>btn.onclick=openAddressGate);
+  return hero;
+}
+function updateAddressCopyInGate(){
+  const p=$('#nd17Gate .nd17-gate-panel p');
+  if(!p)return;
+  p.innerHTML='<b>Coloque seu endereço e deixe salvo aqui para os próximos pedidos e para somar a taxa de entrega do seu pedido de hoje.</b><br><br>⚠️ Se o pedido for para outro endereço diferente do que está salvo atualmente, por favor troque o endereço antes de finalizar.';
+}
 
-/* Persistência do estado PIX: ajuda a recuperar quem pagou e voltou ao site. */
-function savePixPending(){
+/* =========================
+   PIX PERSISTENTE / RECUPERAÇÃO
+   ========================= */
+function getPixState(){
   try{
-    const c=getCart();if(!c.length)return;
-    localStorage.setItem(PIX_PENDING_KEY,JSON.stringify({
-      createdAt:Date.now(),
-      total:currentTotal(),
-      items:c.map(x=>({nome:x.nome,preco:Number(x.preco)||0,quantidade:Number(x.quantidade)||1,detalhes:Array.isArray(x.detalhes)?x.detalhes:[]}))
-    }));
-  }catch(e){}
+    const o=JSON.parse(localStorage.getItem(PIX_PENDING_KEY)||'null');
+    if(!o)return null;
+    if(!o.ts||Date.now()-Number(o.ts)>PIX_PENDING_TTL){localStorage.removeItem(PIX_PENDING_KEY);return null}
+    return o;
+  }catch(_){localStorage.removeItem(PIX_PENDING_KEY);return null}
 }
-function getPixPending(){try{return JSON.parse(localStorage.getItem(PIX_PENDING_KEY)||'null')}catch(e){return null}}
-function clearPixPending(){try{localStorage.removeItem(PIX_PENDING_KEY)}catch(e){}}
-
-function ensureResume(){
-  if($('#ndR26PixResume'))return;
-  const d=document.createElement('div');d.id='ndR26PixResume';
-  d.innerHTML='<div class="title">💠 VOCÊ ESTAVA PAGANDO COM PIX</div><div class="text">Seu pedido ainda está montado neste aparelho. Depois de pagar, volte para cá e toque em <b>CONTINUAR PARA FINALIZAÇÃO</b> para enviar o pedido para a ND BURGS.</div><div class="actions"><button class="go" type="button">✅ CONTINUAR PARA FINALIZAÇÃO</button><button class="dismiss" type="button">FECHAR</button></div>';
+function setPixState(extra){
+  try{
+    const old=getPixState()||{};
+    localStorage.setItem(PIX_PENDING_KEY,JSON.stringify(Object.assign({},old,extra,{ts:Date.now()})));
+  }catch(_){ }
+}
+function clearPixState(){try{localStorage.removeItem(PIX_PENDING_KEY)}catch(_){}
+  $$('#nd26PixRecovery').forEach(x=>x.remove());
+}
+function pixSelected(){return $('#pagamentoModal')?.value==='PIX'}
+function pixActiveBox(){return $('#ndPixBox')}
+function buildCurrentWhatsAppMessage(){
+  const c=cart();
+  if(!c.length)return '';
+  const nome=$('#nomeModal')?.value.trim()||localStorage.getItem('ndburgs_nome')||'';
+  const telefone=$('#telefoneModal')?.value.trim()||localStorage.getItem('ndburgs_telefone')||'';
+  const tipo=$('#tipoPedidoModal')?.value||localStorage.getItem('nd17_tipo')||'ENTREGA';
+  const rua=$('#ruaModal')?.value||localStorage.getItem('nd17_rua')||'';
+  const numero=$('#numeroModal')?.value.trim()||localStorage.getItem('nd17_numero')||'';
+  const complemento=$('#complementoModal')?.value.trim()||'';
+  const pagamento=$('#pagamentoModal')?.value||'PIX';
+  const troco=$('#trocoModal')?.value||'';
+  const observacao=$('#observacaoModal')?.value.trim()||'';
+  const sub=cartSubtotal(),fee=tipo==='ENTREGA'?Number(taxes()[rua]||0):0,total=sub+fee;
+  const lines=['NOVO PEDIDO - ND BURGS','CLIENTE: '+nome,'WHATSAPP: '+telefone,'TIPO: '+(tipo==='ENTREGA'?'DELIVERY':'RETIRADA')];
+  if(tipo==='ENTREGA'){lines.push('ENDEREÇO: '+rua+', Nº '+numero);if(complemento)lines.push('COMPLEMENTO: '+complemento)}
+  lines.push('','ITENS DO PEDIDO');
+  c.forEach(i=>{const qty=Number(i.quantidade)||1;lines.push(qty+'x '+i.nome+' - '+money((Number(i.preco)||0)*qty));if(Array.isArray(i.detalhes)&&i.detalhes.length)lines.push('  '+i.detalhes.join(', '))});
+  lines.push('','SUBTOTAL: '+money(sub),'TAXA DE ENTREGA: '+money(fee),'TOTAL DO PEDIDO: '+money(total),'PAGAMENTO: '+pagamento);
+  if(pagamento==='DINHEIRO'&&troco)lines.push('TROCO PARA: '+money(Number(String(troco).replace(',','.'))||0));
+  if(observacao)lines.push('OBSERVAÇÃO: '+observacao);
+  lines.push('','ND BURGS');
+  return lines.join('\n');
+}
+function openWhatsAppFromRecovery(){
+  const message=buildCurrentWhatsAppMessage();
+  if(!message){alert('Seu carrinho está vazio.');return}
+  setPixState({stage:'whatsapp_opened',message});
+  const url='https://wa.me/5511963973846?text='+encodeURIComponent(message);
+  let win=null;try{win=window.open(url,'_blank','noopener,noreferrer')}catch(_){ }
+  if(!win){try{window.location.href=url}catch(_){alert('Não foi possível abrir o WhatsApp neste navegador.')}}
+  hideRecovery();
+  setTimeout(()=>showReturnConfirm(),600);
+}
+function showReturnConfirm(){
+  let box=$('#nd26ReturnConfirm');
+  if(box)return;
+  box=document.createElement('div');
+  box.id='nd26ReturnConfirm';
+  box.innerHTML='<div class="nd26-return-panel"><div class="nd26-recovery-title">✅ O WHATSAPP FOI ABERTO</div><div class="nd26-recovery-text">Depois de enviar a mensagem para a ND BURGS, volte aqui e confirme. Assim sabemos que o pedido foi enviado.</div><button id="nd26ReturnDone" type="button">JÁ ENVIEI O PEDIDO</button><button id="nd26ReturnBack" type="button">VOLTAR</button></div>';
+  document.body.appendChild(box);
+  $('#nd26ReturnDone').onclick=()=>{clearPixState();box.remove();showSentSuccess();};
+  $('#nd26ReturnBack').onclick=()=>box.remove();
+}
+function showSentSuccess(){
+  let s=$('#nd26SentSuccess');
+  if(s)s.remove();
+  s=document.createElement('div');s.id='nd26SentSuccess';
+  s.innerHTML='<div class="nd26-sent-panel"><div class="nd26-sent-check">✓</div><h2>PEDIDO ENVIADO!</h2><p>A mensagem do seu pedido foi enviada para a ND BURGS.<br><b>Agora aguarde a confirmação e o início da produção.</b></p><button type="button" id="nd26SentClose">CONTINUAR</button></div>';
+  document.body.appendChild(s);
+  $('#nd26SentClose').onclick=()=>s.remove();
+}
+function hideRecovery(){$('#nd26PixRecovery')?.classList.remove('show')}
+function ensureRecovery(){
+  if(!getPixState()||!cart().length)return;
+  if($('#nd26PixRecovery')){ $('#nd26PixRecovery').classList.add('show'); return; }
+  const d=document.createElement('div');d.id='nd26PixRecovery';d.innerHTML='<div class="nd26-recovery-panel"><div class="nd26-recovery-title">⚠️ SEU PEDIDO AINDA NÃO FOI ENVIADO</div><div class="nd26-recovery-text">Você copiou/pagou o PIX, mas <b>isso não envia o pedido automaticamente</b>. Volte aqui e envie o pedido para a ND BURGS.</div><div class="nd26-recovery-actions"><button id="nd26RecoveryContinue" type="button">CONTINUAR E ENVIAR PEDIDO</button><button id="nd26RecoveryDismiss" type="button">FECHAR</button></div></div>';
   document.body.appendChild(d);
-  d.querySelector('.go').onclick=()=>{
-    d.classList.remove('show');
-    try{if(typeof window.irParaFinalizarPedido==='function')window.irParaFinalizarPedido();else if(typeof window.ndNext==='function')window.ndNext(4)}catch(e){if(typeof window.ndNext==='function')window.ndNext(4)}
-  };
-  d.querySelector('.dismiss').onclick=()=>{d.classList.remove('show')};
+  $('#nd26RecoveryContinue').onclick=()=>{hideRecovery();openCheckoutForRecovery()};
+  $('#nd26RecoveryDismiss').onclick=hideRecovery;
 }
-function maybeResume(){
-  const pending=getPixPending();
-  if(!pending||!getCart().length)return;
-  ensureResume();
-  const d=$('#ndR26PixResume');if(d)d.classList.add('show');
+function openCheckoutForRecovery(){
+  try{
+    if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();
+  }catch(_){ }
+  setTimeout(()=>{
+    try{
+      if(typeof window.irParaFinalizarPedido==='function')window.irParaFinalizarPedido();
+    }catch(_){ }
+  },180);
 }
-
-/* Insere a orientação dentro do PIX e um caminho explícito para voltar à confirmação. */
-function decoratePix(){
-  const box=$('#ndPixBox'); if(!box)return;
-  if(!box.querySelector('#ndR26PixHelp')){
-    const help=document.createElement('div');help.id='ndR26PixHelp';
-    help.innerHTML='<strong>⚠️ IMPORTANTE:</strong> copiar ou pagar o PIX não envia seu pedido sozinho. <b>Depois de pagar, volte para esta página e clique no botão abaixo.</b>';
-    const ref=box.querySelector('#ndPixCopyValue')||box.querySelector('#ndPixCopy');
-    if(ref)ref.insertAdjacentElement('afterend',help);else box.appendChild(help);
+function bindPixVisual(){
+  const box=pixActiveBox(), pay=$('#pagamentoModal');
+  if(!box||!pay)return;
+  box.classList.toggle('nd26-pix-active',pay.value==='PIX');
+  let after=box.querySelector('.nd26-pix-after');
+  if(pay.value==='PIX'&&!after){
+    after=document.createElement('div');after.className='nd26-pix-after';after.innerHTML='<strong>⚠️ PAGAMENTO PIX NÃO ENVIA O PEDIDO SOZINHO</strong><span>Depois de pagar, <b>volte ao site</b> e continue para enviar seu pedido à ND BURGS.</span><button type="button" class="nd26-pix-confirm">JÁ PAGUEI — CONTINUAR COM O PEDIDO</button>';
+    box.appendChild(after);
+    after.querySelector('button').onclick=()=>{setPixState({stage:'paid_or_ready',cart:cart()});openCheckoutForRecovery()};
   }
-  if(!box.querySelector('#ndR26PixContinue')){
-    const b=document.createElement('button');b.id='ndR26PixContinue';b.type='button';b.textContent='✅ JÁ PAGUEI / VOU CONFIRMAR MEU PEDIDO';
-    b.onclick=()=>{savePixPending();try{if(typeof window.ndSummary==='function')window.ndSummary();if(typeof window.ndStep==='function')window.ndStep(4);else if(typeof window.ndNext==='function')window.ndNext(3)}catch(e){}};
-    box.appendChild(b);
+  if(pay.value==='PIX'){
+    $$('#ndPixBox .nd-pix-copy,#ndPixBox #ndPixCopyValue').forEach(b=>{
+      if(b.dataset.nd26bound==='1')return;
+      b.dataset.nd26bound='1';
+      b.addEventListener('click',()=>{setPixState({stage:'pix_copied'});setTimeout(ensureRecovery,120)});
+    });
   }
-  let pending=box.querySelector('#ndR26PixPending');
-  if(!pending){pending=document.createElement('div');pending.id='ndR26PixPending';pending.textContent='✅ PIX preparado. Depois de pagar, volte aqui para confirmar o envio do pedido.';box.appendChild(pending)}
-  const saved=getPixPending();
-  pending.classList.toggle('show',!!saved);
+}
+function bindPixSelection(){
   const pay=$('#pagamentoModal');
-  const active=pay?.value==='PIX';
-  box.classList.toggle('show',active);
+  if(!pay||pay.dataset.nd26bound==='1')return;
+  pay.dataset.nd26bound='1';
+  pay.addEventListener('change',()=>setTimeout(bindPixVisual,20));
 }
-
-/* Intercepta a cópia da chave/valor sem impedir a função original. */
-function hookPixButtons(){
-  ['#ndPixCopy','#ndPixCopyValue'].forEach(sel=>{
-    const b=$(sel);if(!b||b.dataset.nd26)return;
-    b.dataset.nd26='1';
-    b.addEventListener('click',()=>{savePixPending();setTimeout(decoratePix,40)},{capture:false});
-  });
+function persistBeforeFinal(){
+  if(!pixSelected())return;
+  const state={stage:'final_review',message:buildCurrentWhatsAppMessage()};
+  setPixState(state);
 }
-function hookPay(){
-  const pay=$('#pagamentoModal');if(!pay||pay.dataset.nd26)return;
-  pay.dataset.nd26='1';pay.addEventListener('change',()=>setTimeout(()=>{decoratePix();hookPixButtons()},20));
+function patchFinalizerForPix(){
+  const fn=window.finalizarPedidoModal;
+  if(typeof fn!=='function'||fn.__ndR26Pix)return;
+  const wrapped=function(){
+    if(pixSelected())persistBeforeFinal();
+    return fn.apply(this,arguments);
+  };
+  wrapped.__ndR26Pix=true;wrapped.__ndR26PixOriginal=fn;window.finalizarPedidoModal=wrapped;
 }
-
-/* Mantém o estado do endereço atualizado no carrinho/checkout. */
-function hookConfirm(){
-  const b=$('#ndFinalConfirmSent');
-  if(!b||b.dataset.nd26confirm)return;
-  b.dataset.nd26confirm='1';
-  b.addEventListener('click',()=>{clearPixPending()},{capture:false});
+function decorateExistingFinalGate(){
+  const gate=$('#ndFinalSendGate');
+  if(!gate||gate.dataset.nd26==='1')return;
+  gate.dataset.nd26='1';
+  const panel=gate.querySelector('.nd-final-send-panel');
+  if(panel&&pixSelected()){
+    panel.classList.add('nd26-pix-gate');
+    const p=panel.querySelector('p');
+    if(p)p.innerHTML='<div class="nd26-pix-alert">💠 <b>PIX:</b> seu pagamento não envia o pedido automaticamente. Primeiro pague o PIX, depois volte e toque em <b>JÁ ENVIEI O PEDIDO</b> para confirmar o envio.</div>'+p.innerHTML;
+  }
 }
-
-function hookAddress(){
-  ['#tipoPedidoModal','#ruaModal','#numeroModal','#complementoModal'].forEach(sel=>{
-    const el=$(sel);if(!el||el.dataset.nd26addr)return;el.dataset.nd26addr='1';
-    el.addEventListener('change',refreshAddressBar);el.addEventListener('input',refreshAddressBar);
-  });
-}
+function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
 function init(){
-  decorateGate();refreshAddressBar();decoratePix();hookPixButtons();hookPay();hookAddress();hookConfirm();maybeResume();
-  setTimeout(()=>{decorateGate();refreshAddressBar();decoratePix();hookPixButtons();hookPay();hookAddress();hookConfirm();maybeResume()},500);
-  setTimeout(()=>{decorateGate();refreshAddressBar();decoratePix();hookPixButtons();hookPay();hookAddress();hookConfirm()},1200);
+  updateAddressCopyInGate();
+  ensureAddressHero();
+  bindPixSelection();
+  bindPixVisual();
+  patchFinalizerForPix();
+  decorateExistingFinalGate();
+  const state=getPixState();
+  if(state&&cart().length)ensureRecovery();
+  setTimeout(()=>{
+    updateAddressCopyInGate();ensureAddressHero();bindPixSelection();bindPixVisual();patchFinalizerForPix();decorateExistingFinalGate();
+    if(getPixState()&&cart().length)ensureRecovery();
+  },500);
+  setTimeout(()=>{
+    updateAddressCopyInGate();ensureAddressHero();bindPixSelection();bindPixVisual();patchFinalizerForPix();decorateExistingFinalGate();
+  },1200);
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 
-const ob=new MutationObserver(()=>{
-  decorateGate();refreshAddressBar();decoratePix();hookPixButtons();hookPay();hookAddress();hookConfirm();
+window.addEventListener('pageshow',()=>setTimeout(()=>{ensureAddressHero();bindPixSelection();bindPixVisual();patchFinalizerForPix();decorateExistingFinalGate();if(getPixState()&&cart().length)ensureRecovery()},120));
+
+const observer=new MutationObserver(()=>{
+  updateAddressCopyInGate();
+  ensureAddressHero();
+  bindPixSelection();
+  bindPixVisual();
+  patchFinalizerForPix();
+  decorateExistingFinalGate();
+  if(getPixState()&&cart().length)ensureRecovery();
 });
-if(document.body)ob.observe(document.body,{childList:true,subtree:true});
 
-/* Quando o cliente escolhe PIX e volta à página, o aviso reaparece. */
-window.addEventListener('pageshow',()=>setTimeout(maybeResume,80));
-window.addEventListener('focus',()=>setTimeout(maybeResume,80));
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{init();if(document.body)observer.observe(document.body,{childList:true,subtree:true})},{once:true});
+else{init();if(document.body)observer.observe(document.body,{childList:true,subtree:true})}
 })();
 </script>
 
+<style id="nd-r26-extra-success">
+#nd26ReturnConfirm,#nd26SentSuccess{position:fixed;inset:0;z-index:1000001;display:grid;place-items:center;padding:18px;background:rgba(0,0,0,.92);backdrop-filter:blur(10px)}
+.nd26-return-panel,.nd26-sent-panel{width:min(560px,100%);padding:22px;border:1px solid #725dff;border-radius:22px;background:linear-gradient(145deg,#111329,#150d1d);box-shadow:0 25px 90px rgba(0,0,0,.85);text-align:center}
+.nd26-return-panel button,.nd26-sent-panel button{width:100%;min-height:50px;margin-top:10px;border:0;border-radius:12px;font-weight:1000;cursor:pointer}
+#nd26ReturnDone,#nd26SentClose{background:linear-gradient(135deg,#5c72ff,#9c5aff);color:#fff}
+#nd26ReturnBack{background:#191a20;color:#aaa;border:1px solid #30323a}
+.nd26-sent-check{width:82px;height:82px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#6d83ff,#a95dff);color:#fff;font-size:44px;font-weight:1000;box-shadow:0 0 38px rgba(106,96,255,.25)}
+.nd26-sent-panel h2{margin:0;color:#fff;font-size:34px}
+.nd26-sent-panel p{margin:12px 0 0;color:#c5c6ce;font-size:13px;line-height:1.55}
+.nd26-sent-panel p b{color:#d5c9ff}
+</style>
 </body>
 </html>
