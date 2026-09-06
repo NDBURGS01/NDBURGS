@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260906-R26">
+<meta name="nd-site-version" content="20260906-R27">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260906-R26";
+  const ND_SITE_VERSION = "20260906-R27";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -9030,21 +9030,14 @@ if(document.readyState==='loading'){
 #nd26DeliveryMini b{color:#eaf2ff}
 
 /* PIX: aviso de segurança + CTA de pagamento. */
-#ndPixAttention{margin:16px 0 12px;padding:20px 17px;border:2px solid #ff3038;border-radius:18px;background:radial-gradient(circle at 10% 5%,rgba(255,48,56,.24),transparent 38%),radial-gradient(circle at 90% 95%,rgba(255,140,0,.13),transparent 38%),linear-gradient(145deg,#2b090c,#100708);box-shadow:0 12px 35px rgba(0,0,0,.45),0 0 28px rgba(229,9,20,.13);position:relative;overflow:hidden}
-#ndPixAttention:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#ff3038,#ff8a00,#ff3038);box-shadow:0 0 18px rgba(255,48,56,.7)}
-#ndPixAttention .nd26-attn-badge{display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;padding:8px 13px;border-radius:999px;background:#4a1015;border:1px solid #ff4d57;color:#fff;font-size:13px;font-weight:1000;letter-spacing:1.4px;box-shadow:0 0 18px rgba(255,48,56,.18)}
-#ndPixAttention .nd26-attn-big{margin-top:13px;font-size:clamp(25px,5.3vw,43px);line-height:1.01;font-weight:1000;letter-spacing:-1.1px;color:#fff;text-transform:uppercase;text-shadow:0 4px 18px rgba(0,0,0,.55)}
-#ndPixAttention .nd26-attn-big span{color:#ff4d57;text-shadow:0 0 18px rgba(255,48,56,.22)}
-#ndPixAttention p{margin-top:12px;color:#eee0e2;font-size:13px;font-weight:800;line-height:1.5}
-#ndPixSafe{margin:13px 0 0;padding:13px 14px;border:1px solid rgba(255,255,255,.13);border-left:5px solid #ffd166;border-radius:11px;background:rgba(0,0,0,.28);color:#fff;font-size:12px;line-height:1.55;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-#ndPixSafe:before{content:"🛡️";font-size:19px;margin-right:7px;vertical-align:-2px}
-#ndPixSafe strong{color:#ffd166;font-size:13px}
-#nd26AlreadyPaid{width:100%;margin-top:13px;min-height:62px;border:2px solid #61c8ff;border-radius:15px;background:linear-gradient(135deg,#0879ff,#4d35ff);color:#fff;font-size:clamp(14px,3vw,18px);font-weight:1000;letter-spacing:.3px;cursor:pointer;box-shadow:0 0 28px rgba(44,121,255,.30),0 12px 30px rgba(0,0,0,.42);transition:.18s ease;position:relative;overflow:hidden}
-#nd26AlreadyPaid:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.25) 50%,transparent 75%);transform:translateX(-110%);animation:ndPixPaidSweep 2.8s linear infinite}
-#nd26AlreadyPaid:hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 0 34px rgba(44,121,255,.38),0 14px 32px rgba(0,0,0,.45)}
-#nd26AlreadyPaid:active{transform:scale(.985)}
-@keyframes ndPixPaidSweep{0%{transform:translateX(-110%)}60%,100%{transform:translateX(110%)}}
-@media(max-width:600px){#ndPixAttention{padding:18px 14px}#ndPixAttention .nd26-attn-big{font-size:clamp(24px,7.5vw,34px)}#ndPixAttention p{font-size:12px}#ndPixSafe{font-size:11px}#nd26AlreadyPaid{min-height:64px;font-size:14px}}
+#ndPixAttention{margin:12px 0 10px;padding:14px 13px;border:1px solid rgba(255,74,74,.55);border-radius:15px;background:radial-gradient(circle at 10% 10%,rgba(255,64,64,.12),transparent 34%),linear-gradient(145deg,#210d0f,#12090b);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+#ndPixAttention .nd26-attn-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;background:#351317;border:1px solid #7a2730;color:#ff9ca2;font-size:10px;font-weight:1000;letter-spacing:1px}
+#ndPixAttention .nd26-attn-big{margin-top:9px;font-size:clamp(20px,4vw,31px);line-height:1.02;font-weight:1000;letter-spacing:-.8px;color:#fff}
+#ndPixAttention .nd26-attn-big span{color:#ff626b}
+#ndPixAttention p{margin-top:8px;color:#d1bfc2;font-size:11px;line-height:1.5}
+#ndPixSafe{margin:9px 0 0;padding:10px 11px;border-left:3px solid #ff5b65;border-radius:9px;background:rgba(255,255,255,.035);color:#c9c9d0;font-size:10px;line-height:1.5}
+#nd26AlreadyPaid{width:100%;margin-top:11px;min-height:52px;border:1px solid rgba(83,196,255,.75);border-radius:13px;background:linear-gradient(135deg,#0f66d8,#5139ff);color:#fff;font-size:13px;font-weight:1000;letter-spacing:.2px;cursor:pointer;box-shadow:0 0 22px rgba(44,121,255,.22),0 10px 26px rgba(0,0,0,.35);transition:.18s ease}
+#nd26AlreadyPaid:hover{transform:translateY(-1px);filter:brightness(1.08)}
 #ndPixBox .nd-pix-copy,#ndPixCopyValue{min-height:48px!important}
 
 /* Botão da etapa 3 renomeado. */
@@ -9187,11 +9180,11 @@ function pixTotal(){
 function decoratePix(){
  const step=$('#modalFinalizar .nd-v4-step-content[data-content="3"]'),box=$('#ndPixBox');if(!step||!box)return;
  if(!$('#ndPixAttention')){
-  const d=document.createElement('div');d.id='ndPixAttention';d.innerHTML='<div class="nd26-attn-badge">⚠️ ATENÇÃO</div><div class="nd26-attn-big">ATENÇÃO: COPIE O PIX, FAÇA O PAGAMENTO E <span>RETORNE AQUI NO SITE</span> E CLIQUE EM FINALIZAR PEDIDO!</div><p>Depois de efetuar o pagamento, retorne aqui no site e clique em “JÁ PAGUEI • CONCLUA MEU PEDIDO”.</p><div id="ndPixSafe"><strong>ATENÇÃO PARA SUA SEGURANÇA:</strong> O PAGAMENTO NÃO É FEITO PELO SITE. ENTÃO, APÓS EFETUAR O PAGAMENTO, FINALIZE O SEU PEDIDO AQUI NO SITE.</div></div>';
+  const d=document.createElement('div');d.id='ndPixAttention';d.innerHTML='<div class="nd26-attn-badge">⚠️ ATENÇÃO</div><div class="nd26-attn-big">COPIE O PIX, FAÇA O PAGAMENTO E <span>RETORNE AQUI NO SITE</span> E CLIQUE EM FINALIZAR PEDIDO!</div><p>O pagamento é feito fora do site. Depois de pagar, volte para esta etapa e conclua o pedido.</p><div id="ndPixSafe">🛡️ <strong>ATENÇÃO PARA SUA SEGURANÇA:</strong> o pagamento não é feito pelo site. Após efetuar o pagamento, finalize o seu pedido aqui no site.</div></div>';
   box.insertAdjacentElement('afterend',d);
  }
  if(!$('#nd26AlreadyPaid')){
-  const b=document.createElement('button');b.id='nd26AlreadyPaid';b.type='button';b.textContent='✅ JÁ PAGUEI • CONCLUA MEU PEDIDO → ETAPA 4';b.onclick=()=>{if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]')?.click();};
+  const b=document.createElement('button');b.id='nd26AlreadyPaid';b.type='button';b.textContent='✅ JÁ PAGUEI • CONCLUA MEU PEDIDO';b.onclick=()=>{if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]')?.click();};
   $('#ndPixAttention').insertAdjacentElement('afterend',b);
  }
  const pay=$('#pagamentoModal');
@@ -9229,6 +9222,119 @@ function init(){
  setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},1300);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+
+<!-- =========================================================
+     ND BURGS R27 — PIX: AVISO APÓS CÓPIA + SEGURANÇA
+     ========================================================= -->
+<style id="nd-r27-pix-security">
+#ndR27PixToast{
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.96);
+  width:min(560px,calc(100% - 28px));z-index:999999;
+  display:none;padding:22px 20px 18px;border-radius:20px;
+  background:linear-gradient(145deg,#210d0f,#0e0e11);
+  border:2px solid #ff3038;color:#fff;text-align:center;
+  box-shadow:0 25px 90px rgba(0,0,0,.78),0 0 35px rgba(229,9,20,.18);
+  opacity:0;transition:.2s ease;
+}
+#ndR27PixToast.show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1)}
+#ndR27PixToast .r27-pix-icon{font-size:30px;line-height:1;margin-bottom:8px}
+#ndR27PixToast strong{display:block;color:#ff626b;font-size:20px;font-weight:1000;letter-spacing:-.3px}
+#ndR27PixToast p{margin:9px 0 15px;color:#eee;font-size:13px;line-height:1.5}
+#ndR27PixToast button{width:100%;min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#e50914,#ff3038);color:#fff;font-size:13px;font-weight:1000;cursor:pointer;box-shadow:0 8px 24px rgba(229,9,20,.2)}
+#ndR27PixToast button:hover{filter:brightness(1.08)}
+#ndR27PixSecurityNote{
+  margin:13px 0 2px;padding:13px 13px;border-radius:13px;
+  border:1px solid rgba(255,193,7,.48);
+  background:linear-gradient(145deg,#241d08,#151208);
+  color:#ddd;font-size:11px;line-height:1.5;
+}
+#ndR27PixSecurityNote .r27-security-title{display:flex;align-items:center;gap:7px;color:#ffd166;font-size:12px;font-weight:1000;margin-bottom:5px}
+#ndR27PixSecurityNote b{color:#fff}
+#nd26AlreadyPaid{position:relative;z-index:2}
+@media(max-width:600px){
+  #ndR27PixToast{padding:19px 16px 16px}
+  #ndR27PixToast strong{font-size:18px}
+  #ndR27PixToast p{font-size:12px}
+}
+</style>
+
+<script id="nd-r27-pix-security-js">
+(function(){
+  'use strict';
+
+  const MSG='ATENÇÃO: COPIE O PIX, FAÇA O PAGAMENTO E RETORNE AQUI NO SITE E CLIQUE EM FINALIZAR PEDIDO!';
+
+  function toast(){
+    let el=document.getElementById('ndR27PixToast');
+    if(!el){
+      el=document.createElement('div');
+      el.id='ndR27PixToast';
+      el.innerHTML='<div class="r27-pix-icon">⚠️</div><strong>ATENÇÃO</strong><p>'+MSG+'</p><button type="button" id="ndR27PixToastClose">ENTENDI • VOLTAR PARA O PAGAMENTO</button>';
+      document.body.appendChild(el);
+      document.getElementById('ndR27PixToastClose').onclick=function(){el.classList.remove('show');setTimeout(function(){el.style.display='none'},220)};
+    }
+    el.style.display='block';
+    requestAnimationFrame(function(){el.classList.add('show')});
+    clearTimeout(el._timer);
+    el._timer=setTimeout(function(){el.classList.remove('show');setTimeout(function(){el.style.display='none'},220)},7000);
+  }
+
+  function addSecurityNote(){
+    const step=document.querySelector('#modalFinalizar .nd-v4-step-content[data-content="3"]');
+    if(!step || document.getElementById('ndR27PixSecurityNote'))return;
+    const payGrid=step.querySelector('.nd-v4-payment-grid');
+    const note=document.createElement('div');
+    note.id='ndR27PixSecurityNote';
+    note.innerHTML='<div class="r27-security-title">🛡️ ATENÇÃO PARA SUA SEGURANÇA</div><b>O pagamento não é feito pelo site.</b> Então, após efetuar o pagamento, finalize o seu pedido aqui no site.';
+    if(payGrid)payGrid.insertAdjacentElement('afterend',note);else step.insertBefore(note,step.firstChild);
+  }
+
+  function bindCopyMessages(){
+    ['ndPixCopy','ndPixCopyValue'].forEach(function(id){
+      const b=document.getElementById(id);
+      if(!b || b.dataset.ndR27Bound==='1')return;
+      b.dataset.ndR27Bound='1';
+      b.addEventListener('click',function(){setTimeout(toast,80)});
+    });
+  }
+
+  function bindAlreadyPaid(){
+    const b=document.getElementById('nd26AlreadyPaid');
+    if(!b || b.dataset.ndR27Bound==='1')return;
+    b.dataset.ndR27Bound='1';
+    b.onclick=function(){
+      if(typeof window.ndStep==='function'){
+        window.ndStep(4);
+        return;
+      }
+      const target=document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]');
+      if(target)target.click();
+    };
+  }
+
+  function addMainPaymentNote(){
+    const sel=document.getElementById('pagamento');
+    if(!sel || document.getElementById('ndR27MainPixSecurityNote'))return;
+    const note=document.createElement('div');
+    note.id='ndR27MainPixSecurityNote';
+    note.innerHTML='<div class="r27-security-title">🛡️ ATENÇÃO PARA SUA SEGURANÇA</div><b>O pagamento não é feito pelo site.</b> Então, após efetuar o pagamento, finalize o seu pedido aqui no site.';
+    sel.insertAdjacentElement('afterend',note);
+  }
+
+  function init(){
+    addSecurityNote();
+    addMainPaymentNote();
+    bindCopyMessages();
+    bindAlreadyPaid();
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  const obs=new MutationObserver(init);
+  obs.observe(document.body,{childList:true,subtree:true});
+  setTimeout(init,300);setTimeout(init,1000);setTimeout(init,2000);
 })();
 </script>
 
