@@ -9025,9 +9025,10 @@ if(document.readyState==='loading'){
 #ndV4SingleAddressSummary strong{color:#fff;font-size:13px}
 #ndV4SingleAddressSummary button{margin-top:8px;border:1px solid #283c60;background:#111827;color:#cfe2ff;border-radius:9px;padding:7px 10px;font-weight:900;cursor:pointer}
 
-/* Aviso minimalista de prazo dentro do checkout. */
-#nd26DeliveryMini{margin:12px 0 0;padding:9px 11px;border:1px solid rgba(75,147,255,.20);border-radius:10px;background:rgba(32,40,58,.4);color:#aebbd0;font-size:10px;line-height:1.45}
-#nd26DeliveryMini b{color:#eaf2ff}
+/* Aviso minimalista de prazo — dentro do campo PAGAMENTO. */
+#nd26PaymentDeliveryMini{margin:10px 0 12px;padding:8px 10px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:rgba(255,255,255,.035);color:#9ea2aa;font-size:10px;line-height:1.45;text-align:left}
+#nd26PaymentDeliveryMini b{color:#e8e8eb;font-weight:900}
+#nd26PaymentDeliveryMini span{color:#b9bdc6}
 
 /* PIX: aviso de segurança + CTA de pagamento. */
 #ndPixAttention{margin:12px 0 10px;padding:14px 13px;border:1px solid rgba(255,74,74,.55);border-radius:15px;background:radial-gradient(circle at 10% 10%,rgba(255,64,64,.12),transparent 34%),linear-gradient(145deg,#210d0f,#12090b);box-shadow:0 8px 24px rgba(0,0,0,.25)}
@@ -9160,7 +9161,7 @@ function patchCheckout(){
  if(typeof original!=='function'||original.__nd26)return;
  const wrapped=function(){
    const r=original.apply(this,arguments);
-   setTimeout(()=>{syncCheckoutAddr();decorateStep2();decoratePix();renameReview();addressSummary()},0);
+   setTimeout(()=>{syncCheckoutAddr();decorateStep2();decoratePaymentDelivery();decoratePix();renameReview();addressSummary()},0);
    return r;
  };
  wrapped.__nd26=true;wrapped.__nd26Original=original;window.buildCheckout=wrapped;
@@ -9169,8 +9170,18 @@ function decorateStep2(){
  const step=$('#modalFinalizar .nd-v4-step-content[data-content="2"]');if(!step)return;
  ['#enderecoAreaModal','#ndRetiradaInfo'].forEach(sel=>{const x=$(sel);if(x)x.style.display='none'});
  let box=$('#ndV4SingleAddressSummary');if(!box){box=document.createElement('div');box.id='ndV4SingleAddressSummary';step.insertBefore(box,step.querySelector('.nd-v4-next'))}
- if(!$('#nd26DeliveryMini')){const m=document.createElement('div');m.id='nd26DeliveryMini';m.innerHTML='🕐 <b>Tempo de entrega:</b> 40 a 50 minutinhos para o seu pedido chegar fresquinho na sua residência.';box.insertAdjacentElement('afterend',m)}
  syncCheckoutAddr();addressSummary();
+}
+function decoratePaymentDelivery(){
+ const step=$('#modalFinalizar .nd-v4-step-content[data-content="3"]');if(!step)return;
+ let note=$('#nd26PaymentDeliveryMini');
+ const paymentGrid=step.querySelector('.nd-v4-payment-grid');
+ if(!note && paymentGrid){
+   note=document.createElement('div');
+   note.id='nd26PaymentDeliveryMini';
+   note.innerHTML='🕐 <b>Tempo de entrega: 40 a 50 minutinhos.</b> <span>Preparamos tudo com carinho para seu pedido chegar fresquinho na sua residência.</span>';
+   paymentGrid.insertAdjacentElement('beforebegin',note);
+ }
 }
 function renameReview(){const b=$('#modalFinalizar .nd-v4-step-content[data-content="3"] .nd-v4-next');if(b){b.id='nd26ReviewButton';b.textContent='CONCLUIR PEDIDO AGORA →'}}
 function pixTotal(){
@@ -9180,11 +9191,11 @@ function pixTotal(){
 function decoratePix(){
  const step=$('#modalFinalizar .nd-v4-step-content[data-content="3"]'),box=$('#ndPixBox');if(!step||!box)return;
  if(!$('#ndPixAttention')){
-  const d=document.createElement('div');d.id='ndPixAttention';d.innerHTML='<div class="nd26-attn-badge">⚠️ ATENÇÃO</div><div class="nd26-attn-big">COPIE O PIX, FAÇA O PAGAMENTO E <span>RETORNE AQUI NO SITE</span> E CLIQUE EM FINALIZAR PEDIDO!</div><p>O pagamento é feito fora do site. Depois de pagar, volte para esta etapa e conclua o pedido.</p><div id="ndPixSafe">🛡️ <strong>ATENÇÃO PARA SUA SEGURANÇA:</strong> o pagamento não é feito pelo site. Após efetuar o pagamento, finalize o seu pedido aqui no site.</div></div>';
+  const d=document.createElement('div');d.id='ndPixAttention';d.innerHTML='<div class="nd26-attn-badge">⚠️ ATENÇÃO</div><div class="nd26-attn-big">ATENÇÃO: COPIE O PIX, FAÇA O PAGAMENTO E <span>RETORNE AQUI NO SITE</span> E CLIQUE EM FINALIZAR PEDIDO!</div><p>Copie a chave PIX, faça o pagamento e retorne para esta etapa para concluir seu pedido.</p><div id="ndPixSafe">🛡️ <strong>ATENÇÃO PARA SUA SEGURANÇA:</strong> o pagamento não é feito pelo site. Então, após efetuar o pagamento, finalize o seu pedido aqui no site.</div></div>';
   box.insertAdjacentElement('afterend',d);
  }
  if(!$('#nd26AlreadyPaid')){
-  const b=document.createElement('button');b.id='nd26AlreadyPaid';b.type='button';b.textContent='✅ JÁ PAGUEI • CONCLUA MEU PEDIDO';b.onclick=()=>{if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]')?.click();};
+  const b=document.createElement('button');b.id='nd26AlreadyPaid';b.type='button';b.textContent='✅ JÁ PAGUEI • CONCLUA MEU PEDIDO!';b.onclick=()=>{if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]')?.click();};
   $('#ndPixAttention').insertAdjacentElement('afterend',b);
  }
  const pay=$('#pagamentoModal');
@@ -9216,223 +9227,12 @@ function buildSuperOffer(){
  $('#nd26OfferBtn').onclick=()=>{if(typeof window.adicionar==='function'){window.adicionar(d.name,offerPrice)}};
 }
 function init(){
- buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();
+ buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();decoratePaymentDelivery();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();
  syncCheckoutAddr();
- setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},500);
- setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},1300);
+ setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();decoratePaymentDelivery();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},500);
+ setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();decorateStep2();decoratePaymentDelivery();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},1300);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
-
-
-
-<!-- =========================================================
-     ND BURGS R27 — FINALIZAÇÃO + PIX + BUSCA + ENDEREÇO
-     ========================================================= -->
-<style id="nd-r27-final-patch">
-/* ===== AVISO DE ENTREGA: pequeno e minimalista dentro do FINALIZAR PEDIDO ===== */
-#nd26DeliveryMini{
-  display:flex!important;
-  align-items:center!important;
-  gap:8px!important;
-  margin:10px 0 0!important;
-  padding:9px 11px!important;
-  border:1px solid rgba(255,255,255,.08)!important;
-  border-radius:10px!important;
-  background:rgba(255,255,255,.025)!important;
-  color:#969aa3!important;
-  font-size:10px!important;
-  line-height:1.4!important;
-  box-shadow:none!important;
-}
-#nd26DeliveryMini b{color:#dfe2e8!important;font-weight:900!important}
-
-/* ===== PIX: aviso grande, impossível de passar despercebido ===== */
-#ndPixAttention{
-  margin:14px 0 10px!important;
-  padding:18px 15px!important;
-  border:2px solid #e50914!important;
-  border-radius:16px!important;
-  background:linear-gradient(145deg,#26080b,#10090a)!important;
-  box-shadow:0 10px 35px rgba(229,9,20,.14)!important;
-}
-#ndPixAttention .nd26-attn-badge{
-  display:inline-flex!important;
-  align-items:center!important;
-  padding:7px 10px!important;
-  border-radius:999px!important;
-  background:#e50914!important;
-  border:0!important;
-  color:#fff!important;
-  font-size:11px!important;
-  font-weight:1000!important;
-  letter-spacing:1px!important;
-}
-#ndPixAttention .nd26-attn-big{
-  margin-top:12px!important;
-  font-size:clamp(24px,5.5vw,38px)!important;
-  line-height:1.02!important;
-  font-weight:1000!important;
-  letter-spacing:-1px!important;
-  color:#fff!important;
-  text-transform:uppercase!important;
-}
-#ndPixAttention .nd26-attn-big span{color:#ff4b51!important}
-#ndPixAttention p{display:none!important}
-#ndPixSafe{
-  margin:13px 0 0!important;
-  padding:12px 12px!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  border-left:4px solid #ff3038!important;
-  border-radius:10px!important;
-  background:rgba(255,255,255,.045)!important;
-  color:#d5d6da!important;
-  font-size:11px!important;
-  line-height:1.55!important;
-}
-#nd26AlreadyPaid{
-  width:100%!important;
-  min-height:58px!important;
-  margin:12px 0 0!important;
-  border:0!important;
-  border-radius:14px!important;
-  background:linear-gradient(135deg,#e50914,#ff3038)!important;
-  color:#fff!important;
-  font-size:15px!important;
-  font-weight:1000!important;
-  letter-spacing:.25px!important;
-  cursor:pointer!important;
-  box-shadow:0 10px 30px rgba(229,9,20,.24)!important;
-}
-#nd26AlreadyPaid:hover{filter:brightness(1.08)!important;transform:translateY(-1px)!important}
-
-/* ===== ETAPA 4: deixa a confirmação claramente visível ===== */
-#modalFinalizar .nd-v4-step-content[data-content="4"] .nd-v4-next,
-#modalFinalizar .nd-v4-step-content[data-content="4"] button{
-  font-weight:1000!important;
-}
-
-/* ===== BUSCA PRINCIPAL: sempre disponível e funcional ===== */
-#buscaProdutos{cursor:text!important}
-.modern-search{z-index:1500!important}
-.modern-search input{pointer-events:auto!important;user-select:text!important}
-
-/* ===== LISTA DE RUAS: busca sempre liberada ===== */
-#ndTopStreet{cursor:text!important}
-#ndTopStreetList{z-index:500000!important}
-
-@media(max-width:600px){
-  #nd26DeliveryMini{font-size:9.5px!important;padding:8px 10px!important}
-  #ndPixAttention{padding:15px 12px!important}
-  #ndPixAttention .nd26-attn-big{font-size:25px!important;line-height:1.04!important}
-  #ndPixSafe{font-size:10px!important}
-  #nd26AlreadyPaid{min-height:56px!important;font-size:13px!important}
-}
-</style>
-
-<script id="nd-r27-final-patch-js">
-(function(){
-  'use strict';
-  const $=s=>document.querySelector(s);
-  const $$=s=>Array.from(document.querySelectorAll(s));
-  const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').toUpperCase().trim();
-
-  /* Busca de produtos: filtra o catálogo inteiro em tempo real. */
-  function activateProductSearch(){
-    const input=$('#buscaProdutos');
-    if(!input || input.dataset.nd27Search==='1')return;
-    input.dataset.nd27Search='1';
-
-    const update=()=>{
-      const q=norm(input.value);
-      const cards=$$('.produto');
-      let visible=0;
-      cards.forEach(card=>{
-        const name=norm(card.querySelector('h3')?.textContent||'');
-        const desc=norm(card.querySelector('p')?.textContent||'');
-        const alt=norm(card.querySelector('img')?.getAttribute('alt')||'');
-        const ok=!q || name.includes(q)||desc.includes(q)||alt.includes(q);
-        card.classList.toggle('search-hidden',!ok);
-        card.style.display=ok?'':'none';
-        if(ok)visible++;
-      });
-      const count=$('#contadorBusca');
-      if(count)count.textContent=q?(visible+' encontrado'+(visible===1?'':'s')):'';
-      const empty=$('#semResultados');
-      if(empty)empty.style.display=q&&visible===0?'block':'none';
-      const empty2=$('#ndR24SearchEmpty');
-      if(empty2)empty2.style.display=q&&visible===0?'block':'none';
-    };
-
-    input.addEventListener('input',update);
-    input.addEventListener('search',update);
-    update();
-  }
-
-  /* Busca de ruas: ao focar, mostra imediatamente TODAS as ruas cadastradas. */
-  function activateStreetSearch(){
-    const input=$('#ndTopStreet'), list=$('#ndTopStreetList');
-    if(!input||!list)return;
-    const refresh=()=>{
-      if(typeof window.nd26RenderStreetList==='function'){
-        try{window.nd26RenderStreetList(input,list);return}catch(e){}
-      }
-      const taxesObj=(typeof window.taxas==='object'&&window.taxas)||{};
-      const streets=Object.keys(taxesObj).filter(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k));
-      const q=norm(input.value);
-      const result=streets.filter(s=>!q||norm(s).includes(q)).slice(0,100);
-      list.innerHTML=result.map(s=>{
-        const safe=s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        return '<div class="nd26-option" data-street="'+safe+'"><span>'+safe+'</span></div>';
-      }).join('');
-      list.classList.add('show');
-      list.querySelectorAll('.nd26-option').forEach(el=>el.addEventListener('click',()=>{
-        input.value=el.dataset.street||'';
-        input.dataset.valid='1';
-        list.classList.remove('show');
-      }));
-    };
-    if(input.dataset.nd27Street!=='1'){
-      input.dataset.nd27Street='1';
-      input.addEventListener('focus',refresh);
-      input.addEventListener('input',refresh);
-    }
-    refresh();
-  }
-
-  /* Botão PIX: garante avanço real para a etapa 4. */
-  function patchPixButton(){
-    const b=$('#nd26AlreadyPaid');
-    if(!b||b.dataset.nd27==='1')return;
-    b.dataset.nd27='1';
-    b.textContent='JÁ PAGUEI • CONCLUA MEU PEDIDO';
-    b.onclick=function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      if(typeof window.ndStep==='function'){
-        window.ndStep(4);
-        return;
-      }
-      const step4=$('#modalFinalizar .nd-v4-step[data-step="4"]');
-      if(step4)step4.click();
-    };
-  }
-
-  function init(){
-    activateProductSearch();
-    activateStreetSearch();
-    patchPixButton();
-  }
-
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{
-    init();setTimeout(init,300);setTimeout(init,900);setTimeout(init,1600);
-  },{once:true});
-  else{init();setTimeout(init,300);setTimeout(init,900);setTimeout(init,1600)}
-
-  /* O checkout é criado dinamicamente; reaplica somente quando necessário. */
-  const obs=new MutationObserver(()=>{patchPixButton();activateStreetSearch();});
-  if(document.body)obs.observe(document.body,{childList:true,subtree:true});
 })();
 </script>
 
