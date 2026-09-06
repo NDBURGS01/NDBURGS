@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260906-R27">
+<meta name="nd-site-version" content="20260906-R26">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260906-R27";
+  const ND_SITE_VERSION = "20260906-R26";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -8976,86 +8976,252 @@ if(document.readyState==='loading'){
 </script>
 
 
-<!-- ND BURGS R26 — ajustes finais solicitados -->
+<!-- =========================================================
+     ND BURGS — ATUALIZAÇÃO R26
+     ENDEREÇO NO TOPO + PIX + CHECKOUT + SUPER OFERTA DIÁRIA
+     ========================================================= -->
 <style id="nd-r26-final">
-#nd17Gate{position:relative!important;inset:auto!important;display:block!important;background:transparent!important;padding:10px 14px 0!important;z-index:200000!important}
-#nd17Gate .nd17-gate-panel{width:min(1180px,100%)!important;margin:0 auto!important;padding:18px 20px 20px!important;position:relative!important;overflow:hidden!important;border-radius:22px!important;border:1px solid rgba(255,120,20,.6)!important;background:radial-gradient(circle at 7% 10%,rgba(255,88,0,.3),transparent 28%),radial-gradient(circle at 94% 8%,rgba(0,126,255,.3),transparent 30%),linear-gradient(145deg,#17100b,#090d14 55%,#06070a)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 18px 55px rgba(0,0,0,.55),0 0 35px rgba(255,90,0,.16),0 0 55px rgba(0,110,255,.13)!important}
-#nd17Gate .nd17-gate-panel:before,#nd17Gate .nd17-gate-panel:after{content:"";position:absolute;pointer-events:none;border-radius:999px;filter:blur(4px)}
-#nd17Gate .nd17-gate-panel:before{width:420px;height:80px;right:-120px;top:18px;background:linear-gradient(90deg,transparent,rgba(255,88,0,.55),transparent);transform:rotate(-10deg);animation:ndR26a 5.5s ease-in-out infinite}
-#nd17Gate .nd17-gate-panel:after{width:390px;height:75px;left:-120px;bottom:10px;background:linear-gradient(90deg,transparent,rgba(0,120,255,.55),transparent);transform:rotate(10deg);animation:ndR26b 6s ease-in-out infinite}
-#nd17Gate .nd17-gate-panel>*{position:relative;z-index:2}
-#nd17Gate .nd17-kicker{color:#ffb36d!important;letter-spacing:1.5px!important}
-#nd17Gate .nd17-gate-panel h2{font-size:clamp(24px,3vw,34px)!important;color:#fff!important;text-shadow:0 3px 0 #612900,0 8px 25px #000!important}
-#nd17GateStreet,#nd17GateNumber{min-height:50px!important;background:#090c12!important}
-#nd17GateStreet{border-color:rgba(85,155,255,.5)!important}
-#nd17GateSave{min-height:50px!important;background:linear-gradient(135deg,#ff4b00,#ff9700)!important;color:#160800!important;border:1px solid #ffc58b!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 5px 0 #933700,0 0 24px rgba(255,90,0,.2)!important}
-#nd17GatePickup{min-height:50px!important;background:linear-gradient(135deg,#0b1728,#07101a)!important;border:1px solid rgba(77,157,255,.5)!important;color:#fff!important;box-shadow:0 0 22px rgba(0,115,255,.1)!important}
+/* ===== ENDEREÇO ÚNICO NO TOPO ===== */
+#ndTopAddress{position:relative;z-index:1800;width:min(1180px,calc(100% - 20px));margin:12px auto 8px;padding:14px;border:1px solid rgba(75,143,255,.78);border-radius:20px;background:radial-gradient(circle at 12% 10%,rgba(51,112,255,.22),transparent 32%),radial-gradient(circle at 88% 80%,rgba(116,50,255,.20),transparent 36%),linear-gradient(145deg,#0a0d18,#07070c 58%,#090611);box-shadow:0 0 16px rgba(46,117,255,.42),0 0 38px rgba(84,43,255,.22),inset 0 1px 0 rgba(255,255,255,.14),0 16px 40px rgba(0,0,0,.42);transform:translateZ(0);overflow:visible}
+#ndTopAddress:before,#ndTopAddress:after{content:"";position:absolute;pointer-events:none;border-radius:999px;filter:blur(2px);opacity:.85}
+#ndTopAddress:before{width:180px;height:180px;left:-90px;top:-100px;background:radial-gradient(circle,rgba(0,156,255,.42),transparent 68%);animation:nd26Orb 4.4s ease-in-out infinite}
+#ndTopAddress:after{width:170px;height:170px;right:-70px;bottom:-110px;background:radial-gradient(circle,rgba(133,48,255,.35),transparent 70%);animation:nd26Orb 5.1s ease-in-out infinite reverse}
+.nd26-top-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}
+.nd26-kicker{font-size:10px;font-weight:1000;letter-spacing:1.8px;color:#9ec9ff;text-transform:uppercase}
+.nd26-title{margin-top:4px;font-size:clamp(19px,3vw,29px);font-weight:1000;letter-spacing:-.6px;color:#fff;text-shadow:0 4px 16px rgba(52,128,255,.22)}
+.nd26-title strong{color:#9fc8ff}
+.nd26-sub{margin-top:5px;color:#aab1bf;font-size:11px;line-height:1.4}
+.nd26-mode-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.nd26-mode{border:1px solid rgba(255,255,255,.1);background:#0d1018;color:#d8deea;border-radius:12px;padding:10px 13px;min-height:44px;font-weight:900;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);transition:.18s ease}
+.nd26-mode.active{border-color:#4b93ff;background:linear-gradient(135deg,#163a79,#101b31);color:#fff;box-shadow:0 0 18px rgba(58,132,255,.2),inset 0 1px 0 rgba(255,255,255,.12)}
+.nd26-fields{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 120px auto;gap:8px;margin-top:10px}
+.nd26-field-wrap{position:relative}
+.nd26-input{width:100%;margin:0!important;min-height:46px;padding:12px 13px!important;background:#070a10!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:12px!important;color:#fff!important;outline:none!important;font-size:14px!important}
+.nd26-input:focus{border-color:#4b93ff!important;box-shadow:0 0 0 3px rgba(75,147,255,.11)!important}
+.nd26-save{min-height:46px;border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#2d7cff,#6c5cff);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 0 18px rgba(53,110,255,.3),0 7px 18px rgba(0,0,0,.28);transition:.18s ease}
+.nd26-save:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.nd26-status{margin-top:9px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(0,0,0,.22);font-size:11px;color:#b5bdca}
+.nd26-status strong{color:#fff}
+.nd26-status button{border:1px solid #2e3b52;background:#10151d;color:#dce6f7;border-radius:9px;padding:7px 10px;font-weight:900;cursor:pointer}
+.nd26-list{position:absolute;left:0;right:0;top:calc(100% + 6px);display:none;max-height:270px;overflow:auto;padding:5px;background:#0a0c12;border:1px solid rgba(82,142,255,.5);border-radius:13px;box-shadow:0 20px 55px rgba(0,0,0,.72);z-index:500000}
+.nd26-list.show{display:block}
+.nd26-option{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 10px;border-radius:9px;color:#edf2fb;font-size:12px;cursor:pointer}
+.nd26-option:hover{background:linear-gradient(90deg,rgba(44,116,255,.25),rgba(111,67,255,.17));color:#fff}
+.nd26-option small{color:#7eaef9;white-space:nowrap}
+.nd26-pickup-note{display:none;margin-top:10px;padding:10px 12px;border-radius:11px;background:rgba(27,28,36,.8);border:1px solid rgba(255,255,255,.09);color:#c6cad3;font-size:11px;line-height:1.45}
+.nd26-pickup-note.show{display:block}
+@keyframes nd26Orb{0%,100%{transform:translate3d(0,0,0);opacity:.45}50%{transform:translate3d(18px,-8px,0);opacity:.95}}
+
+/* Esconde versões antigas que duplicavam endereço/tempo/oferta. */
 #nd17AddressBar{display:none!important}
+#nd17Gate{display:none!important}
+#enderecoAreaModal{display:none!important}
 #ndR20DeliveryHighlight{display:none!important}
-#nd17Gate .nd17-list.show{display:block!important}
-
-/* ENDEREÇO: somente no topo; escondemos os seletores duplicados do checkout */
-#modalFinalizar .nd-v4-step-content[data-content="2"] .nd-v4-payment-grid,#modalFinalizar #enderecoAreaModal,#modalFinalizar .nd-v4-step-content[data-content="2"] .nd-v4-delivery-estimate{display:none!important}
-#ndR26AddressSummary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;margin-bottom:12px;border:1px solid rgba(64,140,255,.3);border-radius:15px;background:linear-gradient(145deg,#0c111a,#08090d)}
-#ndR26AddressSummary .r26title{font-size:9px;letter-spacing:1.2px;color:#82baff;font-weight:1000}
-#ndR26AddressSummary .r26main{font-size:15px;color:#fff;font-weight:900;margin-top:4px}
-#ndR26AddressSummary .r26sub{font-size:11px;color:#999;margin-top:4px}
-#ndR26AddressSummary button{border:1px solid rgba(255,130,45,.55);background:#171009;color:#ffb878;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
-
-/* TEMPO DE ENTREGA somente na confirmação */
-#ndR26DeliveryStep4{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;margin:12px 0;border:1px solid rgba(62,130,255,.28);border-radius:15px;background:linear-gradient(135deg,#0c121d,#100b18)}
-#ndR26DeliveryStep4 .rt1{font-size:9px;color:#84baff;font-weight:1000;letter-spacing:1.3px}
-#ndR26DeliveryStep4 .rt2{font-size:24px;color:#fff;font-weight:1000;line-height:1;margin-top:4px}
-#ndR26DeliveryStep4 .rt3{font-size:10px;color:#9199aa;margin-top:4px}
-#ndR26DeliveryStep4 .ricon{font-size:30px}
-
-/* PIX */
-#ndR26PixWarning{margin-top:12px;padding:16px;border:2px solid #ff7a00;border-radius:15px;background:linear-gradient(145deg,#2a1205,#120c08);text-align:center;box-shadow:0 0 24px rgba(255,102,0,.14)}
-#ndR26PixWarning .pa{font-size:13px;color:#ffb766;font-weight:1000;letter-spacing:1px}
-#ndR26PixWarning .pb{font-size:clamp(18px,4vw,28px);color:#fff;font-weight:1000;line-height:1.06;margin-top:7px}
-#ndR26PixWarning .pc{font-size:11px;color:#ddd;line-height:1.45;margin-top:9px}
-#ndR26PixConfirm{width:100%;min-height:51px;margin-top:11px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff4b00,#ff9800);color:#170900;font-weight:1000;cursor:pointer;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 5px 0 #8d3700}
-
-/* BUSCA */
-#ndR26SearchEmpty{display:none;margin:12px 0;padding:24px 15px;text-align:center;border:1px dashed #303030;border-radius:15px;color:#aaa;background:#0d0d0f}
-#ndR26SearchEmpty strong{display:block;color:#fff;margin-bottom:5px}
-
-/* novo aviso minimalista no final */
-#ndR26DeliveryMini{width:min(720px,calc(100% - 28px));margin:26px auto 12px;padding:13px 15px;display:flex;align-items:center;gap:12px;border:1px solid rgba(70,132,255,.28);border-radius:15px;background:#0b0f16;box-shadow:0 10px 30px rgba(0,0,0,.3)}
-#ndR26DeliveryMini .mi{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:#0e1724;border:1px solid rgba(80,145,255,.25);font-size:21px;flex:0 0 40px}
-#ndR26DeliveryMini .mk{font-size:9px;letter-spacing:1.2px;color:#8bb8ff;font-weight:1000}.mt{font-size:13px;color:#fff;font-weight:900;margin-top:2px}.ms{font-size:10px;color:#888;margin-top:3px}
-
-/* oferta diária no final */
-#ndDailyOfferR26{width:min(820px,calc(100% - 28px));margin:10px auto 28px;padding:15px 16px;border-radius:18px;border:1px solid rgba(255,115,28,.45);background:radial-gradient(circle at 100% 0,rgba(255,100,0,.18),transparent 36%),linear-gradient(145deg,#18110c,#0b0d11);box-shadow:0 14px 38px rgba(0,0,0,.5),0 0 22px rgba(255,90,0,.08)}
-#ndDailyOfferR26 .ok{font-size:9px;letter-spacing:1.5px;color:#ffb26f;font-weight:1000}.orow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:5px}.oname{font-size:clamp(18px,3vw,24px);font-weight:1000;color:#fff}.osub{font-size:10px;color:#999;margin-top:3px}.oprice{font-size:clamp(22px,4vw,30px);font-weight:1000;color:#fff;white-space:nowrap}#ndDailyOfferR26 button{margin-top:10px;border:1px solid #ffc28d;border-radius:10px;padding:10px 13px;background:linear-gradient(135deg,#ff5700,#ff9900);color:#160900;font-weight:1000;cursor:pointer}
 #ndUvaPromo{display:none!important}
-@keyframes ndR26a{0%,100%{transform:translate3d(30px,-3px,0) rotate(-10deg);opacity:.25}50%{transform:translate3d(-180px,35px,0) rotate(-7deg);opacity:.85}}@keyframes ndR26b{0%,100%{transform:translate3d(-20px,0,0) rotate(10deg);opacity:.22}50%{transform:translate3d(180px,-28px,0) rotate(7deg);opacity:.82}}
-@media(max-width:600px){#nd17Gate{padding:7px 8px 0!important}#nd17Gate .nd17-gate-panel{padding:15px 13px!important;border-radius:18px!important}#nd17Gate .nd17-gate-panel h2{font-size:23px!important}#ndR26AddressSummary{align-items:flex-start}#ndR26DeliveryStep4 .rt2{font-size:21px}.orow{flex-direction:column;align-items:flex-start}.oprice{font-size:27px}#ndDailyOfferR26{width:calc(100% - 16px)}}
+#ndFinalSendGate{display:none!important}
+
+/* Etapa 2 do checkout: endereço somente informativo, sem segunda seleção. */
+#ndV4SingleAddressSummary{margin-top:10px;padding:12px;border:1px solid rgba(75,147,255,.25);border-radius:12px;background:linear-gradient(145deg,#0d111a,#090a0f);color:#c7d0dd;font-size:11px;line-height:1.5}
+#ndV4SingleAddressSummary strong{color:#fff;font-size:13px}
+#ndV4SingleAddressSummary button{margin-top:8px;border:1px solid #283c60;background:#111827;color:#cfe2ff;border-radius:9px;padding:7px 10px;font-weight:900;cursor:pointer}
+
+/* Aviso minimalista de prazo dentro do checkout. */
+#nd26DeliveryMini{margin:12px 0 0;padding:9px 11px;border:1px solid rgba(75,147,255,.20);border-radius:10px;background:rgba(32,40,58,.4);color:#aebbd0;font-size:10px;line-height:1.45}
+#nd26DeliveryMini b{color:#eaf2ff}
+
+/* PIX: aviso de segurança + CTA de pagamento. */
+#ndPixAttention{margin:12px 0 10px;padding:14px 13px;border:1px solid rgba(255,74,74,.55);border-radius:15px;background:radial-gradient(circle at 10% 10%,rgba(255,64,64,.12),transparent 34%),linear-gradient(145deg,#210d0f,#12090b);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+#ndPixAttention .nd26-attn-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;background:#351317;border:1px solid #7a2730;color:#ff9ca2;font-size:10px;font-weight:1000;letter-spacing:1px}
+#ndPixAttention .nd26-attn-big{margin-top:9px;font-size:clamp(20px,4vw,31px);line-height:1.02;font-weight:1000;letter-spacing:-.8px;color:#fff}
+#ndPixAttention .nd26-attn-big span{color:#ff626b}
+#ndPixAttention p{margin-top:8px;color:#d1bfc2;font-size:11px;line-height:1.5}
+#ndPixSafe{margin:9px 0 0;padding:10px 11px;border-left:3px solid #ff5b65;border-radius:9px;background:rgba(255,255,255,.035);color:#c9c9d0;font-size:10px;line-height:1.5}
+#nd26AlreadyPaid{width:100%;margin-top:11px;min-height:52px;border:1px solid rgba(83,196,255,.75);border-radius:13px;background:linear-gradient(135deg,#0f66d8,#5139ff);color:#fff;font-size:13px;font-weight:1000;letter-spacing:.2px;cursor:pointer;box-shadow:0 0 22px rgba(44,121,255,.22),0 10px 26px rgba(0,0,0,.35);transition:.18s ease}
+#nd26AlreadyPaid:hover{transform:translateY(-1px);filter:brightness(1.08)}
+#ndPixBox .nd-pix-copy,#ndPixCopyValue{min-height:48px!important}
+
+/* Botão da etapa 3 renomeado. */
+#nd26ReviewButton{font-size:14px!important}
+
+/* ===== SUPER OFERTA ===== */
+#nd26SuperOffer{width:min(920px,calc(100% - 20px));margin:36px auto 20px;padding:18px;border:1px solid rgba(101,115,255,.72);border-radius:24px;background:radial-gradient(circle at 18% 22%,rgba(39,150,255,.18),transparent 34%),radial-gradient(circle at 84% 78%,rgba(154,57,255,.18),transparent 36%),linear-gradient(145deg,#0d1020,#09090f);box-shadow:0 0 24px rgba(59,92,255,.18),0 22px 70px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.11);overflow:hidden;position:relative}
+#nd26SuperOffer:before{content:"";position:absolute;inset:-2px;background:linear-gradient(100deg,transparent 10%,rgba(120,170,255,.16) 42%,rgba(180,100,255,.16) 58%,transparent 90%);transform:translateX(-110%);animation:nd26Sweep 4.8s linear infinite;pointer-events:none}
+.nd26-offer-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nd26-offer-kicker{font-size:10px;letter-spacing:1.8px;color:#9eb7ff;font-weight:1000}
+.nd26-offer-title{margin-top:3px;font-size:clamp(24px,5vw,42px);font-weight:1000;letter-spacing:-1.2px;color:#fff}
+.nd26-offer-badge{padding:8px 10px;border-radius:999px;border:1px solid rgba(107,160,255,.6);background:rgba(77,111,255,.12);color:#cfe0ff;font-size:10px;font-weight:1000;white-space:nowrap}
+.nd26-offer-card{position:relative;z-index:1;display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:14px;margin-top:15px;padding:13px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.035)}
+.nd26-offer-img{width:120px;height:120px;object-fit:cover;border-radius:14px;background:#07080c}
+.nd26-offer-name{font-size:18px;font-weight:1000;color:#fff;line-height:1.05}
+.nd26-offer-desc{margin-top:6px;color:#969fb0;font-size:11px;line-height:1.45}
+.nd26-offer-price{display:inline-block;margin-top:10px;padding:8px 10px;border-radius:11px;background:linear-gradient(135deg,#7d55ff,#287bff);color:#fff;font-size:24px;font-weight:1000;box-shadow:0 0 18px rgba(91,70,255,.22)}
+.nd26-offer-btn{min-width:170px;min-height:50px;border:0;border-radius:13px;background:linear-gradient(135deg,#396eff,#8a47ff);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 10px 25px rgba(62,87,255,.25);transition:.18s ease}
+.nd26-offer-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+@keyframes nd26Sweep{0%{transform:translateX(-110%)}65%,100%{transform:translateX(110%)}}
+@media(max-width:720px){
+ #nd26-top{} 
+ .nd26-top-inner{grid-template-columns:1fr}
+ .nd26-fields{grid-template-columns:1fr 100px}
+ .nd26-save{grid-column:1/-1}
+ .nd26-offer-card{grid-template-columns:82px 1fr}
+ .nd26-offer-img{width:82px;height:82px}
+ .nd26-offer-btn{grid-column:1/-1;width:100%}
+}
+@media(max-width:480px){
+ #ndTopAddress{width:calc(100% - 14px);padding:12px;border-radius:17px}
+ .nd26-fields{grid-template-columns:1fr}
+ .nd26-mode{flex:1}
+ .nd26-offer-name{font-size:15px}
+ .nd26-offer-price{font-size:21px}
+}
+@media(prefers-reduced-motion:reduce){#ndTopAddress:before,#ndTopAddress:after,#nd26SuperOffer:before{animation:none!important}}
 </style>
 <script id="nd-r26-final-js">
 (function(){
 'use strict';
-const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
-const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const esc=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-function taxes(){try{return typeof window.taxas!=='undefined'?window.taxas:(typeof taxas!=='undefined'?taxas:{})}catch(_){return{}}}
-function addr(){return{type:localStorage.getItem('nd17_tipo')||'ENTREGA',street:localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd17_numero')||''}}
-function moveGate(){const g=$('#nd17Gate'),h=document.querySelector('header');if(g&&h&&h.nextElementSibling!==g)h.insertAdjacentElement('afterend',g);document.body.style.overflow=''}
-function topAddress(){moveGate();const a=addr(),s=$('#nd17GateStreet'),n=$('#nd17GateNumber');if(a.type==='RETIRADA'){if(s)s.value='RETIRADA NO LOCAL';if(n)n.value=''}else{if(s&&a.street)s.value=a.street;if(n&&a.number)n.value=a.number}}
-function bindTopSearch(){const i=$('#nd17GateStreet'),l=$('#nd17GateList');if(!i||!l||i.dataset.r26)return;i.dataset.r26='1';const render=()=>{const data=taxes(),q=norm(i.value==='RETIRADA NO LOCAL'?'':i.value),arr=Object.keys(data).filter(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k)).filter(k=>!q||norm(k).includes(q)).slice(0,18);l.innerHTML='';arr.forEach(st=>{const d=document.createElement('div');d.className='nd17-option';d.textContent=st+' — '+money(data[st]);d.onclick=()=>{i.value=st;l.classList.remove('show')};l.appendChild(d)});l.classList.toggle('show',arr.length>0)};i.addEventListener('focus',render);i.addEventListener('input',render)}
-function syncHidden(){const a=addr(),t=$('#tipoPedidoModal'),r=$('#ruaModal'),n=$('#numeroModal');if(t)t.value=a.type==='RETIRADA'?'RETIRADA':'ENTREGA';if(r&&a.street){const o=[...r.options].find(x=>norm(x.value)===norm(a.street));if(o)r.value=o.value}if(n)n.value=a.number||''}
-function checkoutAddress(){const st=$('#modalFinalizar [data-content="2"]');if(!st)return;syncHidden();let b=$('#ndR26AddressSummary');if(!b){b=document.createElement('div');b.id='ndR26AddressSummary';const next=st.querySelector('.nd-v4-next');next?st.insertBefore(b,next):st.appendChild(b)}const a=addr(),f=a.type==='ENTREGA'?(Number(taxes()[a.street]||0)):0;b.innerHTML=a.type==='RETIRADA'?'<div><div class="r26title">FORMA DE RECEBIMENTO</div><div class="r26main">🏪 RETIRADA NA LOJA</div><div class="r26sub">Sem taxa de entrega.</div></div><button type="button" id="r26Change">ALTERAR</button>':'<div><div class="r26title">ENDEREÇO DO PEDIDO</div><div class="r26main">📍 '+esc(a.street)+(a.number?', Nº '+esc(a.number):'')+'</div><div class="r26sub">Taxa de entrega: '+money(f)+'</div></div><button type="button" id="r26Change">ALTERAR</button>';$('#r26Change').onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});setTimeout(()=>$('#nd17GateStreet')?.focus(),250)}}
-function step4Time(){const st=$('#modalFinalizar [data-content="4"]');if(!st)return;let b=$('#ndR26DeliveryStep4');if(!b){b=document.createElement('div');b.id='ndR26DeliveryStep4';const s=st.querySelector('.nd-v4-summary');s?s.insertAdjacentElement('afterend',b):st.prepend(b)}b.innerHTML='<div><div class="rt1">TEMPO DE ENTREGA</div><div class="rt2">40 A 50 MINUTINHOS</div><div class="rt3">Para seu pedido chegar fresquinho na sua residência.</div></div><div class="ricon">🛵</div>';b.style.display=addr().type==='RETIRADA'?'none':'flex'}
-function pix(){const box=$('#ndPixBox'),pay=$('#pagamentoModal');if(!box||!pay)return;if(pay.value!=='PIX'){const w=$('#ndR26PixWarning');if(w)w.remove();return}let w=$('#ndR26PixWarning');if(!w){w=document.createElement('div');w.id='ndR26PixWarning';box.appendChild(w)}w.innerHTML='<div class="pa">⚠️ ATENÇÃO — PARA SUA SEGURANÇA</div><div class="pb">COPIE O PIX, MAS FAÇA O PAGAMENTO APENAS APÓS CONFIRMAR O SEU PEDIDO.</div><div class="pc">🔒 O pagamento não é feito pelo site. Depois de efetuar o pagamento, volte para cá e finalize o seu pedido no site.</div><button id="ndR26PixConfirm" type="button">✅ JÁ PAGUEI — CONCLUA MEU PEDIDO!</button>';$('#ndR26PixConfirm').onclick=()=>typeof window.ndStep==='function'?window.ndStep(4):null}
-function search(){const i=$('#buscaProdutos');if(!i)return;const term=norm(i.value);let v=0;$$('.produto').forEach(c=>{const ok=!term||norm(c.textContent).includes(term);c.classList.toggle('search-hidden',!ok);c.style.display=ok?'':'none';if(ok)v++});$$('.categoria').forEach(c=>{c.style.display=[...c.querySelectorAll('.produto')].some(x=>x.style.display!=='none'&&!x.classList.contains('search-hidden'))?'':'none'});let e=$('#ndR26SearchEmpty');if(!e){e=document.createElement('div');e.id='ndR26SearchEmpty';e.innerHTML='<strong>NÃO ENCONTRAMOS ESSE PRODUTO</strong><span>Tente outro nome ou escolha uma categoria acima.</span>';i.closest('.modern-search')?.insertAdjacentElement('afterend',e)}e.style.display=term&&v===0?'block':'none';const c=$('#contadorBusca');if(c)c.textContent=term?v+' resultado'+(v===1?'':'s'):''}
-function bindSearch(){const i=$('#buscaProdutos');if(!i||i.dataset.r26)return;i.dataset.r26='1';i.addEventListener('input',search);search()}
-function offerCard(){return $$('.produto').filter(c=>{const cat=c.closest('.categoria')?.id;if(['bebidas','porcoes'].includes(cat))return false;const name=norm(c.querySelector('h3')?.textContent);if(!name||/REFRIGERANTE|COCA COLA|SPRITE|FANTA|DOLLY|SUCO|AGUA|BATATA|NUGGETS|ANEL DE CEBOLA|FRANGO FRITO/.test(name))return false;const b=c.querySelector('.btn-add'),x=b?.getAttribute('onclick')||'',m=x.match(/,\s*(\d+(?:[.,]\d+)?)\s*\)/);return !!m&&Number(m[1].replace(',','.'))>2})}
-function dailyOffer(){const f=document.querySelector('footer');if(!f)return;let box=$('#ndDailyOfferR26');if(!box){box=document.createElement('section');box.id='ndDailyOfferR26';f.parentNode.insertBefore(box,f)}const list=offerCard();if(!list.length){box.remove();return}const key=new Date().toISOString().slice(0,10);let seed=0;for(let i=0;i<key.length;i++)seed=(seed*31+key.charCodeAt(i))>>>0;const c=list[seed%list.length],name=c.querySelector('h3').textContent.trim(),m=(c.querySelector('.btn-add')?.getAttribute('onclick')||'').match(/,\s*(\d+(?:[.,]\d+)?)\s*\)/),base=Number(m[1].replace(',','.')),price=Math.max(0,base-2);box.innerHTML='<div class="ok">🔥 OFERTA APENAS NO SITE • ATUALIZADA HOJE</div><div class="orow"><div><div class="oname">'+esc(name)+'</div><div class="osub">Uma condição especial disponível hoje pelo site.</div></div><div class="oprice">'+money(price)+'</div></div><button type="button" id="ndR26OfferBtn">QUERO A OFERTA DE HOJE</button>';$('#ndR26OfferBtn').onclick=()=>window.adicionar?.(name,price)}
-function deliveryMini(){const f=document.querySelector('footer');if(!f)return;let b=$('#ndR26DeliveryMini');if(!b){b=document.createElement('section');b.id='ndR26DeliveryMini';f.parentNode.insertBefore(b,f)}b.innerHTML='<div class="mi">🛵</div><div><div class="mk">PASSANDO PARA AVISAR</div><div class="mt">Nosso tempo de entrega é de 40 a 50 minutinhhos.</div><div class="ms">Para que seu pedido chegue fresquinho na sua residência.</div></div>'}
-function init(){moveGate();topAddress();bindTopSearch();syncHidden();checkoutAddress();step4Time();pix();bindSearch();deliveryMini();dailyOffer()}
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').toUpperCase().trim();
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+
+function taxes(){try{return typeof window.taxas!=='undefined'?window.taxas:(typeof taxas!=='undefined'?taxas:{})}catch(e){return window.taxas||{}}}
+function streets(){return Object.keys(taxes()).filter(k=>!['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k));}
+function getAddr(){return {type:localStorage.getItem('nd26_tipo')||localStorage.getItem('nd17_tipo')||'ENTREGA',street:localStorage.getItem('nd26_rua')||localStorage.getItem('nd17_rua')||'',number:localStorage.getItem('nd26_numero')||localStorage.getItem('nd17_numero')||''}}
+function saveAddr(type,street,number){localStorage.setItem('nd26_tipo',type);localStorage.setItem('nd26_rua',street||'');localStorage.setItem('nd26_numero',number||'');localStorage.setItem('nd17_tipo',type);localStorage.setItem('nd17_rua',street||'');localStorage.setItem('nd17_numero',number||'');}
+function syncCheckoutAddr(){
+ const a=getAddr(),tipo=$('#tipoPedidoModal'),rua=$('#ruaModal'),num=$('#numeroModal');
+ if(tipo)tipo.value=a.type==='RETIRADA'?'RETIRADA':'ENTREGA';
+ if(rua)rua.value=a.street||'';
+ if(num)num.value=a.number||'';
+ const btns=$$('.nd-v4-pay[data-type]');btns.forEach(b=>b.classList.toggle('active',b.dataset.type===a.type));
+}
+function addressSummary(){
+ const box=$('#ndV4SingleAddressSummary'); if(!box)return;
+ const a=getAddr();
+ if(a.type==='RETIRADA')box.innerHTML='<strong>🏪 RETIRADA NA LOJA</strong><br>Seu pedido será preparado para retirada no local.<br><button type="button" id="nd26EditTop">ALTERAR NO TOPO</button>';
+ else box.innerHTML='<strong>🛵 DELIVERY</strong><br>'+((a.street||'Endereço não selecionado'))+(a.number?', Nº '+a.number:'')+'<br><small>Taxa: '+money(taxes()[a.street]||0)+'</small><br><button type="button" id="nd26EditTop">ALTERAR NO TOPO</button>';
+ $('#nd26EditTop')?.addEventListener('click',()=>$('#ndTopStreet')?.focus());
+}
+function renderStreetList(input,list){
+ if(!input||!list)return;
+ const q=norm(input.value);
+ const all=streets().filter(s=>!q||norm(s).includes(q)).slice(0,40);
+ list.innerHTML=all.map(s=>'<div class="nd26-option" data-street="'+String(s).replace(/"/g,'&quot;')+'"><span>'+s+'</span><small>'+money(taxes()[s]||0)+'</small></div>').join('');
+ list.classList.toggle('show',true);
+ $$('.nd26-option',list).forEach(()=>{});
+ list.querySelectorAll('.nd26-option').forEach(el=>el.addEventListener('click',()=>{
+   input.value=el.dataset.street;input.dataset.valid='1';list.classList.remove('show');
+ }));
+}
+function buildTopAddress(){
+ if($('#ndTopAddress'))return;
+ const host=$('.horarios')||$('.container'); if(!host)return;
+ const d=document.createElement('section');d.id='ndTopAddress';d.setAttribute('aria-label','Endereço do pedido');
+ d.innerHTML=`
+  <div class="nd26-top-inner">
+   <div>
+    <div class="nd26-kicker">⚡ ESSA PARTE É MUITO IMPORTANTE PARA SEU PEDIDO</div>
+    <div class="nd26-title">Coloque seu <strong>ENDEREÇO</strong> ou selecione <strong>RETIRADA NA LOJA</strong></div>
+    <div class="nd26-sub">Escolha uma única vez aqui no topo. A taxa de delivery será calculada automaticamente.</div>
+   </div>
+  </div>
+  <div class="nd26-mode-row">
+   <button type="button" class="nd26-mode active" id="nd26DeliveryMode">🛵 DELIVERY</button>
+   <button type="button" class="nd26-mode" id="nd26PickupMode">🏪 RETIRADA NA LOJA</button>
+  </div>
+  <div class="nd26-fields" id="nd26DeliveryFields">
+   <div class="nd26-field-wrap"><input id="ndTopStreet" class="nd26-input" type="search" autocomplete="off" placeholder="🔎 Digite sua rua" aria-label="Rua"><div id="ndTopStreetList" class="nd26-list"></div></div>
+   <input id="ndTopNumber" class="nd26-input" type="text" inputmode="numeric" placeholder="Número" aria-label="Número">
+   <button type="button" class="nd26-save" id="nd26SaveAddress">USAR ESTE ENDEREÇO</button>
+  </div>
+  <div class="nd26-pickup-note" id="nd26PickupNote">🏪 <strong>Retirada selecionada.</strong> Sem taxa de entrega. Seu endereço não será solicitado.</div>
+  <div class="nd26-status"><span id="nd26CurrentStatus">Nenhum endereço selecionado.</span><button type="button" id="nd26ClearAddress">TROCAR</button></div>`;
+ host.parentNode.insertBefore(d,host);
+ const street=$('#ndTopStreet'), list=$('#ndTopStreetList'), number=$('#ndTopNumber'), del=$('#nd26DeliveryMode'), pick=$('#nd26PickupMode'), fields=$('#nd26DeliveryFields'), note=$('#nd26PickupNote');
+ function setMode(type){
+   const delivery=type==='ENTREGA';del.classList.toggle('active',delivery);pick.classList.toggle('active',!delivery);fields.style.display=delivery?'grid':'none';note.classList.toggle('show',!delivery);
+ }
+ function updateStatus(){const a=getAddr();$('#nd26CurrentStatus').innerHTML=a.type==='RETIRADA'?'<strong>🏪 Retirada na loja</strong>':'<strong>'+ (a.street||'Nenhum endereço selecionado') + (a.number?', Nº '+a.number:'') + '</strong><br><span>Taxa: '+money(taxes()[a.street]||0)+'</span>'}
+ del.onclick=()=>{setMode('ENTREGA');street.focus()};
+ pick.onclick=()=>{saveAddr('RETIRADA','','');syncCheckoutAddr();setMode('RETIRADA');updateStatus();addressSummary();};
+ street.addEventListener('input',()=>{street.dataset.valid='';renderStreetList(street,list)});
+ street.addEventListener('focus',()=>renderStreetList(street,list));
+ document.addEventListener('click',e=>{if(!d.contains(e.target))list.classList.remove('show')});
+ $('#nd26SaveAddress').onclick=()=>{const s=streets().find(x=>norm(x)===norm(street.value));if(!s)return alert('Selecione uma rua da lista.');if(!number.value.trim())return alert('Digite o número do endereço.');saveAddr('ENTREGA',s,number.value.trim());syncCheckoutAddr();updateStatus();addressSummary();street.value=s;};
+ $('#nd26ClearAddress').onclick=()=>street.focus();
+ const a=getAddr();street.value=a.street||'';number.value=a.number||'';setMode(a.type==='RETIRADA'?'RETIRADA':'ENTREGA');updateStatus();
+}
+
+function hideLegacyAddressGate(){
+ const g=$('#nd17Gate');if(g){g.classList.remove('show');g.style.display='none';}
+ const bar=$('#nd17AddressBar');if(bar)bar.style.display='none';
+}
+function patchCheckout(){
+ const original=window.buildCheckout;
+ if(typeof original!=='function'||original.__nd26)return;
+ const wrapped=function(){
+   const r=original.apply(this,arguments);
+   setTimeout(()=>{syncCheckoutAddr();decorateStep2();decoratePix();renameReview();addressSummary()},0);
+   return r;
+ };
+ wrapped.__nd26=true;wrapped.__nd26Original=original;window.buildCheckout=wrapped;
+}
+function decorateStep2(){
+ const step=$('#modalFinalizar .nd-v4-step-content[data-content="2"]');if(!step)return;
+ ['#enderecoAreaModal','#ndRetiradaInfo'].forEach(sel=>{const x=$(sel);if(x)x.style.display='none'});
+ let box=$('#ndV4SingleAddressSummary');if(!box){box=document.createElement('div');box.id='ndV4SingleAddressSummary';step.insertBefore(box,step.querySelector('.nd-v4-next'))}
+ if(!$('#nd26DeliveryMini')){const m=document.createElement('div');m.id='nd26DeliveryMini';m.innerHTML='🕐 <b>Tempo de entrega:</b> 40 a 50 minutinhos para o seu pedido chegar fresquinho na sua residência.';box.insertAdjacentElement('afterend',m)}
+ syncCheckoutAddr();addressSummary();
+}
+function renameReview(){const b=$('#modalFinalizar .nd-v4-step-content[data-content="3"] .nd-v4-next');if(b){b.id='nd26ReviewButton';b.textContent='CONCLUIR PEDIDO AGORA →'}}
+function pixTotal(){
+ const total=$('#ndV4Total')?.textContent||'R$ 0,00';const out=$('#ndPixTotal');if(out)out.textContent=total;
+ const val=total.replace(/[^0-9,.-]/g,'').replace('.','').replace(',','.');return Number(val)||0;
+}
+function decoratePix(){
+ const step=$('#modalFinalizar .nd-v4-step-content[data-content="3"]'),box=$('#ndPixBox');if(!step||!box)return;
+ if(!$('#ndPixAttention')){
+  const d=document.createElement('div');d.id='ndPixAttention';d.innerHTML='<div class="nd26-attn-badge">⚠️ ATENÇÃO</div><div class="nd26-attn-big">COPIE O PIX, FAÇA O PAGAMENTO E <span>RETORNE AQUI NO SITE</span> E CLIQUE EM FINALIZAR PEDIDO!</div><p>O pagamento é feito fora do site. Depois de pagar, volte para esta etapa e conclua o pedido.</p><div id="ndPixSafe">🛡️ <strong>ATENÇÃO PARA SUA SEGURANÇA:</strong> o pagamento não é feito pelo site. Após efetuar o pagamento, finalize o seu pedido aqui no site.</div></div>';
+  box.insertAdjacentElement('afterend',d);
+ }
+ if(!$('#nd26AlreadyPaid')){
+  const b=document.createElement('button');b.id='nd26AlreadyPaid';b.type='button';b.textContent='✅ JÁ PAGUEI • CONCLUA MEU PEDIDO';b.onclick=()=>{if(typeof window.ndStep==='function')window.ndStep(4);else document.querySelector('#modalFinalizar .nd-v4-step[data-step="4"]')?.click();};
+  $('#ndPixAttention').insertAdjacentElement('afterend',b);
+ }
+ const pay=$('#pagamentoModal');
+ const isPix=pay?.value==='PIX';$('#ndPixAttention').style.display=isPix?'block':'none';$('#nd26AlreadyPaid').style.display=isPix?'block':'none';box.classList.toggle('show',isPix);
+ pixTotal();
+}
+function patchPay(){const pay=$('#pagamentoModal');if(!pay||pay.dataset.nd26)return;pay.dataset.nd26='1';pay.addEventListener('change',()=>setTimeout(decoratePix,30));}
+
+function dailyOfferData(){
+ const excluded=/REFRIGERANTE|COCA|PEPSI|DOLLY|GUARANA|POR[CÇ]?[AÃ]O\s*P|BATATA\s*P\b/i;
+ const arr=[];
+ $$('.produto').forEach(card=>{
+  const name=card.querySelector('h3')?.textContent?.trim()||'';
+  const priceText=card.querySelector('.preco')?.textContent||'';
+  const m=priceText.match(/(\d{1,3}(?:\.\d{3})*,\d{2}|\d+\.\d{2})/);if(!name||!m||excluded.test(name))return;
+  const p=parseFloat(m[1].replace(/\./g,'').replace(',','.'));if(!(p>2))return;
+  const img=card.querySelector('img')?.getAttribute('src')||'';
+  const addBtn=card.querySelector('.btn-add');arr.push({name,price:p,img,addBtn});
+ });
+ if(!arr.length)return null;
+ const now=new Date(),day=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0'),hash=[...day].reduce((s,c)=>s+c.charCodeAt(0),0);
+ return arr[hash%arr.length];
+}
+function buildSuperOffer(){
+ let sec=$('#nd26SuperOffer');if(!sec){sec=document.createElement('section');sec.id='nd26SuperOffer';const footer=document.querySelector('footer');(footer?footer.parentNode.insertBefore(sec,footer):document.body.appendChild(sec));}
+ const d=dailyOfferData();if(!d)return;
+ const offerPrice=Math.max(0,d.price-2);
+ sec.innerHTML='<div class="nd26-offer-head"><div><div class="nd26-offer-kicker">🔥 EXCLUSIVO NO SITE</div><div class="nd26-offer-title">SUPER OFERTA</div></div><div class="nd26-offer-badge">OFERTA DO DIA</div></div><div class="nd26-offer-card"><img class="nd26-offer-img" src="'+d.img.replace(/"/g,'&quot;')+'" alt="'+d.name.replace(/"/g,'&quot;')+'"><div><div class="nd26-offer-name">'+d.name.replace(/[<>]/g,'')+'</div><div class="nd26-offer-desc">Uma oportunidade especial para pedir hoje pelo site da ND BURGS.</div><div class="nd26-offer-price">'+money(offerPrice)+'</div></div><button type="button" class="nd26-offer-btn" id="nd26OfferBtn">QUERO ESSA OFERTA</button></div>';
+ $('#nd26OfferBtn').onclick=()=>{if(typeof window.adicionar==='function'){window.adicionar(d.name,offerPrice)}};
+}
+function init(){
+ buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();
+ syncCheckoutAddr();
+ setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();patchCheckout();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},500);
+ setTimeout(()=>{buildTopAddress();hideLegacyAddressGate();decorateStep2();patchPay();decoratePix();renameReview();addressSummary();buildSuperOffer();},1300);
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-setTimeout(init,500);setTimeout(init,1200);setInterval(()=>{topAddress();bindTopSearch();syncHidden();checkoutAddress();step4Time();pix();deliveryMini();dailyOffer()},1500)
 })();
 </script>
 
