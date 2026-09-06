@@ -6293,10 +6293,12 @@ header{
     box-shadow:none!important;
 }
 
-header .logo{
+header .logo,
+header .logo img,
+.nd17-brand,
+.nd17-brand img{
     display:none!important;
 }
-.nd17-brand{display:flex;justify-content:center;align-items:center;padding:8px 0 2px}.nd17-brand img{width:min(190px,52vw);max-height:72px;object-fit:contain;border-radius:10px}
 /* Nomes maiores, sem negrito pesado */
 .produto h3{font-size:clamp(17px,1.65vw,21px)!important;font-weight:500!important;line-height:1.16!important;letter-spacing:.1px!important}
 /* Preços brilhando sem iluminar o fundo */
