@@ -7443,28 +7443,61 @@ function patchPix(){
  window.ndPay=function(pay){const r=old.apply(this,arguments);setTimeout(refreshPix,40);return r};window.ndPay.__ndR14pix=true;
 }
 function refreshPix(){
- const box=document.getElementById('ndPixBox'),sel=document.getElementById('pagamentoModal');if(!box||!sel)return;
- const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA',rua=document.getElementById('ruaModal')?.value||'';
- const sub=cart().reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0),fee=tipo==='ENTREGA'?Number(window.taxas?.[rua]||0):0,total=sub+fee;
- const pt=document.getElementById('ndPixTotal');if(pt)pt.textContent=total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+ const box=document.getElementById('ndPixBox'),sel=document.getElementById('pagamentoModal');
+ if(!box||!sel)return;
+
+ const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA';
+ const rua=document.getElementById('ruaModal')?.value||'';
+
+ const sub=cart().reduce((a,i)=>
+   a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0
+ );
+
+ const fee=tipo==='ENTREGA'
+   ?Number(window.taxas?.[rua]||0)
+   :0;
+
+ const total=sub+fee;
+
+ const pt=document.getElementById('ndPixTotal');
+ if(pt){
+   pt.textContent=total.toLocaleString('pt-BR',{
+     style:'currency',
+     currency:'BRL'
+   });
+ }
+
  box.classList.toggle('show',sel.value==='PIX');
- if(sel.value==='PIX'&&!document.getElementById('ndPixCopyValue')){const b=document.createElement('button');b.id='ndPixCopyValue';b.type='button';b.className='nd-pix-copy';b.textContent='💰 COPIAR VALOR';b.onclick=async()=>{const val=total.toFixed(2).replace('.',',');try{await navigator.clipboard.writeText(val)}catch(_){const ta=document.createElement('textarea');ta.value=val;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}b.textContent='✅ VALOR COPIADO!';setTimeout(()=>b.textContent='💰 COPIAR VALOR',1600)};box.appendChild(b)}
+
+ /* Remove botão antigo de copiar valor */
+ const oldCopy=document.getElementById('ndPixCopyValue');
+ if(oldCopy)oldCopy.remove();
+
+ /* Remove observações antigas */
+ box.querySelectorAll(
+   '.nd-pix-observacao,'+
+   '.nd-pix-observation,'+
+   '.pix-observacao,'+
+   '.pix-observation,'+
+   '.nd-pix-info,'+
+   '.nd-pix-note,'+
+   '.pix-note'
+ ).forEach(e=>e.remove());
+
+ /* Tempo de entrega */
+ if(sel.value==='PIX'){
+   let tempo=document.getElementById('ndPixTempoEntrega');
+
+   if(!tempo){
+     tempo=document.createElement('div');
+     tempo.id='ndPixTempoEntrega';
+     tempo.className='nd-pix-total';
+     box.appendChild(tempo);
+   }
+
+   tempo.innerHTML='<strong>⏱️ TEMPO DE ENTREGA DE 40 A 50 MINUTINHOS</strong>';
+ }
 }
-function patchFinish(){
- if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndR14finish)return;
- const old=window.finalizarPedidoModal;
- window.finalizarPedidoModal=function(){
-   const result=old.apply(this,arguments);
-   return result;
- };
- window.finalizarPedidoModal.__ndR14finish=true;
-}
-function patchIntro(){const btn=[...document.querySelectorAll('.ndFx-action')].find(x=>norm(x.textContent).includes('VER MAIS VENDIDOS'));if(!btn||btn.dataset.ndR14btn)return;btn.dataset.ndR14btn='1';btn.onclick=()=>{const sec=document.getElementById('ndAutoBest');if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'})}}
-function init(){patchSmart();patchPix();refreshPix();patchIntro();setTimeout(()=>{patchSmart();patchPix();refreshPix();patchIntro()},700)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-setTimeout(init,1400);
-})();
-</script>
 
 <!-- =========================================================
      ND BURGS — RODADA 27 / R15
