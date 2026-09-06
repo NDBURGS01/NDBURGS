@@ -725,6 +725,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 </style>
 
+
+<style id="nd-remove-top-brand">
+/* REMOVE COMPLETAMENTE A FAIXA/TÍTULO AZUL DO TOPO */
+header{display:none!important;height:0!important;min-height:0!important;padding:0!important;margin:0!important;border:0!important;box-shadow:none!important}
+header .logo{display:none!important}
+/* Mantém somente o logo central que o sistema reposiciona antes do cardápio */
+.nd17-brand{display:flex!important;justify-content:center!important;align-items:center!important;padding:8px 0 2px!important;margin:0!important}
+.nd17-brand img{display:block!important;width:min(190px,52vw)!important;max-height:72px!important;object-fit:contain!important}
+@media(max-width:600px){.nd17-brand img{width:155px!important;max-height:58px!important}}
+</style>
 </head>
 
 <body>
@@ -4958,12 +4968,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
   function createUI(){
     if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
- if(!document.querySelector('.nd-v3-strip')){
-    const x=document.createElement('div');
-    x.className='nd-v3-strip';
-    x.innerHTML='<b style="color:#fff!important;">EAI BORA DE #NDBURGS</b> <span style="color:#1677ff!important;">• OFERTAS EXCLUSIVAS PELO SITE</span>';
-    document.body.prepend(x);
-}
+    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='🟢 <b>ND BURGS ABERTO 24 HORAS</b> • TODOS OS DIAS • PEÇA PELO SITE';document.body.prepend(x)}
     if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
     addTrust(); addLastOrder();
   }
@@ -5111,62 +5116,193 @@ function buildCheckout(){
  if(!panel)return;
  panel.innerHTML=`
   <div class="cabecalho-finalizar">
-    <div><span style="color:#ff6a00;font-size:11px;font-weight:900">FINALIZAR PEDIDO</span><h2 style="margin-top:3px">QUASE LÁ 🍔</h2></div>
-    <button class="btn-fechar-finalizar" onclick="fecharModalFinalizar()">×</button>
+```html
+<div><span style="color:#ff6a00;font-size:11px;font-weight:900">FINALIZAR PEDIDO</span><h2 style="margin-top:3px">QUASE LÁ 🍔</h2></div>
+<button class="btn-fechar-finalizar" onclick="fecharModalFinalizar()">×</button>
   </div>
+
   <div class="nd-v4-stepbar">
-   <div class="nd-v4-step active" data-step="1">1 • DADOS</div><div class="nd-v4-step" data-step="2">2 • ENTREGA</div><div class="nd-v4-step" data-step="3">3 • PAGAMENTO</div><div class="nd-v4-step" data-step="4">4 • CONFIRMAR</div>
+   <div class="nd-v4-step active" data-step="1">1 • DADOS</div>
+   <div class="nd-v4-step" data-step="2">2 • ENTREGA</div>
+   <div class="nd-v4-step" data-step="3">3 • PAGAMENTO</div>
+   <div class="nd-v4-step" data-step="4">4 • CONFIRMAR</div>
   </div>
+
   <div class="nd-v4-step-content active" data-content="1">
-    <label>Seu nome</label><input id="nomeModal" type="text" placeholder="Como podemos te chamar?">
-    <label>WhatsApp</label><input id="telefoneModal" type="tel" placeholder="(11) 99999-9999">
-    <div class="nd-v4-delivery-estimate" style="margin-top:14px">🔒 <b>Seus dados ficam apenas para realizar seu pedido.</b></div>
-    <button class="nd-v4-next" type="button" onclick="ndNext(1)">CONTINUAR →</button>
+    <label>Seu nome</label>
+    <input id="nomeModal" type="text" placeholder="Como podemos te chamar?">
+
+    <label>WhatsApp</label>
+    <input id="telefoneModal" type="tel" placeholder="(11) 99999-9999">
+
+    <div class="nd-v4-delivery-estimate" style="margin-top:14px">
+      🔒 <b>Seus dados ficam apenas para realizar seu pedido.</b>
+    </div>
+
+    <button class="nd-v4-next" type="button" onclick="ndNext(1)">
+      CONTINUAR →
+    </button>
   </div>
+
   <div class="nd-v4-step-content" data-content="2">
     <label>Como receber?</label>
+
     <div class="nd-v4-payment-grid" style="grid-template-columns:1fr 1fr;margin-bottom:12px">
-      <button type="button" class="nd-v4-pay active" data-type="ENTREGA" onclick="ndTipo('ENTREGA')">🛵<br>DELIVERY</button>
-      <button type="button" class="nd-v4-pay" data-type="RETIRADA" onclick="ndTipo('RETIRADA')">🏪<br>RETIRADA</button>
+      <button type="button" class="nd-v4-pay active" data-type="ENTREGA" onclick="ndTipo('ENTREGA')">
+        🛵<br>DELIVERY
+      </button>
+
+      <button type="button" class="nd-v4-pay" data-type="RETIRADA" onclick="ndTipo('RETIRADA')">
+        🏪<br>RETIRADA
+      </button>
     </div>
-    <select id="tipoPedidoModal" style="display:none"><option value="ENTREGA">ENTREGA</option><option value="RETIRADA">RETIRADA</option></select>
+
+    <select id="tipoPedidoModal" style="display:none">
+      <option value="ENTREGA">ENTREGA</option>
+      <option value="RETIRADA">RETIRADA</option>
+    </select>
+
     <div id="enderecoAreaModal">
       <label>Pesquise sua rua</label>
       <input id="ruaBuscaModal" type="search" autocomplete="off" placeholder="🔎 Digite o nome da rua">
-      <select id="ruaModal" onchange="calcularTaxaModal()"><option value="">Selecione sua rua</option></select>
-      <label>Número</label><input id="numeroModal" type="text" placeholder="Número">
-      <label>Complemento <small>(opcional)</small></label><input id="complementoModal" type="text" placeholder="Casa, apto, bloco...">
+
+      <select id="ruaModal" onchange="calcularTaxaModal()">
+        <option value="">Selecione sua rua</option>
+      </select>
+
+      <label>Número</label>
+      <input id="numeroModal" type="text" placeholder="Número">
+
+      <label>Complemento <small>(opcional)</small></label>
+      <input id="complementoModal" type="text" placeholder="Casa, apto, bloco...">
+
       <div id="avisoTaxaModal" class="aviso-taxa" style="display:none"></div>
     </div>
-    <div id="ndRetiradaInfo" style="display:none" class="nd-v4-delivery-estimate">🏪 <b>Retirada no local</b><br>Sem taxa de entrega.</div>
-    <div class="nd-v4-delivery-estimate">🕐 <b>Estimativa:</b> normalmente 30–50 minutos após a confirmação.</div>
-    <button class="nd-v4-next" type="button" onclick="ndNext(2)">CONTINUAR →</button>
-    <button class="nd-v4-back" type="button" onclick="ndBack(2)">← VOLTAR</button>
+
+    <div id="ndRetiradaInfo" style="display:none" class="nd-v4-delivery-estimate">
+      🏪 <b>Retirada no local</b><br>
+      Sem taxa de entrega.
+    </div>
+
+    <div class="nd-v4-delivery-estimate">
+      🕐 <b>Estimativa:</b> normalmente 30–50 minutos após a confirmação.
+    </div>
+
+    <button class="nd-v4-next" type="button" onclick="ndNext(2)">
+      CONTINUAR →
+    </button>
+
+    <button class="nd-v4-back" type="button" onclick="ndBack(2)">
+      ← VOLTAR
+    </button>
   </div>
+
   <div class="nd-v4-step-content" data-content="3">
+
     <label>Escolha o pagamento</label>
+
     <div class="nd-v4-payment-grid">
-      <button type="button" class="nd-v4-pay" data-pay="PIX" onclick="ndPay('PIX')">💠<br>PIX</button>
-      <button type="button" class="nd-v4-pay" data-pay="DINHEIRO" onclick="ndPay('DINHEIRO')">💵<br>DINHEIRO</button>
-      <button type="button" class="nd-v4-pay" data-pay="CARTÃO" onclick="ndPay('CARTÃO')">💳<br>CARTÃO</button>
+      <button type="button" class="nd-v4-pay" data-pay="PIX" onclick="ndPay('PIX')">
+        💠<br>PIX
+      </button>
+
+      <button type="button" class="nd-v4-pay" data-pay="DINHEIRO" onclick="ndPay('DINHEIRO')">
+        💵<br>DINHEIRO
+      </button>
+
+      <button type="button" class="nd-v4-pay" data-pay="CARTÃO" onclick="ndPay('CARTÃO')">
+        💳<br>CARTÃO
+      </button>
     </div>
-    <select id="pagamentoModal" style="display:none"><option value="">Selecione</option><option value="PIX">PIX</option><option value="DINHEIRO">DINHEIRO</option><option value="CARTÃO">CARTÃO</option></select>
-    <div id="trocoAreaModal" style="display:none;margin-top:12px"><label>Troco para quanto?</label><input id="trocoModal" type="number" step="0.01" placeholder="Ex.: 50"></div>
-    <label style="margin-top:14px">Observação <small>(opcional)</small></label>
-    <button class="nd-v4-next" type="button" onclick="ndNext(3)">CONCLUIR PEDIDO →</button>
-    <button class="nd-v4-back" type="button" onclick="ndBack(3)">← VOLTAR</button>
+
+    <select id="pagamentoModal" style="display:none">
+      <option value="">Selecione</option>
+      <option value="PIX">PIX</option>
+      <option value="DINHEIRO">DINHEIRO</option>
+      <option value="CARTÃO">CARTÃO</option>
+    </select>
+
+    <div id="trocoAreaModal" style="display:none;margin-top:12px">
+      <label>Troco para quanto?</label>
+      <input id="trocoModal" type="number" step="0.01" placeholder="Ex.: 50">
+    </div>
+
+    <label style="margin-top:14px">
+      Observação <small>(opcional)</small>
+    </label>
+
+    <textarea id="observacaoModal" placeholder="Ex.: sem cebola, tocar campainha..."></textarea>
+
+    <button class="nd-v4-next" type="button" onclick="ndNext(3)">
+      CONTINUAR →
+    </button>
+
+    <button class="nd-v4-back" type="button" onclick="ndBack(3)">
+      ← VOLTAR
+    </button>
   </div>
+
+  <!-- =========================================
+       4 • CONFIRMAR — REVISÃO DO PEDIDO
+       ========================================= -->
+
   <div class="nd-v4-step-content" data-content="4">
-    <div class="nd-v4-summary"><div class="nd-v4-summary-title">Seu pedido</div><div id="ndV4Items"></div></div>
+
+    <!-- BOTÃO DE DESTAQUE NO TOPO DA REVISÃO -->
+    <button class="nd-v4-finalizar-luz" type="button" onclick="finalizarPedidoModal()">
+      <span class="nd-finalizar-brilho"></span>
+
+      <span class="nd-finalizar-conteudo">
+        <strong>🔥 PEDIDO CONFERIDO!</strong>
+        <small>ENVIAR PARA PRODUÇÃO #NDBURGS →</small>
+      </span>
+    </button>
+
+    <!-- REVISÃO DO PEDIDO -->
     <div class="nd-v4-summary">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><b id="ndV4Sub">R$ 0,00</b></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:10px"><span>Taxa</span><b id="ndV4Fee">R$ 0,00</b></div>
-      <div style="display:flex;justify-content:space-between;align-items:end"><span style="font-weight:900">TOTAL</span><span id="ndV4Total" class="nd-v4-final-total">R$ 0,00</span></div>
+      <div class="nd-v4-summary-title">Seu pedido</div>
+      <div id="ndV4Items"></div>
     </div>
-    <div class="nd-v4-note">Ao confirmar, o pedido será aberto no WhatsApp da ND BURGS. Depois que o WhatsApp abrir, o carrinho será limpo neste aparelho.</div>
-    <button class="nd-v4-next" type="button" onclick="finalizarPedidoModal()">🟢 ENVIAR PEDIDO PELO WHATSAPP</button>
-    <button class="nd-v4-back" type="button" onclick="ndBack(4)">← VOLTAR</button>
+
+    <!-- VALORES -->
+    <div class="nd-v4-summary">
+
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span>Subtotal</span>
+        <b id="ndV4Sub">R$ 0,00</b>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+        <span>Taxa</span>
+        <b id="ndV4Fee">R$ 0,00</b>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:end">
+        <span style="font-weight:900">TOTAL</span>
+        <span id="ndV4Total" class="nd-v4-final-total">R$ 0,00</span>
+      </div>
+
+    </div>
+
+    <div class="nd-v4-note">
+      Ao confirmar, o pedido será aberto no WhatsApp da ND BURGS.
+      Depois que o WhatsApp abrir, o carrinho será limpo neste aparelho.
+    </div>
+
+    <!-- BOTÃO FINAL ORIGINAL -->
+    <button class="nd-v4-next" type="button" onclick="finalizarPedidoModal()">
+      🟢 ENVIAR PEDIDO PELO WHATSAPP
+    </button>
+
+    <button class="nd-v4-back" type="button" onclick="ndBack(4)">
+      ← VOLTAR
+    </button>
+
   </div>`;
+```
+
+**Importante:** o botão laranja iluminado agora está **somente na 4 • CONFIRMAR**, no topo da revisão. A etapa 3 não tem mais o botão de envio.
+
  loadModalData(); ndFilterStreet();
 }
 function loadModalData(){
@@ -6283,22 +6419,9 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
 /* Página continua preta; sem novos efeitos de fundo */
 html,body{background:#000!important;background-image:none!important}
 /* Logo: menor, centralizada e separada do conteúdo */
-header{
-    display:flex!important;
-    justify-content:center!important;
-    align-items:center!important;
-    padding:10px 14px 8px!important;
-    background:#000!important;
-    border-bottom:1px solid #181818!important;
-    box-shadow:none!important;
-}
-
-header .logo,
-header .logo img,
-.nd17-brand,
-.nd17-brand img{
-    display:none!important;
-}
+header{display:flex!important;justify-content:center!important;align-items:center!important;padding:10px 14px 8px!important;background:#000!important;border-bottom:1px solid #181818!important;box-shadow:none!important}
+header .logo{display:none!important}
+.nd17-brand{display:flex;justify-content:center;align-items:center;padding:8px 0 2px}.nd17-brand img{width:min(190px,52vw);max-height:72px;object-fit:contain;border-radius:10px}
 /* Nomes maiores, sem negrito pesado */
 .produto h3{font-size:clamp(17px,1.65vw,21px)!important;font-weight:500!important;line-height:1.16!important;letter-spacing:.1px!important}
 /* Preços brilhando sem iluminar o fundo */
@@ -6399,45 +6522,8 @@ header .logo img,
  function openGateIfNeeded(){if(!localStorage.getItem('nd17_tipo'))showGate();else{ensureMainForms();updateBar();cartTotalSync()}}
  function patchOpenCart(){if(window.__nd17Cart)return;const old=window.abrirCarrinho;if(typeof old!=='function')return;window.abrirCarrinho=function(){ensureMainForms();const r=old.apply(this,arguments);setTimeout(cartTotalSync,30);return r};window.__nd17Cart=true}
  function patchBuildCheckout(){if(typeof window.buildCheckout==='function'&&!window.buildCheckout.__nd17){const old=window.buildCheckout;window.buildCheckout=function(){const r=old.apply(this,arguments);setTimeout(()=>{ensureMainForms();cartTotalSync();setupAutocomplete();bindFinishButton()},20);return r};window.buildCheckout.__nd17=true}}
-function bindFinishButton(){
-    const btn = $('#modalFinalizar button[onclick*="finalizarPedidoModal"]');
-
-    if(btn){
-        btn.textContent = 'ENVIAR PARA PRODUÇÃO NA #NDBURGS';
-        btn.onclick = ndFinish;
-
-        btn.style.cssText += `
-            background: linear-gradient(
-                135deg,
-                #300000,
-                #650000,
-                #a00000,
-                #ff0000,
-                #650000,
-                #300000
-            ) !important;
-            background-size: 500% 500% !important;
-            color: #fff !important;
-            border: 2px solid #ff3030 !important;
-            border-radius: 12px !important;
-            font-weight: 900 !important;
-            font-size: 15px !important;
-            letter-spacing: .5px !important;
-            text-shadow: 0 0 8px #000, 0 0 15px #ff0000 !important;
-
-            box-shadow:
-                0 0 8px #ff0000,
-                0 0 20px #ff0000,
-                0 0 40px rgba(255,0,0,.8) !important;
-
-            animation:
-                ndBotaoPisca 1s infinite,
-                ndBotaoPsy 2s infinite linear !important;
-        `;
-    }
-}
-
-function ndFinish(){
+ function bindFinishButton(){const btn=$('#modalFinalizar button[onclick*="finalizarPedidoModal"]');if(btn){btn.textContent='CONCLUIR PEDIDO E ENVIAR PARA NDBURGS';btn.onclick=ndFinish}}
+ function ndFinish(){
    if(!cart().length)return alert('Seu carrinho está vazio.');
    const nome=$('#nomeModal')?.value.trim()||'', tel=$('#telefoneModal')?.value.trim()||'', tipo=$('#tipoPedidoModal')?.value||'ENTREGA', rua=$('#ruaModal')?.value||'', numero=$('#numeroModal')?.value.trim()||'', comp=$('#complementoModal')?.value.trim()||'', pagamento=$('#pagamentoModal')?.value||'', troco=$('#trocoModal')?.value||'', obs=$('#observacaoModal')?.value.trim()||'';
    if(!nome)return alert('Digite seu nome.'); const td=tel.replace(/\D/g,'');if(td.length<10||td.length>11)return alert('Digite um WhatsApp válido com DDD.');
@@ -7461,61 +7547,28 @@ function patchPix(){
  window.ndPay=function(pay){const r=old.apply(this,arguments);setTimeout(refreshPix,40);return r};window.ndPay.__ndR14pix=true;
 }
 function refreshPix(){
- const box=document.getElementById('ndPixBox'),sel=document.getElementById('pagamentoModal');
- if(!box||!sel)return;
-
- const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA';
- const rua=document.getElementById('ruaModal')?.value||'';
-
- const sub=cart().reduce((a,i)=>
-   a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0
- );
-
- const fee=tipo==='ENTREGA'
-   ?Number(window.taxas?.[rua]||0)
-   :0;
-
- const total=sub+fee;
-
- const pt=document.getElementById('ndPixTotal');
- if(pt){
-   pt.textContent=total.toLocaleString('pt-BR',{
-     style:'currency',
-     currency:'BRL'
-   });
- }
-
+ const box=document.getElementById('ndPixBox'),sel=document.getElementById('pagamentoModal');if(!box||!sel)return;
+ const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA',rua=document.getElementById('ruaModal')?.value||'';
+ const sub=cart().reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0),fee=tipo==='ENTREGA'?Number(window.taxas?.[rua]||0):0,total=sub+fee;
+ const pt=document.getElementById('ndPixTotal');if(pt)pt.textContent=total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
  box.classList.toggle('show',sel.value==='PIX');
-
- /* Remove botão antigo de copiar valor */
- const oldCopy=document.getElementById('ndPixCopyValue');
- if(oldCopy)oldCopy.remove();
-
- /* Remove observações antigas */
- box.querySelectorAll(
-   '.nd-pix-observacao,'+
-   '.nd-pix-observation,'+
-   '.pix-observacao,'+
-   '.pix-observation,'+
-   '.nd-pix-info,'+
-   '.nd-pix-note,'+
-   '.pix-note'
- ).forEach(e=>e.remove());
-
- /* Tempo de entrega */
- if(sel.value==='PIX'){
-   let tempo=document.getElementById('ndPixTempoEntrega');
-
-   if(!tempo){
-     tempo=document.createElement('div');
-     tempo.id='ndPixTempoEntrega';
-     tempo.className='nd-pix-total';
-     box.appendChild(tempo);
-   }
-
-   tempo.innerHTML='<strong>⏱️ TEMPO DE ENTREGA DE 40 A 50 MINUTINHOS</strong>';
- }
+ if(sel.value==='PIX'&&!document.getElementById('ndPixCopyValue')){const b=document.createElement('button');b.id='ndPixCopyValue';b.type='button';b.className='nd-pix-copy';b.textContent='💰 COPIAR VALOR';b.onclick=async()=>{const val=total.toFixed(2).replace('.',',');try{await navigator.clipboard.writeText(val)}catch(_){const ta=document.createElement('textarea');ta.value=val;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}b.textContent='✅ VALOR COPIADO!';setTimeout(()=>b.textContent='💰 COPIAR VALOR',1600)};box.appendChild(b)}
 }
+function patchFinish(){
+ if(typeof window.finalizarPedidoModal!=='function'||window.finalizarPedidoModal.__ndR14finish)return;
+ const old=window.finalizarPedidoModal;
+ window.finalizarPedidoModal=function(){
+   const result=old.apply(this,arguments);
+   return result;
+ };
+ window.finalizarPedidoModal.__ndR14finish=true;
+}
+function patchIntro(){const btn=[...document.querySelectorAll('.ndFx-action')].find(x=>norm(x.textContent).includes('VER MAIS VENDIDOS'));if(!btn||btn.dataset.ndR14btn)return;btn.dataset.ndR14btn='1';btn.onclick=()=>{const sec=document.getElementById('ndAutoBest');if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'})}}
+function init(){patchSmart();patchPix();refreshPix();patchIntro();setTimeout(()=>{patchSmart();patchPix();refreshPix();patchIntro()},700)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+setTimeout(init,1400);
+})();
+</script>
 
 <!-- =========================================================
      ND BURGS — RODADA 27 / R15
