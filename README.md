@@ -6283,8 +6283,19 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
 /* Página continua preta; sem novos efeitos de fundo */
 html,body{background:#000!important;background-image:none!important}
 /* Logo: menor, centralizada e separada do conteúdo */
-header{display:flex!important;justify-content:center!important;align-items:center!important;padding:10px 14px 8px!important;background:#000!important;border-bottom:1px solid #181818!important;box-shadow:none!important}
-header .logo{display:none!important}
+header{
+    display:flex!important;
+    justify-content:center!important;
+    align-items:center!important;
+    padding:10px 14px 8px!important;
+    background:#000!important;
+    border-bottom:1px solid #181818!important;
+    box-shadow:none!important;
+}
+
+header .logo{
+    display:none!important;
+}
 .nd17-brand{display:flex;justify-content:center;align-items:center;padding:8px 0 2px}.nd17-brand img{width:min(190px,52vw);max-height:72px;object-fit:contain;border-radius:10px}
 /* Nomes maiores, sem negrito pesado */
 .produto h3{font-size:clamp(17px,1.65vw,21px)!important;font-weight:500!important;line-height:1.16!important;letter-spacing:.1px!important}
