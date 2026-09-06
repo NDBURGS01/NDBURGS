@@ -8536,261 +8536,193 @@ if(document.readyState==='loading'){
 }
 })();
 </script>
+</body>
+</html>
 
-<!-- =========================================================
-     ND BURGS R25 — CHECKOUT SEGURO + PIX + DESTAQUE CENTRAL
-     ========================================================= -->
+<!-- ND BURGS R25 — OFERTAS + FOTOS GENÉRICAS + CONFIRMAÇÃO REAL DE ENVIO -->
 <style id="nd-r25-final">
-/* Removido: PRODUTO ALEATÓRIO DO DIA */
-#ndR17FirstBuy{display:none!important}
-
-/* Oferta exclusiva: posição central e destaque máximo */
-#ndUvaPromo{
-  width:min(1080px,calc(100% - 24px))!important;
-  margin:28px auto 34px!important;
-  position:relative!important;
-  left:auto!important;right:auto!important;
-  order:initial!important;
-  grid-column:1/-1!important;
-}
-#ndUvaPromo.nd-r25-center{
-  display:grid!important;
-  grid-template-columns:minmax(180px,300px) minmax(0,1fr)!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-#ndUvaPromo .r11-promo-copy h2{font-size:clamp(25px,4vw,42px)!important}
-#ndUvaPromo .r11-promo-price{font-size:clamp(34px,5vw,54px)!important}
-@media(max-width:650px){
-  #ndUvaPromo.nd-r25-center{grid-template-columns:1fr!important}
-  #ndUvaPromo img{margin:auto!important;width:170px!important;height:170px!important}
-}
-
-/* Fallback visual para produtos sem foto */
-.nd-r25-placeholder{
-  width:100%;height:100%;min-height:150px;display:grid;place-items:center;
-  border-radius:inherit;background:linear-gradient(145deg,#080808,#191919 55%,#050505);
-  border:1px solid #2b2b2b;overflow:hidden;position:relative;
-}
-.nd-r25-placeholder:before{content:"";position:absolute;inset:12%;border:1px solid rgba(255,255,255,.10);border-radius:18px}
-.nd-r25-placeholder span{position:relative;z-index:1;font-size:clamp(28px,5vw,48px);font-weight:1000;letter-spacing:4px;color:#fff}
-
-/* Caixa de segurança após abrir o WhatsApp */
-#ndR25SendGate{
-  position:fixed;inset:0;z-index:900000;display:none;place-items:center;padding:16px;
-  background:rgba(0,0,0,.96);backdrop-filter:blur(16px);
-}
-#ndR25SendGate.show{display:grid}
-.nd-r25-gate-card{
-  width:min(900px,96vw);text-align:center;padding:clamp(24px,5vw,60px) clamp(18px,5vw,60px);
-  border:2px solid #e50914;border-radius:28px;background:linear-gradient(145deg,#171717,#070707);
-  box-shadow:0 25px 100px rgba(0,0,0,.85),0 0 45px rgba(229,9,20,.16)
-}
-.nd-r25-gate-alert{font-size:clamp(38px,8vw,92px);line-height:.9;font-weight:1000;color:#fff;margin:0 0 24px;text-transform:uppercase;letter-spacing:-2px}
-.nd-r25-gate-text{font-size:clamp(17px,3vw,28px);line-height:1.35;color:#ddd;font-weight:800;margin:0 auto 28px;max-width:760px}
-.nd-r25-gate-btn{width:100%;max-width:720px;min-height:74px;border:0;border-radius:18px;background:#25d366;color:#07140b;font-size:clamp(19px,3vw,30px);font-weight:1000;cursor:pointer;padding:16px 20px;box-shadow:0 7px 0 #168f45,0 16px 40px rgba(37,211,102,.20)}
-.nd-r25-gate-cancel{margin-top:16px;background:transparent;color:#aaa;border:1px solid #333;border-radius:12px;padding:11px 18px;font-weight:900;cursor:pointer}
-
-/* Aviso gigante ao copiar PIX */
-#ndR25PixGate{
-  position:fixed;inset:0;z-index:900100;display:none;place-items:center;padding:16px;
-  background:rgba(0,0,0,.97);backdrop-filter:blur(18px)
-}
-#ndR25PixGate.show{display:grid}
-.nd-r25-pix-card{width:min(940px,96vw);text-align:center;padding:clamp(25px,6vw,65px) clamp(18px,5vw,60px);border:2px solid #ffd21a;border-radius:28px;background:linear-gradient(145deg,#191500,#070707);box-shadow:0 25px 100px rgba(0,0,0,.9),0 0 50px rgba(255,210,26,.14)}
-.nd-r25-pix-title{font-size:clamp(32px,7vw,76px);line-height:.94;font-weight:1000;color:#fff;margin:0 0 22px;text-transform:uppercase;letter-spacing:-1.5px}
-.nd-r25-pix-message{font-size:clamp(18px,3vw,30px);line-height:1.35;color:#fff;font-weight:900;margin:0 auto 28px;max-width:800px}
-.nd-r25-pix-ok{min-height:64px;width:min(650px,100%);border:0;border-radius:16px;background:linear-gradient(135deg,#fff36b,#ffd21a,#e99d00);color:#171000;font-size:clamp(17px,2.5vw,25px);font-weight:1000;padding:14px 18px;cursor:pointer}
-
-/* Botões de envio só aparecem quando há pedido */
-.nd-r25-hidden-send{display:none!important}
-
-/* Confirmação visual gigante: primeiro a confirmação real, depois limpeza */
-#ndOrderSuccess .nd-success-card h2{font-size:clamp(52px,9vw,112px)!important;line-height:.88!important}
+#ndR25SendGate{position:fixed;inset:0;z-index:700000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.94);backdrop-filter:blur(14px)}
+#ndR25SendGate.show{display:flex;animation:ndR25Fade .22s ease both}
+.nd-r25-gate{width:min(900px,96vw);text-align:center;border:2px solid #ffd21a;border-radius:26px;padding:clamp(26px,5vw,60px) clamp(18px,5vw,58px);background:linear-gradient(145deg,#171717,#050505);box-shadow:0 30px 100px rgba(0,0,0,.9),0 0 45px rgba(255,210,26,.12)}
+.nd-r25-icon{font-size:clamp(54px,8vw,88px);line-height:1;margin-bottom:16px}
+.nd-r25-title{font-size:clamp(44px,8vw,96px);line-height:.9;font-weight:1000;letter-spacing:-2px;color:#fff;text-transform:uppercase;margin:0}
+.nd-r25-title span{display:block;color:#ffd21a}
+.nd-r25-sub{margin:22px auto 28px;max-width:720px;color:#ddd;font-size:clamp(16px,2.2vw,24px);font-weight:800;line-height:1.35}
+.nd-r25-send{width:100%;min-height:76px;border:0;border-radius:18px;padding:18px 20px;background:linear-gradient(145deg,#fff36b,#ffd21a 50%,#e99d00);color:#171000;font-size:clamp(18px,3vw,30px);font-weight:1000;cursor:pointer;box-shadow:inset 0 3px 0 rgba(255,255,255,.8),0 7px 0 #8d5700,0 18px 38px rgba(255,157,0,.22)}
+.nd-r25-send:hover{filter:brightness(1.07);transform:translateY(-2px)}
+.nd-r25-send:active{transform:translateY(2px);box-shadow:inset 0 2px 0 rgba(255,255,255,.65),0 3px 0 #8d5700}
+.nd-r25-cancel{margin-top:14px;border:0;background:transparent;color:#888;font-size:13px;font-weight:900;padding:10px 18px;cursor:pointer}
+#ndR25Confirmed{position:fixed;inset:0;z-index:710000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.94);backdrop-filter:blur(14px)}
+#ndR25Confirmed.show{display:flex;animation:ndR25Fade .22s ease both}
+.nd-r25-confirm{width:min(850px,96vw);text-align:center;padding:clamp(25px,5vw,58px);border:2px solid #25d366;border-radius:26px;background:linear-gradient(145deg,#07150c,#050505);box-shadow:0 30px 100px rgba(0,0,0,.9),0 0 50px rgba(37,211,102,.12)}
+.nd-r25-confirm .check{width:92px;height:92px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;background:#25d366;color:#061b0c;font-size:54px;font-weight:1000}
+.nd-r25-confirm h2{font-size:clamp(38px,7vw,78px);line-height:.92;margin:0;color:#fff;font-weight:1000}
+.nd-r25-confirm p{margin:20px auto 0;color:#ddd;font-size:clamp(16px,2.2vw,23px);font-weight:800;line-height:1.4;max-width:700px}
+.nd-r25-confirm b{color:#25d366}
+.nd-r25-close{margin-top:24px;min-height:52px;padding:12px 24px;border:0;border-radius:13px;background:#fff;color:#111;font-weight:1000;cursor:pointer}
+.nd-r25-placeholder{width:100%;height:100%;min-height:150px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#171717,#050505);border:1px solid #2a2a2a;color:#fff;font-size:clamp(26px,5vw,48px);font-weight:1000;letter-spacing:2px;text-align:center}
+.nd-r25-placeholder small{display:block;color:#ffd21a;font-size:9px;letter-spacing:3px;margin-top:5px}
+/* As duas ofertas ficam juntas em uma área de destaque logo após a apresentação do site. */
+#ndUvaPromo.nd-r25-offer-top,#ndR17FirstBuy.nd-r25-offer-top{width:min(1100px,calc(100% - 28px))!important;margin:14px auto!important;}
+#ndR17FirstBuy.nd-r25-offer-top{grid-column:auto!important}
+@keyframes ndR25Fade{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+@media(max-width:600px){.nd-r25-title{letter-spacing:-1px}.nd-r25-send{min-height:68px}.nd-r25-placeholder{min-height:130px}}
 </style>
 <script id="nd-r25-final-js">
 (function(){
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-const stripEmoji=v=>String(v||'').replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu,'').replace(/\s{2,}/g,' ').trim();
 
-/* 1) Remove definitivamente o antigo bloco do produto do dia. */
-function removeDaily(){
-  $$('[id="ndR17FirstBuy"]').forEach(e=>e.remove());
-}
-
-/* 2) Coloca o desconto exclusivo no centro, logo abaixo do hero e antes do catálogo. */
-function centerPromo(){
-  const p=$('#ndUvaPromo');
-  if(!p)return;
-  const hero=$('#ndFxIntro')||$('.nd-v4-hero')||$('#ndAutoBest');
-  if(hero)hero.insertAdjacentElement('afterend',p);
-  p.classList.add('nd-r25-center');
-}
-
-/* 3) Foto genérica NDBURGS para qualquer card que esteja sem imagem ou com imagem quebrada. */
-function placeholder(){
-  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700"><rect width="900" height="700" fill="#0b0b0b"/><rect x="42" y="42" width="816" height="616" rx="42" fill="#141414" stroke="#333" stroke-width="3"/><text x="450" y="390" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="92" font-weight="900" letter-spacing="12" fill="#fff">NDBURGS</text></svg>');
-}
-function fixImage(img){
-  if(!img)return;
-  if(img.dataset.ndR25Fallback==='1')return;
-  const src=(img.getAttribute('src')||'').trim();
-  const bad=!src || src==='#' || src.startsWith('data:image/svg+xml') || src.includes('undefined');
-  if(bad){img.dataset.ndR25Fallback='1';img.src=placeholder();img.alt='NDBURGS';return}
-  img.addEventListener('error',function(){
-    if(img.dataset.ndR25Fallback==='1')return;
-    img.dataset.ndR25Fallback='1';img.src=placeholder();img.alt='NDBURGS';
-  },{once:true});
-}
-function fixMissingPhotos(){
-  $$('.produto img, .r11-q img, .r11-best-card img').forEach(fixImage);
-  const obs=new MutationObserver(()=>$$('.produto img, .r11-q img, .r11-best-card img').forEach(fixImage));
-  obs.observe(document.body,{subtree:true,childList:true});
+/* 1) OFERTAS: tira do meio das categorias e leva para uma área nobre logo após a apresentação. */
+function moveOffers(){
+  const hero=$('#ndFxIntro')||$('.nd-v4-hero')||$('#ndAutoBest')||$('.horarios');
+  const promo=$('#ndUvaPromo');
+  const daily=$('#ndR17FirstBuy');
+  if(!hero)return;
+  if(promo){
+    promo.classList.add('nd-r25-offer-top');
+    hero.insertAdjacentElement('afterend',promo);
+    /* Remove o selo que antes dizia OFERTA EXCLUSIVA; a própria oferta continua visível. */
+    promo.querySelector('.nd-r24-badge')?.remove();
+    const badge=Array.from(promo.querySelectorAll('*')).find(x=>norm(x.textContent)==='🔥 OFERTA EXCLUSIVA');
+    if(badge && badge.children.length===0)badge.remove();
+  }
+  if(daily){
+    daily.classList.add('nd-r25-offer-top');
+    const anchor=promo||hero;
+    anchor.insertAdjacentElement('afterend',daily);
+    daily.querySelector('.nd-r17-fb-kicker')?.replaceChildren(document.createTextNode('🔥 DESTAQUE DO DIA'));
+    const title=daily.querySelector('.nd-r17-fb-title');
+    if(title)title.textContent='CASADINHO';
+    const text=daily.querySelector('.nd-r17-fb-text');
+    if(text)text.innerHTML='Uma oferta em destaque para você aproveitar hoje na <b>ND BURGS</b>.';
+  }
 }
 
-/* 4) Caixa PIX gigante: copiar chave ou valor sempre gera o aviso. */
-function ensurePixGate(){
-  if($('#ndR25PixGate'))return;
-  const g=document.createElement('div');g.id='ndR25PixGate';g.innerHTML='<div class="nd-r25-pix-card" role="alertdialog" aria-modal="true"><h2 class="nd-r25-pix-title">ATENÇÃO: O PEDIDO AINDA NÃO FOI ENVIADO</h2><p class="nd-r25-pix-message">APÓS O ENVIO DO PIX, RETORNE AO NOSSO SITE E FINALIZE O PEDIDO PELO WHATSAPP.</p><button type="button" class="nd-r25-pix-ok">ENTENDI — VOLTAR AO PEDIDO</button></div>';
-  document.body.appendChild(g);
-  g.querySelector('button').onclick=()=>{g.classList.remove('show');document.body.style.overflow='';};
+/* 2) FOTO GENÉRICA: qualquer produto sem foto ou com foto quebrada recebe uma arte simples NDBURGS. */
+const svg='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700"><rect width="900" height="700" rx="30" fill="#090909"/><rect x="24" y="24" width="852" height="652" rx="24" fill="none" stroke="#ffd21a" stroke-width="4"/><text x="450" y="365" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="104" font-weight="900" fill="#ffd21a">NDBURGS</text></svg>');
+function generic(img,card){
+  if(!img){img=document.createElement('img');img.className='produto-imagem';img.loading='lazy';img.decoding='async';card.insertBefore(img,card.firstChild)}
+  if(img.dataset.ndR25Generic==='1')return;
+  img.addEventListener('error',function(){if(img.dataset.ndR25Failed==='1')return;img.dataset.ndR25Failed='1';img.src=svg;img.alt='NDBURGS';img.classList.add('nd-r25-generic-img')});
+  const src=String(img.getAttribute('src')||'').trim();
+  if(!src||src==='#'||src.toLowerCase().startsWith('javascript:')){img.src=svg;img.alt='NDBURGS';img.dataset.ndR25Generic='1';}
 }
-function bindPixGate(){
-  ensurePixGate();
-  document.addEventListener('click',e=>{
-    const b=e.target.closest('#ndPixBox .nd-pix-copy,#ndPixCopyValue');
-    if(!b)return;
-    setTimeout(()=>{$('#ndR25PixGate')?.classList.add('show');document.body.style.overflow='hidden';},120);
-  },true);
+function applyGenericPhotos(){
+  $$('.produto').forEach(card=>generic(card.querySelector('img.produto-imagem, img'),card));
 }
 
-/* 5) Caixa pós-WhatsApp: só limpa o carrinho quando o cliente confirmar que enviou. */
-let pendingWhatsApp=null;
-function ensureSendGate(){
+/* 3) CONFIRMAÇÃO: primeiro o cliente vê claramente que AINDA NÃO enviou. Só o segundo clique abre o WhatsApp. */
+function ensureGate(){
   if($('#ndR25SendGate'))return;
-  const g=document.createElement('div');g.id='ndR25SendGate';g.innerHTML='<div class="nd-r25-gate-card" role="alertdialog" aria-modal="true"><h2 class="nd-r25-gate-alert">SEU PEDIDO AINDA NÃO FOI ENVIADO</h2><p class="nd-r25-gate-text">O WhatsApp foi aberto. Confira a conversa e toque em <b>ENVIAR</b>. Depois, volte aqui e confirme que o pedido foi enviado para a ND BURGS.</p><button type="button" class="nd-r25-gate-btn">ENVIAR PEDIDO PELO WHATSAPP</button><br><button type="button" class="nd-r25-gate-cancel">VOLTAR AO SITE SEM FINALIZAR</button></div>';
-  document.body.appendChild(g);
-  g.querySelector('.nd-r25-gate-btn').onclick=()=>{
-    if(pendingWhatsApp?.url)window.open(pendingWhatsApp.url,'_blank');
-    else if(pendingWhatsApp?.win&&!pendingWhatsApp.win.closed)pendingWhatsApp.win.focus();
+  const d=document.createElement('div');d.id='ndR25SendGate';
+  d.innerHTML='<div class="nd-r25-gate" role="dialog" aria-modal="true"><div class="nd-r25-icon">⚠️</div><h2 class="nd-r25-title">SEU PEDIDO<br><span>AINDA NÃO FOI ENVIADO</span></h2><div class="nd-r25-sub">Para concluir seu pedido, você precisa clicar no botão abaixo e <b>enviar a mensagem pelo WhatsApp da ND BURGS</b>.</div><button class="nd-r25-send" id="ndR25SendBtn" type="button">📲 ENVIAR PEDIDO PELO WHATSAPP</button><button class="nd-r25-cancel" id="ndR25Cancel" type="button">← VOLTAR E CONFERIR PEDIDO</button></div>';
+  document.body.appendChild(d);
+  $('#ndR25Cancel').onclick=()=>d.classList.remove('show');
+}
+function ensureConfirmed(){
+  if($('#ndR25Confirmed'))return;
+  const d=document.createElement('div');d.id='ndR25Confirmed';
+  d.innerHTML='<div class="nd-r25-confirm" role="dialog" aria-modal="true"><div class="check">✓</div><h2>PEDIDO ENVIADO!</h2><p>O WhatsApp foi aberto com seu pedido. <b>Confira a conversa e toque em ENVIAR</b> para finalizar o envio para a ND BURGS.</p><button class="nd-r25-close" type="button">OK, ENTENDI</button></div>';
+  document.body.appendChild(d);d.querySelector('.nd-r25-close').onclick=()=>d.classList.remove('show');
+}
+let originalFinish=null;
+function validateBasic(){
+  const c=Array.isArray(window.carrinho)?window.carrinho:[];
+  if(!c.length){alert('Adicione pelo menos um produto ao carrinho.');return false}
+  const nome=$('#nomeModal')?.value.trim()||'', tel=($('#telefoneModal')?.value||'').replace(/\D/g,''), tipo=$('#tipoPedidoModal')?.value||'', rua=$('#ruaModal')?.value||'', num=$('#numeroModal')?.value.trim()||'', pay=$('#pagamentoModal')?.value||'';
+  if(!nome){alert('Digite seu nome.');$('#nomeModal')?.focus();return false}
+  if(tel.length<10||tel.length>11){alert('Digite um WhatsApp válido com DDD.');$('#telefoneModal')?.focus();return false}
+  if(tipo==='ENTREGA'&&(!rua||!num)){alert('Complete seu endereço.');return false}
+  if(!pay){alert('Escolha a forma de pagamento.');return false}
+  const sub=c.reduce((s,i)=>s+(Number(i.preco)||0)*(Number(i.quantidade)||1),0);
+  if(tipo==='ENTREGA'&&sub<11.90){alert('O pedido mínimo para delivery é R$ 11,90.');return false}
+  if(pay==='DINHEIRO'){
+    const troco=Number($('#trocoModal')?.value||0);const fee=tipo==='ENTREGA'?Number(window.taxas?.[rua]||0):0;const total=sub+fee;
+    if(!troco||troco<=total){alert('Informe um valor de troco maior que o total do pedido.');$('#trocoModal')?.focus();return false}
+  }
+  return true;
+}
+function sendWhatsAppNow(){
+  const c=Array.isArray(window.carrinho)?window.carrinho:[];
+  const nome=$('#nomeModal')?.value.trim()||'';
+  const telefone=$('#telefoneModal')?.value.trim()||'';
+  const tipo=$('#tipoPedidoModal')?.value||'ENTREGA';
+  const rua=$('#ruaModal')?.value||'';
+  const numero=$('#numeroModal')?.value.trim()||'';
+  const complemento=$('#complementoModal')?.value.trim()||'';
+  const pagamento=$('#pagamentoModal')?.value||'';
+  const troco=$('#trocoModal')?.value||'';
+  const observacao=$('#observacaoModal')?.value.trim()||'';
+  let subtotal=0, mensagem='🍔 *NOVO PEDIDO - ND BURGS*%0A==============================%0A%0A';
+  mensagem+='👤 *CLIENTE:* '+encodeURIComponent(nome)+'%0A';
+  mensagem+='📱 *TELEFONE:* '+encodeURIComponent(telefone)+'%0A';
+  mensagem+='🏍️ *TIPO:* '+encodeURIComponent(tipo==='ENTREGA'?'DELIVERY':'RETIRADA')+'%0A';
+  if(tipo==='ENTREGA'){mensagem+='📍 *ENDEREÇO:* '+encodeURIComponent(rua+', Nº '+numero)+'%0A';if(complemento)mensagem+='🏠 *COMPLEMENTO:* '+encodeURIComponent(complemento)+'%0A';}
+  mensagem+='%0A🛒 *ITENS DO PEDIDO*%0A------------------------------%0A';
+  c.forEach(item=>{const totalItem=(Number(item.preco)||0)*(Number(item.quantidade)||1);subtotal+=totalItem;mensagem+=encodeURIComponent((Number(item.quantidade)||1)+'x '+item.nome+' — '+(typeof window.moeda==='function'?window.moeda(totalItem):('R$ '+totalItem.toFixed(2).replace('.',','))))+'%0A';if(item.detalhes&&item.detalhes.length)mensagem+=encodeURIComponent('   ↳ '+item.detalhes.join(', '))+'%0A';});
+  const taxa=tipo==='ENTREGA'?Number(window.taxas?.[rua]||0):0,total=subtotal+taxa;
+  const money=v=>(typeof window.moeda==='function'?window.moeda(v):('R$ '+Number(v).toFixed(2).replace('.',',')));
+  mensagem+='%0A💰 *SUBTOTAL:* '+encodeURIComponent(money(subtotal))+'%0A';
+  mensagem+='🏍️ *TAXA:* '+encodeURIComponent(money(taxa))+'%0A';
+  mensagem+='💵 *TOTAL:* '+encodeURIComponent(money(total))+'%0A';
+  mensagem+='💳 *PAGAMENTO:* '+encodeURIComponent(pagamento)+'%0A';
+  if(pagamento==='DINHEIRO'&&troco)mensagem+='💵 *TROCO PARA:* '+encodeURIComponent(money(parseFloat(troco)))+'%0A';
+  if(observacao)mensagem+='%0A📝 *OBSERVAÇÃO:*%0A'+encodeURIComponent(observacao)+'%0A';
+  mensagem+='%0A==============================%0A';
+  mensagem+='ND BURGS 🍔';
+  const wa='5511963973846';
+  const w=window.open('https://wa.me/'+wa+'?text='+mensagem,'_blank');
+  if(!w)throw new Error('popup-blocked');
+  try{localStorage.setItem('ndburgs_pedido_pendente','1')}catch(_){}
+}
+
+function installSendFlow(){
+  if(typeof window.finalizarPedidoModal!=='function')return;
+  if(window.finalizarPedidoModal.__ndR25)return;
+  originalFinish=window.finalizarPedidoModal;
+  window.finalizarPedidoModal=function(){
+    if(!validateBasic())return;
+    ensureGate();$('#ndR25SendGate').classList.add('show');
   };
-  g.querySelector('.nd-r25-gate-cancel').onclick=()=>{g.classList.remove('show');document.body.style.overflow='';};
+  window.finalizarPedidoModal.__ndR25=true;
+  ensureGate();ensureConfirmed();
+  $('#ndR25SendBtn').onclick=function(){
+    const gate=$('#ndR25SendGate');
+    gate.classList.remove('show');
+    /* Chamada síncrona: evita bloqueio de popup do navegador. */
+    let opened=false;
+    try{
+      const before=window.open;
+      /* A função original abre o WhatsApp. O retorno pode não existir, então usamos a mudança de foco/visibilidade apenas como apoio. */
+      sendWhatsAppNow();
+      opened=true;
+    }catch(e){opened=false}
+    /* O site confirma que o WhatsApp foi aberto; o toque final em ENVIAR acontece dentro do WhatsApp. */
+    setTimeout(()=>{if(opened){try{document.getElementById('ndOrderSuccess')?.classList.remove('show')}catch(_){ } ensureConfirmed();$('#ndR25Confirmed').classList.add('show')}else{gate.classList.add('show');alert('Não foi possível abrir o WhatsApp. Verifique se o WhatsApp está instalado ou permitido pelo navegador.')}},250);
+  };
 }
-function showSendGate(url,win){ensureSendGate();pendingWhatsApp={url,win};$('#ndR25SendGate').classList.add('show');document.body.style.overflow='hidden';}
-
-function clearConfirmedOrder(){
-  try{window.carrinho=[]}catch(e){}
-  try{if(typeof CHAVE_CARRINHO!=='undefined')localStorage.removeItem(CHAVE_CARRINHO)}catch(e){}
-  try{localStorage.removeItem('ndburgs_r17_last_order')}catch(e){}
-  try{localStorage.removeItem('ndburgs_checkout_pending')}catch(e){}
-  try{if(typeof atualizarCarrinho==='function')atualizarCarrinho()}catch(e){}
-  try{if(typeof atualizarModalCarrinho==='function')atualizarModalCarrinho()}catch(e){}
-  try{if(typeof fecharCarrinho==='function')fecharCarrinho()}catch(e){}
-  syncSendButtons();
-}
-function confirmSent(){
-  const g=$('#ndR25SendGate');if(g)g.classList.remove('show');document.body.style.overflow='';
-  clearConfirmedOrder();
-  const s=$('#ndOrderSuccess');
-  if(s){s.classList.add('show');const h=s.querySelector('h2');const p=s.querySelector('p');if(h)h.innerHTML='PEDIDO ENVIADO COM SUCESSO';if(p)p.innerHTML='Recebemos a confirmação de envio. Seu pedido foi encaminhado para a ND BURGS.';}
-  pendingWhatsApp=null;
-}
-function bindSendConfirm(){
-  ensureSendGate();
-  const btn=$('#ndR25SendGate .nd-r25-gate-btn');
-  if(btn&&!btn.dataset.confirmBound){
-    btn.dataset.confirmBound='1';
-  }
-  /* Um terceiro botão explícito de confirmação aparece depois que o cliente volta do WhatsApp. */
-  if(!$('#ndR25ConfirmSent')){
-    const b=document.createElement('button');b.id='ndR25ConfirmSent';b.type='button';b.className='nd-r25-gate-btn';b.textContent='JÁ ENVIEI O PEDIDO — CONFIRMAR';b.style.display='none';
-    $('#ndR25SendGate .nd-r25-gate-card').appendChild(b);
-    b.onclick=confirmSent;
-  }
-  const gate=$('#ndR25SendGate');
-  gate.addEventListener('visibilitychange',()=>{});
-  /* Ao clicar em enviar, não limpamos. Após abrir o WhatsApp, o cliente pode voltar e confirmar. */
-  if(!gate.dataset.modeBound){
-    gate.dataset.modeBound='1';
-    gate.querySelector('.nd-r25-gate-btn').addEventListener('click',()=>{
-      setTimeout(()=>{
-        const b=$('#ndR25ConfirmSent'); if(b)b.style.display='block';
-      },350);
-    });
-  }
-}
-
-function syncSendButtons(){
-  const has=Array.isArray(window.carrinho)&&window.carrinho.length>0;
-  $$('button,a').forEach(b=>{
-    const t=norm(b.textContent);
-    if(t.includes('ENVIAR PEDIDO PELO WHATSAPP')||t==='CLIQUE PARA CONFIRMAR PEDIDO'){
-      b.classList.toggle('nd-r25-hidden-send',!has);
-    }
-  });
-}
-
-/* 6) Monta mensagem limpa, sem emojis, uma informação por linha. */
-function val(id){return document.getElementById(id)?.value?.trim()||''}
-function getCheckout(){
-  const modal=$('#nomeModal');
-  if(modal)return {nome:val('nomeModal'),telefone:val('telefoneModal'),tipo:val('tipoPedidoModal'),rua:val('ruaModal'),numero:val('numeroModal'),complemento:val('complementoModal'),pagamento:val('pagamentoModal'),troco:val('trocoModal'),observacao:val('observacaoModal')};
-  return {nome:val('nome'),telefone:val('telefone'),tipo:val('tipoPedido'),rua:val('rua'),numero:val('numero'),complemento:val('complemento'),pagamento:val('pagamento'),troco:val('troco'),observacao:val('observacao')};
-}
-function buildWhatsApp(){
-  const d=getCheckout(), cart=Array.isArray(window.carrinho)?window.carrinho:[];
-  if(!cart.length){alert('Adicione pelo menos um produto ao carrinho.');return null}
-  if(!d.nome){alert('Digite seu nome.');return null}
-  const tel=d.telefone.replace(/\D/g,'');
-  if(tel.length<10||tel.length>11){alert('Digite um telefone válido com DDD.');return null}
-  if(d.tipo==='ENTREGA'&&(!d.rua||!d.numero)){alert('Complete seu endereço.');return null}
-  if(!d.pagamento){alert('Selecione a forma de pagamento.');return null}
-  let subtotal=0;
-  const lines=['NOVO PEDIDO - ND BURGS','Nome: '+stripEmoji(d.nome),'WhatsApp: '+tel,'Tipo: '+(d.tipo==='ENTREGA'?'Delivery':'Retirada')];
-  if(d.tipo==='ENTREGA'){
-    lines.push('Endereço: '+stripEmoji(d.rua)+', Nº '+stripEmoji(d.numero));
-    if(d.complemento)lines.push('Complemento: '+stripEmoji(d.complemento));
-  }
-  lines.push('','Itens:');
-  cart.forEach(item=>{
-    const qtd=Number(item.quantidade)||1, totalItem=(Number(item.preco)||0)*qtd; subtotal+=totalItem;
-    lines.push(qtd+'x '+stripEmoji(item.nome)+' - '+moeda(totalItem));
-    if(Array.isArray(item.detalhes)&&item.detalhes.length){
-      item.detalhes.forEach(det=>lines.push('  '+stripEmoji(det)));
-    }
-  });
-  const taxa=d.tipo==='ENTREGA'?Number((typeof taxas!=='undefined'&&taxas[d.rua])||0):0;
-  const total=subtotal+taxa;
-  lines.push('','Subtotal: '+moeda(subtotal),'Taxa de entrega: '+moeda(taxa),'Total: '+moeda(total),'Forma de pagamento: '+stripEmoji(d.pagamento));
-  if(d.pagamento==='DINHEIRO'&&d.troco)lines.push('Troco para: '+moeda(parseFloat(d.troco)));
-  if(d.observacao)lines.push('Observação: '+stripEmoji(d.observacao));
-  return {url:'https://wa.me/5511963973846?text='+encodeURIComponent(lines.join('\n'))};
-}
-function overrideFinalize(){
-  ['finalizarPedidoModal','finalizarPedido'].forEach(name=>{
-    const old=window[name];
-    if(typeof old!=='function'||old.__ndR25)return;
-    const fn=function(){
-      const data=buildWhatsApp();if(!data)return;
-      const win=window.open(data.url,'_blank');
-      showSendGate(data.url,win);
-      return false;
-    };
-    fn.__ndR25=true;window[name]=fn;
-  });
-}
-
-function init(){
-  removeDaily();centerPromo();fixMissingPhotos();ensurePixGate();bindPixGate();ensureSendGate();bindSendConfirm();syncSendButtons();overrideFinalize();
-  setTimeout(()=>{removeDaily();centerPromo();fixMissingPhotos();syncSendButtons();overrideFinalize()},600);
-  setTimeout(()=>{removeDaily();centerPromo();syncSendButtons();overrideFinalize()},1500);
-}
-/* Atualiza a visibilidade dos botões quando produtos entram/saem do carrinho. */
-document.addEventListener('click',()=>setTimeout(syncSendButtons,80),true);
+function init(){moveOffers();applyGenericPhotos();installSendFlow();setTimeout(()=>{moveOffers();applyGenericPhotos();installSendFlow()},700);setTimeout(()=>{moveOffers();applyGenericPhotos()},1500)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
-</body>
-</html>
+
+<script id="nd-r25-pix-pending">
+(function(){
+'use strict';
+function showPending(){
+ if(document.getElementById('ndR25PixPending'))return;
+ const b=document.createElement('div');b.id='ndR25PixPending';b.style.cssText='position:fixed;left:12px;right:12px;bottom:14px;z-index:680000;display:none;padding:13px 14px;border:2px solid #ffd21a;border-radius:15px;background:#0b0b0b;color:#fff;box-shadow:0 15px 45px rgba(0,0,0,.7);text-align:center;font-weight:900';
+ b.innerHTML='<div style="font-size:14px;color:#ffd21a">⚠️ PIX COPIADO — SEU PEDIDO AINDA NÃO FOI ENVIADO</div><div style="font-size:11px;color:#aaa;margin:5px 0 9px">Depois de pagar, volte aqui e envie o pedido pelo WhatsApp.</div><button type="button" style="width:100%;min-height:48px;border:0;border-radius:12px;background:linear-gradient(145deg,#fff36b,#ffd21a,#e99d00);color:#171000;font-weight:1000">📲 ENVIAR PEDIDO PELO WHATSAPP</button>';
+ document.body.appendChild(b);b.querySelector('button').onclick=()=>{if(typeof window.finalizarPedidoModal==='function')window.finalizarPedidoModal()};
+}
+function bind(){
+ showPending();
+ document.addEventListener('click',e=>{const b=e.target.closest('#ndPixCopy,#ndPixCopyValue');if(!b)return;try{localStorage.setItem('ndburgs_pix_copiado','1');localStorage.setItem('ndburgs_pedido_pendente','1')}catch(_){}setTimeout(()=>{const x=document.getElementById('ndR25PixPending');if(x)x.style.display='block'},250)},true);
+ try{if(localStorage.getItem('ndburgs_pix_copiado')==='1'){const x=document.getElementById('ndR25PixPending');if(x)x.style.display='block'}}catch(_){}
+ window.addEventListener('beforeunload',e=>{try{if(localStorage.getItem('ndburgs_pedido_pendente')==='1'){e.preventDefault();e.returnValue='';}}catch(_){}});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+})();
+</script>
