@@ -2414,6 +2414,25 @@ header .logo{width:min(220px,76vw)!important;max-width:76vw!important;display:bl
 #ndR30DeliveryNotice{margin:12px auto 16px;max-width:1180px;padding:12px 14px;border:1px solid rgba(255,209,102,.25);border-left:3px solid var(--nd-gold);border-radius:13px;background:linear-gradient(135deg,#12110d,#0b0b0b);color:#cfc8b8;font-size:11px;line-height:1.45}
 #ndR30DeliveryNotice strong{color:#fff;font-size:12px}
 #ndR30DeliveryNotice b{color:var(--nd-gold)}
+/* R30 — atendimento + tempo de entrega literalmente no topo, logo abaixo do logo */
+body > header + .horarios{margin:0 auto!important;max-width:1180px!important;padding:8px 12px 0!important;position:relative!important;z-index:900!important}
+body > header + .horarios .horarios-box{display:grid!important;grid-template-columns:auto 1fr auto!important;align-items:center!important;gap:7px 14px!important;margin:0!important;padding:10px 14px!important;border-radius:0 0 15px 15px!important;border-top:0!important;background:linear-gradient(135deg,#101012,#070708)!important}
+body > header + .horarios .horarios-titulo{font-size:11px!important;white-space:nowrap!important}
+body > header + .horarios .horarios-linha{font-size:10.5px!important;text-align:left!important}
+body > header + .horarios .status-aberto{margin:0!important;font-size:10px!important;white-space:nowrap!important}
+.nd-top-delivery{grid-column:1/-1!important;border-top:1px solid #242429!important;padding-top:7px!important;margin-top:1px!important;text-align:center!important;color:#cfcfcf!important;font-size:11px!important;line-height:1.35!important}
+.nd-top-delivery strong{color:#fff!important}
+.nd-top-delivery b{color:#ffd21a!important;font-size:12px!important}
+.nd-top-delivery span{color:#888!important;font-size:10px!important}
+@media(max-width:700px){
+ body > header + .horarios{padding:0 7px!important}
+ body > header + .horarios .horarios-box{grid-template-columns:1fr auto!important;gap:5px 8px!important;padding:9px 10px!important;border-radius:0 0 13px 13px!important}
+ body > header + .horarios .horarios-linha{grid-column:1/-1;grid-row:2;font-size:10px!important}
+ body > header + .horarios .status-aberto{grid-column:2;grid-row:1;font-size:9px!important}
+ body > header + .horarios .horarios-titulo{grid-column:1;grid-row:1;font-size:10px!important}
+ .nd-top-delivery{grid-column:1/-1!important;grid-row:3!important;font-size:10px!important;padding-top:6px!important}
+ .nd-top-delivery b{font-size:11px!important}
+}
 /* evita efeitos caros em telas pequenas */
 @media(max-width:700px){
  body{padding-bottom:145px!important}
@@ -2437,6 +2456,14 @@ header .logo{width:min(220px,76vw)!important;max-width:76vw!important;display:bl
 <header>
 <img alt="ND BURGS" class="logo" src="https://i.ibb.co/5gsVbBcb/corretooo.jpg"/>
 </header>
+<div class="horarios">
+<div class="horarios-box">
+<div class="horarios-titulo">🟢 ATENDIMENTO ND BURGS</div>
+<div class="horarios-linha">📅 TERÇA A DOMINGO • 18:00 ÀS 00:30</div>
+<div class="status-aberto" id="statusHorario">🟢 ABERTO AGORA • PEDIDOS ONLINE</div>
+<div class="nd-top-delivery">🕐 <strong>TEMPO DE ENTREGA:</strong> <b>40 A 50 MINUTINHOS</b><br/><span>Para seu pedido chegar fresquinho na sua residência.</span></div>
+</div>
+</div>
 <section class="nd-v4-hero">
 <div class="nd-v4-hero-glow"></div>
 <div class="nd-v4-hero-content">
@@ -2457,17 +2484,6 @@ header .logo{width:min(220px,76vw)!important;max-width:76vw!important;display:bl
 <div class="nd-v4-art-price">PEÇA<br/><strong>AGORA</strong></div>
 </div>
 </section>
-<div class="horarios">
-<div class="horarios-box">
-<div class="horarios-titulo">
-🟢 ATENDIMENTO ND BURGS
-</div>
-<div class="horarios-linha">
-📅 TERÇA A DOMINGO • 18:00 ÀS 00:30
-</div>
-<div class="status-aberto" id="statusHorario">🟢 ABERTO AGORA • PEDIDOS ONLINE</div>
-</div>
-</div>
 <div class="container">
 <h1>🍔 FAÇA SEU PEDIDO</h1>
 <div class="modern-search"><input aria-label="Buscar produtos" autocomplete="off" id="buscaProdutos" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." type="search"/><span class="search-count" id="contadorBusca"></span></div>
@@ -9145,12 +9161,9 @@ const ready=()=>{
   // Performance: only the first two visible product images are eager; the rest stay lazy.
   const imgs=[...document.querySelectorAll('.produto img')];
   imgs.forEach((img,i)=>{img.decoding='async'; if(i<2){img.loading='eager';img.fetchPriority='high'}else{img.loading='lazy';img.fetchPriority='low'}});
-  // Single delivery-time notice, placed before the catalog.
-  if(!document.getElementById('ndR30DeliveryNotice')){
-    const n=document.createElement('div'); n.id='ndR30DeliveryNotice';
-    n.innerHTML='🕐 <strong>TEMPO DE ENTREGA:</strong> normalmente <b>40 a 50 minutinhos</b> para seu pedido chegar fresquinho na sua residência.';
-    const c=document.querySelector('.container'); if(c) c.insertBefore(n,c.firstElementChild);
-  }
+  // R30: tempo de entrega já fica junto do atendimento, literalmente no topo.
+  const topHorario=document.querySelector('body > header + .horarios');
+  if(topHorario){ topHorario.setAttribute('data-r30-top','1'); }
   // Mark the first visible category button when possible.
   document.querySelectorAll('.categoria-btn').forEach(b=>b.addEventListener('click',()=>{
     document.querySelectorAll('.categoria-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active');
