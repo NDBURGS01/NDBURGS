@@ -9171,7 +9171,270 @@ const ready=()=>{
 };
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
 })();
-</script></body>
+</script>
+<!-- =========================================================
+     ND BURGS — R31
+     TOPO + UPSELL INTELIGENTE + CHECKOUT UNIFICADO + RODAPÉ
+     ========================================================= -->
+<style id="nd-r31-style">
+/* TOPO ABSOLUTO: atendimento + tempo de entrega ANTES do cabeçalho */
+body > .horarios.nd-r31-top{
+  display:block!important;position:relative!important;z-index:999999!important;
+  width:100%!important;max-width:none!important;margin:0!important;padding:0!important;
+  background:#050505!important;border:0!important;
+}
+body > .horarios.nd-r31-top .horarios-box{
+  width:100%!important;box-sizing:border-box!important;max-width:none!important;
+  margin:0!important;border-radius:0!important;border:0!important;
+  border-bottom:1px solid rgba(255,101,0,.45)!important;
+  background:linear-gradient(135deg,#111114,#070708)!important;
+  padding:10px 16px!important;display:grid!important;
+  grid-template-columns:auto 1fr auto!important;align-items:center!important;gap:7px 14px!important;
+  box-shadow:0 5px 24px rgba(0,0,0,.45)!important;
+}
+body > .horarios.nd-r31-top .horarios-titulo{color:#ff8b1f!important;font-weight:1000!important;font-size:11px!important}
+body > .horarios.nd-r31-top .horarios-linha{color:#aaa!important;font-size:10.5px!important}
+body > .horarios.nd-r31-top .status-aberto{margin:0!important;font-size:10px!important;white-space:nowrap!important}
+body > .horarios.nd-r31-top .nd-top-delivery{
+  grid-column:1/-1!important;margin:0!important;padding:8px 8px 1px!important;
+  border-top:1px solid #242429!important;text-align:center!important;
+  color:#ddd!important;font-size:11px!important;line-height:1.35!important;
+}
+body > .horarios.nd-r31-top .nd-top-delivery strong{color:#fff!important}
+body > .horarios.nd-r31-top .nd-top-delivery b{color:#ffd21a!important;font-size:13px!important}
+body > .horarios.nd-r31-top .nd-top-delivery span{color:#8e8e8e!important;font-size:10px!important}
+
+/* Checkout unificado */
+#modalFinalizar .nd-r31-hidden-step{display:none!important}
+#modalFinalizar .nd-r31-receiver-title{
+  margin:0 0 12px;padding:12px 13px;border:1px solid rgba(255,101,0,.35);
+  border-left:3px solid #ff6500;border-radius:12px;
+  background:linear-gradient(135deg,#15110e,#0b0b0c);
+  color:#fff;font-size:15px;font-weight:1000;line-height:1.2;
+}
+#modalFinalizar .nd-r31-receiver-title small{display:block;margin-top:5px;color:#8e8e8e;font-size:10px;font-weight:700}
+#modalFinalizar .nd-r31-delivery-choice{margin:10px 0!important}
+#modalFinalizar .nd-r31-delivery-choice .nd-v4-pay{min-height:65px!important}
+
+/* UPSELL NO CARRINHO */
+#ndR31Upsell{margin:12px 0 15px;padding:14px;border:1px solid rgba(255,101,0,.28);border-radius:16px;background:linear-gradient(145deg,#15110e,#0b0b0d);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+#ndR31Upsell .nd-r31-upsell-kicker{font-size:9px;letter-spacing:1.3px;font-weight:1000;color:#ff8b1f}
+#ndR31Upsell h3{margin:4px 0 3px!important;padding:0!important;border:0!important;color:#fff!important;font-size:18px!important}
+#ndR31Upsell>p{margin:0 0 10px!important;color:#85858d!important;font-size:10px!important}
+.nd-r31-upsell-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.nd-r31-up-card{min-width:0;padding:8px;border:1px solid #29292e;border-radius:12px;background:#0c0c0f;display:flex;flex-direction:column}
+.nd-r31-up-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:9px;background:#070707}
+.nd-r31-up-name{margin:7px 0 3px;color:#fff;font-size:11px;font-weight:950;line-height:1.15}
+.nd-r31-up-price{color:#ffd21a;font-size:13px;font-weight:1000;margin-bottom:7px}
+.nd-r31-up-btn{margin-top:auto;width:100%;border:0;border-radius:9px;padding:9px 5px;background:#ff6500;color:#050505;font-size:9px;font-weight:1000;cursor:pointer}
+.nd-r31-up-btn.added{background:#25d366;color:#051008}
+
+/* AVISO DE ATENDIMENTO NO RODAPÉ */
+#ndR31StoreNotice{margin:35px 0 12px;padding:20px 16px;border:1px solid rgba(255,101,0,.5);border-radius:18px;background:radial-gradient(circle at 50% 0%,rgba(255,101,0,.12),transparent 55%),linear-gradient(145deg,#15110e,#080809);text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+#ndR31StoreNotice .nd-r31-notice-kicker{font-size:9px;letter-spacing:1.8px;font-weight:1000;color:#ff8b1f;margin-bottom:7px}
+#ndR31StoreNotice h2{margin:0!important;padding:0!important;border:0!important;color:#fff!important;font-size:clamp(18px,4vw,27px)!important;line-height:1.08!important}
+#ndR31StoreNotice h2 span{color:#ffd21a}
+#ndR31StoreNotice p{margin:9px auto 0!important;max-width:650px;color:#aaa!important;font-size:11px!important;line-height:1.5!important}
+#ndR31StoreNotice strong{color:#fff}
+
+@media(max-width:700px){
+ body > .horarios.nd-r31-top .horarios-box{grid-template-columns:1fr auto!important;padding:9px 10px!important;gap:5px 8px!important}
+ body > .horarios.nd-r31-top .horarios-titulo{grid-column:1;grid-row:1;font-size:9.5px!important}
+ body > .horarios.nd-r31-top .status-aberto{grid-column:2;grid-row:1;font-size:8.5px!important}
+ body > .horarios.nd-r31-top .horarios-linha{grid-column:1/-1;grid-row:2;text-align:left!important;font-size:9.5px!important}
+ body > .horarios.nd-r31-top .nd-top-delivery{font-size:10px!important;padding-top:7px!important}
+ body > .horarios.nd-r31-top .nd-top-delivery b{font-size:12px!important}
+ .nd-r31-upsell-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .nd-r31-up-card{padding:6px}
+ .nd-r31-up-name{font-size:9px}
+ .nd-r31-up-price{font-size:11px}
+ .nd-r31-up-btn{font-size:8px;padding:8px 3px}
+}
+</style>
+<script id="nd-r31-logic">
+(function(){
+  'use strict';
+  const $=s=>document.querySelector(s);
+  const $$=s=>[...document.querySelectorAll(s)];
+  const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+  /* 1. Coloca atendimento + prazo ANTES do header, no topo absoluto. */
+  function moveTop(){
+    const header=$('body > header');
+    const horario=document.querySelector('body > .horarios');
+    if(!header||!horario)return;
+    header.parentNode.insertBefore(horario,header);
+    horario.classList.add('nd-r31-top');
+    horario.querySelector('.nd-top-delivery')?.replaceChildren(
+      Object.assign(document.createElement('span'),{innerHTML:'🕐 <strong>TEMPO DE ENTREGA:</strong> <b>40 A 50 MINUTINHOS</b><br><span>Para seu pedido chegar fresquinho na sua residência.</span>'})
+    );
+  }
+
+  /* 2. Rodapé: deixa explícito que o endereço é retirada, não atendimento físico. */
+  function footerNotice(){
+    if($('#ndR31StoreNotice'))return;
+    const footer=$('footer');
+    if(!footer)return;
+    const sec=document.createElement('section');
+    sec.id='ndR31StoreNotice';
+    sec.innerHTML='<div class="nd-r31-notice-kicker">📍 IMPORTANTE SOBRE O ATENDIMENTO</div><h2>ATENDEMOS APENAS POR <span>DELIVERY E RETIRADA</span></h2><p><strong>🏪 RETIRADA: RUA DAS BANANEIRAS, 180</strong><br>Não atendemos clientes na loja física. Para receber seu pedido, escolha <strong>DELIVERY</strong> ou <strong>RETIRADA</strong> no momento da finalização.</p>';
+    footer.parentNode.insertBefore(sec,footer);
+  }
+
+  /* 3. Upsell contextual: monta recomendações com base no conteúdo do carrinho. */
+  function cartNames(){
+    try{
+      const c=(typeof carrinho!=='undefined'&&Array.isArray(carrinho))?carrinho:(window.carrinho||[]);
+      return c.map(i=>norm(i.nome));
+    }catch(e){return []}
+  }
+  function cartEmpty(){return cartNames().length===0}
+  function productData(){
+    return $$('.produto').map(card=>{
+      const name=card.querySelector('h3')?.textContent?.trim()||'';
+      const desc=card.querySelector('p')?.textContent?.trim()||'';
+      const priceText=card.querySelector('.preco')?.textContent||'';
+      const m=priceText.match(/(\d{1,3}(?:\.\d{3})*,\d{2}|\d+\.\d{2})/);
+      const price=m?parseFloat(m[1].replace(/\./g,'').replace(',','.')):0;
+      const img=card.querySelector('img')?.getAttribute('src')||'';
+      const btn=card.querySelector('.btn-add');
+      const onclick=btn?.getAttribute('onclick')||'';
+      return {card,name,desc,price,img,onclick,n:norm(name+' '+desc)};
+    }).filter(x=>x.name&&x.price>0);
+  }
+  function scoreProduct(p,cart){
+    const n=p.n; let score=0;
+    if(cart.some(x=>/BURGUER|BURGER|X-|NDBURGS|NUNES|BERENICE|PATAO|DINA|GADEIA|GAROTINHO|PEZAO|SELLIS/.test(x))){
+      if(/BATATA|FRITAS|PORCAO/.test(n))score+=14;
+      if(/REFRI|COCA|GUARANA|PEPSI|DOLLY|BEBIDA|SUCO/.test(n))score+=12;
+      if(/ACAI|DOCE|SOBREMESA|COOKIE|MORANGO|CHOCOLATE/.test(n))score+=8;
+    }
+    if(cart.some(x=>/COMBO/.test(x))){
+      if(/DOCE|SOBREMESA|ACAI|COOKIE|MORANGO|CHOCOLATE/.test(n))score+=14;
+      if(/BATATA|FRITAS|PORCAO/.test(n))score+=9;
+      if(/REFRI|COCA|GUARANA|PEPSI|DOLLY|BEBIDA/.test(n))score+=8;
+    }
+    if(cart.some(x=>/BATATA|FRITAS|PORCAO/.test(x))&&/REFRI|COCA|GUARANA|PEPSI|DOLLY|BEBIDA|SUCO/.test(n))score+=12;
+    if(cart.some(x=>/REFRI|COCA|GUARANA|PEPSI|DOLLY|BEBIDA|SUCO/.test(x))&&/DOCE|SOBREMESA|ACAI|COOKIE|MORANGO|CHOCOLATE/.test(n))score+=11;
+    if(cart.some(x=>/DOCE|SOBREMESA|ACAI|COOKIE|MORANGO|CHOCOLATE/.test(x))&&/BATATA|FRITAS|PORCAO/.test(n))score+=5;
+    if(/MAIS VENDIDO|MOTOCA|SO LOVE/.test(n))score+=2;
+    return score;
+  }
+  function addUpsell(){
+    const panel=$('#modalCarrinho .painel-carrinho');
+    if(!panel||cartEmpty()){$('#ndR31Upsell')?.remove();return}
+    const data=productData(), names=cartNames();
+    const candidates=data.filter(p=>!names.includes(norm(p.name)));
+    candidates.sort((a,b)=>scoreProduct(b,names)-scoreProduct(a,names));
+    let picks=candidates.filter(p=>scoreProduct(p,names)>0).slice(0,3);
+    if(picks.length<3)picks=candidates.slice(0,3);
+    if(!picks.length)return;
+    let sec=$('#ndR31Upsell');
+    if(!sec){sec=document.createElement('section');sec.id='ndR31Upsell';const resumo=panel.querySelector('.resumo,.resumo-modal');(resumo?panel.insertBefore(sec,resumo):panel.appendChild(sec));}
+    sec.innerHTML='<div class="nd-r31-upsell-kicker">💡 COMBINA COM SEU PEDIDO</div><h3>Que tal completar?</h3><p>Selecionamos itens que fazem sentido com o que você já colocou no carrinho.</p><div class="nd-r31-upsell-grid"></div>';
+    const grid=sec.querySelector('.nd-r31-upsell-grid');
+    picks.forEach(p=>{
+      const c=document.createElement('div');c.className='nd-r31-up-card';
+      c.innerHTML='<img loading="lazy" decoding="async" alt="'+p.name.replace(/"/g,'&quot;')+'" src="'+p.img+'"><div class="nd-r31-up-name">'+p.name+'</div><div class="nd-r31-up-price">'+money(p.price)+'</div><button class="nd-r31-up-btn" type="button">+ ADICIONAR</button>';
+      const b=c.querySelector('button');
+      b.onclick=()=>{
+        try{
+          if(/abrirPersonalizacao\s*\(/.test(p.onclick)){
+            const key=(p.onclick.match(/abrirPersonalizacao\(['"]([^'"]+)/)||[])[1];
+            if(key&&typeof window.abrirPersonalizacao==='function')window.abrirPersonalizacao(key);
+            else if(typeof window.adicionar==='function')window.adicionar(p.name,p.price);
+          }else if(typeof window.adicionar==='function'){
+            window.adicionar(p.name,p.price);
+          }else if(p.onclick){Function(p.onclick).call(p.card.querySelector('.btn-add'));}
+          b.textContent='✓ ADICIONADO';b.classList.add('added');
+          setTimeout(()=>{b.textContent='+ ADICIONAR';b.classList.remove('added')},1200);
+        }catch(e){}
+      };
+      grid.appendChild(c);
+    });
+  }
+  function hookCart(){
+    if(typeof window.abrirCarrinho==='function'&&!window.abrirCarrinho.__ndR31){
+      const old=window.abrirCarrinho;
+      const wrapped=function(){const r=old.apply(this,arguments);setTimeout(addUpsell,50);setTimeout(addUpsell,350);return r};
+      wrapped.__ndR31=true;window.abrirCarrinho=wrapped;
+    }
+  }
+
+  /* 4. Checkout: "QUEM IRÁ RECEBER O PEDIDO E AONDE" junta dados + entrega. */
+  function mergeCheckout(){
+    const modal=$('#modalFinalizar');if(!modal)return;
+    const s1=modal.querySelector('.nd-v4-step-content[data-content="1"]');
+    const s2=modal.querySelector('.nd-v4-step-content[data-content="2"]');
+    if(!s1||!s2)return;
+    if(!s1.querySelector('.nd-r31-receiver-title')){
+      const title=document.createElement('div');title.className='nd-r31-receiver-title';title.innerHTML='👤 QUEM IRÁ RECEBER O PEDIDO E AONDE<small>Preencha seus dados e confirme como deseja receber seu pedido.</small>';
+      s1.insertBefore(title,s1.firstChild);
+    }
+    const choice=s2.querySelector('.nd-v4-payment-grid');
+    const summary=s2.querySelector('#ndV4SingleAddressSummary');
+    const mini=s2.querySelector('#nd26DeliveryMini');
+    const anchor=s1.querySelector('.nd-v4-next');
+    if(choice&&!s1.querySelector('.nd-r31-delivery-choice')){
+      const wrap=document.createElement('div');wrap.className='nd-r31-delivery-choice';wrap.appendChild(choice);
+      s1.insertBefore(wrap,anchor);
+    }
+    if(summary&&!s1.querySelector('#ndV4SingleAddressSummary'))s1.insertBefore(summary,anchor);
+    if(mini&&!s1.querySelector('#nd26DeliveryMini'))s1.insertBefore(mini,anchor);
+    s2.classList.add('nd-r31-hidden-step');
+    const steps=modal.querySelectorAll('.nd-v4-step');
+    if(steps.length>=4){
+      steps[0].textContent='1 • QUEM RECEBE';
+      steps[1].style.display='none';
+      steps[2].textContent='2 • PAGAMENTO';
+      steps[3].textContent='3 • CONFIRMAR';
+    }
+    const btn=s1.querySelector('.nd-v4-next');if(btn)btn.textContent='CONTINUAR PARA PAGAMENTO →';
+  }
+  function hookCheckout(){
+    if(typeof window.irParaFinalizarPedido==='function'&&!window.irParaFinalizarPedido.__ndR31){
+      const old=window.irParaFinalizarPedido;
+      const wrapped=function(){const r=old.apply(this,arguments);setTimeout(mergeCheckout,80);setTimeout(mergeCheckout,450);return r};
+      wrapped.__ndR31=true;window.irParaFinalizarPedido=wrapped;
+    }
+  }
+  function patchNext(){
+    if(typeof window.ndNext==='function'&&!window.ndNext.__ndR31){
+      const old=window.ndNext;
+      const wrapped=function(n){
+        if(n===1){
+          const nome=$('#nomeModal')?.value.trim()||'';
+          const tel=($('#telefoneModal')?.value||'').replace(/\D/g,'');
+          if(!nome)return alert('Digite o nome de quem irá receber o pedido.');
+          if(tel.length<10||tel.length>11)return alert('Digite um WhatsApp válido com DDD.');
+          const tipo=$('#tipoPedidoModal')?.value||'ENTREGA';
+          if(tipo==='ENTREGA'){
+            const rua=$('#ruaModal')?.value||'';const num=$('#numeroModal')?.value.trim()||'';
+            if(!rua)return alert('Selecione sua rua.');
+            if(!num)return alert('Digite o número do endereço.');
+          }
+          localStorage.setItem('ndburgs_nomeModal',nome);localStorage.setItem('ndburgs_telefoneModal',$('#telefoneModal')?.value.trim()||'');
+          if(typeof window.ndStep==='function')window.ndStep(3);
+          return;
+        }
+        if(n===2)return old.call(this,3);
+        return old.apply(this,arguments);
+      };
+      wrapped.__ndR31=true;window.ndNext=wrapped;
+    }
+    if(typeof window.ndBack==='function'&&!window.ndBack.__ndR31){
+      const old=window.ndBack;
+      const wrapped=function(n){if(n===3)return window.ndStep?.(1);if(n===4)return window.ndStep?.(3);return old.apply(this,arguments)};
+      wrapped.__ndR31=true;window.ndBack=wrapped;
+    }
+  }
+  function refresh(){moveTop();footerNotice();hookCart();hookCheckout();patchNext();mergeCheckout();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
+  [300,800,1600,3000].forEach(t=>setTimeout(refresh,t));
+})();
+</script>
+</body>
 <!-- =========================================================
      ND BURGS — R28 / AJUSTES SOLICITADOS
      - Remove qualquer faixa/brand "ND BURGS" azul do topo,
