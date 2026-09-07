@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260906-R27">
+<meta name="nd-site-version" content="20260907-R28">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260906-R27";
+  const ND_SITE_VERSION = "20260907-R28";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -9335,6 +9335,319 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const obs=new MutationObserver(init);
   obs.observe(document.body,{childList:true,subtree:true});
   setTimeout(init,300);setTimeout(init,1000);setTimeout(init,2000);
+})();
+</script>
+
+
+<!-- =========================================================
+     ND BURGS R28 — AJUSTES SOLICITADOS
+     1. Remove a faixa/texto ND BURGS do topo.
+     2. Mantém o logo original e aumenta seu tamanho.
+     3. Todos os botões de produto passam de ADICIONAR para COMPRAR.
+     4. Após adicionar, o botão vira ADICIONADO e muda de cor.
+     5. Sugestões: todos os itens exibem preço e COMPRAR adiciona
+        diretamente ao carrinho.
+     ========================================================= -->
+<style id="nd-r28-ajustes">
+/* Remove a faixa de texto que aparecia no topo. O logo permanece. */
+.nd-v3-strip{
+  display:none!important;
+}
+
+/* Mantém SOMENTE o logo original no cabeçalho e deixa maior. */
+header .logo{
+  display:block!important;
+  width:min(185px,48vw)!important;
+  max-width:85%!important;
+  height:auto!important;
+  object-fit:contain!important;
+  margin:0 auto!important;
+}
+
+/* Evita duplicação do logo que uma rodada anterior clonava abaixo. */
+.nd17-brand{
+  display:none!important;
+}
+
+/* Botão normal */
+.produto .btn-add,
+.produto button[onclick*="adicionar("]{
+  background:linear-gradient(135deg,#e50914,#ff3038)!important;
+  color:#fff!important;
+  border:0!important;
+  font-weight:950!important;
+  transition:all .18s ease!important;
+}
+
+/* Botão depois de adicionado */
+.produto .btn-add.nd-r28-added,
+.produto button[onclick*="adicionar("].nd-r28-added{
+  background:linear-gradient(135deg,#19b957,#0c8f43)!important;
+  color:#fff!important;
+  border-color:#26d366!important;
+  box-shadow:0 7px 20px rgba(37,211,102,.20)!important;
+}
+
+/* Sugestões */
+.suggestion-card span{
+  color:#ffd166!important;
+  font-size:14px!important;
+  font-weight:950!important;
+}
+.suggestion-card button{
+  background:linear-gradient(135deg,#e50914,#ff3038)!important;
+  color:#fff!important;
+  min-height:40px!important;
+  font-weight:950!important;
+}
+.suggestion-card button.nd-r28-added{
+  background:linear-gradient(135deg,#19b957,#0c8f43)!important;
+}
+
+/* Upsell/sugestões internas também mostram preço com destaque. */
+.nd-v3-up small{
+  color:#ffd166!important;
+  font-weight:900!important;
+}
+
+/* No mobile, logo continua maior sem ocupar a tela inteira. */
+@media(max-width:600px){
+  header .logo{
+    width:165px!important;
+    max-width:72%!important;
+  }
+}
+</style>
+
+<script id="nd-r28-logic">
+(function(){
+  'use strict';
+
+  const R28 = window.__ndR28 || (window.__ndR28 = {});
+
+  function money(v){
+    const n = Number(v) || 0;
+    return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  }
+
+  function normalize(s){
+    return String(s || '').replace(/\s+/g,' ').trim();
+  }
+
+  function getCart(){
+    if(Array.isArray(window.carrinho)) return window.carrinho;
+    try{
+      const raw = localStorage.getItem('carrinho') || localStorage.getItem('ndburgs_carrinho');
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function cartHas(name){
+    const n = normalize(name).toLowerCase();
+    return getCart().some(item => normalize(item && item.nome).toLowerCase() === n);
+  }
+
+  function buttonName(btn){
+    const card = btn.closest('.produto');
+    return normalize(card && card.querySelector('h3') ? card.querySelector('h3').textContent : '');
+  }
+
+  function setProductButtonState(btn, added){
+    if(!btn) return;
+    if(added){
+      btn.classList.add('nd-r28-added');
+      btn.textContent = 'ADICIONADO';
+      btn.setAttribute('aria-label','Produto adicionado ao carrinho');
+    }else{
+      btn.classList.remove('nd-r28-added');
+      btn.textContent = 'COMPRAR';
+      btn.setAttribute('aria-label','Comprar produto');
+    }
+  }
+
+  function refreshProductButtons(){
+    document.querySelectorAll('.produto .btn-add, .produto button[onclick*="adicionar("]').forEach(btn=>{
+      const name = buttonName(btn);
+      setProductButtonState(btn, !!name && cartHas(name));
+    });
+
+    // Qualquer botão de produto que ainda contenha ADICIONAR também vira COMPRAR.
+    document.querySelectorAll('.produto button').forEach(btn=>{
+      const t = normalize(btn.textContent).toUpperCase();
+      if(t === 'ADICIONAR' || t === '+ ADICIONAR'){
+        const name = buttonName(btn);
+        setProductButtonState(btn, !!name && cartHas(name));
+      }
+    });
+  }
+
+  function getCardPrice(card){
+    const el = card && card.querySelector('.preco');
+    if(!el) return 0;
+    const raw = normalize(el.textContent)
+      .replace(/[^\d,.-]/g,'')
+      .replace(/\.(?=\d{3}(?:,|$))/g,'')
+      .replace(',','.');
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function getCardName(card){
+    return normalize(card && card.querySelector('h3') ? card.querySelector('h3').textContent : 'Produto');
+  }
+
+  /*
+   * Sugestões do "CONTINUAR COMPRANDO":
+   * - sempre exibem nome + preço;
+   * - COMPRAR adiciona diretamente ao carrinho;
+   * - depois vira ADICIONADO;
+   * - o item permanece no carrinho mesmo que o usuário continue
+   *   escolhendo outras sugestões.
+   */
+  window.mostrarSugestoes = function(){
+    const grid = document.getElementById('suggestionsGrid');
+    const modal = document.getElementById('suggestionsModal');
+    if(!grid || !modal) return;
+
+    const cards = [...document.querySelectorAll('.produto:not(.search-hidden)')]
+      .filter(c => !c.closest('#checkout'))
+      .filter(c => c.querySelector('h3'))
+      .filter(c => c.querySelector('.preco'));
+
+    const usados = new Set(getCart().map(x => normalize(x && x.nome).toLowerCase()));
+
+    let candidatos = cards
+      .filter(c => !usados.has(getCardName(c).toLowerCase()))
+      .sort(() => Math.random() - 0.5)
+      .slice(0,4);
+
+    // Se já estiverem todos no carrinho, ainda mostra 4 sugestões para não deixar a caixa vazia.
+    if(!candidatos.length){
+      candidatos = cards.sort(() => Math.random() - 0.5).slice(0,4);
+    }
+
+    grid.innerHTML = candidatos.map((c,i)=>{
+      const img = c.querySelector('img')?.src || '';
+      const nome = getCardName(c);
+      const preco = getCardPrice(c);
+      const added = cartHas(nome);
+
+      return `
+        <div class="suggestion-card">
+          <img src="${img}" alt="${nome}">
+          <div style="flex:1;min-width:0">
+            <strong>${nome}</strong>
+            <span>${money(preco)}</span>
+            <button type="button"
+                    data-r28-sug="${i}"
+                    class="${added ? 'nd-r28-added' : ''}">
+              ${added ? 'ADICIONADO' : 'COMPRAR'}
+            </button>
+          </div>
+        </div>`;
+    }).join('') || `
+      <div style="grid-column:1/-1;text-align:center;color:#999;padding:25px">
+        Seu pedido já está cheio de boas escolhas 😍
+      </div>`;
+
+    candidatos.forEach((c,i)=>{
+      const btn = grid.querySelector(`[data-r28-sug="${i}"]`);
+      if(!btn) return;
+
+      btn.addEventListener('click', function(){
+        const nome = getCardName(c);
+        const preco = getCardPrice(c);
+
+        if(!nome || !preco) return;
+
+        if(!cartHas(nome) && typeof window.adicionar === 'function'){
+          window.adicionar(nome, preco);
+        }
+
+        // Garante atualização visual mesmo quando alguma versão anterior
+        // do código demora a atualizar o carrinho.
+        setTimeout(()=>{
+          btn.classList.add('nd-r28-added');
+          btn.textContent = 'ADICIONADO';
+          refreshProductButtons();
+          if(typeof window.atualizarCarrinho === 'function'){
+            try{ window.atualizarCarrinho(); }catch(e){}
+          }
+        },80);
+      });
+    });
+
+    modal.classList.add('show');
+    document.body.style.overflow='hidden';
+  };
+
+  /*
+   * O botão CONTINUAR COMPRANDO continua levando para as sugestões.
+   */
+  window.irParaCheckout = function(){
+    window.mostrarSugestoes();
+  };
+
+  function patchAdicionar(){
+    if(typeof window.adicionar !== 'function') return;
+    if(window.adicionar.__ndR28) return;
+
+    const original = window.adicionar;
+
+    function wrappedAdicionar(nome, preco){
+      const result = original.apply(this, arguments);
+      setTimeout(refreshProductButtons, 20);
+      setTimeout(refreshProductButtons, 180);
+      return result;
+    }
+
+    wrappedAdicionar.__ndR28 = true;
+    wrappedAdicionar.__ndR28Original = original;
+    window.adicionar = wrappedAdicionar;
+  }
+
+  function forceProductTexts(){
+    document.querySelectorAll('.produto button').forEach(btn=>{
+      const text = normalize(btn.textContent).toUpperCase();
+      if(text === 'ADICIONAR' || text === '+ ADICIONAR'){
+        const name = buttonName(btn);
+        setProductButtonState(btn, !!name && cartHas(name));
+      }
+    });
+
+    document.querySelectorAll('.nd-v3-up button').forEach(btn=>{
+      const text = normalize(btn.textContent).toUpperCase();
+      if(text.includes('ADICIONAR')) btn.textContent = text.includes('+') ? '+ COMPRAR' : 'COMPRAR';
+    });
+  }
+
+  function init(){
+    patchAdicionar();
+    forceProductTexts();
+    refreshProductButtons();
+
+    // Mantém o ajuste mesmo em áreas que são recriadas dinamicamente.
+    if(!R28.observer){
+      R28.observer = new MutationObserver(()=>{
+        patchAdicionar();
+        forceProductTexts();
+        refreshProductButtons();
+      });
+      R28.observer.observe(document.body,{childList:true,subtree:true});
+    }
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded',init,{once:true});
+  }else{
+    init();
+  }
+
+  setTimeout(init,300);
+  setTimeout(init,1000);
 })();
 </script>
 
