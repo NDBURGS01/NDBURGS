@@ -9338,270 +9338,271 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+</body>
 
 <!-- =========================================================
-     ND BURGS — R28 — AJUSTES SOLICITADOS
-     1) Remove a faixa "ND BURGS" azul do topo, mantendo o logo.
-     2) Logo maior.
-     3) "ADICIONAR" dos produtos -> "COMPRAR".
-     4) Após clicar -> "ADICIONADO" + nova cor.
-     5) Sugestões do CONTINUAR COMPRANDO: preço visível e clique
-        adiciona diretamente ao carrinho.
+     ND BURGS — R28 / AJUSTES SOLICITADOS
+     - Remove qualquer faixa/brand "ND BURGS" azul do topo,
+       preservando o logo oficial.
+     - Aumenta o logo do header.
+     - Todos os CTAs de produto: ADICIONAR -> COMPRAR.
+     - Após clicar, o CTA fica ADICIONADO e muda de cor.
+     - Sugestões exibem preço e adicionam diretamente ao carrinho.
+     - Corrige o botão CONTINUAR COMPRANDO para voltar ao cardápio.
      ========================================================= -->
-<style id="nd-r28-ajustes">
-/* 1) Remove somente a faixa superior extra; o logo do header permanece. */
-.nd-v3-strip{display:none!important}
-
-/* 2) Logo oficial maior, sem criar outro logo. */
+<style id="nd-r28-final-fixes">
+/* Header: somente o logo oficial */
 header .logo{
+  width:min(190px,76vw)!important;
+  max-width:76vw!important;
   display:block!important;
-  width:min(205px,52vw)!important;
-  max-width:52vw!important;
-  height:auto!important;
-  max-height:78px!important;
-  object-fit:contain!important;
+  margin:0 auto!important;
 }
-@media(max-width:600px){
-  header .logo{
-    width:min(175px,58vw)!important;
-    max-width:58vw!important;
-    max-height:64px!important;
-  }
+@media(max-width:700px){
+  header{padding:14px 10px 12px!important}
+  header .logo{width:min(210px,78vw)!important;max-width:78vw!important}
 }
 
-/* 3/4) Botões de compra dos produtos. */
-.produto .btn-add,
-.produto button[onclick*="adicionar("],
-.produto button[onclick*="abrirComboPersonalizacao"]{
-  background:linear-gradient(135deg,#e50914,#ff3038)!important;
-  color:#fff!important;
-  border:1px solid rgba(255,255,255,.12)!important;
-  transition:transform .16s ease,background .16s ease,box-shadow .16s ease,filter .16s ease!important;
-}
-.produto .btn-add.nd-r28-added,
-.produto button[onclick*="adicionar("].nd-r28-added,
-.produto button[onclick*="abrirComboPersonalizacao"].nd-r28-added{
-  background:linear-gradient(135deg,#20a84b,#35d866)!important;
-  border-color:#52ed7e!important;
-  color:#fff!important;
-  box-shadow:0 8px 22px rgba(37,211,102,.22)!important;
-}
-.produto .btn-add:hover,
-.produto button[onclick*="adicionar("]:hover,
-.produto button[onclick*="abrirComboPersonalizacao"]:hover{
-  filter:brightness(1.07)!important;
-  transform:translateY(-1px)!important;
+/* Remove qualquer marca/faixa duplicada criada por camadas antigas. */
+.nd-v3-strip,
+.nd17-brand{
+  display:none!important;
 }
 
-/* Texto de todas as sugestões da caixa CONTINUAR COMPRANDO. */
-#suggestionsModal .suggestion-card span{
-  display:block!important;
-  color:#39d353!important;
-  font-size:15px!important;
+/* Botões de compra */
+.btn-add,
+.nd-fx-add,
+.nd-r3-add,
+.nd-r7-card button,
+.nd-v3-up button,
+.nd-r17-fb-btn,
+.nd26-offer-btn,
+.r11-promo-copy button{
   font-weight:950!important;
-  margin:5px 0 8px!important;
+  letter-spacing:.25px!important;
 }
-#suggestionsModal .suggestion-card button{
-  background:linear-gradient(135deg,#e50914,#ff3038)!important;
+
+/* Estado ADICIONADO */
+.nd-r28-added{
+  background:linear-gradient(135deg,#1fa85b,#25d366)!important;
+  color:#fff!important;
+  border-color:rgba(37,211,102,.45)!important;
+  box-shadow:0 8px 22px rgba(37,211,102,.18)!important;
+}
+.nd-r28-added:hover{
+  background:linear-gradient(135deg,#25d366,#31e978)!important;
   color:#fff!important;
 }
-#suggestionsModal .suggestion-card button.nd-r28-added{
-  background:linear-gradient(135deg,#20a84b,#35d866)!important;
-  border-color:#52ed7e!important;
+.nd-r28-added::after{display:none!important}
+
+/* Sugestões: preço sempre visível e CTA embaixo */
+.nd-r7-card small,
+.nd-v3-up small,
+.suggestion-card span{
+  display:block!important;
+  color:#ffd166!important;
+  font-size:13px!important;
+  font-weight:950!important;
+}
+.nd-r7-card,
+.nd-v3-up,
+.suggestion-card{
+  position:relative;
+}
+.nd-r7-card button,
+.nd-v3-up button,
+.suggestion-card button{
+  min-height:42px!important;
+}
+
+/* Feedback discreto */
+.nd-r28-flash{
+  animation:ndR28Flash .45s ease;
+}
+@keyframes ndR28Flash{
+  0%{transform:scale(1)}
+  45%{transform:scale(1.035)}
+  100%{transform:scale(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .nd-r28-flash{animation:none!important}
 }
 </style>
 
-<script id="nd-r28-ajustes-js">
+<script id="nd-r28-final-logic">
 (function(){
   'use strict';
 
-  const money = v => 'R$ ' + Number(v || 0).toFixed(2).replace('.',',');
+  const $=(s,c=document)=>c.querySelector(s);
+  const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
 
-  function cart(){
-    try{
-      return Array.isArray(window.carrinho) ? window.carrinho : [];
-    }catch(e){ return []; }
-  }
-
-  function norm(v){
-    return String(v || '')
-      .toUpperCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g,'')
-      .replace(/\s+/g,' ')
-      .trim();
-  }
-
-  function markButton(btn, added){
+  function cleanButtonText(btn){
     if(!btn) return;
-    btn.classList.toggle('nd-r28-added', !!added);
-    btn.textContent = added ? 'ADICIONADO' : 'COMPRAR';
-    btn.setAttribute('aria-label', added ? 'Produto adicionado ao carrinho' : 'Comprar produto');
-  }
+    const txt=(btn.textContent||'').trim();
 
-  function productNameFromCard(card){
-    return card?.querySelector('h3')?.textContent?.trim() || '';
-  }
-
-  function syncProductButtons(){
-    const c = cart();
-    const names = c.map(i => norm(i.nome));
-
-    document.querySelectorAll(
-      '.produto .btn-add,' +
-      '.produto button[onclick*="adicionar("],' +
-      '.produto button[onclick*="abrirComboPersonalizacao"]'
-    ).forEach(btn=>{
-      const card = btn.closest('.produto');
-      const name = norm(productNameFromCard(card));
-      const added = !!name && names.some(n => n === name || n.startsWith(name + ' '));
-      markButton(btn, added);
-    });
-  }
-
-  function setAllProductLabels(){
-    document.querySelectorAll(
-      '.produto .btn-add,' +
-      '.produto button[onclick*="adicionar("],' +
-      '.produto button[onclick*="abrirComboPersonalizacao"]'
-    ).forEach(btn=>{
-      if(!btn.classList.contains('nd-r28-added')) markButton(btn, false);
-    });
-    syncProductButtons();
-  }
-
-  function extractSuggestion(card){
-    if(!card) return null;
-
-    const name = card.querySelector('h3')?.textContent?.trim() ||
-                 card.querySelector('strong')?.textContent?.trim() || '';
-
-    let priceText = card.querySelector('.preco')?.textContent?.trim() ||
-                    card.querySelector('.suggestion-card span')?.textContent?.trim() || '';
-
-    if(!priceText){
-      const txt = card.innerText || '';
-      const m = txt.match(/R\$\s*[\d.,]+/);
-      if(m) priceText = m[0];
+    /* Somente CTAs que realmente dizem ADICIONAR. */
+    if(/\bADICIONAR\b/i.test(txt)){
+      btn.textContent='COMPRAR';
     }
-
-    const normalized = priceText.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',','.');
-    const price = Number(normalized);
-
-    if(!name || !Number.isFinite(price)) return null;
-    return {name, price};
   }
 
-  function refreshSuggestionPrices(){
-    const modal = document.getElementById('suggestionsModal');
-    const grid = document.getElementById('suggestionsGrid');
-    if(!modal || !grid) return;
+  function cleanAllBuyButtons(){
+    /* Produtos do catálogo */
+    $$('.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add').forEach(cleanButtonText);
 
-    grid.querySelectorAll('.suggestion-card').forEach(card=>{
-      const data = extractSuggestion(card);
-      if(!data) return;
+    /* Sugestões e recomendações */
+    $$('.nd-r7-card button,.nd-v3-up button,.suggestion-card button').forEach(cleanButtonText);
 
-      let price = card.querySelector('.suggestion-card span');
-      if(!price){
-        price = document.createElement('span');
-        const box = card.querySelector('div[style*="flex:1"]') || card.lastElementChild;
-        if(box) box.insertBefore(price, box.querySelector('button'));
-      }
-      if(price){
-        price.textContent = money(data.price);
-        price.className = 'suggestion-price-r28';
-      }
+    /* Ofertas/destaques que são compra direta */
+    $$('.nd26-offer-btn,.r11-promo-copy button').forEach(cleanButtonText);
 
-      const button = card.querySelector('button');
-      if(button){
-        const inCart = cart().some(i => norm(i.nome) === norm(data.name));
-        markButton(button, inCart);
-      }
+    /* Produto do dia: mantém o CTA específico quando não for ADICIONAR. */
+    $$('.nd-r17-fb-btn').forEach(btn=>{
+      if(/\bADICIONAR\b/i.test(btn.textContent||'')) btn.textContent='COMPRAR';
     });
   }
 
-  function bind(){
-    // Todos os produtos: clique mantém a função original e depois muda para ADICIONADO.
-    document.addEventListener('click', function(e){
-      const btn = e.target.closest(
-        '.produto .btn-add,' +
-        '.produto button[onclick*="adicionar("],' +
-        '.produto button[onclick*="abrirComboPersonalizacao"]'
-      );
-      if(btn){
-        setTimeout(()=>{
-          markButton(btn, true);
-          syncProductButtons();
-        }, 30);
-      }
-    }, true);
+  function markAdded(btn){
+    if(!btn) return;
+    btn.classList.add('nd-r28-added');
+    btn.classList.add('nd-r28-flash');
+    btn.textContent='✓ ADICIONADO';
+    setTimeout(()=>btn.classList.remove('nd-r28-flash'),500);
+  }
 
-    // CONTINUAR COMPRANDO: adiciona diretamente ao carrinho, sem abrir outra etapa.
-    document.addEventListener('click', function(e){
-      const btn = e.target.closest('#suggestionsModal .suggestion-card button');
+  function markSuggestionAdded(btn){
+    if(!btn) return;
+    btn.classList.add('nd-r28-added');
+    btn.textContent='✓ ADICIONADO';
+  }
+
+  /* Observa cliques sem substituir as funções originais do site. */
+  function bind(){
+    if(window.__NDBURGS_R28_BIND__) return;
+    window.__NDBURGS_R28_BIND__=true;
+
+    document.addEventListener('click',function(e){
+      const btn=e.target.closest(
+        '.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add,'+
+        '.nd-r7-card button,.nd-v3-up button,.suggestion-card button,'+
+        '.nd26-offer-btn,.r11-promo-copy button'
+      );
+
       if(!btn) return;
 
-      const card = btn.closest('.suggestion-card');
-      const data = extractSuggestion(card);
-      if(!data) return;
-
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
-      if(typeof window.adicionar === 'function'){
-        window.adicionar(data.name, data.price);
+      /* Sugestões: o clique deve adicionar diretamente ao carrinho. */
+      if(btn.matches('.nd-r7-card button[data-r7-add]')){
+        const name=btn.dataset.r7Add;
+        const price=Number(btn.dataset.r7Price||0);
+        if(name && typeof window.adicionar==='function'){
+          window.adicionar(name,price);
+          markSuggestionAdded(btn);
+          return;
+        }
       }
 
-      markButton(btn, true);
+      /* Sugestão genérica com onclick existente: o onclick original
+         continua rodando; apenas mudamos o estado visual. */
+      if(btn.matches('.suggestion-card button,.nd-v3-up button')){
+        markSuggestionAdded(btn);
+        return;
+      }
 
-      // Reabre/atualiza a caixa após a inclusão para retirar o item já adicionado.
-      setTimeout(()=>{
-        try{
-          if(typeof window.mostrarSugestoes === 'function') window.mostrarSugestoes();
-        }catch(_){}
-        refreshSuggestionPrices();
-        syncProductButtons();
-      }, 120);
-    }, true);
+      /* Produtos normais e personalizáveis:
+         o handler original roda primeiro; depois mostramos feedback. */
+      markAdded(btn);
+    },true);
 
-    // Quando o carrinho for atualizado por qualquer camada existente.
-    const original = window.atualizarCarrinho;
-    if(typeof original === 'function' && !original.__ndR28){
-      window.atualizarCarrinho = function(){
-        const result = original.apply(this, arguments);
-        setTimeout(()=>{
-          syncProductButtons();
-          refreshSuggestionPrices();
-        }, 0);
-        return result;
-      };
-      window.atualizarCarrinho.__ndR28 = true;
-    }
-
-    // Garante COMPRAR nos botões criados dinamicamente pelas várias melhorias do site.
-    const observer = new MutationObserver(()=>{
-      setAllProductLabels();
-      refreshSuggestionPrices();
+    /* Captura botões criados dinamicamente. */
+    const obs=new MutationObserver(()=>{
+      cleanAllBuyButtons();
     });
-    if(document.body) observer.observe(document.body,{childList:true,subtree:true});
+    obs.observe(document.body,{childList:true,subtree:true});
+
+    cleanAllBuyButtons();
+    setTimeout(cleanAllBuyButtons,300);
+    setTimeout(cleanAllBuyButtons,1000);
+    setTimeout(cleanAllBuyButtons,2000);
+  }
+
+  /* CONTINUAR COMPRANDO:
+     fecha o modal e leva de volta para o catálogo, sem apagar o carrinho. */
+  function fixContinueShopping(){
+    const buttons=$$('.btn-continuar-comprando');
+    buttons.forEach(btn=>{
+      if(btn.dataset.ndR28Continue==='1') return;
+      btn.dataset.ndR28Continue='1';
+      btn.textContent='❤️ CONTINUAR COMPRANDO';
+      btn.onclick=function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        if(typeof window.fecharCarrinho==='function'){
+          try{window.fecharCarrinho();}catch(_){}
+        }else{
+          const modal=$('#modalCarrinho');
+          if(modal) modal.classList.remove('ativo');
+          document.body.style.overflow='';
+        }
+
+        setTimeout(()=>{
+          const alvo=$('.categoria[id]')||$('#combos')||$('.container');
+          if(alvo){
+            alvo.scrollIntoView({behavior:'smooth',block:'start'});
+          }
+        },120);
+      };
+    });
+  }
+
+  /* Preços nas recomendações: se o card tiver nome + produto no catálogo,
+     recupera o preço do produto caso alguma camada antiga não tenha
+     colocado o valor visível. */
+  function reinforceSuggestionPrices(){
+    $$('.nd-r7-card,.nd-v3-up,.suggestion-card').forEach(card=>{
+      const price=card.querySelector(
+        '.nd-r7-price,.suggestion-price,.preco,span'
+      );
+      if(price && /R\$\s*\d/i.test(price.textContent||'')) return;
+
+      const nameEl=card.querySelector('strong,b');
+      if(!nameEl) return;
+      const name=(nameEl.textContent||'').trim().toUpperCase();
+
+      const product=$$('.produto').find(p=>{
+        const h=p.querySelector('h3');
+        return h && h.textContent.trim().toUpperCase()===name;
+      });
+      const productPrice=product?.querySelector('.preco')?.textContent?.trim();
+      if(!productPrice) return;
+
+      const s=document.createElement('small');
+      s.className='nd-r28-suggestion-price';
+      s.textContent=productPrice;
+      s.style.cssText='display:block!important;color:#ffd166!important;font-weight:950!important;margin:4px 0 8px!important;';
+      const action=card.querySelector('button');
+      if(action) card.insertBefore(s,action);
+      else card.appendChild(s);
+    });
   }
 
   function init(){
-    setAllProductLabels();
-    refreshSuggestionPrices();
+    cleanAllBuyButtons();
+    fixContinueShopping();
+    reinforceSuggestionPrices();
     bind();
-    setTimeout(setAllProductLabels,300);
-    setTimeout(refreshSuggestionPrices,500);
-    setTimeout(syncProductButtons,900);
   }
 
-  if(document.readyState === 'loading'){
+  if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',init,{once:true});
   }else{
     init();
   }
+
+  setTimeout(init,700);
+  setTimeout(init,1600);
+  setTimeout(init,3000);
 })();
 </script>
 
-</body>
 </html>
