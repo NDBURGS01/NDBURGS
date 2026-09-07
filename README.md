@@ -9355,6 +9355,62 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<!-- ND BURGS R31 — correção segura das 3 etapas -->
+<style id="ndR31Fixes">
+header .logo{display:block!important;width:min(205px,72vw)!important;max-width:none!important;height:auto!important;margin:0 auto!important}
+.nd-v3-strip,.nd17-brand{display:none!important;visibility:hidden!important;height:0!important;max-height:0!important;overflow:hidden!important}
+.nd-r31-added{background:linear-gradient(135deg,#20b85a,#25d366)!important;color:#fff!important;border-color:#25d366!important}
+.nd-r31-added::after{display:none!important}
+.nd-r31-delivery{margin:10px 0;padding:10px 12px;border:1px solid rgba(128,80,255,.45);border-radius:12px;background:#11101a;text-align:center;color:#ddd;font-size:11px}
+.nd-r31-delivery b{display:block;color:#fff}.nd-r31-delivery strong{display:block;color:#b99cff;font-size:18px;margin:2px 0}
+@media(max-width:600px){header .logo{width:min(215px,80vw)!important}}
+</style>
+<script id="ndR31FixesJS">
+(function(){
+'use strict';
+function all(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
+function removeLegacy(){all('.nd-v3-strip,.nd17-brand').forEach(function(x){x.remove()})}
+function setAdded(b){if(!b)return;b.classList.add('nd-r31-added');b.textContent='✓ ADICIONADO'}
+function normalize(){
+ all('.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add,.nd-r7-card button,.nd-v3-up button,.suggestion-card button,.nd26-offer-btn,.r11-promo-copy button').forEach(function(b){
+   var t=(b.textContent||'').replace(/\s+/g,' ').trim();
+   if(/\bADICIONAR\b/i.test(t)) b.textContent='COMPRAR';
+ });
+}
+function fixContinue(){
+ all('.btn-continuar-comprando').forEach(function(b){
+  if(b.dataset.ndR31==='1')return;
+  b.dataset.ndR31='1';b.textContent='❤️ CONTINUAR COMPRANDO';
+  b.addEventListener('click',function(){setTimeout(function(){
+    if(typeof window.fecharCarrinho==='function'){try{window.fecharCarrinho()}catch(e){}}
+    var c=document.querySelector('.categoria');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});
+  },80)},false);
+ });
+}
+function delivery(){
+ var p=document.querySelector('#modalFinalizar .painel-finalizar');
+ if(!p || p.querySelector('#ndR31Delivery'))return;
+ var d=document.createElement('div');d.id='ndR31Delivery';d.className='nd-r31-delivery';
+ d.innerHTML='<b>🛵 TEMPO ESTIMADO DE ENTREGA</b><strong>40 A 50 MINUTINHOS</strong><span>Para seu pedido chegar fresquinho na sua residência.</span>';
+ var h=p.querySelector('.cabecalho-finalizar'); if(h)h.insertAdjacentElement('afterend',d);else p.insertBefore(d,p.firstChild);
+}
+function bind(){
+ if(window.__NDR31BOUND)return;window.__NDR31BOUND=true;
+ document.addEventListener('click',function(e){
+  var b=e.target.closest('.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add');
+  if(b)setTimeout(function(){setAdded(b)},120);
+ },false);
+}
+function init(){removeLegacy();normalize();fixContinue();delivery();bind()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+var start=function(){removeLegacy();normalize();fixContinue();delivery()};
+setTimeout(start,300);setTimeout(start,1000);setTimeout(start,2000);
+var observer=new MutationObserver(function(){removeLegacy();normalize();fixContinue();delivery()});
+observer.observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 
 <!-- =========================================================
@@ -9642,192 +9698,5 @@ body > .nd17-brand{
 })();
 </script>
 
-
-<style id="ndR30FinalCSS">
-/* ND BURGS R30 — camada final consolidada de UX */
-.nd-v3-strip,.nd17-brand{display:none!important;visibility:hidden!important;height:0!important;min-height:0!important;max-height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:0!important;position:absolute!important;left:-99999px!important}
-header{padding:10px 16px!important;min-height:82px!important;display:flex!important;align-items:center!important;justify-content:center!important}
-header .logo{display:block!important;width:min(205px,72vw)!important;max-width:none!important;height:auto!important;object-fit:contain!important}
-#nd17AddressBar{display:flex!important;visibility:visible!important}
-#nd17Gate{display:none!important}
-#nd17Gate.show{display:flex!important}
-#ndR30QuickChoices{width:min(1100px,calc(100% - 24px));margin:24px auto 10px;padding:18px;border:1px solid rgba(229,9,20,.35);border-radius:22px;background:linear-gradient(145deg,#17171b,#0d0d10);box-shadow:0 14px 40px rgba(0,0,0,.3)}
-.nd-r30-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px}.nd-r30-section-head span{font-size:11px;font-weight:1000;letter-spacing:1.2px;color:#ffb000}.nd-r30-section-head h2{margin:4px 0 0!important;border:0!important;color:#fff!important;font-size:25px}.nd-r30-section-head p{margin:0;color:#9b9ba5;font-size:12px;max-width:360px;text-align:right}.nd-r30-choice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.nd-r30-choice{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center;padding:9px;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:#111216}.nd-r30-choice img{width:72px;height:72px;object-fit:contain;border-radius:11px;background:#080809}.nd-r30-choice b{display:block;font-size:13px;color:#fff;margin-bottom:3px}.nd-r30-choice strong{display:block;color:#ffd166;font-size:16px;margin-bottom:7px}.nd-r30-buy{width:100%;min-height:36px;border:0;border-radius:9px;background:linear-gradient(135deg,#e50914,#ff4b30);color:#fff;font-weight:1000;cursor:pointer}.nd-r30-buy.is-added{background:linear-gradient(135deg,#25d366,#149c4d)!important}.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button{min-height:46px!important;font-weight:1000!important}.nd-r30-cart-upsell{margin:14px 0 4px;padding:14px;border:1px solid rgba(255,177,0,.22);border-radius:17px;background:linear-gradient(145deg,#17130b,#101010)}.nd-r30-cart-upsell h3{margin:0 0 4px;color:#ffd166;font-size:16px}.nd-r30-cart-upsell p{margin:0 0 10px;color:#999;font-size:11px}.nd-r30-upsell-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.nd-r30-upsell-item{padding:10px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:#111}.nd-r30-upsell-item b{display:block;color:#fff;font-size:11px;margin-bottom:4px}.nd-r30-upsell-item strong{display:block;color:#ffd166;font-size:14px;margin-bottom:7px}.nd-r30-upsell-item button{width:100%;border:0;border-radius:8px;padding:8px;background:#e50914;color:#fff;font-weight:900;cursor:pointer}.nd-r30-buy.is-added,.nd-r30-upsell-item button.is-added{background:#159a4d!important}.nd-r30-delivery-note{margin:10px 0 14px;padding:10px 12px;border-radius:12px;border:1px solid rgba(122,83,255,.45);background:radial-gradient(circle at 15% 50%,rgba(126,74,255,.18),transparent 40%),#0e0e17;color:#ddd;font-size:11px;text-align:center}.nd-r30-delivery-note b{color:#fff}.nd-r30-delivery-note strong{display:block;color:#b99cff;font-size:18px;margin-top:2px}
-@media(max-width:800px){.nd-r30-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nd-r30-upsell-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nd-r30-section-head{display:block}.nd-r30-section-head p{text-align:left;margin-top:5px}}
-@media(max-width:600px){header{min-height:76px!important;padding:8px 10px!important}header .logo{width:min(215px,80vw)!important}.nd-r30-choice-grid{gap:8px}.nd-r30-choice{grid-template-columns:60px 1fr;padding:8px}.nd-r30-choice img{width:60px;height:60px}.nd-r30-choice b{font-size:11px}.nd-r30-choice strong{font-size:14px}.nd-r30-buy{min-height:34px;font-size:10px}.nd-r30-cart-upsell{padding:11px}.nd-r30-delivery-note{margin-left:8px;margin-right:8px}.nd-r30-section-head h2{font-size:21px}}
-</style>
-
-<script id="ndR30FinalJS">
-(function(){
-  'use strict';
-  const $=(s,r=document)=>r.querySelector(s);
-  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-  const money=v=>{try{return Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}catch(e){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}};
-  const CART_KEY='ndburgs_carrinho';
-  let pendingButton=null;
-
-  function removeLegacyTop(){
-    $$('.nd-v3-strip,.nd17-brand').forEach(el=>el.remove());
-  }
-
-  function getCart(){
-    try{
-      const a=JSON.parse(localStorage.getItem(CART_KEY)||'[]');
-      return Array.isArray(a)?a:[];
-    }catch(e){return []}
-  }
-
-  function cartHas(name){
-    const n=String(name||'').trim().toUpperCase();
-    return getCart().some(i=>String(i.nome||i.name||'').trim().toUpperCase()===n);
-  }
-
-  function setButtonState(btn,added){
-    if(!btn)return;
-    if(added){
-      btn.classList.add('is-added');
-      btn.textContent='✓ ADICIONADO';
-      btn.setAttribute('aria-label','Produto adicionado ao carrinho');
-    }else{
-      btn.classList.remove('is-added');
-      btn.textContent='COMPRAR';
-      btn.setAttribute('aria-label','Comprar produto');
-    }
-  }
-
-  function normalizeBuyButtons(){
-    $$('.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button').forEach(btn=>{
-      const txt=(btn.textContent||'').replace(/\s+/g,' ').trim().toUpperCase();
-      if(/ADICIONAR|ESCOLHER|ESCOLHER SABOR|COMPRAR/.test(txt) && !btn.dataset.ndR30Ready){
-        btn.dataset.ndR30Ready='1';
-        btn.dataset.ndR30Original=txt;
-        setButtonState(btn,false);
-      }
-    });
-  }
-
-  function syncStates(){
-    $$('.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button').forEach(btn=>{
-      if(!btn.dataset.ndR30Ready)return;
-      const onclick=btn.getAttribute('onclick')||'';
-      const m=onclick.match(/(?:adicionar|abrirPersonalizacao|abrirComboPersonalizacao)\(\s*['"]([^'"]+)/i);
-      const name=btn.dataset.ndName|| (m?m[1]:'');
-      if(name && cartHas(name))setButtonState(btn,true);
-    });
-    $$('.nd-r30-buy').forEach(btn=>{
-      const name=btn.dataset.ndName||'';
-      setButtonState(btn,cartHas(name));
-    });
-  }
-
-  function bindQuickChoices(){
-    $$('.nd-r30-buy').forEach(btn=>{
-      if(btn.dataset.bound==='1')return;
-      btn.dataset.bound='1';
-      btn.addEventListener('click',function(e){
-        e.preventDefault();
-        const name=this.dataset.ndName, price=Number(this.dataset.ndPrice||0);
-        if(typeof window.adicionar==='function')window.adicionar(name,price);
-        pendingButton=this;
-        setTimeout(()=>setButtonState(this,true),80);
-      });
-    });
-  }
-
-  function bindProductClickMemory(){
-    document.addEventListener('click',function(e){
-      const b=e.target.closest('.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button');
-      if(b)pendingButton=b;
-    },true);
-  }
-
-  function wrapAdicionar(){
-    if(typeof window.adicionar!=='function' || window.adicionar.__ndR30)return;
-    const original=window.adicionar;
-    function wrapped(nome,preco){
-      const result=original.apply(this,arguments);
-      const n=String(nome||'').toUpperCase();
-      if(pendingButton)setButtonState(pendingButton,true);
-      $$('.produto .btn-add,.produto .nd-fx-add').forEach(btn=>{
-        const oc=(btn.getAttribute('onclick')||'').toUpperCase();
-        if(n && oc.includes(n))setButtonState(btn,true);
-      });
-      setTimeout(syncStates,120);
-      setTimeout(syncStates,500);
-      return result;
-    }
-    wrapped.__ndR30=true;
-    window.adicionar=wrapped;
-  }
-
-  function ensureCartUpsell(){
-    const panel=$('#itensCarrinhoModal');
-    if(!panel)return;
-    let box=$('#ndR30CartUpsell');
-    if(!box){
-      box=document.createElement('div');box.id='ndR30CartUpsell';box.className='nd-r30-cart-upsell';
-      box.innerHTML='<h3>🔥 BORA COMPLETAR SEU PEDIDO?</h3><p>Uma bebida ou doce pode deixar seu pedido ainda melhor.</p><div class="nd-r30-upsell-grid"></div>';
-      panel.insertAdjacentElement('afterend',box);
-    }
-    const items=[
-      ['COCA COLA LATA',6],['GUARANA LATA',6],['KITKAT',7],['SURPRESA DE UVA',12]
-    ];
-    const signature=items.map(x=>x[0]+':'+(cartHas(x[0])?'1':'0')).join('|');
-    if(box.dataset.ndR30Signature===signature){
-      box.style.display=$('.nd-r30-upsell-grid',box)?.children.length?'block':'none';
-      return;
-    }
-    box.dataset.ndR30Signature=signature;
-    const grid=$('.nd-r30-upsell-grid',box);
-    if(!grid)return;
-    grid.innerHTML='';
-    items.forEach(([name,price])=>{
-      if(cartHas(name))return;
-      const d=document.createElement('div');d.className='nd-r30-upsell-item';
-      const b=document.createElement('b');b.textContent=name;
-      const p=document.createElement('strong');p.textContent=money(price);
-      const bt=document.createElement('button');bt.type='button';bt.textContent='COMPRAR';
-      bt.onclick=()=>{if(typeof window.adicionar==='function')window.adicionar(name,price);setButtonState(bt,true);setTimeout(()=>{ensureCartUpsell();syncStates()},250)};
-      d.append(b,p,bt);grid.appendChild(d);
-    });
-    box.style.display=grid.children.length?'block':'none';
-  }
-
-  function ensureDeliveryNote(){
-    const panel=$('#modalFinalizar .painel-finalizar');
-    if(!panel || $('#ndR30DeliveryNote',panel))return;
-    const n=document.createElement('div');n.id='ndR30DeliveryNote';n.className='nd-r30-delivery-note';
-    n.innerHTML='<b>🛵 PRAZO DE ENTREGA</b><strong>40 A 50 MINUTINHOS</strong><span>Para seu pedido chegar fresquinho na sua residência.</span>';
-    const head=$('.cabecalho-finalizar',panel);
-    if(head)head.insertAdjacentElement('afterend',n);
-    else panel.prepend(n);
-  }
-
-  function bindModalOpen(){
-    document.addEventListener('click',function(e){
-      if(e.target.closest('.btn-finalizar-pedido,#ndV3BuyBtn,.btn-ver-carrinho'))setTimeout(()=>{ensureCartUpsell();ensureDeliveryNote()},120);
-    });
-  }
-
-  function init(){
-    removeLegacyTop();
-    normalizeBuyButtons();
-    bindQuickChoices();
-    wrapAdicionar();
-    syncStates();
-    ensureCartUpsell();
-    ensureDeliveryNote();
-  }
-
-  bindProductClickMemory();
-  bindModalOpen();
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-  const obs=new MutationObserver(()=>{removeLegacyTop();normalizeBuyButtons();bindQuickChoices();wrapAdicionar();syncStates();ensureDeliveryNote()});
-  obs.observe(document.body,{childList:true,subtree:true});
-
-  window.addEventListener('storage',function(e){if(e.key===CART_KEY || e.key==='carrinho'){setTimeout(()=>{ensureCartUpsell();syncStates()},80)}});
-  setTimeout(init,400);setTimeout(init,1200);setTimeout(init,2500);
-})();
-</script>
 
 </html>
