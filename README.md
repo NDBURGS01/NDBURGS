@@ -6864,7 +6864,7 @@ function seededOrder(items){
 function buildBest(){
  let sec=$('#nd20Best'); if(sec)return sec;
  const anchor=$('.categoria-menu')||$('.container'); if(!anchor)return null;
- sec=document.createElement('section');sec.id='nd20Best';sec.innerHTML='<div class="nd20-best-head"><div><div class="nd20-best-kicker">🔥 ATUALIZADO AUTOMATICAMENTE</div><h2>MAIS VENDIDOS DO DIA</h2></div><p>3 escolhas aleatórias selecionadas para hoje.</p></div><div class="nd20-best-grid" id="nd20BestGrid"></div>';
+ sec=document.createElement('section');sec.id='nd20Best';sec.innerHTML='<div class="nd20-best-head"><div><div class="nd20-best-kicker">🔥 ATUALIZADO AUTOMATICAMENTE</div><h2>MAIS VENDIDOS DO DIA</h2></div><p>O Ranking é atualizado conforme as vendas do dia.</p></div><div class="nd20-best-grid" id="nd20BestGrid"></div>';
  anchor.parentNode.insertBefore(sec,anchor.nextSibling);return sec;
 }
 function renderBest(){
