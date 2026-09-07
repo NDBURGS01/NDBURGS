@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R28">
+<meta name="nd-site-version" content="20260907-R29">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260907-R29";
@@ -9338,9 +9338,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-<!-- PATCHES MOVED INSIDE BODY FOR VALID HTML -->
-
+</body>
 
 <!-- =========================================================
      ND BURGS — R28 / AJUSTES SOLICITADOS
@@ -9608,261 +9606,203 @@ header .logo{
 </script>
 
 
+<style id="nd-r29-upsell-horario-footer">
+/* =========================================================
+   ND BURGS R29 — UPSELL INTELIGENTE + HORÁRIO NO TOPO + RODAPÉ
+   ========================================================= */
 
-<!-- =========================================================
-     ND BURGS — R29 / UPSELL CONTEXTUAL + TOPO PREMIUM
-     - Horário + tempo de entrega acima do logo.
-     - Caixa preta brilhante, textos brancos.
-     - Upsell contextual dentro do carrinho.
-     - Quantidade + valor unitário + total do upsell.
-     - Adição direta ao carrinho, sem abrir modal.
-     ========================================================= -->
-<style id="nd-r29-final">
-/* ===== TOPO: HORÁRIO + ENTREGA ACIMA DO LOGO ===== */
-.nd-r29-top-info{
-  width:100%;box-sizing:border-box;padding:10px 12px 0;
-  background:#000!important;
+/* HORÁRIO: caixa preta brilhante acima do logo */
+header{display:flex!important;flex-direction:column!important;align-items:center!important;gap:10px!important}
+header .horarios{order:0!important;width:min(100%,1180px)!important;margin:0 auto!important;padding:0!important}
+header .logo{order:1!important}
+header .horarios-box{
+  width:100%!important;display:grid!important;grid-template-columns:1fr auto!important;align-items:center!important;gap:8px 14px!important;
+  padding:12px 16px!important;margin:0!important;border:1px solid #303030!important;border-radius:15px!important;
+  background:linear-gradient(145deg,#1b1b1b 0%,#080808 48%,#151515 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 0 rgba(255,255,255,.03),0 10px 28px rgba(0,0,0,.55)!important;
 }
-.nd-r29-top-box{
-  width:min(1180px,100%);margin:0 auto;
-  min-height:58px;display:grid;grid-template-columns:1fr 1fr;gap:10px;
-  align-items:stretch;padding:8px 10px;box-sizing:border-box;
-  color:#fff;border:1px solid rgba(255,255,255,.13);border-radius:16px;
-  background:
-    radial-gradient(circle at 15% 0%,rgba(255,255,255,.08),transparent 34%),
-    linear-gradient(180deg,#171717 0%,#090909 48%,#020202 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -10px 25px rgba(0,0,0,.65),0 8px 28px rgba(0,0,0,.55);
-}
-.nd-r29-info-item{display:flex;align-items:center;justify-content:center;gap:9px;min-width:0;padding:7px 10px;border-radius:11px;background:rgba(255,255,255,.025)}
-.nd-r29-info-icon{font-size:20px;line-height:1;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8))}
-.nd-r29-info-copy{min-width:0;text-align:left}
-.nd-r29-info-label{display:block;font-size:9px;font-weight:900;letter-spacing:1.1px;color:#bdbdbd;line-height:1.1}
-.nd-r29-info-value{display:block;margin-top:3px;font-size:12px;font-weight:1000;color:#fff;line-height:1.2;white-space:nowrap}
-.nd-r29-info-value strong{color:#fff}
-/* The old block remains in the source for compatibility, but is no longer displayed. */
-.horarios,#ndR20DeliveryHighlight,#nd26DeliveryMini{display:none!important}
-header{margin-top:8px!important}
-header .logo{margin:0 auto!important}
-@media(max-width:650px){
-  .nd-r29-top-info{padding:7px 8px 0}
-  .nd-r29-top-box{grid-template-columns:1fr 1fr;gap:6px;padding:6px;border-radius:13px}
-  .nd-r29-info-item{gap:6px;padding:7px 5px}
-  .nd-r29-info-icon{font-size:17px}
-  .nd-r29-info-label{font-size:7px;letter-spacing:.7px}
-  .nd-r29-info-value{font-size:10px;white-space:normal}
-  header{margin-top:6px!important}
-}
+header .horarios-titulo{color:#fff!important;font-weight:950!important;font-size:13px!important;text-align:left!important;margin:0!important;white-space:nowrap!important}
+header .horarios-linha{color:#fff!important;font-size:11px!important;text-align:left!important;line-height:1.35!important;grid-column:1/-1!important;opacity:.9}
+header .status-aberto,header .status-fechado{color:#fff!important;background:#050505!important;border:1px solid #444!important;font-size:10px!important;padding:6px 9px!important;margin:0!important;white-space:nowrap!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important}
 
-/* ===== UPSELL NO CARRINHO ===== */
-#ndR29Upsell{
-  display:none;margin:12px 0 14px;padding:14px;border-radius:18px;
-  border:1px solid rgba(255,210,26,.20);
-  background:linear-gradient(145deg,#151515,#080808 72%,#11100b);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 12px 28px rgba(0,0,0,.35);
-}
-#ndR29Upsell.show{display:block}
-.nd-r29-upsell-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:10px}
-.nd-r29-upsell-kicker{font-size:9px;font-weight:1000;letter-spacing:1.4px;color:#ffd21a;text-transform:uppercase}
-.nd-r29-upsell-title{margin-top:3px;font-size:19px;font-weight:1000;line-height:1.05;color:#fff}
-.nd-r29-upsell-sub{font-size:10px;color:#aaa;line-height:1.35;text-align:right;max-width:180px}
-.nd-r29-upsell-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.nd-r29-up-card{min-width:0;display:flex;flex-direction:column;border:1px solid #272727;border-radius:15px;overflow:hidden;background:#0e0e0e}
-.nd-r29-up-img{width:100%;height:92px;object-fit:cover;background:#050505;display:block}
-.nd-r29-up-body{display:flex;flex-direction:column;gap:5px;padding:9px}
-.nd-r29-up-name{font-size:12px;font-weight:950;line-height:1.2;color:#fff;min-height:29px}
-.nd-r29-up-price{font-size:12px;font-weight:1000;color:#ffd21a}
-.nd-r29-up-controls{display:grid;grid-template-columns:30px 1fr 30px;gap:5px;align-items:center;margin-top:2px}
-.nd-r29-up-controls button{height:30px;border:1px solid #333;border-radius:8px;background:#181818;color:#fff;font-weight:1000;cursor:pointer}
-.nd-r29-up-qty{text-align:center;font-size:12px;font-weight:1000;color:#fff}
-.nd-r29-up-total{font-size:10px;color:#aaa;min-height:14px}
-.nd-r29-up-add{width:100%;min-height:37px;margin-top:2px;border:0;border-radius:10px;background:linear-gradient(135deg,#ffd21a,#f3a900);color:#130f00;font-size:10px;font-weight:1000;cursor:pointer;box-shadow:0 5px 14px rgba(255,178,0,.16)}
-.nd-r29-up-add:hover{filter:brightness(1.07);transform:translateY(-1px)}
-.nd-r29-up-added{background:linear-gradient(135deg,#1fa85b,#25d366)!important;color:#fff!important}
+/* Upsell dentro do carrinho */
+#ndR29CartUpsell{display:none;margin:14px 0 4px;padding:14px;border:1px solid #303036;border-radius:16px;background:linear-gradient(145deg,#171719,#09090b);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#ndR29CartUpsell.show{display:block;animation:ndR29Up .22s ease both}
+#ndR29CartUpsell .r29-upsell-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+#ndR29CartUpsell .r29-upsell-head strong{font-size:14px;color:#fff}
+#ndR29CartUpsell .r29-upsell-head span{font-size:10px;color:#999;text-align:right}
+#ndR29CartUpsell .r29-upsell-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.r29-up-card{display:grid;grid-template-columns:66px 1fr;gap:9px;padding:9px;border:1px solid #29292f;border-radius:13px;background:#0d0d10;min-width:0}
+.r29-up-card img{width:66px;height:66px;object-fit:cover;border-radius:10px;background:#070708}
+.r29-up-info{min-width:0;display:flex;flex-direction:column;justify-content:center}
+.r29-up-name{font-size:12px;font-weight:950;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r29-up-desc{font-size:9px;color:#777;margin-top:3px;line-height:1.25}
+.r29-up-price{font-size:13px;font-weight:1000;color:#ff9a3d;margin-top:5px}
+.r29-up-actions{display:grid;grid-template-columns:29px 1fr 29px;gap:4px;margin-top:7px}
+.r29-up-actions button{min-height:34px;border:1px solid #333338;border-radius:8px;background:#18181c;color:#fff;font-weight:950;cursor:pointer}
+.r29-up-actions .r29-up-add{background:linear-gradient(135deg,#ff6500,#ff8b1f);color:#050505;border-color:transparent;font-size:10px}
+.r29-up-actions .r29-up-count{display:grid;place-items:center;color:#fff;font-size:11px;background:#101014}
+.r29-up-actions button:active{transform:scale(.96)}
+.r29-up-total{display:flex;justify-content:space-between;gap:10px;margin-top:10px;padding-top:9px;border-top:1px solid #24242a;color:#999;font-size:10px}
+.r29-up-total strong{color:#fff;font-size:12px}
+.r29-up-added{outline:2px solid rgba(37,211,102,.35);box-shadow:0 0 0 3px rgba(37,211,102,.05)}
+@keyframes ndR29Up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Rodapé — delivery e retirada */
+#ndR29DeliveryNotice{margin:22px auto 0;width:min(1100px,calc(100% - 20px));padding:18px 16px;border:1px solid #303036;border-radius:18px;background:linear-gradient(145deg,#151517,#080809);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 35px rgba(0,0,0,.35);text-align:center}
+#ndR29DeliveryNotice .r29-foot-kicker{font-size:10px;letter-spacing:1.5px;font-weight:1000;color:#ff8b1f}
+#ndR29DeliveryNotice strong{display:block;margin-top:5px;color:#fff;font-size:15px}
+#ndR29DeliveryNotice p{margin:7px 0 0;color:#aaa;font-size:11px;line-height:1.5}
+#ndR29DeliveryNotice b{color:#fff}
+
 @media(max-width:700px){
-  .nd-r29-upsell-head{align-items:flex-start;flex-direction:column;gap:3px}
-  .nd-r29-upsell-sub{text-align:left;max-width:none}
-  .nd-r29-upsell-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:3px}
-  .nd-r29-up-card{flex:0 0 170px;scroll-snap-align:start}
-  .nd-r29-up-img{height:82px}
+  header{gap:8px!important;padding:10px 8px 13px!important}
+  header .horarios-box{grid-template-columns:1fr auto!important;padding:10px 11px!important;border-radius:13px!important}
+  header .horarios-titulo{font-size:11px!important}
+  header .horarios-linha{font-size:10px!important}
+  header .status-aberto,header .status-fechado{font-size:9px!important;padding:5px 7px!important}
+  header .logo{width:min(205px,72vw)!important}
+  #ndR29CartUpsell{margin-top:12px;padding:11px}
+  #ndR29CartUpsell .r29-upsell-head strong{font-size:12px}
+  #ndR29CartUpsell .r29-upsell-head span{font-size:9px}
+  #ndR29CartUpsell .r29-upsell-grid{grid-template-columns:1fr}
+  .r29-up-card{grid-template-columns:58px 1fr;padding:8px}
+  .r29-up-card img{width:58px;height:58px}
+  #ndR29DeliveryNotice{width:calc(100% - 16px);padding:16px 12px}
 }
-@media(prefers-reduced-motion:reduce){.nd-r29-up-add{transition:none!important}}
+@media(prefers-reduced-motion:reduce){#ndR29CartUpsell.show{animation:none}}
 </style>
 
-<script id="nd-r29-final-logic">
+<script id="nd-r29-upsell-horario-footer-js">
 (function(){
   'use strict';
+  if(window.__NDBURGS_R29__)return;
+  window.__NDBURGS_R29__=true;
+
   const $=(s,c=document)=>c.querySelector(s);
   const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
-  const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
-  const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-  const cart=()=>Array.isArray(window.carrinho)?window.carrinho:[];
+  const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  const getCart=()=>{try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(_){return[]}};
 
-  /* Insere o novo bloco no ponto certo: ANTES do header/logo. */
-  function buildTop(){
-    if($('#ndR29TopInfo'))return;
-    const header=$('header'); if(!header)return;
-    const el=document.createElement('section');
-    el.id='ndR29TopInfo';el.className='nd-r29-top-info';el.setAttribute('aria-label','Horário de atendimento e tempo de entrega');
-    el.innerHTML=`<div class="nd-r29-top-box">
-      <div class="nd-r29-info-item"><span class="nd-r29-info-icon">🕐</span><div class="nd-r29-info-copy"><span class="nd-r29-info-label">HORÁRIO DE ATENDIMENTO</span><span class="nd-r29-info-value">TODOS OS DIAS • 24 HORAS</span></div></div>
-      <div class="nd-r29-info-item"><span class="nd-r29-info-icon">🛵</span><div class="nd-r29-info-copy"><span class="nd-r29-info-label">TEMPO MÉDIO DE ENTREGA</span><span class="nd-r29-info-value">40 A 50 MINUTINHOS</span></div></div>
-    </div>`;
-    header.parentNode.insertBefore(el,header);
+  /* 1) Move o horário para DENTRO do header, sempre antes do logo. */
+  function moveHorario(){
+    const header=$('header'),hor=$('.horarios');
+    if(!header||!hor)return;
+    if(hor.parentElement!==header)header.insertBefore(hor,header.querySelector('.logo')||header.firstChild);
   }
 
-  function directProducts(){
-    const out=[];
-    $$('.produto').forEach(card=>{
-      const h=card.querySelector('h3');
-      const btn=card.querySelector('.btn-add');
-      if(!h||!btn)return;
-      const onclick=btn.getAttribute('onclick')||'';
-      const m=onclick.match(/adicionar\(\s*['"]([^'"]+)['"]\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/i);
-      if(!m)return; // somente produtos que podem entrar diretamente no carrinho
-      const img=card.querySelector('img.produto-imagem,img');
-      const parent=card.closest('.categoria');
-      out.push({name:m[1],price:Number(m[2]),img:img?.src||'',category:parent?.id||'',label:h.textContent.trim()});
-    });
-    return out;
+  /* 2) Aviso oficial no rodapé. */
+  function buildFooterNotice(){
+    if($('#ndR29DeliveryNotice'))return;
+    const footer=$('footer');if(!footer)return;
+    const d=document.createElement('section');d.id='ndR29DeliveryNotice';
+    d.innerHTML='<div class="r29-foot-kicker">ATENDIMENTO</div><strong>🛵 ATENDEMOS APENAS NO DELIVERY E RETIRADA</strong><p>📍 <b>RUA DAS BANANEIRAS 180</b><br>Não atendemos na loja física. Os pedidos são feitos pelo site para entrega ou retirada.</p>';
+    footer.parentNode.insertBefore(d,footer);
   }
 
-  function cartNames(){return cart().map(i=>norm(i.nome))}
+  /* Catálogo direto: somente produtos que podem ser adicionados sem abrir personalização. */
+  function catalog(){
+    return $$('.produto').map(card=>{
+      const h=$('h3',card),im=$('img',card),pr=$('.preco',card),old=card.querySelector('.btn-add');
+      if(!h||!pr||!old)return null;
+      const name=h.textContent.trim();
+      const pm=(pr.textContent||'').match(/R\$\s*([\d\.]+,[\d]{2})/);
+      const price=pm?parseFloat(pm[1].replace(/\./g,'').replace(',','.')):0;
+      const onclick=old.getAttribute('onclick')||'';
+      const m=onclick.match(/adicionar\(\s*['"]([^'"]+)['"]\s*,\s*([0-9.]+)/i);
+      if(!name||!price||!m)return null;
+      return {name:m[1],price:Number(m[2]),img:im?.src||'',card};
+    }).filter(Boolean);
+  }
 
-  function scoreProduct(p,names,has){
-    const n=norm(p.name), c=norm(p.category);
-    if(names.includes(n))return -999;
-    let s=0;
-    if(has.burger){
-      if(/COCA COLA LATA|GUARANA LATA|SPRITE LATA|FANTA LARANJA LATA|FANTA UVA LATA/.test(n))s+=55;
-      if(/SURPRESA DE UVA|KITKAT/.test(n))s+=28;
-      if(/POTINHO CHEDDAR|POTINHO BARBECUE|POTINHO MAIONESE/.test(n))s+=20;
-    }
-    if(has.combo){
-      if(/COCA COLA 2 LITROS|DOLLY 2 LITROS/.test(n))s+=55;
-      if(/SURPRESA DE UVA|KITKAT/.test(n))s+=48;
-      if(/COCA COLA LATA|GUARANA LATA/.test(n))s+=25;
-    }
-    if(has.pastel){
-      if(/COCA COLA LATA|GUARANA LATA|SPRITE LATA|FANTA/.test(n))s+=60;
-      if(/SURPRESA DE UVA|KITKAT/.test(n))s+=45;
-    }
-    if(has.acai || has.sobremesa){
-      if(/KITKAT/.test(n))s+=55;
-      if(/SURPRESA DE UVA/.test(n))s+=50;
-      if(/COCA COLA 600ML|DELL VALE LATA/.test(n))s+=30;
-    }
-    if(has.porcao){
-      if(/COCA COLA LATA|GUARANA LATA|SPRITE LATA|FANTA/.test(n))s+=58;
-      if(/POTINHO CHEDDAR|POTINHO BARBECUE|POTINHO MAIONESE/.test(n))s+=42;
-    }
-    if(has.bebida){
-      if(/X-BACON|X-SALADA|X-BURGUER|X-EGG|SELLIS/.test(n))s+=42;
-      if(/SURPRESA DE UVA|KITKAT/.test(n))s+=18;
-    }
-    /* fallback inteligente: itens baratos e claramente complementares */
-    if(!s){
-      if(/COCA COLA LATA|GUARANA LATA|SPRITE LATA|FANTA/.test(n))s+=24;
-      if(/SURPRESA DE UVA|KITKAT/.test(n))s+=22;
-      if(/POTINHO CHEDDAR|POTINHO BARBECUE|POTINHO MAIONESE/.test(n))s+=18;
-      if(c==='tradicionais')s+=4;
-    }
+  function cartNames(){return new Set(getCart().map(i=>String(i.nome||'').trim().toUpperCase()))}
+
+  /* 3) Recomendação por complemento, e não por ordem aleatória do cardápio. */
+  function score(item,keywords){
+    const n=item.name.toUpperCase();let s=0;
+    const hasBurger=/BURGUER|BURGER|NUNES|GADEIA|PATAO|PÉZÃO|PEZAO|BERENICE|GAROTINHO|DINA|SELLIS|X-/.test(keywords);
+    const hasCombo=/COMBO|DATE|5 ESTRELAS|SÓ LOVE|SO LOVE|MOTOCA|ND BURGS/.test(keywords);
+    const hasPastel=/PASTEL/.test(keywords);
+    const hasAcai=/AÇAÍ|ACAI/.test(keywords);
+    const hasDrink=/COCA|DOLLY|REFRI|BEBIDA|SUCO/.test(keywords);
+    const hasSweet=/DOCE|SOBREMESA|MILKSHAKE|SURPRESA/.test(keywords);
+    const isSide=/BATATA|PORÇÃO|FRANGO|NUGGET|ANEL/.test(n);
+    const isDrink=/COCA|DOLLY|REFRI|BEBIDA|SUCO/.test(n);
+    const isSweet=/DOCE|SOBREMESA|MILKSHAKE|AÇAÍ|ACAI|SURPRESA/.test(n);
+    const isPastel=/PASTEL/.test(n);
+    if((hasBurger||hasCombo)&&isSide)s+=10;
+    if((hasBurger||hasCombo)&&isDrink)s+=8;
+    if((hasBurger||hasCombo)&&isSweet)s+=6;
+    if(hasPastel&&(isDrink||isSweet))s+=9;
+    if(hasAcai&&isPastel)s+=7;
+    if(hasAcai&&isDrink)s+=4;
+    if(hasDrink&&isSweet)s+=6;
+    if(hasSweet&&isDrink)s+=3;
+    if(!hasBurger&&!hasCombo&&!hasPastel&&!hasAcai&&!hasDrink&&!hasSweet){if(isSide||isDrink||isSweet)s+=4}
+    /* Penaliza outro item muito semelhante ao que já está no carrinho. */
+    if(/X-|BURGUER|BURGER/.test(keywords)&&/X-|BURGUER|BURGER/.test(n))s-=2;
     return s;
   }
 
-  function recommendations(){
-    const names=cartNames();
-    if(!names.length)return [];
-    const has={
-      burger:names.some(n=>/X-BURGUER|X-BACON|X-SALADA|X-EGG|SELLIS|NUNES|BERENICE|PATAO|DINA|GADEIA|GAROTINHO|PEZAO|BURG/.test(n)),
-      combo:names.some(n=>/COMBO/.test(n)),
-      pastel:names.some(n=>/PASTEL/.test(n)),
-      acai:names.some(n=>/AÇAÍ|ACAI/.test(n)),
-      sobremesa:names.some(n=>/SURPRESA|KITKAT|CASADINHO|TENTAÇÃO|OVOMALTINE|OREO|PAÇOCA|NESQUIK|NINHO/.test(n)),
-      porcao:names.some(n=>/BATATA|NUGGETS|ANEL DE CEBOLA|FRANGO FRITO/.test(n)),
-      bebida:names.some(n=>/COCA|SPRITE|FANTA|GUARANA|DOLLY|DELL VALE|ÁGUA MINERAL|AGUA MINERAL/.test(n))
-    };
-    return directProducts().map(p=>({...p,_score:scoreProduct(p,names,has)})).filter(p=>p._score>0).sort((a,b)=>b._score-a._score).slice(0,3);
+  function picks(){
+    const cart=getCart(),names=cartNames(),keywords=cart.map(i=>String(i.nome||'').toUpperCase()).join(' ');
+    const all=catalog().filter(x=>!names.has(x.name.toUpperCase()));
+    return all.map(x=>({...x,_score:score(x,keywords)})).sort((a,b)=>b._score-a._score||a.price-b.price).slice(0,4);
   }
 
-  function ensureBox(){
-    const items=$('#itensCarrinhoModal');
-    if(!items)return null;
-    let box=$('#ndR29Upsell');
+  function ensureUpsell(){
+    const panel=$('.painel-carrinho'),items=$('#itensCarrinhoModal');
+    if(!panel||!items)return null;
+    let box=$('#ndR29CartUpsell');
     if(!box){
-      box=document.createElement('section');box.id='ndR29Upsell';box.setAttribute('aria-label','Sugestões para complementar o pedido');
-      items.insertAdjacentElement('afterend',box);
+      box=document.createElement('section');box.id='ndR29CartUpsell';
+      box.innerHTML='<div class="r29-upsell-head"><strong>🔥 COMPLETE SEU PEDIDO</strong><span>Complementos pensados para o que você escolheu</span></div><div class="r29-upsell-grid"></div><div class="r29-up-total"><span>Adicionando agora:</span><strong id="ndR29UpsellTotal">R$ 0,00</strong></div>';
+      panel.insertBefore(box,items.nextSibling);
     }
     return box;
   }
 
-  function render(){
-    const box=ensureBox(); if(!box)return;
-    const recs=recommendations();
-    if(!recs.length){box.classList.remove('show');box.innerHTML='';return;}
-    box.classList.add('show');
-    box.innerHTML=`<div class="nd-r29-upsell-head"><div><div class="nd-r29-upsell-kicker">✨ COMBINA COM SEU PEDIDO</div><div class="nd-r29-upsell-title">Que tal completar?</div></div><div class="nd-r29-upsell-sub">Sugestões escolhidas de acordo com o que você colocou no carrinho.</div></div><div class="nd-r29-upsell-grid">${recs.map((p,i)=>`<article class="nd-r29-up-card" data-index="${i}">
-      ${p.img?`<img class="nd-r29-up-img" src="${p.img}" alt="${p.label}" loading="lazy" decoding="async">`:''}
-      <div class="nd-r29-up-body"><div class="nd-r29-up-name">${p.label}</div><div class="nd-r29-up-price">${money(p.price)} cada</div>
-      <div class="nd-r29-up-controls"><button type="button" data-act="minus" aria-label="Diminuir quantidade">−</button><div class="nd-r29-up-qty" data-qty>1</div><button type="button" data-act="plus" aria-label="Aumentar quantidade">+</button></div>
-      <div class="nd-r29-up-total" data-total>Total: ${money(p.price)}</div><button type="button" class="nd-r29-up-add" data-add>ADICIONAR</button></div></article>`).join('')}</div>`;
-    box._recs=recs;
-  }
-
-  function updateCard(card,delta){
-    const qtyEl=card.querySelector('[data-qty]');
-    let qty=Math.max(1,Math.min(20,Number(qtyEl?.textContent||1)+delta));
-    if(qtyEl)qtyEl.textContent=qty;
-    const i=Number(card.dataset.index), p=boxData(card)?.[i];
-    const total=card.querySelector('[data-total]');
-    if(total&&p)total.textContent='Total: '+money(p.price*qty);
-  }
-  function boxData(card){return $('#ndR29Upsell')?$('#ndR29Upsell')._recs||[]:[]}
-
-  function addUpsell(card){
-    const recs=boxData(card), i=Number(card.dataset.index), p=recs[i]; if(!p)return;
-    const qty=Math.max(1,Number(card.querySelector('[data-qty]')?.textContent||1));
+  function addDirect(item,qty,card){
+    qty=Math.max(1,Math.min(99,Number(qty)||1));
     if(typeof window.adicionar!=='function')return;
-    for(let n=0;n<qty;n++)window.adicionar(p.name,p.price);
-    const btn=card.querySelector('[data-add]');
-    if(btn){btn.classList.add('nd-r29-up-added');btn.textContent='✓ ADICIONADO';btn.disabled=true;}
-    setTimeout(()=>{render();},180);
+    for(let i=0;i<qty;i++)window.adicionar(item.name,item.price);
+    card?.classList.add('r29-up-added');
+    setTimeout(()=>card?.classList.remove('r29-up-added'),900);
+    setTimeout(renderUpsell,120);
   }
 
-  function bind(){
-    const box=$('#ndR29Upsell'); if(!box||box.dataset.bound==='1')return;
-    box.dataset.bound='1';
-    box.addEventListener('click',e=>{
-      const card=e.target.closest('.nd-r29-up-card'); if(!card)return;
-      if(e.target.closest('[data-act="minus"]')){updateCard(card,-1);return;}
-      if(e.target.closest('[data-act="plus"]')){updateCard(card,1);return;}
-      if(e.target.closest('[data-add]')){addUpsell(card);return;}
+  function renderUpsell(){
+    const box=ensureUpsell();if(!box)return;
+    const grid=$('.r29-upsell-grid',box),totalEl=$('#ndR29UpsellTotal',box),items=picks();
+    if(!getCart().length||!items.length){box.classList.remove('show');return}
+    grid.innerHTML='';
+    items.forEach(item=>{
+      const card=document.createElement('article');card.className='r29-up-card';
+      card.innerHTML='<img loading="lazy" decoding="async" src="'+String(item.img).replace(/"/g,'&quot;')+'" alt="'+item.name.replace(/"/g,'&quot;')+'"><div class="r29-up-info"><div class="r29-up-name">'+item.name+'</div><div class="r29-up-desc">Combina com seu pedido</div><div class="r29-up-price">'+money(item.price)+'</div><div class="r29-up-actions"><button type="button" class="r29-up-minus">−</button><span class="r29-up-count">1</span><button type="button" class="r29-up-plus">+</button><button type="button" class="r29-up-add" style="grid-column:1/-1">ADICIONAR AO CARRINHO</button></div></div>';
+      const count=$('.r29-up-count',card);
+      const setQty=n=>count.textContent=String(Math.max(1,Math.min(99,n)));
+      $('.r29-up-minus',card).onclick=()=>setQty(Number(count.textContent)-1);
+      $('.r29-up-plus',card).onclick=()=>setQty(Number(count.textContent)+1);
+      $('.r29-up-add',card).onclick=()=>addDirect(item,Number(count.textContent),card);
+      grid.appendChild(card);
     });
+    totalEl.textContent='0,00'.replace('0,00',money(0));
+    box.classList.add('show');
   }
 
-  function patchCartRefresh(){
-    if(typeof window.atualizarModalCarrinho==='function'&&!window.atualizarModalCarrinho.__ndR29){
-      const old=window.atualizarModalCarrinho;
-      const wrapped=function(){const r=old.apply(this,arguments);setTimeout(()=>{render();bind();},30);return r};
-      wrapped.__ndR29=true;wrapped.__ndR29Original=old;window.atualizarModalCarrinho=wrapped;
-    }
-    if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__ndR29){
-      const old=window.atualizarCarrinho;
-      const wrapped=function(){const r=old.apply(this,arguments);setTimeout(()=>{render();bind();},50);return r};
-      wrapped.__ndR29=true;wrapped.__ndR29Original=old;window.atualizarCarrinho=wrapped;
-    }
+  function observeCart(){
+    if(window.__NDBURGS_R29_OBS__)return;window.__NDBURGS_R29_OBS__=true;
+    let last='';
+    setInterval(()=>{
+      const sig=JSON.stringify(getCart().map(i=>[i.nome,i.quantidade,i.preco]));
+      if(sig!==last){last=sig;renderUpsell()}
+    },350);
   }
 
-  function init(){
-    buildTop();
-    patchCartRefresh();
-    render();bind();
-  }
+  function init(){moveHorario();buildFooterNotice();renderUpsell();observeCart();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-  setTimeout(init,300);setTimeout(init,900);setTimeout(init,1800);
-  const obs=new MutationObserver(()=>{buildTop();patchCartRefresh();render();bind();});
-  obs.observe(document.body,{childList:true,subtree:true});
+  setTimeout(init,700);setTimeout(init,1600);setTimeout(init,3000);
 })();
 </script>
 
-</body>
 </html>
