@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R28">
+<meta name="nd-site-version" content="20260907-R29">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R28";
+  const ND_SITE_VERSION = "20260907-R29";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -9365,8 +9365,20 @@ header .logo{
 
 /* Remove qualquer marca/faixa duplicada criada por camadas antigas. */
 .nd-v3-strip,
-.nd17-brand{
+.nd17-brand,
+header + .nd-v3-strip,
+body > .nd-v3-strip,
+body > .nd17-brand{
   display:none!important;
+  visibility:hidden!important;
+  height:0!important;
+  min-height:0!important;
+  max-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
 }
 
 /* Botões de compra */
@@ -9446,6 +9458,10 @@ header .logo{
     }
   }
 
+  function removeOldTopBrand(){
+    document.querySelectorAll('.nd-v3-strip,.nd17-brand').forEach(el=>el.remove());
+  }
+
   function cleanAllBuyButtons(){
     /* Produtos do catálogo */
     $$('.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add').forEach(cleanButtonText);
@@ -9515,11 +9531,14 @@ header .logo{
 
     /* Captura botões criados dinamicamente. */
     const obs=new MutationObserver(()=>{
+      removeOldTopBrand();
       cleanAllBuyButtons();
     });
     obs.observe(document.body,{childList:true,subtree:true});
 
+    removeOldTopBrand();
     cleanAllBuyButtons();
+    setTimeout(removeOldTopBrand,300);
     setTimeout(cleanAllBuyButtons,300);
     setTimeout(cleanAllBuyButtons,1000);
     setTimeout(cleanAllBuyButtons,2000);
@@ -9587,6 +9606,7 @@ header .logo{
   }
 
   function init(){
+    removeOldTopBrand();
     cleanAllBuyButtons();
     fixContinueShopping();
     reinforceSuggestionPrices();
