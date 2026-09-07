@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R30">
+<meta name="nd-site-version" content="20260907-R28">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R30";
+  const ND_SITE_VERSION = "20260907-R28";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -835,23 +835,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </button>
 
 </div>
-
-
-<section id="ndR30QuickChoices" aria-label="Escolhas da ND BURGS">
-  <div class="nd-r30-section-head">
-    <div>
-      <span>🔥 ESCOLHAS DA ND BURGS</span>
-      <h2>VAI DE QUAL HOJE?</h2>
-    </div>
-    <p>Alguns favoritos para você começar o pedido mais rápido.</p>
-  </div>
-  <div class="nd-r30-choice-grid">
-    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/k2KQwpjp/BACON.jpg" alt="X-BACON"><div><b>X-BACON</b><strong>R$ 11,90</strong><button class="nd-r30-buy" type="button" data-nd-name="X-BACON" data-nd-price="11.90">COMPRAR</button></div></article>
-    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/zW8gbZpK/BERENICE.jpg" alt="BERENICE"><div><b>BERENICE</b><strong>R$ 22,90</strong><button class="nd-r30-buy" type="button" data-nd-name="BERENICE" data-nd-price="22.90">COMPRAR</button></div></article>
-    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/tTWqZ9ST/PATAO.png" alt="PATAO"><div><b>PATAO</b><strong>R$ 23,90</strong><button class="nd-r30-buy" type="button" data-nd-name="PATAO" data-nd-price="23.90">COMPRAR</button></div></article>
-    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/Vszxw7h/NUNES.png" alt="NUNES"><div><b>NUNES</b><strong>R$ 24,90</strong><button class="nd-r30-buy" type="button" data-nd-name="NUNES" data-nd-price="24.90">COMPRAR</button></div></article>
-  </div>
-</section>
 
 <section id="combos" class="categoria">
 
@@ -4975,7 +4958,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
   function createUI(){
     if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
-    /* R30: faixa antiga removida definitivamente. */
+    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='<b> #BORA DE ND BURGS</b> |  OFERTAS EXCLUSIVAS NO NOSSO SITE';document.body.prepend(x)}
     if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
     addTrust(); addLastOrder();
   }
@@ -9355,62 +9338,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-<!-- ND BURGS R31 — correção segura das 3 etapas -->
-<style id="ndR31Fixes">
-header .logo{display:block!important;width:min(205px,72vw)!important;max-width:none!important;height:auto!important;margin:0 auto!important}
-.nd-v3-strip,.nd17-brand{display:none!important;visibility:hidden!important;height:0!important;max-height:0!important;overflow:hidden!important}
-.nd-r31-added{background:linear-gradient(135deg,#20b85a,#25d366)!important;color:#fff!important;border-color:#25d366!important}
-.nd-r31-added::after{display:none!important}
-.nd-r31-delivery{margin:10px 0;padding:10px 12px;border:1px solid rgba(128,80,255,.45);border-radius:12px;background:#11101a;text-align:center;color:#ddd;font-size:11px}
-.nd-r31-delivery b{display:block;color:#fff}.nd-r31-delivery strong{display:block;color:#b99cff;font-size:18px;margin:2px 0}
-@media(max-width:600px){header .logo{width:min(215px,80vw)!important}}
-</style>
-<script id="ndR31FixesJS">
-(function(){
-'use strict';
-function all(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
-function removeLegacy(){all('.nd-v3-strip,.nd17-brand').forEach(function(x){x.remove()})}
-function setAdded(b){if(!b)return;b.classList.add('nd-r31-added');b.textContent='✓ ADICIONADO'}
-function normalize(){
- all('.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add,.nd-r7-card button,.nd-v3-up button,.suggestion-card button,.nd26-offer-btn,.r11-promo-copy button').forEach(function(b){
-   var t=(b.textContent||'').replace(/\s+/g,' ').trim();
-   if(/\bADICIONAR\b/i.test(t)) b.textContent='COMPRAR';
- });
-}
-function fixContinue(){
- all('.btn-continuar-comprando').forEach(function(b){
-  if(b.dataset.ndR31==='1')return;
-  b.dataset.ndR31='1';b.textContent='❤️ CONTINUAR COMPRANDO';
-  b.addEventListener('click',function(){setTimeout(function(){
-    if(typeof window.fecharCarrinho==='function'){try{window.fecharCarrinho()}catch(e){}}
-    var c=document.querySelector('.categoria');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});
-  },80)},false);
- });
-}
-function delivery(){
- var p=document.querySelector('#modalFinalizar .painel-finalizar');
- if(!p || p.querySelector('#ndR31Delivery'))return;
- var d=document.createElement('div');d.id='ndR31Delivery';d.className='nd-r31-delivery';
- d.innerHTML='<b>🛵 TEMPO ESTIMADO DE ENTREGA</b><strong>40 A 50 MINUTINHOS</strong><span>Para seu pedido chegar fresquinho na sua residência.</span>';
- var h=p.querySelector('.cabecalho-finalizar'); if(h)h.insertAdjacentElement('afterend',d);else p.insertBefore(d,p.firstChild);
-}
-function bind(){
- if(window.__NDR31BOUND)return;window.__NDR31BOUND=true;
- document.addEventListener('click',function(e){
-  var b=e.target.closest('.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add');
-  if(b)setTimeout(function(){setAdded(b)},120);
- },false);
-}
-function init(){removeLegacy();normalize();fixContinue();delivery();bind()}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-var start=function(){removeLegacy();normalize();fixContinue();delivery()};
-setTimeout(start,300);setTimeout(start,1000);setTimeout(start,2000);
-var observer=new MutationObserver(function(){removeLegacy();normalize();fixContinue();delivery()});
-observer.observe(document.documentElement,{childList:true,subtree:true});
-})();
-</script>
-
 </body>
 
 <!-- =========================================================
@@ -9438,20 +9365,8 @@ header .logo{
 
 /* Remove qualquer marca/faixa duplicada criada por camadas antigas. */
 .nd-v3-strip,
-.nd17-brand,
-header + .nd-v3-strip,
-body > .nd-v3-strip,
-body > .nd17-brand{
+.nd17-brand{
   display:none!important;
-  visibility:hidden!important;
-  height:0!important;
-  min-height:0!important;
-  max-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  border:0!important;
-  overflow:hidden!important;
-  pointer-events:none!important;
 }
 
 /* Botões de compra */
@@ -9531,10 +9446,6 @@ body > .nd17-brand{
     }
   }
 
-  function removeOldTopBrand(){
-    document.querySelectorAll('.nd-v3-strip,.nd17-brand').forEach(el=>el.remove());
-  }
-
   function cleanAllBuyButtons(){
     /* Produtos do catálogo */
     $$('.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add').forEach(cleanButtonText);
@@ -9604,14 +9515,11 @@ body > .nd17-brand{
 
     /* Captura botões criados dinamicamente. */
     const obs=new MutationObserver(()=>{
-      removeOldTopBrand();
       cleanAllBuyButtons();
     });
     obs.observe(document.body,{childList:true,subtree:true});
 
-    removeOldTopBrand();
     cleanAllBuyButtons();
-    setTimeout(removeOldTopBrand,300);
     setTimeout(cleanAllBuyButtons,300);
     setTimeout(cleanAllBuyButtons,1000);
     setTimeout(cleanAllBuyButtons,2000);
@@ -9679,7 +9587,6 @@ body > .nd17-brand{
   }
 
   function init(){
-    removeOldTopBrand();
     cleanAllBuyButtons();
     fixContinueShopping();
     reinforceSuggestionPrices();
@@ -9697,6 +9604,5 @@ body > .nd17-brand{
   setTimeout(init,3000);
 })();
 </script>
-
 
 </html>
