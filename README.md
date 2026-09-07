@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R28">
+<meta name="nd-site-version" content="20260907-R29">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R28";
+  const ND_SITE_VERSION = "20260907-R29";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -724,6 +724,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   }
 }
 </style>
+
+
+<!-- ND BURGS R29 — ÍCONES PARA FAVORITOS / ATALHOS -->
+<link rel="icon" type="image/jpeg" sizes="32x32" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
+<link rel="shortcut icon" type="image/jpeg" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
+<link rel="apple-touch-icon" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
+<meta name="theme-color" content="#050505">
+<meta name="msapplication-TileColor" content="#050505">
+<meta name="msapplication-TileImage" content="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
 
 </head>
 
@@ -9606,3 +9615,269 @@ header .logo{
 </script>
 
 </html>
+
+
+<!-- =========================================================
+     ND BURGS R29 — MOBILE DEFINITIVO
+     Última camada para neutralizar conflitos das rodadas antigas.
+     ========================================================= -->
+<style id="nd-r29-mobile-definitivo">
+html,body{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:hidden!important;
+}
+html{
+  -webkit-text-size-adjust:100%!important;
+  text-size-adjust:100%!important;
+}
+body{
+  margin:0!important;
+}
+img,video,iframe,svg{
+  max-width:100%!important;
+}
+
+/* Header/logo proporcional em todas as telas */
+header{
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+header .logo{
+  display:block!important;
+  width:170px!important;
+  max-width:52vw!important;
+  height:auto!important;
+  max-height:64px!important;
+  object-fit:contain!important;
+  margin:0 auto!important;
+}
+
+/* Nunca deixar seções ultrapassarem a largura da tela */
+.container,
+.horarios,
+.categoria,
+#nd20Best,
+#nd20QuickNav,
+#ndR17FirstBuy,
+#ndR17Trust,
+#ndUvaPromo,
+#nd26SuperOffer,
+#ndR20DeliveryHighlight,
+#ndFinalQuick{
+  box-sizing:border-box!important;
+}
+
+/* Cards desktop/tablet continuam fluidos */
+.produtos{
+  min-width:0!important;
+}
+.produto{
+  min-width:0!important;
+  max-width:100%!important;
+}
+.produto-imagem,
+.produto img{
+  max-width:100%!important;
+}
+
+@media (max-width:700px){
+  body{
+    padding-left:0!important;
+    padding-right:0!important;
+    font-size:14px!important;
+  }
+
+  header{
+    padding:9px 10px!important;
+    min-height:auto!important;
+  }
+  header .logo{
+    width:132px!important;
+    max-width:42vw!important;
+    max-height:52px!important;
+  }
+
+  .container{
+    width:100%!important;
+    max-width:100%!important;
+    padding:8px 10px 34px!important;
+    margin:0 auto!important;
+  }
+
+  .horarios{
+    width:100%!important;
+    max-width:100%!important;
+    padding:0 10px!important;
+    margin:8px auto 10px!important;
+  }
+  .horarios-box{
+    width:100%!important;
+    padding:10px 11px!important;
+    gap:7px!important;
+    border-radius:12px!important;
+  }
+  .horarios-titulo{
+    font-size:10px!important;
+  }
+  .horarios-linha{
+    font-size:10px!important;
+    line-height:1.35!important;
+  }
+  .status-aberto,.status-fechado{
+    font-size:10px!important;
+    padding:4px 7px!important;
+  }
+
+  .modern-search{
+    width:100%!important;
+    max-width:100%!important;
+    margin:8px 0!important;
+    padding:7px!important;
+    top:0!important;
+  }
+  .modern-search input{
+    min-width:0!important;
+    font-size:16px!important;
+  }
+
+  #nd18Sidebar,
+  .categoria-menu{
+    max-width:100vw!important;
+  }
+
+  .categoria{
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  .categoria-titulo{
+    font-size:17px!important;
+    line-height:1.2!important;
+  }
+
+  /* 2 produtos por linha, mas sem cards gigantes ou espremidos */
+  .produtos{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  .produto{
+    width:100%!important;
+    padding:8px!important;
+    border-radius:13px!important;
+  }
+  .produto-imagem,
+  .produto img{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    object-fit:cover!important;
+    border-radius:10px!important;
+  }
+  .produto h3{
+    font-size:13px!important;
+    line-height:1.15!important;
+    margin:8px 0 4px!important;
+    overflow-wrap:anywhere!important;
+  }
+  .produto p{
+    font-size:10px!important;
+    line-height:1.3!important;
+    min-height:0!important;
+    margin-bottom:5px!important;
+  }
+  .produto .preco,
+  .preco,
+  .produto .preco-produto,
+  .produto [class*="preco"]{
+    font-size:16px!important;
+    line-height:1.1!important;
+    padding:4px 0!important;
+    margin:6px 0!important;
+  }
+  .btn,
+  .btn-add,
+  .nd-fx-add{
+    min-height:42px!important;
+    padding:9px 6px!important;
+    font-size:11px!important;
+    border-radius:10px!important;
+  }
+
+  /* Elementos promocionais */
+  #ndR17FirstBuy,
+  #ndUvaPromo,
+  #nd26SuperOffer,
+  #ndR20DeliveryHighlight,
+  #nd20Best,
+  #ndFinalQuick{
+    width:calc(100% - 20px)!important;
+    max-width:calc(100% - 20px)!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+
+  .nd26-offer-card{
+    grid-template-columns:72px minmax(0,1fr)!important;
+    gap:9px!important;
+  }
+  .nd26-offer-img{
+    width:72px!important;
+    height:72px!important;
+  }
+  .nd26-offer-btn{
+    grid-column:1/-1!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+
+  /* Modais sempre dentro da tela */
+  .modal-box,
+  .painel-carrinho,
+  .painel-finalizar,
+  .suggestions-panel,
+  .nd-final-send-panel{
+    width:100%!important;
+    max-width:100vw!important;
+    box-sizing:border-box!important;
+  }
+
+  #carrinhoFlutuante{
+    max-width:calc(100vw - 20px)!important;
+  }
+}
+
+@media (max-width:390px){
+  header .logo{
+    width:118px!important;
+    max-width:40vw!important;
+    max-height:48px!important;
+  }
+  .container{
+    padding-left:7px!important;
+    padding-right:7px!important;
+  }
+  .produtos{
+    gap:6px!important;
+  }
+  .produto{
+    padding:6px!important;
+  }
+  .produto h3{
+    font-size:12px!important;
+  }
+  .produto p{
+    font-size:9.5px!important;
+  }
+  .produto .preco,
+  .preco{
+    font-size:15px!important;
+  }
+  .btn,.btn-add,.nd-fx-add{
+    font-size:10px!important;
+  }
+}
+</style>
