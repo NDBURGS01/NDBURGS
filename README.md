@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R29">
+<meta name="nd-site-version" content="20260907-R30">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R29";
+  const ND_SITE_VERSION = "20260907-R30";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -9622,6 +9622,98 @@ body > .nd17-brand{
   setTimeout(init,700);
   setTimeout(init,1600);
   setTimeout(init,3000);
+})();
+</script>
+
+
+<!-- =========================================================
+     ND BURGS R30 — ETAPAS 1 + 2 + 3
+     Compra rápida + aumento de ticket + checkout premium
+     ========================================================= -->
+<style id="nd-r30-etapas">
+/* ETAPA 1 — COMPRA / CARRINHO */
+.btn-add,.nd-r30-buy{font-weight:1000!important;letter-spacing:.2px!important}
+.btn-add.nd-r30-added,.nd-r30-buy.nd-r30-added{background:linear-gradient(135deg,#25d366,#159447)!important;color:#fff!important;border-color:#25d366!important;box-shadow:0 0 18px rgba(37,211,102,.22)!important}
+.nd-r30-cart-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px auto 0;color:#aaa;font-size:11px;text-align:center}
+.carrinho-flutuante.ativo{box-shadow:0 -8px 30px rgba(245,196,0,.14)!important}
+.painel-carrinho .btn-continuar-comprando{border:1px solid rgba(245,196,0,.35)!important}
+/* ETAPA 2 — UPSELL */
+#ndR30Upsell{display:none;margin:14px 0;padding:14px;border:1px solid rgba(245,196,0,.35);border-radius:18px;background:linear-gradient(145deg,rgba(245,196,0,.07),rgba(255,255,255,.025));}
+#ndR30Upsell.show{display:block}
+#ndR30Upsell .r30-up-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+#ndR30Upsell .r30-up-head strong{font-size:14px;color:#fff}
+#ndR30Upsell .r30-up-head span{font-size:10px;color:#999}
+.r30-up-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.r30-up-card{display:grid;grid-template-columns:54px 1fr;gap:8px;align-items:center;padding:8px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
+.r30-up-card img{width:54px;height:54px;object-fit:contain;border-radius:10px;background:#090909}
+.r30-up-card b{display:block;font-size:11px;color:#fff;line-height:1.2}.r30-up-card small{display:block;color:#f5c400;font-weight:900;margin:3px 0;font-size:12px}
+.r30-up-card button{width:100%;border:0;border-radius:8px;padding:7px;background:#f5c400;color:#000;font-weight:1000;font-size:10px;cursor:pointer}
+/* MAIS PEDIDOS */
+#ndR30MaisPedidos{margin:22px 0 4px;padding:15px;border-radius:20px;background:linear-gradient(145deg,#171717,#0d0d0d);border:1px solid rgba(245,196,0,.25)}
+#ndR30MaisPedidos h2{margin:0 0 11px;padding:0;border:0;font-size:17px;color:#f5c400}
+.r30-best-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.r30-best{overflow:hidden;border-radius:14px;background:#111;border:1px solid #2b2b2b}.r30-best img{width:100%;height:105px;object-fit:contain;background:#090909}.r30-best-info{padding:9px}.r30-best-info b{display:block;font-size:11px;min-height:28px}.r30-best-info span{display:block;color:#f5c400;font-weight:1000;font-size:13px;margin:3px 0 7px}.r30-best-info button{width:100%;border:0;border-radius:8px;padding:8px;background:#f5c400;color:#000;font-weight:1000;font-size:10px}
+/* ETAPA 3 — CHECKOUT */
+#ndR30CheckoutGuide{margin:15px 0 12px;padding:15px;border-radius:17px;border:1px solid rgba(245,196,0,.45);background:linear-gradient(145deg,rgba(245,196,0,.09),rgba(255,255,255,.025));box-shadow:0 8px 28px rgba(0,0,0,.25)}
+#ndR30CheckoutGuide strong{display:block;color:#f5c400;font-size:15px;margin-bottom:6px}#ndR30CheckoutGuide p{font-size:12px;color:#ddd;line-height:1.5;margin:0}
+#ndR30DeliveryTime{display:flex;align-items:center;gap:10px;margin:10px 0 14px;padding:11px 13px;border-radius:13px;background:linear-gradient(90deg,rgba(37,211,102,.09),rgba(245,196,0,.06));border:1px solid rgba(37,211,102,.25)}
+#ndR30DeliveryTime .r30-clock{font-size:23px}#ndR30DeliveryTime b{display:block;color:#fff;font-size:13px}#ndR30DeliveryTime span{color:#aaa;font-size:10px}
+@media(max-width:600px){.r30-best-grid{grid-template-columns:repeat(2,1fr)}.r30-best img{height:92px}.r30-up-grid{grid-template-columns:1fr}.r30-best-info b{font-size:10px}}
+</style>
+<script id="nd-r30-etapas-js">
+(function(){
+'use strict';
+function money(v){try{return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}catch(e){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}}
+function esc(t){return String(t||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function getProductData(btn){
+ const card=btn.closest('.produto'); if(!card)return null;
+ const name=(card.dataset.nome||card.querySelector('h3')?.textContent||'').trim();
+ const priceText=(card.querySelector('.preco')?.textContent||'').replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.');
+ const price=Number(priceText)||0; const img=card.querySelector('img')?.src||'';
+ return {name,price,img,btn,card};
+}
+function syncButtons(){
+ const items=Array.isArray(window.carrinho)?window.carrinho:[];
+ const names=new Set(items.map(x=>String(x.nome||'').trim().toUpperCase()));
+ document.querySelectorAll('.produto .btn-add').forEach(btn=>{
+   const d=getProductData(btn); if(!d)return;
+   const added=[...names].some(n=>n===d.name.toUpperCase() || n.startsWith(d.name.toUpperCase()+' '));
+   if(added){btn.classList.add('nd-r30-added');btn.dataset.ndR30Added='1';btn.textContent='✓ ADICIONADO';}
+   else if(btn.dataset.ndR30Added==='1'){btn.classList.remove('nd-r30-added');btn.dataset.ndR30Added='0';btn.textContent='COMPRAR';}
+   else btn.textContent='COMPRAR';
+ });
+}
+function buildBest(){
+ if(document.getElementById('ndR30MaisPedidos'))return;
+ const container=document.querySelector('.container'); if(!container)return;
+ const cards=[...document.querySelectorAll('.produto')].slice(0,6); if(!cards.length)return;
+ const box=document.createElement('section'); box.id='ndR30MaisPedidos';
+ box.innerHTML='<h2>🔥 OS MAIS PEDIDOS DA ND BURGS</h2><div class="r30-best-grid"></div>';
+ const grid=box.querySelector('.r30-best-grid');
+ cards.forEach(card=>{const img=card.querySelector('img')?.src||'';const name=(card.querySelector('h3')?.textContent||'').trim();const price=card.querySelector('.preco')?.textContent||'';const src=card.querySelector('.btn-add')?.getAttribute('onclick')||'';const b=document.createElement('div');b.className='r30-best';b.innerHTML='<img loading="lazy" src="'+esc(img)+'" alt="'+esc(name)+'"><div class="r30-best-info"><b>'+esc(name)+'</b><span>'+esc(price)+'</span><button type="button">COMPRAR</button></div>';b.querySelector('button').onclick=()=>{const original=card.querySelector('.btn-add');if(original)original.click()};grid.appendChild(b);});
+ const firstCat=document.querySelector('.categoria'); if(firstCat) firstCat.parentNode.insertBefore(box,firstCat); else container.prepend(box);
+}
+function buildUpsell(){
+ const modal=document.querySelector('#modalCarrinho .painel-carrinho'); if(!modal||document.getElementById('ndR30Upsell'))return;
+ const source=[...document.querySelectorAll('.produto .btn-add')].map(getProductData).filter(Boolean).filter(x=>x.name);
+ const simple=source.filter(x=>/adicionar\s*\(/i.test(x.btn.getAttribute('onclick')||'')).slice(-8).slice(0,4);
+ if(!simple.length)return;
+ const box=document.createElement('div');box.id='ndR30Upsell';box.innerHTML='<div class="r30-up-head"><strong>🔥 BORA COMPLETAR SEU PEDIDO?</strong><span>adicione em 1 toque</span></div><div class="r30-up-grid"></div>';
+ const grid=box.querySelector('.r30-up-grid'); simple.forEach(x=>{const c=document.createElement('div');c.className='r30-up-card';c.innerHTML='<img loading="lazy" src="'+esc(x.img)+'" alt="'+esc(x.name)+'"><div><b>'+esc(x.name)+'</b><small>'+money(x.price)+'</small><button type="button">COMPRAR</button></div>';c.querySelector('button').onclick=()=>x.btn.click();grid.appendChild(c)});
+ const resumo=modal.querySelector('.resumo-modal'); if(resumo)modal.insertBefore(box,resumo); else modal.appendChild(box);
+}
+function refreshUpsell(){const u=document.getElementById('ndR30Upsell');if(u)u.classList.toggle('show',Array.isArray(window.carrinho)&&window.carrinho.length>0)}
+function setupButtons(){document.querySelectorAll('.produto .btn-add').forEach(btn=>{if(btn.dataset.ndR30Bound)return;btn.dataset.ndR30Bound='1';btn.textContent='COMPRAR';btn.addEventListener('click',()=>{setTimeout(syncButtons,120);setTimeout(syncButtons,600)},true)});syncButtons()}
+function setupCheckout(){
+ const checkout=document.getElementById('checkout');if(!checkout||document.getElementById('ndR30CheckoutGuide'))return;
+ const guide=document.createElement('div');guide.id='ndR30CheckoutGuide';guide.innerHTML='<strong>📍 COLOQUE SEU ENDEREÇO OU, SE FOR RETIRAR, SELECIONE RETIRADA NA LOJA</strong><p>Essa informação é muito importante para seu pedido. Escolha apenas uma opção acima e preencha o endereço quando for delivery.</p>';
+ checkout.insertBefore(guide,checkout.firstChild);
+ const time=document.createElement('div');time.id='ndR30DeliveryTime';time.innerHTML='<div class="r30-clock">🛵</div><div><b>TEMPO ESTIMADO: 40 A 50 MINUTINHOS</b><span>Para seu pedido chegar fresquinho na sua residência. ❤️</span></div>';guide.after(time);
+}
+function setupContinue(){const b=document.querySelector('.btn-continuar-comprando');if(b&&!b.dataset.ndR30Bound){b.dataset.ndR30Bound='1';b.textContent='🛍️ CONTINUAR COMPRANDO';b.onclick=function(){if(typeof fecharCarrinho==='function')fecharCarrinho();setTimeout(()=>{const target=document.querySelector('.categoria')||document.querySelector('.container');target?.scrollIntoView({behavior:'smooth',block:'start'});},120)}}}
+function init(){buildBest();buildUpsell();setupButtons();setupCheckout();setupContinue();refreshUpsell();setTimeout(syncButtons,700);setTimeout(syncButtons,1800)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+new MutationObserver(()=>{setupButtons();setupContinue();refreshUpsell();syncButtons()}).observe(document.body,{childList:true,subtree:true});
+setInterval(()=>{syncButtons();refreshUpsell()},1000);
 })();
 </script>
 
