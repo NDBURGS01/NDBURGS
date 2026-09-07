@@ -9545,6 +9545,394 @@ body > .horarios.nd-r31-top .nd-top-delivery span{color:#8e8e8e!important;font-s
   [100,400,900,1800,3000].forEach(t=>setTimeout(run,t));
 })();
 </script>
+
+<style id="nd-mobile-r31-final">
+/* =========================================================
+   ND BURGS — AJUSTE MOBILE R31
+   1) Remove o botão amarelo "VER CARRINHO" no celular
+   2) Carrinho mobile compacto com contador + animação
+   3) Redimensionamento geral para telas pequenas
+   ========================================================= */
+
+/* O carrinho amarelo antigo não aparece no celular */
+@media (max-width: 700px){
+  #carrinhoFlutuante,
+  .carrinho-flutuante{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+
+  /* Também esconde a barra secundária de carrinho para não duplicar */
+  #ndFxCartbar{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+
+  body{
+    width:100%;
+    max-width:100vw;
+    overflow-x:hidden!important;
+    padding-bottom:86px!important;
+    font-size:15px!important;
+  }
+
+  header{
+    padding:8px 12px!important;
+  }
+
+  .logo{
+    width:128px!important;
+    max-width:58vw!important;
+  }
+
+  .container{
+    width:100%!important;
+    max-width:100%!important;
+    padding:0 11px!important;
+  }
+
+  .horarios,
+  .horarios.nd-r31-top{
+    width:100%!important;
+    padding:0 8px!important;
+    margin:0!important;
+  }
+
+  .horarios-box{
+    border-radius:10px!important;
+    padding:10px 9px!important;
+    font-size:12px!important;
+  }
+
+  .horarios-titulo{
+    font-size:14px!important;
+  }
+
+  .horarios-box *{
+    line-height:1.3!important;
+  }
+
+  .categoria{
+    margin-top:14px!important;
+    padding:0!important;
+  }
+
+  .categoria>h2{
+    font-size:20px!important;
+    margin:12px 2px 8px!important;
+  }
+
+  .produtos{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+
+  .produto{
+    width:100%!important;
+    min-width:0!important;
+    padding:8px!important;
+    border-radius:13px!important;
+    overflow:hidden!important;
+  }
+
+  .produto-imagem,
+  .produto .produto-imagem{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    border-radius:10px!important;
+    overflow:hidden!important;
+  }
+
+  .produto-imagem img{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+  }
+
+  .produto h3,
+  .produto .nome{
+    font-size:14px!important;
+    line-height:1.18!important;
+    margin:7px 0 4px!important;
+  }
+
+  .produto p,
+  .produto .descricao{
+    font-size:11px!important;
+    line-height:1.3!important;
+    max-height:43px!important;
+    overflow:hidden!important;
+  }
+
+  .produto .preco{
+    font-size:15px!important;
+    margin-top:5px!important;
+  }
+
+  .produto .btn-add,
+  .produto button[onclick*="adicionar("]{
+    width:100%!important;
+    min-height:42px!important;
+    padding:9px 6px!important;
+    font-size:12px!important;
+    border-radius:10px!important;
+    margin-top:6px!important;
+  }
+
+  .nd-fx-add{
+    min-height:42px!important;
+    padding:9px 6px!important;
+    font-size:11px!important;
+  }
+
+  .categoria-btn,
+  .nd-cat-btn{
+    min-height:38px!important;
+    padding:8px 11px!important;
+    font-size:12px!important;
+    border-radius:10px!important;
+  }
+
+  /* Checkout / modais ocupam melhor a tela */
+  .modal-carrinho,
+  .modal-finalizar{
+    padding:8px!important;
+  }
+
+  .painel-carrinho,
+  .painel-finalizar{
+    width:100%!important;
+    max-width:100%!important;
+    max-height:92vh!important;
+    border-radius:17px!important;
+    padding:14px!important;
+  }
+
+  .item-carrinho,
+  .item-carrinho-modal{
+    gap:7px!important;
+    padding:10px 0!important;
+    font-size:13px!important;
+  }
+
+  .controles button{
+    min-width:34px!important;
+    min-height:34px!important;
+  }
+
+  .nd-v4-step-content{
+    padding:13px!important;
+  }
+
+  .nd-v4-step-content h2{
+    font-size:21px!important;
+  }
+
+  .nd-v4-next,
+  .nd-v4-back,
+  .nd-r31-pay-next{
+    width:100%!important;
+    min-height:48px!important;
+    padding:12px 14px!important;
+    font-size:14px!important;
+    border-radius:12px!important;
+  }
+
+  input,
+  select,
+  textarea{
+    width:100%!important;
+    min-height:44px!important;
+    font-size:16px!important; /* evita zoom automático no iPhone */
+  }
+
+  .nd-v4-payment-grid{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+
+  footer{
+    padding:25px 12px!important;
+  }
+
+  /* Evita elementos largos estourando a tela */
+  img, video, iframe{
+    max-width:100%!important;
+  }
+}
+
+/* =========================================================
+   CARRINHO MOBILE — botão discreto + quantidade
+   ========================================================= */
+#ndMobileCart{
+  display:none;
+}
+
+@media (max-width:700px){
+  #ndMobileCart{
+    position:fixed!important;
+    right:14px!important;
+    bottom:14px!important;
+    z-index:999999!important;
+    width:56px!important;
+    height:56px!important;
+    border:1px solid rgba(255,210,26,.75)!important;
+    border-radius:50%!important;
+    background:linear-gradient(145deg,#171717,#050505)!important;
+    box-shadow:0 8px 28px rgba(0,0,0,.65),0 0 18px rgba(255,210,26,.18)!important;
+    display:grid!important;
+    place-items:center!important;
+    cursor:pointer!important;
+    opacity:0!important;
+    transform:translateY(25px) scale(.8)!important;
+    pointer-events:none!important;
+    transition:opacity .22s ease,transform .22s ease!important;
+  }
+
+  #ndMobileCart.nd-show{
+    opacity:1!important;
+    transform:translateY(0) scale(1)!important;
+    pointer-events:auto!important;
+  }
+
+  #ndMobileCart .nd-mobile-cart-icon{
+    font-size:23px!important;
+    line-height:1!important;
+  }
+
+  #ndMobileCart .nd-mobile-cart-count{
+    position:absolute!important;
+    top:-5px!important;
+    right:-4px!important;
+    min-width:23px!important;
+    height:23px!important;
+    padding:0 6px!important;
+    display:grid!important;
+    place-items:center!important;
+    border-radius:99px!important;
+    background:#e50914!important;
+    color:#fff!important;
+    border:2px solid #090909!important;
+    font-size:11px!important;
+    font-weight:1000!important;
+    line-height:1!important;
+  }
+
+  #ndMobileCart.nd-pulse{
+    animation:ndMobileCartPulse .48s ease!important;
+  }
+
+  @keyframes ndMobileCartPulse{
+    0%{transform:translateY(0) scale(1)}
+    35%{transform:translateY(0) scale(1.22)}
+    65%{transform:translateY(0) scale(.92)}
+    100%{transform:translateY(0) scale(1)}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    #ndMobileCart{transition:none!important}
+    #ndMobileCart.nd-pulse{animation:none!important}
+  }
+}
+</style>
+
+<script id="nd-mobile-r31-cart-fix">
+(function(){
+  'use strict';
+
+  function $(sel){return document.querySelector(sel);}
+
+  function getCart(){
+    try{
+      if(Array.isArray(window.carrinho)) return window.carrinho;
+    }catch(_){}
+    try{
+      if(Array.isArray(carrinho)) return carrinho;
+    }catch(_){}
+    return [];
+  }
+
+  function qty(){
+    return getCart().reduce(function(total,item){
+      return total + Math.max(0,Number(item && item.quantidade)||0);
+    },0);
+  }
+
+  function build(){
+    if(window.innerWidth>700)return;
+    if($('#ndMobileCart'))return;
+
+    var b=document.createElement('button');
+    b.id='ndMobileCart';
+    b.type='button';
+    b.setAttribute('aria-label','Abrir carrinho');
+    b.innerHTML='<span class="nd-mobile-cart-icon">🛒</span><span class="nd-mobile-cart-count">0</span>';
+
+    b.addEventListener('click',function(){
+      if(typeof window.abrirCarrinho==='function'){
+        window.abrirCarrinho();
+      }
+    });
+
+    document.body.appendChild(b);
+  }
+
+  function refresh(pulse){
+    var b=$('#ndMobileCart');
+    if(!b)return;
+
+    var n=qty();
+    var count=b.querySelector('.nd-mobile-cart-count');
+    if(count)count.textContent=n>99?'99+':String(n);
+
+    b.classList.toggle('nd-show',n>0);
+
+    if(pulse && n>0){
+      b.classList.remove('nd-pulse');
+      void b.offsetWidth;
+      b.classList.add('nd-pulse');
+      setTimeout(function(){b.classList.remove('nd-pulse');},520);
+    }
+  }
+
+  function hook(){
+    build();
+
+    if(typeof window.atualizarCarrinho==='function' && !window.atualizarCarrinho.__ndMobileR31){
+      var old=window.atualizarCarrinho;
+      window.atualizarCarrinho=function(){
+        var before=qty();
+        var result=old.apply(this,arguments);
+        setTimeout(function(){
+          var after=qty();
+          refresh(after>before);
+        },30);
+        return result;
+      };
+      window.atualizarCarrinho.__ndMobileR31=true;
+    }
+
+    refresh(false);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',hook,{once:true});
+  }else{
+    hook();
+  }
+
+  setTimeout(hook,500);
+  setTimeout(hook,1200);
+  window.addEventListener('resize',function(){
+    if(window.innerWidth<=700)build();
+  });
+})();
+</script>
 </body>
 <!-- =========================================================
      ND BURGS — R28 / AJUSTES SOLICITADOS
