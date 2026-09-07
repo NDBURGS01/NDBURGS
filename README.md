@@ -836,6 +836,23 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 </div>
 
+
+<section id="ndR30QuickChoices" aria-label="Escolhas da ND BURGS">
+  <div class="nd-r30-section-head">
+    <div>
+      <span>🔥 ESCOLHAS DA ND BURGS</span>
+      <h2>VAI DE QUAL HOJE?</h2>
+    </div>
+    <p>Alguns favoritos para você começar o pedido mais rápido.</p>
+  </div>
+  <div class="nd-r30-choice-grid">
+    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/k2KQwpjp/BACON.jpg" alt="X-BACON"><div><b>X-BACON</b><strong>R$ 11,90</strong><button class="nd-r30-buy" type="button" data-nd-name="X-BACON" data-nd-price="11.90">COMPRAR</button></div></article>
+    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/zW8gbZpK/BERENICE.jpg" alt="BERENICE"><div><b>BERENICE</b><strong>R$ 22,90</strong><button class="nd-r30-buy" type="button" data-nd-name="BERENICE" data-nd-price="22.90">COMPRAR</button></div></article>
+    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/tTWqZ9ST/PATAO.png" alt="PATAO"><div><b>PATAO</b><strong>R$ 23,90</strong><button class="nd-r30-buy" type="button" data-nd-name="PATAO" data-nd-price="23.90">COMPRAR</button></div></article>
+    <article class="nd-r30-choice"><img loading="lazy" src="https://i.ibb.co/Vszxw7h/NUNES.png" alt="NUNES"><div><b>NUNES</b><strong>R$ 24,90</strong><button class="nd-r30-buy" type="button" data-nd-name="NUNES" data-nd-price="24.90">COMPRAR</button></div></article>
+  </div>
+</section>
+
 <section id="combos" class="categoria">
 
 <div class="categoria-titulo">
@@ -4958,7 +4975,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   function add(name,price){if(typeof window.adicionar==='function')window.adicionar(name,price)}
   function createUI(){
     if(!document.querySelector('.nd-v3-progress')){const p=document.createElement('div');p.className='nd-v3-progress';p.innerHTML='<span></span>';document.body.prepend(p)}
-    if(!document.querySelector('.nd-v3-strip')){const x=document.createElement('div');x.className='nd-v3-strip';x.innerHTML='<b> #BORA DE ND BURGS</b> |  OFERTAS EXCLUSIVAS NO NOSSO SITE';document.body.prepend(x)}
+    /* R30: faixa antiga removida definitivamente. */
     if(!document.querySelector('.nd-v3-buybar')){const b=document.createElement('div');b.className='nd-v3-buybar';b.innerHTML='<div class="nd-v3-buyinfo"><strong id="ndV3BuyTotal">R$ 0,00</strong><span id="ndV3BuyQty">Seu carrinho está vazio</span></div><button type="button" id="ndV3BuyBtn">VER CARRINHO 🛒</button>';document.body.appendChild(b);b.querySelector('#ndV3BuyBtn').onclick=()=>{if(typeof window.abrirCarrinho==='function')window.abrirCarrinho();else document.getElementById('carrinhoFlutuante')?.click()}}
     addTrust(); addLastOrder();
   }
@@ -9626,94 +9643,190 @@ body > .nd17-brand{
 </script>
 
 
-<!-- =========================================================
-     ND BURGS R30 — ETAPAS 1 + 2 + 3
-     Compra rápida + aumento de ticket + checkout premium
-     ========================================================= -->
-<style id="nd-r30-etapas">
-/* ETAPA 1 — COMPRA / CARRINHO */
-.btn-add,.nd-r30-buy{font-weight:1000!important;letter-spacing:.2px!important}
-.btn-add.nd-r30-added,.nd-r30-buy.nd-r30-added{background:linear-gradient(135deg,#25d366,#159447)!important;color:#fff!important;border-color:#25d366!important;box-shadow:0 0 18px rgba(37,211,102,.22)!important}
-.nd-r30-cart-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px auto 0;color:#aaa;font-size:11px;text-align:center}
-.carrinho-flutuante.ativo{box-shadow:0 -8px 30px rgba(245,196,0,.14)!important}
-.painel-carrinho .btn-continuar-comprando{border:1px solid rgba(245,196,0,.35)!important}
-/* ETAPA 2 — UPSELL */
-#ndR30Upsell{display:none;margin:14px 0;padding:14px;border:1px solid rgba(245,196,0,.35);border-radius:18px;background:linear-gradient(145deg,rgba(245,196,0,.07),rgba(255,255,255,.025));}
-#ndR30Upsell.show{display:block}
-#ndR30Upsell .r30-up-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-#ndR30Upsell .r30-up-head strong{font-size:14px;color:#fff}
-#ndR30Upsell .r30-up-head span{font-size:10px;color:#999}
-.r30-up-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.r30-up-card{display:grid;grid-template-columns:54px 1fr;gap:8px;align-items:center;padding:8px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
-.r30-up-card img{width:54px;height:54px;object-fit:contain;border-radius:10px;background:#090909}
-.r30-up-card b{display:block;font-size:11px;color:#fff;line-height:1.2}.r30-up-card small{display:block;color:#f5c400;font-weight:900;margin:3px 0;font-size:12px}
-.r30-up-card button{width:100%;border:0;border-radius:8px;padding:7px;background:#f5c400;color:#000;font-weight:1000;font-size:10px;cursor:pointer}
-/* MAIS PEDIDOS */
-#ndR30MaisPedidos{margin:22px 0 4px;padding:15px;border-radius:20px;background:linear-gradient(145deg,#171717,#0d0d0d);border:1px solid rgba(245,196,0,.25)}
-#ndR30MaisPedidos h2{margin:0 0 11px;padding:0;border:0;font-size:17px;color:#f5c400}
-.r30-best-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.r30-best{overflow:hidden;border-radius:14px;background:#111;border:1px solid #2b2b2b}.r30-best img{width:100%;height:105px;object-fit:contain;background:#090909}.r30-best-info{padding:9px}.r30-best-info b{display:block;font-size:11px;min-height:28px}.r30-best-info span{display:block;color:#f5c400;font-weight:1000;font-size:13px;margin:3px 0 7px}.r30-best-info button{width:100%;border:0;border-radius:8px;padding:8px;background:#f5c400;color:#000;font-weight:1000;font-size:10px}
-/* ETAPA 3 — CHECKOUT */
-#ndR30CheckoutGuide{margin:15px 0 12px;padding:15px;border-radius:17px;border:1px solid rgba(245,196,0,.45);background:linear-gradient(145deg,rgba(245,196,0,.09),rgba(255,255,255,.025));box-shadow:0 8px 28px rgba(0,0,0,.25)}
-#ndR30CheckoutGuide strong{display:block;color:#f5c400;font-size:15px;margin-bottom:6px}#ndR30CheckoutGuide p{font-size:12px;color:#ddd;line-height:1.5;margin:0}
-#ndR30DeliveryTime{display:flex;align-items:center;gap:10px;margin:10px 0 14px;padding:11px 13px;border-radius:13px;background:linear-gradient(90deg,rgba(37,211,102,.09),rgba(245,196,0,.06));border:1px solid rgba(37,211,102,.25)}
-#ndR30DeliveryTime .r30-clock{font-size:23px}#ndR30DeliveryTime b{display:block;color:#fff;font-size:13px}#ndR30DeliveryTime span{color:#aaa;font-size:10px}
-@media(max-width:600px){.r30-best-grid{grid-template-columns:repeat(2,1fr)}.r30-best img{height:92px}.r30-up-grid{grid-template-columns:1fr}.r30-best-info b{font-size:10px}}
+<style id="ndR30FinalCSS">
+/* ND BURGS R30 — camada final consolidada de UX */
+.nd-v3-strip,.nd17-brand{display:none!important;visibility:hidden!important;height:0!important;min-height:0!important;max-height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:0!important;position:absolute!important;left:-99999px!important}
+header{padding:10px 16px!important;min-height:82px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+header .logo{display:block!important;width:min(205px,72vw)!important;max-width:none!important;height:auto!important;object-fit:contain!important}
+#nd17AddressBar{display:flex!important;visibility:visible!important}
+#nd17Gate{display:none!important}
+#nd17Gate.show{display:flex!important}
+#ndR30QuickChoices{width:min(1100px,calc(100% - 24px));margin:24px auto 10px;padding:18px;border:1px solid rgba(229,9,20,.35);border-radius:22px;background:linear-gradient(145deg,#17171b,#0d0d10);box-shadow:0 14px 40px rgba(0,0,0,.3)}
+.nd-r30-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px}.nd-r30-section-head span{font-size:11px;font-weight:1000;letter-spacing:1.2px;color:#ffb000}.nd-r30-section-head h2{margin:4px 0 0!important;border:0!important;color:#fff!important;font-size:25px}.nd-r30-section-head p{margin:0;color:#9b9ba5;font-size:12px;max-width:360px;text-align:right}.nd-r30-choice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.nd-r30-choice{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center;padding:9px;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:#111216}.nd-r30-choice img{width:72px;height:72px;object-fit:contain;border-radius:11px;background:#080809}.nd-r30-choice b{display:block;font-size:13px;color:#fff;margin-bottom:3px}.nd-r30-choice strong{display:block;color:#ffd166;font-size:16px;margin-bottom:7px}.nd-r30-buy{width:100%;min-height:36px;border:0;border-radius:9px;background:linear-gradient(135deg,#e50914,#ff4b30);color:#fff;font-weight:1000;cursor:pointer}.nd-r30-buy.is-added{background:linear-gradient(135deg,#25d366,#149c4d)!important}.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button{min-height:46px!important;font-weight:1000!important}.nd-r30-cart-upsell{margin:14px 0 4px;padding:14px;border:1px solid rgba(255,177,0,.22);border-radius:17px;background:linear-gradient(145deg,#17130b,#101010)}.nd-r30-cart-upsell h3{margin:0 0 4px;color:#ffd166;font-size:16px}.nd-r30-cart-upsell p{margin:0 0 10px;color:#999;font-size:11px}.nd-r30-upsell-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.nd-r30-upsell-item{padding:10px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:#111}.nd-r30-upsell-item b{display:block;color:#fff;font-size:11px;margin-bottom:4px}.nd-r30-upsell-item strong{display:block;color:#ffd166;font-size:14px;margin-bottom:7px}.nd-r30-upsell-item button{width:100%;border:0;border-radius:8px;padding:8px;background:#e50914;color:#fff;font-weight:900;cursor:pointer}.nd-r30-buy.is-added,.nd-r30-upsell-item button.is-added{background:#159a4d!important}.nd-r30-delivery-note{margin:10px 0 14px;padding:10px 12px;border-radius:12px;border:1px solid rgba(122,83,255,.45);background:radial-gradient(circle at 15% 50%,rgba(126,74,255,.18),transparent 40%),#0e0e17;color:#ddd;font-size:11px;text-align:center}.nd-r30-delivery-note b{color:#fff}.nd-r30-delivery-note strong{display:block;color:#b99cff;font-size:18px;margin-top:2px}
+@media(max-width:800px){.nd-r30-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nd-r30-upsell-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nd-r30-section-head{display:block}.nd-r30-section-head p{text-align:left;margin-top:5px}}
+@media(max-width:600px){header{min-height:76px!important;padding:8px 10px!important}header .logo{width:min(215px,80vw)!important}.nd-r30-choice-grid{gap:8px}.nd-r30-choice{grid-template-columns:60px 1fr;padding:8px}.nd-r30-choice img{width:60px;height:60px}.nd-r30-choice b{font-size:11px}.nd-r30-choice strong{font-size:14px}.nd-r30-buy{min-height:34px;font-size:10px}.nd-r30-cart-upsell{padding:11px}.nd-r30-delivery-note{margin-left:8px;margin-right:8px}.nd-r30-section-head h2{font-size:21px}}
 </style>
-<script id="nd-r30-etapas-js">
+
+<script id="ndR30FinalJS">
 (function(){
-'use strict';
-function money(v){try{return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}catch(e){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}}
-function esc(t){return String(t||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function getProductData(btn){
- const card=btn.closest('.produto'); if(!card)return null;
- const name=(card.dataset.nome||card.querySelector('h3')?.textContent||'').trim();
- const priceText=(card.querySelector('.preco')?.textContent||'').replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.');
- const price=Number(priceText)||0; const img=card.querySelector('img')?.src||'';
- return {name,price,img,btn,card};
-}
-function syncButtons(){
- const items=Array.isArray(window.carrinho)?window.carrinho:[];
- const names=new Set(items.map(x=>String(x.nome||'').trim().toUpperCase()));
- document.querySelectorAll('.produto .btn-add').forEach(btn=>{
-   const d=getProductData(btn); if(!d)return;
-   const added=[...names].some(n=>n===d.name.toUpperCase() || n.startsWith(d.name.toUpperCase()+' '));
-   if(added){btn.classList.add('nd-r30-added');btn.dataset.ndR30Added='1';btn.textContent='✓ ADICIONADO';}
-   else if(btn.dataset.ndR30Added==='1'){btn.classList.remove('nd-r30-added');btn.dataset.ndR30Added='0';btn.textContent='COMPRAR';}
-   else btn.textContent='COMPRAR';
- });
-}
-function buildBest(){
- if(document.getElementById('ndR30MaisPedidos'))return;
- const container=document.querySelector('.container'); if(!container)return;
- const cards=[...document.querySelectorAll('.produto')].slice(0,6); if(!cards.length)return;
- const box=document.createElement('section'); box.id='ndR30MaisPedidos';
- box.innerHTML='<h2>🔥 OS MAIS PEDIDOS DA ND BURGS</h2><div class="r30-best-grid"></div>';
- const grid=box.querySelector('.r30-best-grid');
- cards.forEach(card=>{const img=card.querySelector('img')?.src||'';const name=(card.querySelector('h3')?.textContent||'').trim();const price=card.querySelector('.preco')?.textContent||'';const src=card.querySelector('.btn-add')?.getAttribute('onclick')||'';const b=document.createElement('div');b.className='r30-best';b.innerHTML='<img loading="lazy" src="'+esc(img)+'" alt="'+esc(name)+'"><div class="r30-best-info"><b>'+esc(name)+'</b><span>'+esc(price)+'</span><button type="button">COMPRAR</button></div>';b.querySelector('button').onclick=()=>{const original=card.querySelector('.btn-add');if(original)original.click()};grid.appendChild(b);});
- const firstCat=document.querySelector('.categoria'); if(firstCat) firstCat.parentNode.insertBefore(box,firstCat); else container.prepend(box);
-}
-function buildUpsell(){
- const modal=document.querySelector('#modalCarrinho .painel-carrinho'); if(!modal||document.getElementById('ndR30Upsell'))return;
- const source=[...document.querySelectorAll('.produto .btn-add')].map(getProductData).filter(Boolean).filter(x=>x.name);
- const simple=source.filter(x=>/adicionar\s*\(/i.test(x.btn.getAttribute('onclick')||'')).slice(-8).slice(0,4);
- if(!simple.length)return;
- const box=document.createElement('div');box.id='ndR30Upsell';box.innerHTML='<div class="r30-up-head"><strong>🔥 BORA COMPLETAR SEU PEDIDO?</strong><span>adicione em 1 toque</span></div><div class="r30-up-grid"></div>';
- const grid=box.querySelector('.r30-up-grid'); simple.forEach(x=>{const c=document.createElement('div');c.className='r30-up-card';c.innerHTML='<img loading="lazy" src="'+esc(x.img)+'" alt="'+esc(x.name)+'"><div><b>'+esc(x.name)+'</b><small>'+money(x.price)+'</small><button type="button">COMPRAR</button></div>';c.querySelector('button').onclick=()=>x.btn.click();grid.appendChild(c)});
- const resumo=modal.querySelector('.resumo-modal'); if(resumo)modal.insertBefore(box,resumo); else modal.appendChild(box);
-}
-function refreshUpsell(){const u=document.getElementById('ndR30Upsell');if(u)u.classList.toggle('show',Array.isArray(window.carrinho)&&window.carrinho.length>0)}
-function setupButtons(){document.querySelectorAll('.produto .btn-add').forEach(btn=>{if(btn.dataset.ndR30Bound)return;btn.dataset.ndR30Bound='1';btn.textContent='COMPRAR';btn.addEventListener('click',()=>{setTimeout(syncButtons,120);setTimeout(syncButtons,600)},true)});syncButtons()}
-function setupCheckout(){
- const checkout=document.getElementById('checkout');if(!checkout||document.getElementById('ndR30CheckoutGuide'))return;
- const guide=document.createElement('div');guide.id='ndR30CheckoutGuide';guide.innerHTML='<strong>📍 COLOQUE SEU ENDEREÇO OU, SE FOR RETIRAR, SELECIONE RETIRADA NA LOJA</strong><p>Essa informação é muito importante para seu pedido. Escolha apenas uma opção acima e preencha o endereço quando for delivery.</p>';
- checkout.insertBefore(guide,checkout.firstChild);
- const time=document.createElement('div');time.id='ndR30DeliveryTime';time.innerHTML='<div class="r30-clock">🛵</div><div><b>TEMPO ESTIMADO: 40 A 50 MINUTINHOS</b><span>Para seu pedido chegar fresquinho na sua residência. ❤️</span></div>';guide.after(time);
-}
-function setupContinue(){const b=document.querySelector('.btn-continuar-comprando');if(b&&!b.dataset.ndR30Bound){b.dataset.ndR30Bound='1';b.textContent='🛍️ CONTINUAR COMPRANDO';b.onclick=function(){if(typeof fecharCarrinho==='function')fecharCarrinho();setTimeout(()=>{const target=document.querySelector('.categoria')||document.querySelector('.container');target?.scrollIntoView({behavior:'smooth',block:'start'});},120)}}}
-function init(){buildBest();buildUpsell();setupButtons();setupCheckout();setupContinue();refreshUpsell();setTimeout(syncButtons,700);setTimeout(syncButtons,1800)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-new MutationObserver(()=>{setupButtons();setupContinue();refreshUpsell();syncButtons()}).observe(document.body,{childList:true,subtree:true});
-setInterval(()=>{syncButtons();refreshUpsell()},1000);
+  'use strict';
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const money=v=>{try{return Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}catch(e){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}};
+  const CART_KEY='ndburgs_carrinho';
+  let pendingButton=null;
+
+  function removeLegacyTop(){
+    $$('.nd-v3-strip,.nd17-brand').forEach(el=>el.remove());
+  }
+
+  function getCart(){
+    try{
+      const a=JSON.parse(localStorage.getItem(CART_KEY)||'[]');
+      return Array.isArray(a)?a:[];
+    }catch(e){return []}
+  }
+
+  function cartHas(name){
+    const n=String(name||'').trim().toUpperCase();
+    return getCart().some(i=>String(i.nome||i.name||'').trim().toUpperCase()===n);
+  }
+
+  function setButtonState(btn,added){
+    if(!btn)return;
+    if(added){
+      btn.classList.add('is-added');
+      btn.textContent='✓ ADICIONADO';
+      btn.setAttribute('aria-label','Produto adicionado ao carrinho');
+    }else{
+      btn.classList.remove('is-added');
+      btn.textContent='COMPRAR';
+      btn.setAttribute('aria-label','Comprar produto');
+    }
+  }
+
+  function normalizeBuyButtons(){
+    $$('.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button').forEach(btn=>{
+      const txt=(btn.textContent||'').replace(/\s+/g,' ').trim().toUpperCase();
+      if(/ADICIONAR|ESCOLHER|ESCOLHER SABOR|COMPRAR/.test(txt) && !btn.dataset.ndR30Ready){
+        btn.dataset.ndR30Ready='1';
+        btn.dataset.ndR30Original=txt;
+        setButtonState(btn,false);
+      }
+    });
+  }
+
+  function syncStates(){
+    $$('.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button').forEach(btn=>{
+      if(!btn.dataset.ndR30Ready)return;
+      const onclick=btn.getAttribute('onclick')||'';
+      const m=onclick.match(/(?:adicionar|abrirPersonalizacao|abrirComboPersonalizacao)\(\s*['"]([^'"]+)/i);
+      const name=btn.dataset.ndName|| (m?m[1]:'');
+      if(name && cartHas(name))setButtonState(btn,true);
+    });
+    $$('.nd-r30-buy').forEach(btn=>{
+      const name=btn.dataset.ndName||'';
+      setButtonState(btn,cartHas(name));
+    });
+  }
+
+  function bindQuickChoices(){
+    $$('.nd-r30-buy').forEach(btn=>{
+      if(btn.dataset.bound==='1')return;
+      btn.dataset.bound='1';
+      btn.addEventListener('click',function(e){
+        e.preventDefault();
+        const name=this.dataset.ndName, price=Number(this.dataset.ndPrice||0);
+        if(typeof window.adicionar==='function')window.adicionar(name,price);
+        pendingButton=this;
+        setTimeout(()=>setButtonState(this,true),80);
+      });
+    });
+  }
+
+  function bindProductClickMemory(){
+    document.addEventListener('click',function(e){
+      const b=e.target.closest('.produto .btn-add,.produto .nd-fx-add,.suggestion-card button,.nd-r7-card button');
+      if(b)pendingButton=b;
+    },true);
+  }
+
+  function wrapAdicionar(){
+    if(typeof window.adicionar!=='function' || window.adicionar.__ndR30)return;
+    const original=window.adicionar;
+    function wrapped(nome,preco){
+      const result=original.apply(this,arguments);
+      const n=String(nome||'').toUpperCase();
+      if(pendingButton)setButtonState(pendingButton,true);
+      $$('.produto .btn-add,.produto .nd-fx-add').forEach(btn=>{
+        const oc=(btn.getAttribute('onclick')||'').toUpperCase();
+        if(n && oc.includes(n))setButtonState(btn,true);
+      });
+      setTimeout(syncStates,120);
+      setTimeout(syncStates,500);
+      return result;
+    }
+    wrapped.__ndR30=true;
+    window.adicionar=wrapped;
+  }
+
+  function ensureCartUpsell(){
+    const panel=$('#itensCarrinhoModal');
+    if(!panel)return;
+    let box=$('#ndR30CartUpsell');
+    if(!box){
+      box=document.createElement('div');box.id='ndR30CartUpsell';box.className='nd-r30-cart-upsell';
+      box.innerHTML='<h3>🔥 BORA COMPLETAR SEU PEDIDO?</h3><p>Uma bebida ou doce pode deixar seu pedido ainda melhor.</p><div class="nd-r30-upsell-grid"></div>';
+      panel.insertAdjacentElement('afterend',box);
+    }
+    const items=[
+      ['COCA COLA LATA',6],['GUARANA LATA',6],['KITKAT',7],['SURPRESA DE UVA',12]
+    ];
+    const signature=items.map(x=>x[0]+':'+(cartHas(x[0])?'1':'0')).join('|');
+    if(box.dataset.ndR30Signature===signature){
+      box.style.display=$('.nd-r30-upsell-grid',box)?.children.length?'block':'none';
+      return;
+    }
+    box.dataset.ndR30Signature=signature;
+    const grid=$('.nd-r30-upsell-grid',box);
+    if(!grid)return;
+    grid.innerHTML='';
+    items.forEach(([name,price])=>{
+      if(cartHas(name))return;
+      const d=document.createElement('div');d.className='nd-r30-upsell-item';
+      const b=document.createElement('b');b.textContent=name;
+      const p=document.createElement('strong');p.textContent=money(price);
+      const bt=document.createElement('button');bt.type='button';bt.textContent='COMPRAR';
+      bt.onclick=()=>{if(typeof window.adicionar==='function')window.adicionar(name,price);setButtonState(bt,true);setTimeout(()=>{ensureCartUpsell();syncStates()},250)};
+      d.append(b,p,bt);grid.appendChild(d);
+    });
+    box.style.display=grid.children.length?'block':'none';
+  }
+
+  function ensureDeliveryNote(){
+    const panel=$('#modalFinalizar .painel-finalizar');
+    if(!panel || $('#ndR30DeliveryNote',panel))return;
+    const n=document.createElement('div');n.id='ndR30DeliveryNote';n.className='nd-r30-delivery-note';
+    n.innerHTML='<b>🛵 PRAZO DE ENTREGA</b><strong>40 A 50 MINUTINHOS</strong><span>Para seu pedido chegar fresquinho na sua residência.</span>';
+    const head=$('.cabecalho-finalizar',panel);
+    if(head)head.insertAdjacentElement('afterend',n);
+    else panel.prepend(n);
+  }
+
+  function bindModalOpen(){
+    document.addEventListener('click',function(e){
+      if(e.target.closest('.btn-finalizar-pedido,#ndV3BuyBtn,.btn-ver-carrinho'))setTimeout(()=>{ensureCartUpsell();ensureDeliveryNote()},120);
+    });
+  }
+
+  function init(){
+    removeLegacyTop();
+    normalizeBuyButtons();
+    bindQuickChoices();
+    wrapAdicionar();
+    syncStates();
+    ensureCartUpsell();
+    ensureDeliveryNote();
+  }
+
+  bindProductClickMemory();
+  bindModalOpen();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  const obs=new MutationObserver(()=>{removeLegacyTop();normalizeBuyButtons();bindQuickChoices();wrapAdicionar();syncStates();ensureDeliveryNote()});
+  obs.observe(document.body,{childList:true,subtree:true});
+
+  window.addEventListener('storage',function(e){if(e.key===CART_KEY || e.key==='carrinho'){setTimeout(()=>{ensureCartUpsell();syncStates()},80)}});
+  setTimeout(init,400);setTimeout(init,1200);setTimeout(init,2500);
 })();
 </script>
 
