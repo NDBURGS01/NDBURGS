@@ -9340,304 +9340,259 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 
 <!-- =========================================================
-     ND BURGS R28 — AJUSTES SOLICITADOS
-     1. Remove a faixa/texto ND BURGS do topo.
-     2. Mantém o logo original e aumenta seu tamanho.
-     3. Todos os botões de produto passam de ADICIONAR para COMPRAR.
-     4. Após adicionar, o botão vira ADICIONADO e muda de cor.
-     5. Sugestões: todos os itens exibem preço e COMPRAR adiciona
-        diretamente ao carrinho.
+     ND BURGS — R28 — AJUSTES SOLICITADOS
+     1) Remove a faixa "ND BURGS" azul do topo, mantendo o logo.
+     2) Logo maior.
+     3) "ADICIONAR" dos produtos -> "COMPRAR".
+     4) Após clicar -> "ADICIONADO" + nova cor.
+     5) Sugestões do CONTINUAR COMPRANDO: preço visível e clique
+        adiciona diretamente ao carrinho.
      ========================================================= -->
 <style id="nd-r28-ajustes">
-/* Remove a faixa de texto que aparecia no topo. O logo permanece. */
-.nd-v3-strip{
-  display:none!important;
-}
+/* 1) Remove somente a faixa superior extra; o logo do header permanece. */
+.nd-v3-strip{display:none!important}
 
-/* Mantém SOMENTE o logo original no cabeçalho e deixa maior. */
+/* 2) Logo oficial maior, sem criar outro logo. */
 header .logo{
   display:block!important;
-  width:min(185px,48vw)!important;
-  max-width:85%!important;
+  width:min(205px,52vw)!important;
+  max-width:52vw!important;
   height:auto!important;
+  max-height:78px!important;
   object-fit:contain!important;
-  margin:0 auto!important;
 }
-
-/* Evita duplicação do logo que uma rodada anterior clonava abaixo. */
-.nd17-brand{
-  display:none!important;
-}
-
-/* Botão normal */
-.produto .btn-add,
-.produto button[onclick*="adicionar("]{
-  background:linear-gradient(135deg,#e50914,#ff3038)!important;
-  color:#fff!important;
-  border:0!important;
-  font-weight:950!important;
-  transition:all .18s ease!important;
-}
-
-/* Botão depois de adicionado */
-.produto .btn-add.nd-r28-added,
-.produto button[onclick*="adicionar("].nd-r28-added{
-  background:linear-gradient(135deg,#19b957,#0c8f43)!important;
-  color:#fff!important;
-  border-color:#26d366!important;
-  box-shadow:0 7px 20px rgba(37,211,102,.20)!important;
-}
-
-/* Sugestões */
-.suggestion-card span{
-  color:#ffd166!important;
-  font-size:14px!important;
-  font-weight:950!important;
-}
-.suggestion-card button{
-  background:linear-gradient(135deg,#e50914,#ff3038)!important;
-  color:#fff!important;
-  min-height:40px!important;
-  font-weight:950!important;
-}
-.suggestion-card button.nd-r28-added{
-  background:linear-gradient(135deg,#19b957,#0c8f43)!important;
-}
-
-/* Upsell/sugestões internas também mostram preço com destaque. */
-.nd-v3-up small{
-  color:#ffd166!important;
-  font-weight:900!important;
-}
-
-/* No mobile, logo continua maior sem ocupar a tela inteira. */
 @media(max-width:600px){
   header .logo{
-    width:165px!important;
-    max-width:72%!important;
+    width:min(175px,58vw)!important;
+    max-width:58vw!important;
+    max-height:64px!important;
   }
+}
+
+/* 3/4) Botões de compra dos produtos. */
+.produto .btn-add,
+.produto button[onclick*="adicionar("],
+.produto button[onclick*="abrirComboPersonalizacao"]{
+  background:linear-gradient(135deg,#e50914,#ff3038)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  transition:transform .16s ease,background .16s ease,box-shadow .16s ease,filter .16s ease!important;
+}
+.produto .btn-add.nd-r28-added,
+.produto button[onclick*="adicionar("].nd-r28-added,
+.produto button[onclick*="abrirComboPersonalizacao"].nd-r28-added{
+  background:linear-gradient(135deg,#20a84b,#35d866)!important;
+  border-color:#52ed7e!important;
+  color:#fff!important;
+  box-shadow:0 8px 22px rgba(37,211,102,.22)!important;
+}
+.produto .btn-add:hover,
+.produto button[onclick*="adicionar("]:hover,
+.produto button[onclick*="abrirComboPersonalizacao"]:hover{
+  filter:brightness(1.07)!important;
+  transform:translateY(-1px)!important;
+}
+
+/* Texto de todas as sugestões da caixa CONTINUAR COMPRANDO. */
+#suggestionsModal .suggestion-card span{
+  display:block!important;
+  color:#39d353!important;
+  font-size:15px!important;
+  font-weight:950!important;
+  margin:5px 0 8px!important;
+}
+#suggestionsModal .suggestion-card button{
+  background:linear-gradient(135deg,#e50914,#ff3038)!important;
+  color:#fff!important;
+}
+#suggestionsModal .suggestion-card button.nd-r28-added{
+  background:linear-gradient(135deg,#20a84b,#35d866)!important;
+  border-color:#52ed7e!important;
 }
 </style>
 
-<script id="nd-r28-logic">
+<script id="nd-r28-ajustes-js">
 (function(){
   'use strict';
 
-  const R28 = window.__ndR28 || (window.__ndR28 = {});
+  const money = v => 'R$ ' + Number(v || 0).toFixed(2).replace('.',',');
 
-  function money(v){
-    const n = Number(v) || 0;
-    return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-  }
-
-  function normalize(s){
-    return String(s || '').replace(/\s+/g,' ').trim();
-  }
-
-  function getCart(){
-    if(Array.isArray(window.carrinho)) return window.carrinho;
+  function cart(){
     try{
-      const raw = localStorage.getItem('carrinho') || localStorage.getItem('ndburgs_carrinho');
-      const arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    }catch(e){
-      return [];
-    }
+      return Array.isArray(window.carrinho) ? window.carrinho : [];
+    }catch(e){ return []; }
   }
 
-  function cartHas(name){
-    const n = normalize(name).toLowerCase();
-    return getCart().some(item => normalize(item && item.nome).toLowerCase() === n);
+  function norm(v){
+    return String(v || '')
+      .toUpperCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,'')
+      .replace(/\s+/g,' ')
+      .trim();
   }
 
-  function buttonName(btn){
-    const card = btn.closest('.produto');
-    return normalize(card && card.querySelector('h3') ? card.querySelector('h3').textContent : '');
-  }
-
-  function setProductButtonState(btn, added){
+  function markButton(btn, added){
     if(!btn) return;
-    if(added){
-      btn.classList.add('nd-r28-added');
-      btn.textContent = 'ADICIONADO';
-      btn.setAttribute('aria-label','Produto adicionado ao carrinho');
-    }else{
-      btn.classList.remove('nd-r28-added');
-      btn.textContent = 'COMPRAR';
-      btn.setAttribute('aria-label','Comprar produto');
-    }
+    btn.classList.toggle('nd-r28-added', !!added);
+    btn.textContent = added ? 'ADICIONADO' : 'COMPRAR';
+    btn.setAttribute('aria-label', added ? 'Produto adicionado ao carrinho' : 'Comprar produto');
   }
 
-  function refreshProductButtons(){
-    document.querySelectorAll('.produto .btn-add, .produto button[onclick*="adicionar("]').forEach(btn=>{
-      const name = buttonName(btn);
-      setProductButtonState(btn, !!name && cartHas(name));
-    });
+  function productNameFromCard(card){
+    return card?.querySelector('h3')?.textContent?.trim() || '';
+  }
 
-    // Qualquer botão de produto que ainda contenha ADICIONAR também vira COMPRAR.
-    document.querySelectorAll('.produto button').forEach(btn=>{
-      const t = normalize(btn.textContent).toUpperCase();
-      if(t === 'ADICIONAR' || t === '+ ADICIONAR'){
-        const name = buttonName(btn);
-        setProductButtonState(btn, !!name && cartHas(name));
+  function syncProductButtons(){
+    const c = cart();
+    const names = c.map(i => norm(i.nome));
+
+    document.querySelectorAll(
+      '.produto .btn-add,' +
+      '.produto button[onclick*="adicionar("],' +
+      '.produto button[onclick*="abrirComboPersonalizacao"]'
+    ).forEach(btn=>{
+      const card = btn.closest('.produto');
+      const name = norm(productNameFromCard(card));
+      const added = !!name && names.some(n => n === name || n.startsWith(name + ' '));
+      markButton(btn, added);
+    });
+  }
+
+  function setAllProductLabels(){
+    document.querySelectorAll(
+      '.produto .btn-add,' +
+      '.produto button[onclick*="adicionar("],' +
+      '.produto button[onclick*="abrirComboPersonalizacao"]'
+    ).forEach(btn=>{
+      if(!btn.classList.contains('nd-r28-added')) markButton(btn, false);
+    });
+    syncProductButtons();
+  }
+
+  function extractSuggestion(card){
+    if(!card) return null;
+
+    const name = card.querySelector('h3')?.textContent?.trim() ||
+                 card.querySelector('strong')?.textContent?.trim() || '';
+
+    let priceText = card.querySelector('.preco')?.textContent?.trim() ||
+                    card.querySelector('.suggestion-card span')?.textContent?.trim() || '';
+
+    if(!priceText){
+      const txt = card.innerText || '';
+      const m = txt.match(/R\$\s*[\d.,]+/);
+      if(m) priceText = m[0];
+    }
+
+    const normalized = priceText.replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',','.');
+    const price = Number(normalized);
+
+    if(!name || !Number.isFinite(price)) return null;
+    return {name, price};
+  }
+
+  function refreshSuggestionPrices(){
+    const modal = document.getElementById('suggestionsModal');
+    const grid = document.getElementById('suggestionsGrid');
+    if(!modal || !grid) return;
+
+    grid.querySelectorAll('.suggestion-card').forEach(card=>{
+      const data = extractSuggestion(card);
+      if(!data) return;
+
+      let price = card.querySelector('.suggestion-card span');
+      if(!price){
+        price = document.createElement('span');
+        const box = card.querySelector('div[style*="flex:1"]') || card.lastElementChild;
+        if(box) box.insertBefore(price, box.querySelector('button'));
+      }
+      if(price){
+        price.textContent = money(data.price);
+        price.className = 'suggestion-price-r28';
+      }
+
+      const button = card.querySelector('button');
+      if(button){
+        const inCart = cart().some(i => norm(i.nome) === norm(data.name));
+        markButton(button, inCart);
       }
     });
   }
 
-  function getCardPrice(card){
-    const el = card && card.querySelector('.preco');
-    if(!el) return 0;
-    const raw = normalize(el.textContent)
-      .replace(/[^\d,.-]/g,'')
-      .replace(/\.(?=\d{3}(?:,|$))/g,'')
-      .replace(',','.');
-    const n = Number(raw);
-    return Number.isFinite(n) ? n : 0;
-  }
+  function bind(){
+    // Todos os produtos: clique mantém a função original e depois muda para ADICIONADO.
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest(
+        '.produto .btn-add,' +
+        '.produto button[onclick*="adicionar("],' +
+        '.produto button[onclick*="abrirComboPersonalizacao"]'
+      );
+      if(btn){
+        setTimeout(()=>{
+          markButton(btn, true);
+          syncProductButtons();
+        }, 30);
+      }
+    }, true);
 
-  function getCardName(card){
-    return normalize(card && card.querySelector('h3') ? card.querySelector('h3').textContent : 'Produto');
-  }
-
-  /*
-   * Sugestões do "CONTINUAR COMPRANDO":
-   * - sempre exibem nome + preço;
-   * - COMPRAR adiciona diretamente ao carrinho;
-   * - depois vira ADICIONADO;
-   * - o item permanece no carrinho mesmo que o usuário continue
-   *   escolhendo outras sugestões.
-   */
-  window.mostrarSugestoes = function(){
-    const grid = document.getElementById('suggestionsGrid');
-    const modal = document.getElementById('suggestionsModal');
-    if(!grid || !modal) return;
-
-    const cards = [...document.querySelectorAll('.produto:not(.search-hidden)')]
-      .filter(c => !c.closest('#checkout'))
-      .filter(c => c.querySelector('h3'))
-      .filter(c => c.querySelector('.preco'));
-
-    const usados = new Set(getCart().map(x => normalize(x && x.nome).toLowerCase()));
-
-    let candidatos = cards
-      .filter(c => !usados.has(getCardName(c).toLowerCase()))
-      .sort(() => Math.random() - 0.5)
-      .slice(0,4);
-
-    // Se já estiverem todos no carrinho, ainda mostra 4 sugestões para não deixar a caixa vazia.
-    if(!candidatos.length){
-      candidatos = cards.sort(() => Math.random() - 0.5).slice(0,4);
-    }
-
-    grid.innerHTML = candidatos.map((c,i)=>{
-      const img = c.querySelector('img')?.src || '';
-      const nome = getCardName(c);
-      const preco = getCardPrice(c);
-      const added = cartHas(nome);
-
-      return `
-        <div class="suggestion-card">
-          <img src="${img}" alt="${nome}">
-          <div style="flex:1;min-width:0">
-            <strong>${nome}</strong>
-            <span>${money(preco)}</span>
-            <button type="button"
-                    data-r28-sug="${i}"
-                    class="${added ? 'nd-r28-added' : ''}">
-              ${added ? 'ADICIONADO' : 'COMPRAR'}
-            </button>
-          </div>
-        </div>`;
-    }).join('') || `
-      <div style="grid-column:1/-1;text-align:center;color:#999;padding:25px">
-        Seu pedido já está cheio de boas escolhas 😍
-      </div>`;
-
-    candidatos.forEach((c,i)=>{
-      const btn = grid.querySelector(`[data-r28-sug="${i}"]`);
+    // CONTINUAR COMPRANDO: adiciona diretamente ao carrinho, sem abrir outra etapa.
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest('#suggestionsModal .suggestion-card button');
       if(!btn) return;
 
-      btn.addEventListener('click', function(){
-        const nome = getCardName(c);
-        const preco = getCardPrice(c);
+      const card = btn.closest('.suggestion-card');
+      const data = extractSuggestion(card);
+      if(!data) return;
 
-        if(!nome || !preco) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
 
-        if(!cartHas(nome) && typeof window.adicionar === 'function'){
-          window.adicionar(nome, preco);
-        }
+      if(typeof window.adicionar === 'function'){
+        window.adicionar(data.name, data.price);
+      }
 
-        // Garante atualização visual mesmo quando alguma versão anterior
-        // do código demora a atualizar o carrinho.
+      markButton(btn, true);
+
+      // Reabre/atualiza a caixa após a inclusão para retirar o item já adicionado.
+      setTimeout(()=>{
+        try{
+          if(typeof window.mostrarSugestoes === 'function') window.mostrarSugestoes();
+        }catch(_){}
+        refreshSuggestionPrices();
+        syncProductButtons();
+      }, 120);
+    }, true);
+
+    // Quando o carrinho for atualizado por qualquer camada existente.
+    const original = window.atualizarCarrinho;
+    if(typeof original === 'function' && !original.__ndR28){
+      window.atualizarCarrinho = function(){
+        const result = original.apply(this, arguments);
         setTimeout(()=>{
-          btn.classList.add('nd-r28-added');
-          btn.textContent = 'ADICIONADO';
-          refreshProductButtons();
-          if(typeof window.atualizarCarrinho === 'function'){
-            try{ window.atualizarCarrinho(); }catch(e){}
-          }
-        },80);
-      });
-    });
-
-    modal.classList.add('show');
-    document.body.style.overflow='hidden';
-  };
-
-  /*
-   * O botão CONTINUAR COMPRANDO continua levando para as sugestões.
-   */
-  window.irParaCheckout = function(){
-    window.mostrarSugestoes();
-  };
-
-  function patchAdicionar(){
-    if(typeof window.adicionar !== 'function') return;
-    if(window.adicionar.__ndR28) return;
-
-    const original = window.adicionar;
-
-    function wrappedAdicionar(nome, preco){
-      const result = original.apply(this, arguments);
-      setTimeout(refreshProductButtons, 20);
-      setTimeout(refreshProductButtons, 180);
-      return result;
+          syncProductButtons();
+          refreshSuggestionPrices();
+        }, 0);
+        return result;
+      };
+      window.atualizarCarrinho.__ndR28 = true;
     }
 
-    wrappedAdicionar.__ndR28 = true;
-    wrappedAdicionar.__ndR28Original = original;
-    window.adicionar = wrappedAdicionar;
-  }
-
-  function forceProductTexts(){
-    document.querySelectorAll('.produto button').forEach(btn=>{
-      const text = normalize(btn.textContent).toUpperCase();
-      if(text === 'ADICIONAR' || text === '+ ADICIONAR'){
-        const name = buttonName(btn);
-        setProductButtonState(btn, !!name && cartHas(name));
-      }
+    // Garante COMPRAR nos botões criados dinamicamente pelas várias melhorias do site.
+    const observer = new MutationObserver(()=>{
+      setAllProductLabels();
+      refreshSuggestionPrices();
     });
-
-    document.querySelectorAll('.nd-v3-up button').forEach(btn=>{
-      const text = normalize(btn.textContent).toUpperCase();
-      if(text.includes('ADICIONAR')) btn.textContent = text.includes('+') ? '+ COMPRAR' : 'COMPRAR';
-    });
+    if(document.body) observer.observe(document.body,{childList:true,subtree:true});
   }
 
   function init(){
-    patchAdicionar();
-    forceProductTexts();
-    refreshProductButtons();
-
-    // Mantém o ajuste mesmo em áreas que são recriadas dinamicamente.
-    if(!R28.observer){
-      R28.observer = new MutationObserver(()=>{
-        patchAdicionar();
-        forceProductTexts();
-        refreshProductButtons();
-      });
-      R28.observer.observe(document.body,{childList:true,subtree:true});
-    }
+    setAllProductLabels();
+    refreshSuggestionPrices();
+    bind();
+    setTimeout(setAllProductLabels,300);
+    setTimeout(refreshSuggestionPrices,500);
+    setTimeout(syncProductButtons,900);
   }
 
   if(document.readyState === 'loading'){
@@ -9645,9 +9600,6 @@ header .logo{
   }else{
     init();
   }
-
-  setTimeout(init,300);
-  setTimeout(init,1000);
 })();
 </script>
 
