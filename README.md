@@ -2450,20 +2450,35 @@ body > header + .horarios .status-aberto{margin:0!important;font-size:10px!impor
  #ndR30DeliveryNotice{margin:9px 8px 13px;padding:11px 12px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-</style></head>
+</style><style id="nd-r32-top-status">
+.nd-header-top{display:flex!important;flex-direction:column!important;align-items:center!important;width:100%!important;margin:0!important;padding:0 12px 14px!important;box-sizing:border-box!important;background:#000!important}
+.nd-header-top .nd-top-status{width:100%!important;max-width:1100px!important;margin:0 auto 14px!important;padding:0!important}
+.nd-header-top .horarios-box{width:100%!important;box-sizing:border-box!important;border-radius:14px!important;padding:12px 16px!important}
+.nd-header-top .logo{display:block!important;margin:2px auto 0!important;max-width:250px!important;height:auto!important}
+.nd-header-top .nd-top-delivery{margin-top:7px!important}
+@media(max-width:700px){
+ .nd-header-top{padding:0 8px 10px!important}
+ .nd-header-top .horarios-box{padding:11px 10px!important}
+ .nd-header-top .horarios-titulo{font-size:15px!important;margin-bottom:5px!important}
+ .nd-header-top .horarios-linha,.nd-header-top #statusHorario{font-size:12px!important;line-height:1.5!important}
+ .nd-header-top .nd-top-delivery{font-size:12px!important;line-height:1.45!important}
+ .nd-header-top .logo{max-width:205px!important;margin-top:1px!important}
+}
+</style>
+</head>
 <body>
 <!-- ND R17: horário comercial real — terça a domingo, 18:00 às 00:30 -->
-<header>
-<img alt="ND BURGS" class="logo" src="https://i.ibb.co/5gsVbBcb/corretooo.jpg"/>
-</header>
-<div class="horarios">
+<header class="nd-header-top">
+<div class="horarios nd-top-status">
 <div class="horarios-box">
-<div class="horarios-titulo">🟢 ATENDIMENTO ND BURGS</div>
-<div class="horarios-linha">📅 TERÇA A DOMINGO • 18:00 ÀS 00:30</div>
-<div class="status-aberto" id="statusHorario">🟢 ABERTO AGORA • PEDIDOS ONLINE</div>
+<div class="horarios-titulo">🔴 PEDIDOS FECHADOS</div>
+<div class="horarios-linha">📅 <b>TERÇA A DOMINGO</b> • 18:00 ÀS 00:30</div>
+<div class="status-fechado" id="statusHorario">🔴 ESTAMOS FECHADOS • Próximo atendimento: TERÇA às 18:00.</div>
 <div class="nd-top-delivery">🕐 <strong>TEMPO DE ENTREGA:</strong> <b>40 A 50 MINUTINHOS</b><br/><span>Para seu pedido chegar fresquinho na sua residência.</span></div>
 </div>
 </div>
+<img alt="ND BURGS" class="logo" src="https://i.ibb.co/5gsVbBcb/corretooo.jpg"/>
+</header>
 <section class="nd-v4-hero">
 <div class="nd-v4-hero-glow"></div>
 <div class="nd-v4-hero-content">
@@ -9373,6 +9388,9 @@ body > .horarios.nd-r31-top .nd-top-delivery span{color:#8e8e8e!important;font-s
       s1.insertBefore(title,s1.firstChild);
     }
     const choice=s2.querySelector('.nd-v4-payment-grid');
+    const address=s2.querySelector('#enderecoAreaModal');
+    const retirada=s2.querySelector('#ndRetiradaInfo');
+    const estimate=s2.querySelector('.nd-v4-delivery-estimate');
     const summary=s2.querySelector('#ndV4SingleAddressSummary');
     const mini=s2.querySelector('#nd26DeliveryMini');
     const anchor=s1.querySelector('.nd-v4-next');
@@ -9380,6 +9398,9 @@ body > .horarios.nd-r31-top .nd-top-delivery span{color:#8e8e8e!important;font-s
       const wrap=document.createElement('div');wrap.className='nd-r31-delivery-choice';wrap.appendChild(choice);
       s1.insertBefore(wrap,anchor);
     }
+    if(address&&!s1.querySelector('#enderecoAreaModal'))s1.insertBefore(address,anchor);
+    if(retirada&&!s1.querySelector('#ndRetiradaInfo'))s1.insertBefore(retirada,anchor);
+    if(estimate&&!s1.querySelector('.nd-r31-delivery-estimate')){estimate.classList.add('nd-r31-delivery-estimate');s1.insertBefore(estimate,anchor);}
     if(summary&&!s1.querySelector('#ndV4SingleAddressSummary'))s1.insertBefore(summary,anchor);
     if(mini&&!s1.querySelector('#nd26DeliveryMini'))s1.insertBefore(mini,anchor);
     s2.classList.add('nd-r31-hidden-step');
@@ -9400,537 +9421,79 @@ body > .horarios.nd-r31-top .nd-top-delivery span{color:#8e8e8e!important;font-s
     }
   }
   function patchNext(){
-    if(typeof window.ndNext==='function'&&!window.ndNext.__ndR31){
-      const old=window.ndNext;
-      const wrapped=function(n){
+    if(typeof window.ndNext==='function'&&!window.ndNext.__ndR32){
+      window.ndNext=function(n){
         if(n===1){
-          const nome=$('#nomeModal')?.value.trim()||'';
-          const tel=($('#telefoneModal')?.value||'').replace(/\D/g,'');
+          const nome=document.getElementById('nomeModal')?.value.trim()||'';
+          const tel=(document.getElementById('telefoneModal')?.value||'').replace(/\D/g,'');
           if(!nome)return alert('Digite o nome de quem irá receber o pedido.');
           if(tel.length<10||tel.length>11)return alert('Digite um WhatsApp válido com DDD.');
-          const tipo=$('#tipoPedidoModal')?.value||'ENTREGA';
+          const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA';
           if(tipo==='ENTREGA'){
-            const rua=$('#ruaModal')?.value||'';const num=$('#numeroModal')?.value.trim()||'';
-            if(!rua)return alert('Selecione sua rua.');
-            if(!num)return alert('Digite o número do endereço.');
+            if(!document.getElementById('ruaModal')?.value)return alert('Selecione sua rua.');
+            if(!document.getElementById('numeroModal')?.value.trim())return alert('Digite o número do endereço.');
           }
-          localStorage.setItem('ndburgs_nomeModal',nome);localStorage.setItem('ndburgs_telefoneModal',$('#telefoneModal')?.value.trim()||'');
-          if(typeof window.ndStep==='function')window.ndStep(3);
+          localStorage.setItem('ndburgs_nomeModal',nome);
+          localStorage.setItem('ndburgs_telefoneModal',document.getElementById('telefoneModal')?.value.trim()||'');
+          window.ndStep(3);
           return;
         }
-        if(n===2)return old.call(this,3);
-        return old.apply(this,arguments);
+        if(n===2){
+          window.ndStep(3);
+          return;
+        }
+        if(n===3){
+          if(!document.getElementById('pagamentoModal')?.value)return alert('Escolha uma forma de pagamento.');
+          window.ndStep(4);
+          return;
+        }
+        window.ndStep(Math.min(4,Number(n)+1));
       };
-      wrapped.__ndR31=true;window.ndNext=wrapped;
+      window.ndNext.__ndR32=true;
     }
-    if(typeof window.ndBack==='function'&&!window.ndBack.__ndR31){
-      const old=window.ndBack;
-      const wrapped=function(n){if(n===3)return window.ndStep?.(1);if(n===4)return window.ndStep?.(3);return old.apply(this,arguments)};
-      wrapped.__ndR31=true;window.ndBack=wrapped;
-    }
+    window.ndBack=function(n){
+      if(n===4)return window.ndStep(3);
+      if(n===3||n===2)return window.ndStep(1);
+      return window.ndStep(Math.max(1,Number(n)-1));
+    };
   }
   function refresh(){moveTop();footerNotice();hookCart();hookCheckout();patchNext();mergeCheckout();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
   [300,800,1600,3000].forEach(t=>setTimeout(refresh,t));
 })();
 </script>
-
-<!-- ND R31.1 — TOPO ABSOLUTO + CONTINUAR PARA PAGAMENTO -->
-<style id="nd-r31-1-fix">
-  body > .horarios.nd-r31-top{
-    order:0!important;position:relative!important;z-index:999999!important;
-    width:100%!important;margin:0!important;padding:0!important;
-  }
-  body > .horarios.nd-r31-top .horarios-box{
-    width:100%!important;max-width:none!important;box-sizing:border-box!important;
-    margin:0!important;border-radius:0!important;border:0!important;
-    border-bottom:1px solid rgba(255,70,70,.45)!important;
-    background:linear-gradient(135deg,#130b0b,#070708)!important;
-    box-shadow:0 5px 24px rgba(0,0,0,.45)!important;
-    padding:11px 16px!important;display:block!important;text-align:center!important;
-  }
-  body > .horarios.nd-r31-top .horarios-titulo{
-    color:#ff4048!important;font-size:14px!important;font-weight:1000!important;
-    margin:0 0 4px!important;
-  }
-  body > .horarios.nd-r31-top .horarios-linha{
-    color:#fff!important;font-size:11px!important;text-align:center!important;
-    line-height:1.45!important;
-  }
-  body > .horarios.nd-r31-top .status-fechado,
-  body > .horarios.nd-r31-top .status-aberto{
-    display:block!important;width:fit-content!important;max-width:100%!important;
-    margin:5px auto 0!important;padding:4px 9px!important;
-    color:#ff4b4b!important;background:rgba(255,55,65,.08)!important;
-    border:1px solid rgba(255,55,65,.25)!important;border-radius:999px!important;
-    font-size:10px!important;font-weight:900!important;white-space:normal!important;
-  }
-  body > .horarios.nd-r31-top .status-aberto{color:#25d366!important;border-color:rgba(37,211,102,.25)!important;background:rgba(37,211,102,.07)!important}
-  body > .horarios.nd-r31-top .nd-top-delivery{
-    margin:7px 0 0!important;padding:7px 5px 0!important;
-    border-top:1px solid #242429!important;text-align:center!important;
-    color:#ddd!important;font-size:10.5px!important;line-height:1.35!important;
-  }
-  body > .horarios.nd-r31-top .nd-top-delivery strong{color:#fff!important}
-  body > .horarios.nd-r31-top .nd-top-delivery b{color:#ffd21a!important;font-size:13px!important}
-  body > .horarios.nd-r31-top .nd-top-delivery span{color:#999!important;font-size:10px!important}
-  #modalFinalizar .nd-r31-pay-next{width:100%!important;min-height:54px!important;font-size:13px!important;font-weight:1000!important}
-  @media(max-width:600px){
-    body > .horarios.nd-r31-top .horarios-box{padding:9px 10px!important}
-    body > .horarios.nd-r31-top .horarios-titulo{font-size:12px!important}
-    body > .horarios.nd-r31-top .horarios-linha{font-size:9.5px!important}
-    body > .horarios.nd-r31-top .status-fechado,body > .horarios.nd-r31-top .status-aberto{font-size:9px!important}
-    body > .horarios.nd-r31-top .nd-top-delivery b{font-size:12px!important}
-  }
+<style id="nd-r32-checkout-fix">
+#modalFinalizar .nd-v4-step[data-step="2"]{display:none!important}
+#modalFinalizar .nd-v4-step[data-step="3"]{display:block!important}
+#modalFinalizar .nd-v4-step[data-step="4"]{display:block!important}
+#modalFinalizar .nd-r31-hidden-step{display:none!important}
+#modalFinalizar .nd-r31-receiver-title{font-weight:1000;font-size:15px;line-height:1.25;margin:0 0 12px;color:#fff}
+#modalFinalizar .nd-r31-receiver-title small{display:block;margin-top:4px;color:#999;font-weight:600;font-size:11px}
 </style>
-<script id="nd-r31-1-fix-script">
+<script>
 (function(){
-  'use strict';
-  function fixTop(){
-    const body=document.body, header=body&&body.querySelector(':scope > header');
-    const h=body&&body.querySelector(':scope > .horarios');
-    if(!body||!h)return;
-    if(header && h!==body.firstElementChild) body.insertBefore(h,header);
-    h.classList.add('nd-r31-top');
-    const title=h.querySelector('.horarios-titulo');
-    const line=h.querySelector('.horarios-linha');
-    const status=h.querySelector('#statusHorario');
-    const delivery=h.querySelector('.nd-top-delivery');
-    if(title)title.textContent='🔴 PEDIDOS FECHADOS';
-    if(line)line.innerHTML='📅 <b>TERÇA A DOMINGO</b> • 18:00 ÀS 00:30';
-    if(delivery)delivery.innerHTML='🕐 <strong>TEMPO DE ENTREGA:</strong> <b>40 A 50 MINUTINHOS</b><br><span>Para seu pedido chegar fresquinho na sua residência.</span>';
-    try{
-      if(typeof isOpenNow==='function' && typeof nextOpening==='function'){
-        const open=isOpenNow();
-        if(status){
-          status.className=open?'status-aberto':'status-fechado';
-          status.textContent=open?'🟢 ESTAMOS ACEITANDO PEDIDOS • #BORADENDBURGS':'🔴 ESTAMOS FECHADOS • '+nextOpening();
-        }
-        if(title)title.textContent=open?'🟢 PEDIDOS ABERTOS':'🔴 PEDIDOS FECHADOS';
-      }else if(status){
-        status.className='status-fechado';
-        status.textContent='🔴 ESTAMOS FECHADOS • Próximo atendimento: TERÇA às 18:00.';
-      }
-    }catch(e){}
-  }
-  function fixPaymentButton(){
-    const modal=document.querySelector('#modalFinalizar');
-    if(!modal)return;
-    const btn=modal.querySelector('.nd-v4-step-content[data-content="1"] .nd-v4-next');
-    if(!btn)return;
-    btn.classList.add('nd-r31-pay-next');
-    btn.textContent='CONTINUAR PARA PAGAMENTO →';
-    btn.type='button';
-    if(!btn.dataset.ndPayFixed){
-      btn.dataset.ndPayFixed='1';
-      btn.onclick=function(e){
-        e.preventDefault();
-        const nome=document.getElementById('nomeModal')?.value.trim()||'';
-        const tel=(document.getElementById('telefoneModal')?.value||'').replace(/\D/g,'');
-        const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA';
-        if(!nome)return alert('Digite o nome de quem irá receber o pedido.');
-        if(tel.length<10||tel.length>11)return alert('Digite um WhatsApp válido com DDD.');
-        if(tipo==='ENTREGA'){
-          if(!document.getElementById('ruaModal')?.value)return alert('Selecione sua rua.');
-          if(!document.getElementById('numeroModal')?.value.trim())return alert('Digite o número do endereço.');
-        }
-        localStorage.setItem('ndburgs_nomeModal',nome);
-        localStorage.setItem('ndburgs_telefoneModal',document.getElementById('telefoneModal')?.value.trim()||'');
-        if(typeof window.ndStep==='function')window.ndStep(3);
-      };
-    }
-  }
-  function run(){fixTop();fixPaymentButton();}
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
-  [100,400,900,1800,3000].forEach(t=>setTimeout(run,t));
-})();
-</script>
-
-<style id="nd-mobile-r31-final">
-/* =========================================================
-   ND BURGS — AJUSTE MOBILE R31
-   1) Remove o botão amarelo "VER CARRINHO" no celular
-   2) Carrinho mobile compacto com contador + animação
-   3) Redimensionamento geral para telas pequenas
-   ========================================================= */
-
-/* O carrinho amarelo antigo não aparece no celular */
-@media (max-width: 700px){
-  #carrinhoFlutuante,
-  .carrinho-flutuante{
-    display:none!important;
-    visibility:hidden!important;
-    pointer-events:none!important;
-  }
-
-  /* Também esconde a barra secundária de carrinho para não duplicar */
-  #ndFxCartbar{
-    display:none!important;
-    visibility:hidden!important;
-    pointer-events:none!important;
-  }
-
-  body{
-    width:100%;
-    max-width:100vw;
-    overflow-x:hidden!important;
-    padding-bottom:86px!important;
-    font-size:15px!important;
-  }
-
-  header{
-    padding:8px 12px!important;
-  }
-
-  .logo{
-    width:128px!important;
-    max-width:58vw!important;
-  }
-
-  .container{
-    width:100%!important;
-    max-width:100%!important;
-    padding:0 11px!important;
-  }
-
-  .horarios,
-  .horarios.nd-r31-top{
-    width:100%!important;
-    padding:0 8px!important;
-    margin:0!important;
-  }
-
-  .horarios-box{
-    border-radius:10px!important;
-    padding:10px 9px!important;
-    font-size:12px!important;
-  }
-
-  .horarios-titulo{
-    font-size:14px!important;
-  }
-
-  .horarios-box *{
-    line-height:1.3!important;
-  }
-
-  .categoria{
-    margin-top:14px!important;
-    padding:0!important;
-  }
-
-  .categoria>h2{
-    font-size:20px!important;
-    margin:12px 2px 8px!important;
-  }
-
-  .produtos{
-    display:grid!important;
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:8px!important;
-    width:100%!important;
-  }
-
-  .produto{
-    width:100%!important;
-    min-width:0!important;
-    padding:8px!important;
-    border-radius:13px!important;
-    overflow:hidden!important;
-  }
-
-  .produto-imagem,
-  .produto .produto-imagem{
-    width:100%!important;
-    height:auto!important;
-    aspect-ratio:1/1!important;
-    border-radius:10px!important;
-    overflow:hidden!important;
-  }
-
-  .produto-imagem img{
-    width:100%!important;
-    height:100%!important;
-    object-fit:cover!important;
-  }
-
-  .produto h3,
-  .produto .nome{
-    font-size:14px!important;
-    line-height:1.18!important;
-    margin:7px 0 4px!important;
-  }
-
-  .produto p,
-  .produto .descricao{
-    font-size:11px!important;
-    line-height:1.3!important;
-    max-height:43px!important;
-    overflow:hidden!important;
-  }
-
-  .produto .preco{
-    font-size:15px!important;
-    margin-top:5px!important;
-  }
-
-  .produto .btn-add,
-  .produto button[onclick*="adicionar("]{
-    width:100%!important;
-    min-height:42px!important;
-    padding:9px 6px!important;
-    font-size:12px!important;
-    border-radius:10px!important;
-    margin-top:6px!important;
-  }
-
-  .nd-fx-add{
-    min-height:42px!important;
-    padding:9px 6px!important;
-    font-size:11px!important;
-  }
-
-  .categoria-btn,
-  .nd-cat-btn{
-    min-height:38px!important;
-    padding:8px 11px!important;
-    font-size:12px!important;
-    border-radius:10px!important;
-  }
-
-  /* Checkout / modais ocupam melhor a tela */
-  .modal-carrinho,
-  .modal-finalizar{
-    padding:8px!important;
-  }
-
-  .painel-carrinho,
-  .painel-finalizar{
-    width:100%!important;
-    max-width:100%!important;
-    max-height:92vh!important;
-    border-radius:17px!important;
-    padding:14px!important;
-  }
-
-  .item-carrinho,
-  .item-carrinho-modal{
-    gap:7px!important;
-    padding:10px 0!important;
-    font-size:13px!important;
-  }
-
-  .controles button{
-    min-width:34px!important;
-    min-height:34px!important;
-  }
-
-  .nd-v4-step-content{
-    padding:13px!important;
-  }
-
-  .nd-v4-step-content h2{
-    font-size:21px!important;
-  }
-
-  .nd-v4-next,
-  .nd-v4-back,
-  .nd-r31-pay-next{
-    width:100%!important;
-    min-height:48px!important;
-    padding:12px 14px!important;
-    font-size:14px!important;
-    border-radius:12px!important;
-  }
-
-  input,
-  select,
-  textarea{
-    width:100%!important;
-    min-height:44px!important;
-    font-size:16px!important; /* evita zoom automático no iPhone */
-  }
-
-  .nd-v4-payment-grid{
-    grid-template-columns:1fr!important;
-    gap:8px!important;
-  }
-
-  footer{
-    padding:25px 12px!important;
-  }
-
-  /* Evita elementos largos estourando a tela */
-  img, video, iframe{
-    max-width:100%!important;
-  }
-}
-
-/* =========================================================
-   CARRINHO MOBILE — botão discreto + quantidade
-   ========================================================= */
-#ndMobileCart{
-  display:none;
-}
-
-@media (max-width:700px){
-  #ndMobileCart{
-    position:fixed!important;
-    right:14px!important;
-    bottom:14px!important;
-    z-index:999999!important;
-    width:56px!important;
-    height:56px!important;
-    border:1px solid rgba(255,210,26,.75)!important;
-    border-radius:50%!important;
-    background:linear-gradient(145deg,#171717,#050505)!important;
-    box-shadow:0 8px 28px rgba(0,0,0,.65),0 0 18px rgba(255,210,26,.18)!important;
-    display:grid!important;
-    place-items:center!important;
-    cursor:pointer!important;
-    opacity:0!important;
-    transform:translateY(25px) scale(.8)!important;
-    pointer-events:none!important;
-    transition:opacity .22s ease,transform .22s ease!important;
-  }
-
-  #ndMobileCart.nd-show{
-    opacity:1!important;
-    transform:translateY(0) scale(1)!important;
-    pointer-events:auto!important;
-  }
-
-  #ndMobileCart .nd-mobile-cart-icon{
-    font-size:23px!important;
-    line-height:1!important;
-  }
-
-  #ndMobileCart .nd-mobile-cart-count{
-    position:absolute!important;
-    top:-5px!important;
-    right:-4px!important;
-    min-width:23px!important;
-    height:23px!important;
-    padding:0 6px!important;
-    display:grid!important;
-    place-items:center!important;
-    border-radius:99px!important;
-    background:#e50914!important;
-    color:#fff!important;
-    border:2px solid #090909!important;
-    font-size:11px!important;
-    font-weight:1000!important;
-    line-height:1!important;
-  }
-
-  #ndMobileCart.nd-pulse{
-    animation:ndMobileCartPulse .48s ease!important;
-  }
-
-  @keyframes ndMobileCartPulse{
-    0%{transform:translateY(0) scale(1)}
-    35%{transform:translateY(0) scale(1.22)}
-    65%{transform:translateY(0) scale(.92)}
-    100%{transform:translateY(0) scale(1)}
-  }
-
-  @media (prefers-reduced-motion:reduce){
-    #ndMobileCart{transition:none!important}
-    #ndMobileCart.nd-pulse{animation:none!important}
-  }
-}
-</style>
-
-<script id="nd-mobile-r31-cart-fix">
-(function(){
-  'use strict';
-
-  function $(sel){return document.querySelector(sel);}
-
-  function getCart(){
-    try{
-      if(Array.isArray(window.carrinho)) return window.carrinho;
-    }catch(_){}
-    try{
-      if(Array.isArray(carrinho)) return carrinho;
-    }catch(_){}
-    return [];
-  }
-
-  function qty(){
-    return getCart().reduce(function(total,item){
-      return total + Math.max(0,Number(item && item.quantidade)||0);
-    },0);
-  }
-
-  function build(){
-    if(window.innerWidth>700)return;
-    if($('#ndMobileCart'))return;
-
-    var b=document.createElement('button');
-    b.id='ndMobileCart';
-    b.type='button';
-    b.setAttribute('aria-label','Abrir carrinho');
-    b.innerHTML='<span class="nd-mobile-cart-icon">🛒</span><span class="nd-mobile-cart-count">0</span>';
-
-    b.addEventListener('click',function(){
-      if(typeof window.abrirCarrinho==='function'){
-        window.abrirCarrinho();
-      }
-    });
-
-    document.body.appendChild(b);
-  }
-
-  function refresh(pulse){
-    var b=$('#ndMobileCart');
-    if(!b)return;
-
-    var n=qty();
-    var count=b.querySelector('.nd-mobile-cart-count');
-    if(count)count.textContent=n>99?'99+':String(n);
-
-    b.classList.toggle('nd-show',n>0);
-
-    if(pulse && n>0){
-      b.classList.remove('nd-pulse');
-      void b.offsetWidth;
-      b.classList.add('nd-pulse');
-      setTimeout(function(){b.classList.remove('nd-pulse');},520);
-    }
-  }
-
-  function hook(){
-    build();
-
-    if(typeof window.atualizarCarrinho==='function' && !window.atualizarCarrinho.__ndMobileR31){
-      var old=window.atualizarCarrinho;
-      window.atualizarCarrinho=function(){
-        var before=qty();
-        var result=old.apply(this,arguments);
-        setTimeout(function(){
-          var after=qty();
-          refresh(after>before);
-        },30);
-        return result;
-      };
-      window.atualizarCarrinho.__ndMobileR31=true;
-    }
-
-    refresh(false);
-  }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',hook,{once:true});
-  }else{
-    hook();
-  }
-
-  setTimeout(hook,500);
-  setTimeout(hook,1200);
-  window.addEventListener('resize',function(){
-    if(window.innerWidth<=700)build();
-  });
+ function fixR32(){
+   if(typeof window.ndNext==='function'){
+     window.ndNext=function(n){
+       if(n===1){
+         const nome=document.getElementById('nomeModal')?.value.trim()||'';
+         const tel=(document.getElementById('telefoneModal')?.value||'').replace(/\D/g,'');
+         if(!nome)return alert('Digite o nome de quem irá receber o pedido.');
+         if(tel.length<10||tel.length>11)return alert('Digite um WhatsApp válido com DDD.');
+         const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA';
+         if(tipo==='ENTREGA'){if(!document.getElementById('ruaModal')?.value)return alert('Selecione sua rua.');if(!document.getElementById('numeroModal')?.value.trim())return alert('Digite o número do endereço.');}
+         localStorage.setItem('ndburgs_nomeModal',nome);localStorage.setItem('ndburgs_telefoneModal',document.getElementById('telefoneModal')?.value.trim()||'');
+         return window.ndStep(3);
+       }
+       if(n===2)return window.ndStep(3);
+       if(n===3){if(!document.getElementById('pagamentoModal')?.value)return alert('Escolha uma forma de pagamento.');return window.ndStep(4);}
+       return window.ndStep(Math.min(4,Number(n)+1));
+     };
+     window.ndNext.__ndR32=true;
+   }
+   window.ndBack=function(n){if(n===4)return window.ndStep(3);if(n===3||n===2)return window.ndStep(1);return window.ndStep(Math.max(1,Number(n)-1));};
+ }
+ fixR32();setTimeout(fixR32,100);setTimeout(fixR32,500);setTimeout(fixR32,1200);
 })();
 </script>
 </body>
