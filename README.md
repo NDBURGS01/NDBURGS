@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R29">
+<meta name="nd-site-version" content="20260907-R28">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R29";
+  const ND_SITE_VERSION = "20260907-R32";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -726,13 +726,76 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </style>
 
 
-<!-- ND BURGS R29 — ÍCONES PARA FAVORITOS / ATALHOS -->
-<link rel="icon" type="image/jpeg" sizes="32x32" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
-<link rel="shortcut icon" type="image/jpeg" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
-<link rel="apple-touch-icon" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
-<meta name="theme-color" content="#050505">
-<meta name="msapplication-TileColor" content="#050505">
-<meta name="msapplication-TileImage" content="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R29">
+<!-- ND BURGS R32 — identidade do site / Favoritos Edge -->
+<link rel="icon" type="image/jpeg" sizes="any" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R32">
+<link rel="shortcut icon" type="image/jpeg" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R32">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R32">
+<meta name="theme-color" content="#000000">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://i.ibb.co/5gsVbBcb/corretooo.jpg?v=20260907R32">
+
+
+<style id="nd-r32-mobile-unico">
+/* =========================================================
+   ND BURGS R32 — MOBILE ÚNICO E ESTÁVEL
+   Esta é a camada definitiva para dimensões globais/mobile.
+   ========================================================= */
+:root{--r32-gap:10px;--r32-pad:10px}
+html{width:100%;max-width:100%;overflow-x:hidden!important;scroll-behavior:auto!important;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{width:100%;max-width:100%;overflow-x:hidden!important;margin:0!important;padding-left:0!important;padding-right:0!important;overscroll-behavior-y:auto;overflow-anchor:auto}
+img,video,canvas,svg{max-width:100%;height:auto}
+header{width:100%!important;min-height:auto!important;padding:8px 10px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important}
+header .logo{display:block!important;width:148px!important;max-width:42vw!important;height:auto!important;max-height:76px!important;object-fit:contain!important;margin:0 auto!important;transform:none!important}
+.container{width:min(100%,1100px)!important;max-width:1100px!important;margin:0 auto!important;padding-left:12px!important;padding-right:12px!important;overflow:visible!important}
+.horarios,.categoria,#ndR19Reviews,#ndR20DeliveryHighlight,#ndUvaPromo,#ndR17FirstBuy{max-width:1100px!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
+.produtos{min-width:0!important}
+.produto{min-width:0!important;max-width:100%!important;overflow:hidden!important}
+.produto img{display:block!important;width:100%!important;height:auto!important;aspect-ratio:1/1!important;object-fit:cover!important}
+.modal-carrinho,.modal-finalizar{max-width:100vw!important;overflow-x:hidden!important}
+.modal-carrinho .conteudo-modal,.modal-finalizar .painel-finalizar{max-width:100%!important;box-sizing:border-box!important}
+#nd15NavWrap{max-width:100vw!important;overflow:hidden!important}
+#nd15Nav{max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain}
+
+@media (max-width:700px){
+  body{padding-bottom:96px!important}
+  header{position:sticky!important;top:0!important;z-index:1000!important;padding:6px 8px!important}
+  header .logo{width:124px!important;max-width:38vw!important;max-height:62px!important}
+  .container{width:100%!important;padding:8px!important}
+  .horarios{width:calc(100% - 16px)!important;margin:8px auto 0!important;padding:0!important}
+  .horarios-box{padding:9px 10px!important;border-radius:10px!important}
+  .horarios-titulo{font-size:14px!important;margin-bottom:4px!important}
+  .horarios-linha{font-size:11px!important;line-height:1.45!important}
+  h1{font-size:21px!important;margin:14px 0!important}
+  h2{font-size:18px!important;margin:18px 0 10px!important}
+  .categoria{width:100%!important;margin:0 auto 18px!important;padding-left:0!important;padding-right:0!important}
+  .produtos{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;width:100%!important;margin:0!important;padding:0!important}
+  .produto{width:100%!important;margin:0!important;padding:8px!important;border-radius:12px!important}
+  .produto img{aspect-ratio:1/1!important;border-radius:9px!important;margin:0 0 7px!important}
+  .produto h3{font-size:13px!important;line-height:1.18!important;margin:4px 0!important;min-height:30px!important;overflow-wrap:anywhere!important}
+  .produto p{font-size:10px!important;line-height:1.3!important;margin:3px 0!important}
+  .produto .preco{font-size:16px!important;line-height:1.15!important;margin:6px 0!important}
+  .produto button,.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add{width:100%!important;min-height:40px!important;padding:8px 6px!important;font-size:11px!important;line-height:1.15!important;border-radius:9px!important;white-space:normal!important}
+  .modern-search,#nd14SearchWrap,#nd15NavWrap{width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;padding-left:8px!important;padding-right:8px!important}
+  #nd15NavWrap{top:0!important}
+  #nd15Nav{gap:6px!important;padding:6px!important}
+  .nd15-btn{flex:0 0 auto!important;min-height:36px!important;padding:0 10px!important;font-size:11px!important}
+  #ndTopAddress,.nd17-address-bar,#nd17AddressBar{width:calc(100% - 16px)!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important}
+  #ndUvaPromo,#ndR17FirstBuy,#ndR19Reviews,#ndR20DeliveryHighlight{width:calc(100% - 16px)!important;max-width:calc(100% - 16px)!important;padding-left:10px!important;padding-right:10px!important}
+  #carrinhoFlutuante{right:8px!important;left:auto!important;bottom:10px!important;max-width:calc(100vw - 16px)!important}
+  input,select,textarea,button{max-width:100%;box-sizing:border-box}
+}
+
+@media (max-width:390px){
+  header .logo{width:112px!important;max-width:36vw!important;max-height:56px!important}
+  .container{padding:6px!important}
+  .produtos{gap:6px!important}
+  .produto{padding:6px!important;border-radius:10px!important}
+  .produto h3{font-size:12px!important;min-height:28px!important}
+  .produto p{font-size:9.5px!important}
+  .produto .preco{font-size:15px!important}
+  .produto button,.produto .btn-add,.produto .nd-fx-add,.produto .nd-r3-add{min-height:38px!important;font-size:10.5px!important}
+}
+</style>
 
 </head>
 
@@ -6157,7 +6220,7 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     top.addEventListener('click',function(){window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); setActive(used[0]);});
     bar.appendChild(top); nav.appendChild(bar);
     var first=sections[0]; first.parentNode.insertBefore(nav,first);
-    function setActive(btn){used.forEach(function(b){var on=b===btn;b.classList.toggle('nd15-active',on);b.setAttribute('aria-current',on?'true':'false')}); if(btn&&btn.scrollIntoView){btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}}
+    function setActive(btn){used.forEach(function(b){var on=b===btn;b.classList.toggle('nd15-active',on);b.setAttribute('aria-current',on?'true':'false')}); if(btn&&bar){const left=btn.offsetLeft-(bar.clientWidth-btn.offsetWidth)/2;bar.scrollTo({left:Math.max(0,left),behavior:'smooth'})}}
     setActive(used[0]);
     if('IntersectionObserver' in window){
       var obs=new IntersectionObserver(function(entries){
@@ -6170,7 +6233,7 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<!-- ND BURGS VERSION: 20260904-R15 -->
+<!-- ND BURGS VERSION: 20260907-R32 -->
 
 
 <!-- =========================================================
@@ -6379,7 +6442,7 @@ header .logo{display:none!important}
    [['#subtotalCarrinhoModal',sub],['#taxaCarrinhoModal',f],['#totalCarrinhoModal',total],['#ndV4Sub',sub],['#ndV4Fee',f],['#ndV4Total',total]].forEach(([s,v])=>{const e=$(s);if(e)e.textContent=money(v)});
    const panel=$('#modalCarrinho'); if(panel){let box=$('#nd17CartAddress');if(!box){const sum=panel.querySelector('.resumo-modal');if(sum){box=document.createElement('div');box.id='nd17CartAddress';sum.parentNode.insertBefore(box,sum)}}if(box){const a=addr();box.innerHTML=a.type==='RETIRADA'?'<b>Retirada no local</b><br>Sem taxa de entrega.':'<b>Entrega:</b> '+(a.street||'Endereço não informado')+(a.number?', Nº '+a.number:'')+'<br><strong>Taxa de entrega: '+money(f)+'</strong> · Total com taxa: <strong>'+money(total)+'</strong>'}}
  }
- function showGate(){const g=$('#nd17Gate');if(g)g.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>$('#nd17GateStreet')?.focus(),80)}
+ function showGate(){const g=$('#nd17Gate');if(g)g.classList.add('show');document.body.style.overflow='hidden';setTimeout(()=>{const e=$('#nd17GateStreet');if(e)try{e.focus({preventScroll:true})}catch(_){e.focus()}},80)}
  function hideGate(){const g=$('#nd17Gate');if(g)g.classList.remove('show');document.body.style.overflow=''}
  function renderList(input,list){if(!input||!list)return;const q=norm(input.value).trim();const arr=streets().filter(s=>!q||norm(s).includes(q)).slice(0,12);list.innerHTML='';arr.forEach(s=>{const d=document.createElement('div');d.className='nd17-option';d.textContent=s+' — '+money((window.taxas||{})[s]);d.addEventListener('click',()=>{input.value=s;input.dataset.value=s;list.classList.remove('show');input.dispatchEvent(new Event('change',{bubbles:true}));cartTotalSync()});list.appendChild(d)});list.classList.toggle('show',!!q&&arr.length>0)}
  function bindAutocomplete(input,list){if(!input||input.dataset.nd17bound)return;input.dataset.nd17bound='1';input.addEventListener('input',()=>renderList(input,list));input.addEventListener('focus',()=>{if(input.value)renderList(input,list)});document.addEventListener('click',e=>{if(!input.contains(e.target)&&!list.contains(e.target))list.classList.remove('show')})}
@@ -9347,7 +9410,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-</body>
+
 
 <!-- =========================================================
      ND BURGS — R28 / AJUSTES SOLICITADOS
@@ -9614,270 +9677,29 @@ header .logo{
 })();
 </script>
 
+
+
+<script id="nd-r32-scroll-stability">
+(function(){
+  'use strict';
+  if(window.__NDBURGS_R32_SCROLL__) return;
+  window.__NDBURGS_R32_SCROLL__=true;
+
+  /* Programmatic focus must not reposition the page. */
+  const nativeFocus=HTMLElement.prototype.focus;
+  HTMLElement.prototype.focus=function(options){
+    if(options===undefined) options={preventScroll:true};
+    else if(options && typeof options==='object') options=Object.assign({preventScroll:true},options);
+    try{return nativeFocus.call(this,options)}catch(_){return nativeFocus.call(this)}
+  };
+
+  /* Keep dynamic category navigation horizontal only. */
+  document.addEventListener('DOMContentLoaded',function(){
+    const nav=document.getElementById('nd15Nav');
+    if(nav) nav.style.overflowY='hidden';
+  },{once:true});
+})();
+</script>
+
+</body>
 </html>
-
-
-<!-- =========================================================
-     ND BURGS R29 — MOBILE DEFINITIVO
-     Última camada para neutralizar conflitos das rodadas antigas.
-     ========================================================= -->
-<style id="nd-r29-mobile-definitivo">
-html,body{
-  width:100%!important;
-  max-width:100%!important;
-  overflow-x:hidden!important;
-}
-html{
-  -webkit-text-size-adjust:100%!important;
-  text-size-adjust:100%!important;
-}
-body{
-  margin:0!important;
-}
-img,video,iframe,svg{
-  max-width:100%!important;
-}
-
-/* Header/logo proporcional em todas as telas */
-header{
-  width:100%!important;
-  box-sizing:border-box!important;
-}
-header .logo{
-  display:block!important;
-  width:170px!important;
-  max-width:52vw!important;
-  height:auto!important;
-  max-height:64px!important;
-  object-fit:contain!important;
-  margin:0 auto!important;
-}
-
-/* Nunca deixar seções ultrapassarem a largura da tela */
-.container,
-.horarios,
-.categoria,
-#nd20Best,
-#nd20QuickNav,
-#ndR17FirstBuy,
-#ndR17Trust,
-#ndUvaPromo,
-#nd26SuperOffer,
-#ndR20DeliveryHighlight,
-#ndFinalQuick{
-  box-sizing:border-box!important;
-}
-
-/* Cards desktop/tablet continuam fluidos */
-.produtos{
-  min-width:0!important;
-}
-.produto{
-  min-width:0!important;
-  max-width:100%!important;
-}
-.produto-imagem,
-.produto img{
-  max-width:100%!important;
-}
-
-@media (max-width:700px){
-  body{
-    padding-left:0!important;
-    padding-right:0!important;
-    font-size:14px!important;
-  }
-
-  header{
-    padding:9px 10px!important;
-    min-height:auto!important;
-  }
-  header .logo{
-    width:132px!important;
-    max-width:42vw!important;
-    max-height:52px!important;
-  }
-
-  .container{
-    width:100%!important;
-    max-width:100%!important;
-    padding:8px 10px 34px!important;
-    margin:0 auto!important;
-  }
-
-  .horarios{
-    width:100%!important;
-    max-width:100%!important;
-    padding:0 10px!important;
-    margin:8px auto 10px!important;
-  }
-  .horarios-box{
-    width:100%!important;
-    padding:10px 11px!important;
-    gap:7px!important;
-    border-radius:12px!important;
-  }
-  .horarios-titulo{
-    font-size:10px!important;
-  }
-  .horarios-linha{
-    font-size:10px!important;
-    line-height:1.35!important;
-  }
-  .status-aberto,.status-fechado{
-    font-size:10px!important;
-    padding:4px 7px!important;
-  }
-
-  .modern-search{
-    width:100%!important;
-    max-width:100%!important;
-    margin:8px 0!important;
-    padding:7px!important;
-    top:0!important;
-  }
-  .modern-search input{
-    min-width:0!important;
-    font-size:16px!important;
-  }
-
-  #nd18Sidebar,
-  .categoria-menu{
-    max-width:100vw!important;
-  }
-
-  .categoria{
-    width:100%!important;
-    max-width:100%!important;
-    margin-left:0!important;
-    margin-right:0!important;
-  }
-  .categoria-titulo{
-    font-size:17px!important;
-    line-height:1.2!important;
-  }
-
-  /* 2 produtos por linha, mas sem cards gigantes ou espremidos */
-  .produtos{
-    display:grid!important;
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:8px!important;
-    width:100%!important;
-  }
-  .produto{
-    width:100%!important;
-    padding:8px!important;
-    border-radius:13px!important;
-  }
-  .produto-imagem,
-  .produto img{
-    width:100%!important;
-    height:auto!important;
-    aspect-ratio:1/1!important;
-    object-fit:cover!important;
-    border-radius:10px!important;
-  }
-  .produto h3{
-    font-size:13px!important;
-    line-height:1.15!important;
-    margin:8px 0 4px!important;
-    overflow-wrap:anywhere!important;
-  }
-  .produto p{
-    font-size:10px!important;
-    line-height:1.3!important;
-    min-height:0!important;
-    margin-bottom:5px!important;
-  }
-  .produto .preco,
-  .preco,
-  .produto .preco-produto,
-  .produto [class*="preco"]{
-    font-size:16px!important;
-    line-height:1.1!important;
-    padding:4px 0!important;
-    margin:6px 0!important;
-  }
-  .btn,
-  .btn-add,
-  .nd-fx-add{
-    min-height:42px!important;
-    padding:9px 6px!important;
-    font-size:11px!important;
-    border-radius:10px!important;
-  }
-
-  /* Elementos promocionais */
-  #ndR17FirstBuy,
-  #ndUvaPromo,
-  #nd26SuperOffer,
-  #ndR20DeliveryHighlight,
-  #nd20Best,
-  #ndFinalQuick{
-    width:calc(100% - 20px)!important;
-    max-width:calc(100% - 20px)!important;
-    margin-left:auto!important;
-    margin-right:auto!important;
-  }
-
-  .nd26-offer-card{
-    grid-template-columns:72px minmax(0,1fr)!important;
-    gap:9px!important;
-  }
-  .nd26-offer-img{
-    width:72px!important;
-    height:72px!important;
-  }
-  .nd26-offer-btn{
-    grid-column:1/-1!important;
-    width:100%!important;
-    min-width:0!important;
-  }
-
-  /* Modais sempre dentro da tela */
-  .modal-box,
-  .painel-carrinho,
-  .painel-finalizar,
-  .suggestions-panel,
-  .nd-final-send-panel{
-    width:100%!important;
-    max-width:100vw!important;
-    box-sizing:border-box!important;
-  }
-
-  #carrinhoFlutuante{
-    max-width:calc(100vw - 20px)!important;
-  }
-}
-
-@media (max-width:390px){
-  header .logo{
-    width:118px!important;
-    max-width:40vw!important;
-    max-height:48px!important;
-  }
-  .container{
-    padding-left:7px!important;
-    padding-right:7px!important;
-  }
-  .produtos{
-    gap:6px!important;
-  }
-  .produto{
-    padding:6px!important;
-  }
-  .produto h3{
-    font-size:12px!important;
-  }
-  .produto p{
-    font-size:9.5px!important;
-  }
-  .produto .preco,
-  .preco{
-    font-size:15px!important;
-  }
-  .btn,.btn-add,.nd-fx-add{
-    font-size:10px!important;
-  }
-}
-</style>
