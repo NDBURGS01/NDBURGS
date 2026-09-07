@@ -9434,6 +9434,117 @@ body > .horarios.nd-r31-top .nd-top-delivery span{color:#8e8e8e!important;font-s
   [300,800,1600,3000].forEach(t=>setTimeout(refresh,t));
 })();
 </script>
+
+<!-- ND R31.1 — TOPO ABSOLUTO + CONTINUAR PARA PAGAMENTO -->
+<style id="nd-r31-1-fix">
+  body > .horarios.nd-r31-top{
+    order:0!important;position:relative!important;z-index:999999!important;
+    width:100%!important;margin:0!important;padding:0!important;
+  }
+  body > .horarios.nd-r31-top .horarios-box{
+    width:100%!important;max-width:none!important;box-sizing:border-box!important;
+    margin:0!important;border-radius:0!important;border:0!important;
+    border-bottom:1px solid rgba(255,70,70,.45)!important;
+    background:linear-gradient(135deg,#130b0b,#070708)!important;
+    box-shadow:0 5px 24px rgba(0,0,0,.45)!important;
+    padding:11px 16px!important;display:block!important;text-align:center!important;
+  }
+  body > .horarios.nd-r31-top .horarios-titulo{
+    color:#ff4048!important;font-size:14px!important;font-weight:1000!important;
+    margin:0 0 4px!important;
+  }
+  body > .horarios.nd-r31-top .horarios-linha{
+    color:#fff!important;font-size:11px!important;text-align:center!important;
+    line-height:1.45!important;
+  }
+  body > .horarios.nd-r31-top .status-fechado,
+  body > .horarios.nd-r31-top .status-aberto{
+    display:block!important;width:fit-content!important;max-width:100%!important;
+    margin:5px auto 0!important;padding:4px 9px!important;
+    color:#ff4b4b!important;background:rgba(255,55,65,.08)!important;
+    border:1px solid rgba(255,55,65,.25)!important;border-radius:999px!important;
+    font-size:10px!important;font-weight:900!important;white-space:normal!important;
+  }
+  body > .horarios.nd-r31-top .status-aberto{color:#25d366!important;border-color:rgba(37,211,102,.25)!important;background:rgba(37,211,102,.07)!important}
+  body > .horarios.nd-r31-top .nd-top-delivery{
+    margin:7px 0 0!important;padding:7px 5px 0!important;
+    border-top:1px solid #242429!important;text-align:center!important;
+    color:#ddd!important;font-size:10.5px!important;line-height:1.35!important;
+  }
+  body > .horarios.nd-r31-top .nd-top-delivery strong{color:#fff!important}
+  body > .horarios.nd-r31-top .nd-top-delivery b{color:#ffd21a!important;font-size:13px!important}
+  body > .horarios.nd-r31-top .nd-top-delivery span{color:#999!important;font-size:10px!important}
+  #modalFinalizar .nd-r31-pay-next{width:100%!important;min-height:54px!important;font-size:13px!important;font-weight:1000!important}
+  @media(max-width:600px){
+    body > .horarios.nd-r31-top .horarios-box{padding:9px 10px!important}
+    body > .horarios.nd-r31-top .horarios-titulo{font-size:12px!important}
+    body > .horarios.nd-r31-top .horarios-linha{font-size:9.5px!important}
+    body > .horarios.nd-r31-top .status-fechado,body > .horarios.nd-r31-top .status-aberto{font-size:9px!important}
+    body > .horarios.nd-r31-top .nd-top-delivery b{font-size:12px!important}
+  }
+</style>
+<script id="nd-r31-1-fix-script">
+(function(){
+  'use strict';
+  function fixTop(){
+    const body=document.body, header=body&&body.querySelector(':scope > header');
+    const h=body&&body.querySelector(':scope > .horarios');
+    if(!body||!h)return;
+    if(header && h!==body.firstElementChild) body.insertBefore(h,header);
+    h.classList.add('nd-r31-top');
+    const title=h.querySelector('.horarios-titulo');
+    const line=h.querySelector('.horarios-linha');
+    const status=h.querySelector('#statusHorario');
+    const delivery=h.querySelector('.nd-top-delivery');
+    if(title)title.textContent='🔴 PEDIDOS FECHADOS';
+    if(line)line.innerHTML='📅 <b>TERÇA A DOMINGO</b> • 18:00 ÀS 00:30';
+    if(delivery)delivery.innerHTML='🕐 <strong>TEMPO DE ENTREGA:</strong> <b>40 A 50 MINUTINHOS</b><br><span>Para seu pedido chegar fresquinho na sua residência.</span>';
+    try{
+      if(typeof isOpenNow==='function' && typeof nextOpening==='function'){
+        const open=isOpenNow();
+        if(status){
+          status.className=open?'status-aberto':'status-fechado';
+          status.textContent=open?'🟢 ESTAMOS ACEITANDO PEDIDOS • #BORADENDBURGS':'🔴 ESTAMOS FECHADOS • '+nextOpening();
+        }
+        if(title)title.textContent=open?'🟢 PEDIDOS ABERTOS':'🔴 PEDIDOS FECHADOS';
+      }else if(status){
+        status.className='status-fechado';
+        status.textContent='🔴 ESTAMOS FECHADOS • Próximo atendimento: TERÇA às 18:00.';
+      }
+    }catch(e){}
+  }
+  function fixPaymentButton(){
+    const modal=document.querySelector('#modalFinalizar');
+    if(!modal)return;
+    const btn=modal.querySelector('.nd-v4-step-content[data-content="1"] .nd-v4-next');
+    if(!btn)return;
+    btn.classList.add('nd-r31-pay-next');
+    btn.textContent='CONTINUAR PARA PAGAMENTO →';
+    btn.type='button';
+    if(!btn.dataset.ndPayFixed){
+      btn.dataset.ndPayFixed='1';
+      btn.onclick=function(e){
+        e.preventDefault();
+        const nome=document.getElementById('nomeModal')?.value.trim()||'';
+        const tel=(document.getElementById('telefoneModal')?.value||'').replace(/\D/g,'');
+        const tipo=document.getElementById('tipoPedidoModal')?.value||'ENTREGA';
+        if(!nome)return alert('Digite o nome de quem irá receber o pedido.');
+        if(tel.length<10||tel.length>11)return alert('Digite um WhatsApp válido com DDD.');
+        if(tipo==='ENTREGA'){
+          if(!document.getElementById('ruaModal')?.value)return alert('Selecione sua rua.');
+          if(!document.getElementById('numeroModal')?.value.trim())return alert('Digite o número do endereço.');
+        }
+        localStorage.setItem('ndburgs_nomeModal',nome);
+        localStorage.setItem('ndburgs_telefoneModal',document.getElementById('telefoneModal')?.value.trim()||'');
+        if(typeof window.ndStep==='function')window.ndStep(3);
+      };
+    }
+  }
+  function run(){fixTop();fixPaymentButton();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+  [100,400,900,1800,3000].forEach(t=>setTimeout(run,t));
+})();
+</script>
 </body>
 <!-- =========================================================
      ND BURGS — R28 / AJUSTES SOLICITADOS
