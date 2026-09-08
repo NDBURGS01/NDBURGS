@@ -26,6 +26,8 @@
 
 <link rel="icon" type="image/png" href="./favicon.png?v=1">
 <link rel="shortcut icon" type="image/png" href="./favicon.png?v=1">
+<link rel="apple-touch-icon" href="./favicon.png?v=1">
+<meta name="theme-color" content="#0b0b0b">
 
 <title>ND BURGS | Faça seu pedido</title>
 
@@ -5809,7 +5811,7 @@ button{font-family:inherit}
  function renderRecent(){let r=getRecent(),box=q('#ndR7Recent');if(!box||!r)return;if(cart().some(i=>String(i.nome||i.name||'').toUpperCase()===String(r.name).toUpperCase())){box.classList.remove('show');return}box.innerHTML='<span>↩️ Última escolha: <span class="nd-r7-recent-name">'+r.name+'</span></span><button class="nd-r7-recent-btn" type="button">ADICIONAR '+money(r.price)+'</button>';box.querySelector('button').onclick=()=>add(r.name,r.price);box.classList.add('show')}
  function buildRecent(){if(q('#ndR7Recent'))return;let anchor=q('.modern-search')||q('.categoria-menu');if(!anchor)return;let d=document.createElement('div');d.id='ndR7Recent';anchor.parentNode.insertBefore(d,anchor.nextSibling)}
  function observeAdd(){document.addEventListener('click',e=>{let b=e.target.closest('[data-r7-add]');if(b){add(b.dataset.r7Add,Number(b.dataset.r7Price));renderReco();return}let orig=e.target.closest('.produto .btn-add');if(orig){let card=orig.closest('.produto');card?.classList.remove('nd-r7-pulse');void card?.offsetWidth;card?.classList.add('nd-r7-pulse');setTimeout(()=>{renderReco();renderRecent()},250)}})}
- function watchCart(){let last='';setInterval(()=>{let sig=JSON.stringify(cart().map(i=>[i.nome||i.name,i.quantidade,i.preco]));if(sig!==last){last=sig;renderReco();renderRecent()}},700)}
+ function watchCart(){let last='';setInterval(()=>{let sig=JSON.stringify(cart().map(i=>[i.nome||i.name,i.quantidade,i.preco]));if(sig!==last){last=sig;renderReco();renderRecent()}},3000)}
  function init(){buildReco();buildRecent();observeAdd();renderReco();renderRecent();watchCart()}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
  setTimeout(()=>{buildReco();buildRecent();renderReco();renderRecent()},900);
@@ -5959,7 +5961,7 @@ button{font-family:inherit}
    const el=q('#ndR11Mini');if(!el)return;const c=getCart(),n=c.reduce((a,i)=>a+(Number(i.quantidade)||1),0);if(!n){el.style.display='none';return}el.style.display='block';el.innerHTML='🛒 <b>'+n+' item'+(n>1?'s':'')+'</b> no seu pedido • subtotal <b>'+money(total())+'</b>';
  }
  function patch(){if(window.__ndR11Patched)return; if(typeof window.atualizarCarrinho!=='function')return;const original=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=original.apply(this,arguments);setTimeout(()=>{mini();show()},0);return r};window.__ndR11Patched=true;setTimeout(()=>{mini();show()},500)}
- function init(){ensure();patch();mini();show();setInterval(()=>{patch();mini()},1200)}
+ function init(){ensure();patch();mini();show();setTimeout(()=>{patch();mini()},1200)}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -6152,7 +6154,7 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     top.addEventListener('click',function(){window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); setActive(used[0]);});
     bar.appendChild(top); nav.appendChild(bar);
     var first=sections[0]; first.parentNode.insertBefore(nav,first);
-    function setActive(btn){used.forEach(function(b){var on=b===btn;b.classList.toggle('nd15-active',on);b.setAttribute('aria-current',on?'true':'false')}); if(btn&&btn.scrollIntoView){btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}}
+    function setActive(btn){used.forEach(function(b){var on=b===btn;b.classList.toggle('nd15-active',on);b.setAttribute('aria-current',on?'true':'false')}); }
     setActive(used[0]);
     if('IntersectionObserver' in window){
       var obs=new IntersectionObserver(function(entries){
@@ -6267,7 +6269,7 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     window.atualizarCarrinho=function(){const r=original.apply(this,arguments);setTimeout(refresh,0);return r};
     window.__nd16Patched=true;
   }
-  function init(){patch();refresh();setTimeout(refresh,300);setTimeout(refresh,1000);setInterval(()=>{patch();refresh()},1500)}
+  function init(){patch();refresh();setTimeout(refresh,300);setTimeout(refresh,1000);setTimeout(()=>{patch();refresh()},1500)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -6417,7 +6419,7 @@ header .logo{display:none!important}
    setupAutocomplete();patchOpenCart();patchBuildCheckout();keepOnlyBest();ensureMainForms();cartTotalSync();updateBar();bindFinishButton();
    if(!localStorage.getItem('nd17_tipo'))showGate();
    setTimeout(()=>{patchOpenCart();patchBuildCheckout();setupAutocomplete();keepOnlyBest();ensureMainForms();cartTotalSync();bindFinishButton()},500);
-   setInterval(()=>{patchOpenCart();patchBuildCheckout();keepOnlyBest();ensureMainForms();cartTotalSync();bindFinishButton()},1000);
+   setTimeout(()=>{patchOpenCart();patchBuildCheckout();keepOnlyBest();ensureMainForms();cartTotalSync();bindFinishButton()},1500);
  }
  document.addEventListener('DOMContentLoaded',()=>{init();$('#nd17GateSave')?.addEventListener('click',()=>saveGate('ENTREGA'));$('#nd17GatePickup')?.addEventListener('click',()=>saveGate('RETIRADA'));});
 })();
@@ -6895,7 +6897,7 @@ function patchAdd(){
 }
 function init(){buildQuickNav();buildBest();buildRatings();renderBest();patchIntroButton();patchAdd();forceSingleCart();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,500);setTimeout(init,1200)});else{init();setTimeout(init,500);setTimeout(init,1200)}
-setInterval(()=>{forceSingleCart();buildRatings();patchAdd()},1200);
+setTimeout(()=>{forceSingleCart();buildRatings();patchAdd()},1500);
 })();
 </script>
 
@@ -9800,7 +9802,7 @@ header .status-aberto,header .status-fechado{color:#fff!important;background:#05
     setInterval(()=>{
       const sig=JSON.stringify(getCart().map(i=>[i.nome,i.quantidade,i.preco]));
       if(sig!==last){last=sig;renderUpsell()}
-    },350);
+    },1500);
   }
 
   function init(){moveHorario();buildFooterNotice();renderUpsell();observeCart();}
