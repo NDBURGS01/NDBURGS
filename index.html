@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260909-R30">
+<meta name="nd-site-version" content="20260907-R29">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260909-R30";
+  const ND_SITE_VERSION = "20260907-R29";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -755,6 +755,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   background: #FFE34D !important;
   color: #000 !important;
   filter: none !important;
+}
+</style>
+
+<style id="nd-final-stability-fix">
+/* ESTABILIDADE FINAL — impede a página de pular durante atualizações dinâmicas */
+html{scroll-behavior:auto!important;overflow-anchor:none!important;}
+body{overflow-x:hidden;overflow-anchor:none!important;overscroll-behavior-y:none;}
+main,header,footer,.container,.categoria,.produtos,.produto,#nd18Sidebar,#ndR17FavSection,#ndR17LastSection,#ndAutoBest,#nd20Best,#ndR29CartUpsell{overflow-anchor:none;}
+@media(max-width:900px){
+  html,body{overscroll-behavior-y:none!important;}
 }
 </style>
 </head>
@@ -5006,11 +5016,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   }
   function refresh(){
     const t=total(),q=qty(),bar=document.querySelector('.nd-v3-buybar');if(bar){bar.classList.toggle('show',q>0);document.getElementById('ndV3BuyTotal').textContent=money(t);document.getElementById('ndV3BuyQty').textContent=q? q+' item(ns) • '+(t>=MIN?'pedido mínimo atingido':'faltam '+money(MIN-t)):'Seu carrinho está vazio'}
-    const prog=document.querySelector('.nd-v3-progress span');if(prog)prog.style.width=Math.min(100,(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1))*100)+'%';
-    setTimeout(upsell,80);
+    const prog=document.querySelector('.nd-v3-progress span');if(prog){const max=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(max>0?Math.min(100,(window.scrollY/max)*100):0)+'%';}
   }
   const old=window.atualizarCarrinho;if(typeof old==='function'&&!old.__ndv3){window.atualizarCarrinho=function(){const r=old.apply(this,arguments);refresh();return r};window.atualizarCarrinho.__ndv3=true}
-  window.addEventListener('scroll',refresh,{passive:true});
+  let ndV3ScrollTick=false;
+  window.addEventListener('scroll',()=>{
+    if(ndV3ScrollTick)return;
+    ndV3ScrollTick=true;
+    requestAnimationFrame(()=>{ndV3ScrollTick=false;const prog=document.querySelector('.nd-v3-progress span');if(prog){const max=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(max>0?Math.min(100,(window.scrollY/max)*100):0)+'%';}});
+  },{passive:true});
   document.addEventListener('click',e=>{if(e.target.closest('.btn-add'))setTimeout(refresh,100)});
   document.addEventListener('click',e=>{if(e.target.closest('#finalizarPedido,.btn-finalizar,button[onclick*="finalizarPedido"]')){try{localStorage.setItem('ndburgs_ultimo_pedido',JSON.stringify(cart()))}catch(_){} }});
   document.addEventListener('DOMContentLoaded',()=>{createUI();refresh();setTimeout(refresh,600)});
@@ -5912,7 +5926,7 @@ button{font-family:inherit}
  function addReady(){
    const content=q('#modalFinalizar [data-content="4"]'); if(!content||q('#ndR9Ready'))return;
    const note=content.querySelector('.nd-v4-note'); if(!note)return;
-   const d=document.createElement('div');d.id='ndR9Ready';d.innerHTML='<i></i><span><b>Seu pedido está pronto para ser enviado.</b><br>Confira os dados abaixo e toque no botão azul para concluir seu pedido.</span>';
+   const d=document.createElement('div');d.id='ndR9Ready';d.innerHTML='<i></i><span><b>Seu pedido está pronto para ser enviado.</b><br>Confira os dados abaixo e toque no botão para concluir seu pedido.</span>';
    note.parentNode.insertBefore(d,note);
  }
  function addTotalHint(){
@@ -7053,7 +7067,7 @@ function confirm(){if(!current)return;const cfg=current.cfg,details=[],selectedB
    if(sec.type==='acai2'){const a=validarAcai(id+'a'),b=validarAcai(id+'b');if(!a.length||!b.length){ok=false;return}details.push('Açaí 1 300ml: '+a.map(x=>x.name).join(' + '));details.push('Açaí 2 300ml: '+b.map(x=>x.name).join(' + '));a.concat(b).forEach(x=>{if(x.price>0)extra+=x.price})}
  });
  if(!ok){alert('⚠️ COMPLETE TODAS AS ESCOLHAS OBRIGATÓRIAS DO COMBO ANTES DE ADICIONAR.');return}
- const item={nome:current.name,preco:current.price+extra,quantidade:1,detalhes:details};if(Array.isArray(window.carrinho))window.carrinho.push(item);if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();close();setTimeout(()=>{try{window.scrollTo({top:window.scrollY,behavior:'auto'})}catch(_){ }},0);
+ const item={nome:current.name,preco:current.price+extra,quantidade:1,detalhes:details};if(Array.isArray(window.carrinho))window.carrinho.push(item);if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();close();
 }
 window.abrirComboPersonalizacao=open;window.fecharComboPersonalizacao=close;window.confirmarComboPersonalizacao=confirm;
 // Intercepta qualquer adicionar() de combo, inclusive entradas antigas/atalhos.
@@ -9381,6 +9395,24 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<script id="nd-final-focus-stability">
+(function(){
+  'use strict';
+  function closeModalFocusGuard(){
+    document.addEventListener('focusin',function(e){
+      const el=e.target;
+      if(!el||!el.closest)return;
+      const modal=el.closest('.modal-carrinho,.modal-finalizar,.modal-personalizacao,.suggestions-modal,#nd17Gate');
+      if(modal && getComputedStyle(modal).display==='none'){
+        try{el.blur();}catch(_){}
+      }
+    },true);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',closeModalFocusGuard,{once:true});
+  else closeModalFocusGuard();
+})();
+</script>
 </body>
 
 <!-- =========================================================
@@ -9848,159 +9880,4 @@ header .status-aberto,header .status-fechado{color:#fff!important;background:#05
 })();
 </script>
 
-
-
-<!-- ND BURGS R30 — MOBILE 3 COLUNAS + ROLAGEM ESTÁVEL -->
-<style id="nd-r30-mobile-final">
-/* Base de rolagem: um único eixo vertical no catálogo */
-html{overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
-body{width:100%;max-width:100%;overflow-x:hidden;overflow-y:visible;overscroll-behavior-x:none}
-
-@media(max-width:700px){
-  html{overflow-x:hidden;overflow-y:auto;scroll-behavior:smooth}
-  body{margin:0!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:hidden!important;overflow-y:visible!important;overscroll-behavior-x:none!important;touch-action:pan-y!important}
-
-  /* Remove conflitos de várias camadas sticky no celular. */
-  header{position:relative!important;top:auto!important;z-index:1000!important;width:100%!important}
-  .modern-search{position:relative!important;top:auto!important;z-index:10!important}
-  .categoria-menu{position:relative!important;top:auto!important;z-index:9!important;overflow-x:auto!important;overflow-y:hidden!important;max-width:100%!important;touch-action:pan-x!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-x:contain!important}
-  #nd18Sidebar{position:relative!important;top:auto!important;left:auto!important;z-index:8!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;touch-action:pan-x!important;-webkit-overflow-scrolling:touch!important}
-
-  /* Conteúdo ocupa exatamente a largura do telefone. */
-  .container,.categoria,#nd20Best,#nd20QuickNav,#ndR17FirstBuy,#ndR17Trust{
-    width:100%!important;max-width:100%!important;min-width:0!important;
-    margin-left:0!important;margin-right:0!important;
-  }
-  .container{padding-left:6px!important;padding-right:6px!important}
-  .categoria{overflow:visible!important}
-
-  /* 3 PRODUTOS POR LINHA NO CELULAR */
-  .produtos{
-    display:grid!important;
-    grid-template-columns:repeat(3,minmax(0,1fr))!important;
-    gap:6px!important;
-    width:100%!important;
-    min-width:0!important;
-  }
-  .produto{
-    width:100%!important;
-    min-width:0!important;
-    max-width:100%!important;
-    padding:6px!important;
-    margin:0!important;
-    border-radius:12px!important;
-    overflow:hidden!important;
-    transform:none!important;
-  }
-  .produto:hover{transform:none!important}
-  .produto-imagem{
-    width:100%!important;
-    height:auto!important;
-    aspect-ratio:1/1!important;
-    min-height:0!important;
-    max-height:none!important;
-    object-fit:contain!important;
-    border-radius:9px!important;
-    margin-bottom:5px!important;
-  }
-  .produto h3{
-    font-size:11px!important;
-    line-height:1.12!important;
-    min-height:25px!important;
-    margin:6px 1px 3px!important;
-    overflow-wrap:anywhere!important;
-  }
-  .produto p{
-    font-size:8.5px!important;
-    line-height:1.25!important;
-    min-height:31px!important;
-    margin:0 1px!important;
-    overflow:hidden!important;
-  }
-  .produto .preco{
-    font-size:13px!important;
-    line-height:1.15!important;
-    margin:6px 1px!important;
-    white-space:nowrap!important;
-  }
-  .produto .btn,.produto .btn-add,.produto .nd-fx-add{
-    width:100%!important;
-    min-width:0!important;
-    min-height:38px!important;
-    height:auto!important;
-    padding:8px 3px!important;
-    font-size:9px!important;
-    line-height:1.05!important;
-    border-radius:9px!important;
-    white-space:normal!important;
-  }
-
-  /* Títulos e blocos não podem criar largura horizontal. */
-  .categoria-titulo,.categoria>h2{
-    max-width:100%!important;
-    overflow-wrap:anywhere!important;
-  }
-  .categoria>h2{font-size:18px!important;margin:22px 0 10px!important}
-  .categoria>h2:before{height:20px!important;width:4px!important}
-
-  /* Barra do carrinho permanece fixa sem criar scroll lateral. */
-  #carrinhoFlutuante,.carrinho-flutuante{
-    left:8px!important;right:8px!important;bottom:max(8px,env(safe-area-inset-bottom))!important;
-    width:auto!important;max-width:none!important;
-    transform:translateY(130%)!important;
-    margin:0!important;
-  }
-  #carrinhoFlutuante.ativo,.carrinho-flutuante.ativo{transform:translateY(0)!important}
-
-  /* Modais: somente o painel interno rola. */
-  .modal-carrinho,.modal-finalizar,.modal-personalizacao,.suggestions-modal{
-    overflow:hidden!important;touch-action:none!important;
-  }
-  .painel-carrinho,.painel-finalizar,.modal-box,.suggestions-panel{
-    max-width:100%!important;
-    width:100%!important;
-    max-height:94vh!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    -webkit-overflow-scrolling:touch!important;
-    overscroll-behavior:contain!important;
-  }
-
-  /* Elementos de confiança e ofertas também respeitam a largura do aparelho. */
-  .nd-v3-trust,#ndR9Trust{width:100%!important;min-width:0!important}
-  .instagram-destaque,#ndR29DeliveryNotice,#ndUvaPromo{max-width:100%!important}
-}
-
-@media(max-width:380px){
-  .container{padding-left:5px!important;padding-right:5px!important}
-  .produtos{gap:5px!important}
-  .produto{padding:5px!important;border-radius:10px!important}
-  .produto h3{font-size:10px!important;min-height:23px!important}
-  .produto p{font-size:8px!important;min-height:29px!important}
-  .produto .preco{font-size:12px!important}
-  .produto .btn,.produto .btn-add,.produto .nd-fx-add{min-height:36px!important;font-size:8px!important;padding:7px 2px!important}
-}
-
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
-</style>
-<script id="nd-r30-mobile-final-js">
-(function(){
-  'use strict';
-  /* Evita que scripts antigos prendam o scroll do documento no celular. */
-  function unlockPageScroll(){
-    if(window.innerWidth<=700){
-      document.documentElement.style.overflowX='hidden';
-      document.body.style.overflowX='hidden';
-      if(!document.querySelector('.modal-finalizar.ativo,.modal-carrinho.ativo,.modal-personalizacao[style*="display: flex"],.suggestions-modal.show')){
-        document.body.style.overflowY='visible';
-      }
-    }
-  }
-  function init(){
-    unlockPageScroll();
-    window.addEventListener('resize',unlockPageScroll,{passive:true});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
 </html>
