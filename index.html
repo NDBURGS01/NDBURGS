@@ -870,7 +870,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO DOCE</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 32,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO DOCE',32.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="window.__ndComprarComboChoice('COMBO DOCE')">COMPRAR</button>
 </div>
 
 <div class="produto">
@@ -878,7 +878,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO GELADO</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 40,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO GELADO',40.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="window.__ndComprarComboChoice('COMBO GELADO')">COMPRAR</button>
 </div>
 
 <div class="produto">
@@ -886,7 +886,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO 5 ESTRELAS</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 45,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO 5 ESTRELAS',45.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="window.__ndComprarComboChoice('COMBO 5 ESTRELAS')">COMPRAR</button>
 </div>
 
 <div class="produto">
@@ -902,7 +902,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO MAIS VENDIDO</h3>
 <p>Um dos combos especiais da ND BURGS.</p>
 <div class="preco">R$ 20,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO MAIS VENDIDO',20.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="window.__ndComprarComboChoice('COMBO MAIS VENDIDO')">COMPRAR</button>
 </div>
 
 <div class="produto">
@@ -910,7 +910,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO MOTOCA ND</h3>
 <p>Combo especial ND BURGS.</p>
 <div class="preco">R$ 32,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO MOTOCA ND',32.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="window.__ndComprarComboChoice('COMBO MOTOCA ND')">COMPRAR</button>
 </div>
 
 <div class="produto">
@@ -918,7 +918,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>COMBO SÓ LOVE</h3>
 <p>Combo especial para compartilhar.</p>
 <div class="preco">R$ 71,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('COMBO SÓ LOVE',71.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="window.__ndComprarComboChoice('COMBO SÓ LOVE')">COMPRAR</button>
 </div>
 
 <div class="produto">
@@ -926,7 +926,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h3>DATE COM NDBURGS</h3>
 <p>Combo especial para o seu date.</p>
 <div class="preco">R$ 70,90</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('DATE COM NDBURGS',70.90)">ADICIONAR</button>
+<button class="btn btn-add" onclick="window.__ndComprarComboChoice('DATE COM NDBURGS')">COMPRAR</button>
 </div>
 
 <div class="produto">
@@ -9359,6 +9359,30 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+<!-- ND BURGS — FINAL: BOTÕES DOS COMBOS ABREM PRIMEIRO A ESCOLHA DE TIPO -->
+<script id="nd-combos-final-direct">
+(function(){
+'use strict';
+const bases=['COMBO MAIS VENDIDO','COMBO DOCE','COMBO GELADO','COMBO 5 ESTRELAS','COMBO MOTOCA ND','COMBO SÓ LOVE','DATE COM NDBURGS'];
+function N(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/\\s+/g,' ').trim()}
+function apply(){
+ document.querySelectorAll('.produto .btn-add').forEach(function(btn){
+   const name=btn.closest('.produto')?.querySelector('h3')?.textContent?.trim();
+   const base=bases.find(x=>N(x)===N(name));
+   if(!base)return;
+   btn.onclick=function(ev){
+     if(ev){ev.preventDefault();ev.stopPropagation();}
+     if(typeof window.__ndOpenUnifiedCombo==='function') window.__ndOpenUnifiedCombo(base);
+     return false;
+   };
+   btn.setAttribute('data-nd-combo-choice','1');
+ });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply();
+setTimeout(apply,100);setTimeout(apply,500);setTimeout(apply,1200);setTimeout(apply,2500);
+new MutationObserver(apply).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body>
 
 <!-- =========================================================
@@ -9826,4 +9850,85 @@ header .status-aberto,header .status-fechado{color:#fff!important;background:#05
 })();
 </script>
 
+<!-- ND BURGS — COMBOS: ESCOLHA DO TIPO ANTES DA PERSONALIZAÇÃO -->
+<style id="nd-combo-type-final-clean">
+#ndComboTypeFinal{position:fixed;inset:0;z-index:2147483647;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.92);backdrop-filter:blur(10px)}
+#ndComboTypeFinal.nd-open{display:flex}
+#ndComboTypeFinal .ndct-panel{position:relative;width:min(620px,100%);max-height:92vh;overflow:auto;background:#111;color:#fff;border:2px solid #ffd21a;border-radius:22px;padding:22px;box-shadow:0 25px 100px rgba(0,0,0,.9)}
+#ndComboTypeFinal .ndct-close{position:absolute;right:14px;top:14px;width:40px;height:40px;border:1px solid #444;border-radius:10px;background:#1b1b1b;color:#fff;font-size:25px;cursor:pointer}
+#ndComboTypeFinal h2{margin:0 48px 8px 0;padding:0;border:0;color:#fff;text-align:center;font-size:23px;line-height:1.15}
+#ndComboTypeFinal .ndct-sub{text-align:center;color:#aaa;font-size:12px;margin-bottom:18px;line-height:1.45}
+#ndComboTypeFinal .ndct-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#ndComboTypeFinal .ndct-option{width:100%;border:2px solid #333;border-radius:17px;background:linear-gradient(145deg,#1a1a1a,#0b0b0b);color:#fff;padding:18px 14px;cursor:pointer;text-align:center;transition:.18s}
+#ndComboTypeFinal .ndct-option:hover{border-color:#ffd21a;transform:translateY(-2px)}
+#ndComboTypeFinal .ndct-type{display:block;color:#ffd21a;font-size:19px;font-weight:1000}
+#ndComboTypeFinal .ndct-desc{display:block;color:#ccc;font-size:11px;line-height:1.4;margin-top:8px;min-height:32px}
+#ndComboTypeFinal .ndct-label{display:block;color:#777;font-size:9px;font-weight:900;letter-spacing:.5px;margin-top:14px;text-transform:uppercase}
+#ndComboTypeFinal .ndct-price{display:block;color:#ffd21a;font-size:27px;font-weight:1000;margin-top:3px}
+#ndComboTypeFinal .ndct-note{text-align:center;color:#777;font-size:9px;margin-top:14px}
+@media(max-width:600px){#ndComboTypeFinal{align-items:flex-end;padding:0}#ndComboTypeFinal .ndct-panel{width:100%;max-height:90vh;border-radius:22px 22px 0 0;padding:18px 12px 22px}#ndComboTypeFinal .ndct-options{grid-template-columns:1fr}#ndComboTypeFinal h2{font-size:20px}}
+</style>
+<script id="nd-combo-type-final-clean-js">
+(function(){
+'use strict';
+const PAIRS={
+ 'COMBO MAIS VENDIDO':['COMBO MAIS VENDIDO','ARTESANAL COMBO MAIS VENDIDO'],
+ 'COMBO DOCE':['COMBO DOCE','ARTESANAL COMBO DOCE'],
+ 'COMBO GELADO':['COMBO GELADO','ARTESANAL COMBO GELADO'],
+ 'COMBO 5 ESTRELAS':['COMBO 5 ESTRELAS','ARTESANAL COMBO 5 ESTRELAS'],
+ 'COMBO SÓ LOVE':['COMBO SÓ LOVE','ARTESANAL COMBO SÓ LOVE'],
+ 'DATE COM NDBURGS':['DATE COM NDBURGS','ARTESANAL DATE COM NDBURGS'],
+ 'COMBO MOTOCA ND':['COMBO MOTOCA ND','ARTESANAL MOTOCA ND']
+};
+const N=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+const brl=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+function card(name){return [...document.querySelectorAll('.produto')].find(c=>N(c.querySelector('h3')?.textContent)===N(name));}
+function price(name){
+ const c=card(name); if(!c)return 0;
+ const t=c.querySelector('.preco')?.textContent||'';
+ const m=t.match(/R\$\s*([0-9.]+,[0-9]{2}|[0-9]+\.[0-9]{2})/);
+ if(m)return Number(m[1].replace(/\./g,'').replace(',','.'));
+ return 0;
+}
+function ensure(){
+ let m=document.getElementById('ndComboTypeFinal'); if(m)return m;
+ m=document.createElement('div');m.id='ndComboTypeFinal';
+ m.innerHTML='<div class="ndct-panel"><button type="button" class="ndct-close" aria-label="Fechar">×</button><h2>VOCÊ QUER ESSE COMBO COM LANCHE ARTESANAL OU TRADICIONAL?</h2><div class="ndct-sub">Escolha primeiro o tipo do lanche. O valor de cada versão aparece junto da opção.</div><div class="ndct-options"></div><div class="ndct-note">Depois da escolha, aparecerão somente as opções correspondentes ao tipo selecionado.</div></div>';
+ document.body.appendChild(m);
+ m.querySelector('.ndct-close').onclick=close;
+ m.addEventListener('click',e=>{if(e.target===m)close()});
+ return m;
+}
+function close(){document.getElementById('ndComboTypeFinal')?.classList.remove('nd-open');document.body.style.overflow='';}
+function open(base){
+ const pair=PAIRS[base]; if(!pair)return;
+ const m=ensure(),trad=pair[0],art=pair[1],tp=price(trad),ap=price(art),moto=N(base)==='COMBO MOTOCA ND';
+ const td=moto?'🍔 LANCHE FIXO: NUNES':'Escolha os lanches tradicionais disponíveis.';
+ const ad=moto?'🍔 LANCHE FIXO: PÉZÃO':'Escolha: PATÃO, GAROTINHO, BERENICE, DINA ou GADEIA.';
+ m.querySelector('.ndct-options').innerHTML=
+ '<button type="button" class="ndct-option" data-combo="'+trad.replace(/"/g,'&quot;')+'"><span class="ndct-type">TRADICIONAL</span><span class="ndct-desc">'+td+'</span><span class="ndct-label">VALOR DO COMBO TRADICIONAL</span><b class="ndct-price">'+brl(tp)+'</b></button>'+
+ '<button type="button" class="ndct-option" data-combo="'+art.replace(/"/g,'&quot;')+'"><span class="ndct-type">ARTESANAL</span><span class="ndct-desc">'+ad+'</span><span class="ndct-label">VALOR DO COMBO ARTESANAL</span><b class="ndct-price">'+brl(ap)+'</b></button>';
+ m.querySelectorAll('.ndct-option').forEach(b=>b.onclick=function(){
+   const name=b.dataset.combo, p=price(name); close();
+   setTimeout(()=>{if(typeof window.abrirComboPersonalizacao==='function')window.abrirComboPersonalizacao(name,p)},20);
+ });
+ m.classList.add('nd-open');document.body.style.overflow='hidden';
+}
+function install(){
+ document.querySelectorAll('.produto .btn-add').forEach(btn=>{
+   const c=btn.closest('.produto'),h=c?.querySelector('h3'); if(!c||!h)return;
+   const name=h.textContent.trim(),base=Object.keys(PAIRS).find(k=>N(k)===N(name)); if(!base)return;
+   btn.textContent='COMPRAR';
+   btn.removeAttribute('onclick');
+   btn.onclick=function(e){e.preventDefault();e.stopPropagation();open(base);return false};
+   btn.dataset.ndComboTypeFinal='1';
+ });
+}
+window.__ndOpenUnifiedCombo=open;
+window.__ndComprarComboChoice=open;
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+setTimeout(install,100);setTimeout(install,500);setTimeout(install,1200);setTimeout(install,2500);
+})();
+</script>
+</body>
 </html>
