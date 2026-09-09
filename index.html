@@ -6166,7 +6166,24 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     top.addEventListener('click',function(){window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); setActive(used[0]);});
     bar.appendChild(top); nav.appendChild(bar);
     var first=sections[0]; first.parentNode.insertBefore(nav,first);
-    function setActive(btn){used.forEach(function(b){var on=b===btn;b.classList.toggle('nd15-active',on);b.setAttribute('aria-current',on?'true':'false')}); if(btn&&btn.scrollIntoView){btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}}
+    function setActive(btn){
+  used.forEach(function(b){
+    var on=b===btn;
+    b.classList.toggle('nd15-active',on);
+    b.setAttribute('aria-current',on?'true':'false');
+  });
+  /* Nunca use scrollIntoView no botão durante a rolagem vertical.
+     Isso fazia o navegador tentar mover a página horizontalmente. */
+  if(btn&&btn.parentElement){
+    var box=btn.parentElement;
+    var left=btn.offsetLeft;
+    var right=left+btn.offsetWidth;
+    var viewLeft=box.scrollLeft;
+    var viewRight=viewLeft+box.clientWidth;
+    if(left<viewLeft) box.scrollLeft=left-8;
+    else if(right>viewRight) box.scrollLeft=right-box.clientWidth+8;
+  }
+}
     setActive(used[0]);
     if('IntersectionObserver' in window){
       var obs=new IntersectionObserver(function(entries){
@@ -7757,14 +7774,24 @@ function isOpenNow(){
 }
 function nextOpening(){
   const d=new Date(), day=d.getDay(), mins=d.getHours()*60+d.getMinutes();
-  if(day===1 || (mins>30 && mins<18*60)){
-    let days=0;
-    if(day===1) days=1;
-    else if(mins>30) days=(day===0?2:1);
-    const names=['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'];
-    return 'Próximo atendimento: '+names[(day+days)%7]+' às 18:00.';
+  const names=['DOMINGO','SEGUNDA','TERÇA','QUARTA','QUINTA','SEXTA','SÁBADO'];
+  let nextDay=day;
+
+  /* Segunda-feira é o único dia totalmente fechado. */
+  if(day===1){
+    nextDay=2;
   }
-  return 'Pedidos disponíveis agora.';
+  /* Antes da abertura, o próximo atendimento é SEMPRE no próprio dia,
+     exceto segunda-feira. */
+  else if(mins<18*60){
+    nextDay=day;
+  }
+  /* Depois do fechamento, procura o próximo dia de funcionamento. */
+  else{
+    nextDay=(day===0)?2:1;
+  }
+
+  return 'ESTAREMOS A TODO VAPOR '+names[nextDay]+' ÀS 18:00.';
 }
 function updateHours(){
   const open=isOpenNow();
@@ -9820,6 +9847,104 @@ header .status-aberto,header .status-fechado{color:#fff!important;background:#05
   function init(){moveHorario();buildFooterNotice();renderUpsell();observeCart();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   setTimeout(init,700);setTimeout(init,1600);setTimeout(init,3000);
+})();
+</script>
+
+
+<style id="nd-r30-scroll-stability">
+/* =========================================================
+   ND BURGS R30 — ESTABILIDADE DE ROLAGEM
+   Impede estouro horizontal e movimentos automáticos laterais.
+   ========================================================= */
+html{
+  overflow-x:clip!important;
+  width:100%!important;
+  max-width:100%!important;
+}
+body{
+  overflow-x:clip!important;
+  width:100%!important;
+  max-width:100%!important;
+  overscroll-behavior-x:none!important;
+}
+*,*::before,*::after{
+  box-sizing:border-box;
+}
+img,video,iframe,svg,canvas{
+  max-width:100%!important;
+}
+.container,header,footer,main,section,article{
+  max-width:100%;
+}
+@media(max-width:900px){
+  body{
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  .nd18-cat-nav,#nd18Sidebar{
+    max-width:calc(100vw - 14px)!important;
+  }
+  #nd15NavWrap{
+    max-width:100vw!important;
+    overflow:hidden!important;
+  }
+  #nd15Nav{
+    max-width:100%!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    overscroll-behavior-x:contain!important;
+  }
+}
+</style>
+
+<script id="nd-r30-scroll-stability-js">
+(function(){
+  'use strict';
+
+  /* Remove qualquer rolagem horizontal residual provocada por elementos
+     maiores que a viewport, sem impedir o scroll vertical normal. */
+  function stabilize(){
+    try{
+      document.documentElement.scrollLeft=0;
+      document.body.scrollLeft=0;
+    }catch(_){}
+  }
+
+  /* O menu de categorias pode rolar horizontalmente apenas dentro dele.
+     A página nunca deve acompanhar esse movimento. */
+  document.addEventListener('wheel',function(e){
+    const nav=e.target.closest('#nd15Nav,#nd18Sidebar,.categoria-menu');
+    if(nav && Math.abs(e.deltaX)>Math.abs(e.deltaY)){
+      nav.scrollLeft+=e.deltaX;
+      e.preventDefault();
+    }
+  },{passive:false});
+
+  /* Bloqueia gestos horizontais acidentais na página, mas mantém
+     arraste/scroll vertical normalmente. */
+  let startX=0,startY=0;
+  document.addEventListener('touchstart',function(e){
+    const t=e.touches&&e.touches[0];
+    if(!t)return;
+    startX=t.clientX;
+    startY=t.clientY;
+  },{passive:true});
+
+  document.addEventListener('touchmove',function(e){
+    const t=e.touches&&e.touches[0];
+    if(!t)return;
+    const dx=t.clientX-startX;
+    const dy=t.clientY-startY;
+    const inside=e.target.closest('#nd15Nav,#nd18Sidebar,.categoria-menu');
+    if(!inside && Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>8){
+      e.preventDefault();
+    }
+  },{passive:false});
+
+  window.addEventListener('load',stabilize,{passive:true});
+  window.addEventListener('resize',stabilize,{passive:true});
+  setTimeout(stabilize,300);
+  setTimeout(stabilize,1000);
 })();
 </script>
 
