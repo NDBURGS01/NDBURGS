@@ -9948,15 +9948,91 @@ img,video,iframe,svg,canvas{
 })();
 </script>
 
-<style id="nd-r31-mobile-3-colunas">
-@media (max-width: 700px){
-  .produtos{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
-  .produto{min-width:0!important;padding:6px!important;border-radius:12px!important}
-  .produto-imagem{height:105px!important;border-radius:10px!important}
-  .produto h3{font-size:11px!important;line-height:1.15!important;margin:8px 1px 4px!important}
-  .produto p{font-size:8.5px!important;line-height:1.25!important;min-height:34px!important;margin:0 1px!important}
-  .preco{font-size:14px!important;margin:7px 1px!important}
-  .produto .btn,.produto .btn-add{width:100%!important;min-height:34px!important;padding:7px 3px!important;font-size:9px!important;line-height:1.1!important}
+<style id="nd-r32-mobile-3-colunas-equilibrado">
+/* ============================================================
+   ND BURGS R32 — CELULAR / 3 PRODUTOS POR FILEIRA
+   Mantém 3 colunas, mas recalibra imagem, texto, preço e botão
+   para que o card fique proporcional e legível.
+   ============================================================ */
+@media (max-width:700px){
+  .produtos{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:8px!important;
+    align-items:stretch!important;
+  }
+
+  .produto{
+    min-width:0!important;
+    width:100%!important;
+    padding:7px!important;
+    border-radius:12px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+
+  .produto-imagem{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    object-fit:contain!important;
+    border-radius:9px!important;
+    margin-bottom:8px!important;
+    flex-shrink:0!important;
+  }
+
+  .produto h3{
+    font-size:12px!important;
+    line-height:1.15!important;
+    min-height:28px!important;
+    margin:2px 1px 5px!important;
+    display:-webkit-box!important;
+    -webkit-line-clamp:2!important;
+    -webkit-box-orient:vertical!important;
+    overflow:hidden!important;
+  }
+
+  .produto p{
+    font-size:9.5px!important;
+    line-height:1.25!important;
+    min-height:36px!important;
+    margin:0 1px!important;
+    display:-webkit-box!important;
+    -webkit-line-clamp:3!important;
+    -webkit-box-orient:vertical!important;
+    overflow:hidden!important;
+  }
+
+  .preco{
+    font-size:15px!important;
+    line-height:1.1!important;
+    min-height:17px!important;
+    margin:8px 1px 7px!important;
+    white-space:nowrap!important;
+  }
+
+  .produto .btn,
+  .produto .btn-add{
+    width:100%!important;
+    min-height:34px!important;
+    height:34px!important;
+    padding:6px 2px!important;
+    border-radius:7px!important;
+    font-size:9.5px!important;
+    line-height:1.05!important;
+    white-space:normal!important;
+    margin-top:auto!important;
+  }
+}
+
+/* Celulares muito estreitos: reduz apenas o necessário, sem esmagar o card. */
+@media (max-width:360px){
+  .produtos{gap:6px!important}
+  .produto{padding:6px!important}
+  .produto h3{font-size:11.5px!important}
+  .produto p{font-size:9px!important}
+  .preco{font-size:14px!important}
+  .produto .btn,.produto .btn-add{font-size:9px!important;height:33px!important;min-height:33px!important}
 }
 </style>
 </html>
