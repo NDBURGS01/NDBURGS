@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R29">
+<meta name="nd-site-version" content="20260909-R33">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R29";
+  const ND_SITE_VERSION = "20260909-R33";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -2626,7 +2626,7 @@ produto.acompanhamentos.length
 ){
 
 html+=
-`<div class="modal-secao"><h3>🍓 ACOMPANHAMENTOS</h3><div class="lista-acompanhamentos">`;
+`<div class="modal-secao"><h3>🍟 ACOMPANHAMENTOS</h3><div class="lista-acompanhamentos">`;
 
 produto.acompanhamentos.forEach((a,i)=>{
 
@@ -7019,11 +7019,11 @@ function optionsHtml(opts,name,prefix){return '<div class="r11-option-grid">'+op
 function addonHtml(prefix){return '<div class="r11-addons" id="'+prefix+'_addons"><div class="r11-bite">🍔 QUER TAL ADICIONAR ITENS NO SEU LANCHE ? E DEIXAR ELE DO JEITO QUE VOCE GOSTA<br><span style="font-size:10px;color:#ffb36d">ESCOLHA SEUS ADICIONAIS</span></div><div class="r11-addon-grid">'+ADDONS.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+prefix+'_a_'+i+'" data-price="'+a[1]+'" data-name="'+esc(a[0])+'"><label for="'+prefix+'_a_'+i+'"><img src="'+a[2]+'" alt="'+esc(a[0])+'"><span>'+esc(a[0])+'</span><br><b>+'+money(a[1])+'</b></label></div>').join('')+'</div><div class="r11-note">Os adicionais são opcionais e entram no valor do combo apenas se forem marcados.</div></div>'}
 function sectionHtml(sec,idx){
  const id='r11s'+idx;
- if(sec.type==='fixed')return '<div class="r11-section"><h3>📦 '+esc(sec.title)+'</h3><div class="r11-fixed"><span>FIXO</span><b>'+esc(sec.value)+'</b></div></div>';
+ if(sec.type==='fixed'){const t=norm(sec.title);const icon=t.includes('ACOMPANHAMENTO')?'🍟':(t.includes('SOBREMESA')?'🍇':(t.includes('BRINDE')?'🎁':'🍔'));return '<div class="r11-section"><h3>'+icon+' '+esc(sec.title.replace(/ FIXOS?$/i,'').replace(/ FIXAS?$/i,''))+'</h3><div class="r11-fixed"><b>'+esc(sec.value)+'</b></div></div>';}
  if(sec.type==='drink')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+'</div>';
  if(sec.type==='sauces')return '<div class="r11-section"><h3>🥫 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • MARQUE EXATAMENTE 2</span><div class="r11-sauce-grid">'+sec.options.map((x,i)=>'<div class="r11-sauce"><input type="checkbox" id="'+id+'_'+i+'" name="'+id+'" value="'+esc(x)+'"><label for="'+id+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div></div>';
  if(sec.type==='pastel')return '<div class="r11-section"><h3>🥟 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • SEM PASTEL ESPECIAL E SEM DOCES</span>'+optionsHtml((typeof saboresPasteis!=='undefined'?saboresPasteis.salgados:[]).filter(x=>norm(x[0])!=='PASTEL ESPECIAL').map(x=>x[0]),id,'r11opt'+idx)+'</div>';
- if(sec.type==='acai')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 300ML</span><div class="r11-fixed" style="margin-top:9px"><span>FIXO</span><b>AÇAÍ 300ML</b></div>'+acaiChoicesHtml(id,1)+'</div>';
+ if(sec.type==='acai')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 300ML</span><div class="r11-fixed" style="margin-top:9px"><b>AÇAÍ 300ML</b></div>'+acaiChoicesHtml(id,1)+'</div>';
  if(sec.type==='acai2')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 2 AÇAÍS DE 300ML</span>'+acaiChoicesHtml(id+'a',1)+acaiChoicesHtml(id+'b',2)+'</div>';
  if(sec.type==='burger')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+addonHtml(id)+'</div>';
  if(sec.type==='burger2')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 2</span><div style="margin-top:10px;font-size:10px;color:#aaa;font-weight:900">LANCHE 1</div>'+optionsHtml(sec.options,id+'a','r11opt'+idx+'a')+addonHtml(id+'a')+'<div style="margin-top:12px;font-size:10px;color:#aaa;font-weight:900">LANCHE 2</div>'+optionsHtml(sec.options,id+'b','r11opt'+idx+'b')+addonHtml(id+'b')+'<div class="r11-note">Você pode escolher lanches diferentes. Se repetir o mesmo lanche, ele será contabilizado duas vezes.</div></div>';
@@ -10122,6 +10122,177 @@ img,video,iframe,svg,canvas{
   document.addEventListener('DOMContentLoaded',ajustarContador);
   setTimeout(ajustarContador,500);
   setTimeout(ajustarContador,1500);
+})();
+</script>
+
+
+<!-- ND BURGS — AJUSTES SOLICITADOS 09/09/2026 -->
+<style id="nd-ajustes-0909">
+/* Acompanhamentos são porções: remove qualquer aparência de "caixa". */
+.r11-fixed{justify-content:flex-start!important}
+.r11-fixed b{color:#fff!important}
+
+/* Quantidade diretamente nos produtos adicionados */
+.nd-qty-badge{
+  position:absolute!important;
+  top:10px!important;
+  right:10px!important;
+  min-width:28px!important;
+  height:28px!important;
+  padding:0 8px!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:999px!important;
+  background:#e50914!important;
+  color:#fff!important;
+  border:2px solid #080808!important;
+  font-size:12px!important;
+  font-weight:1000!important;
+  line-height:1!important;
+  z-index:20!important;
+  box-shadow:0 5px 14px rgba(0,0,0,.45)!important;
+}
+.nd-qty-badge.show{display:flex!important}
+.produto{position:relative!important}
+
+/* No celular: o carrinho fica SOMENTE dentro da barra fixa
+   INÍCIO / BUSCAR / FAVORITOS / CARRINHO. */
+@media(max-width:800px){
+  #carrinhoFlutuante{display:none!important;opacity:0!important;pointer-events:none!important}
+  #ndR17BottomNav{
+    display:grid!important;
+    grid-template-columns:repeat(4,1fr)!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    z-index:12000!important;
+  }
+  #ndR17BottomNav .nd-r17-nav-btn{
+    position:relative!important;
+  }
+  #ndR17BottomNav .nd-cart-count{
+    position:absolute!important;
+    top:2px!important;
+    right:12px!important;
+    min-width:18px!important;
+    height:18px!important;
+    padding:0 5px!important;
+    display:none!important;
+    align-items:center!important;
+    justify-content:center!important;
+    border-radius:999px!important;
+    background:#e50914!important;
+    color:#fff!important;
+    border:2px solid #0c0c0e!important;
+    font-size:9px!important;
+    font-weight:1000!important;
+  }
+  #ndR17BottomNav .nd-cart-count.show{display:flex!important}
+  body{padding-bottom:145px!important}
+}
+</style>
+<script id="nd-ajustes-0909-js">
+(function(){
+  'use strict';
+  const q=s=>document.querySelector(s);
+  const qs=s=>Array.from(document.querySelectorAll(s));
+  const norm=v=>String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+
+  function getCart(){
+    return Array.isArray(window.carrinho)?window.carrinho:[];
+  }
+
+  function totalQty(){
+    return getCart().reduce((n,item)=>n+(Number(item.quantidade)||1),0);
+  }
+
+  function productQty(name){
+    const target=norm(name);
+    return getCart().reduce((n,item)=>{
+      return n + (norm(item.nome)===target ? (Number(item.quantidade)||1) : 0);
+    },0);
+  }
+
+  function addQtyBadges(){
+    qs('.produto').forEach(card=>{
+      const h=card.querySelector('h3');
+      if(!h)return;
+      let badge=card.querySelector('.nd-qty-badge');
+      if(!badge){
+        badge=document.createElement('span');
+        badge.className='nd-qty-badge';
+        badge.setAttribute('aria-label','Quantidade no carrinho');
+        card.appendChild(badge);
+      }
+      const qty=productQty(h.textContent);
+      badge.textContent=String(qty);
+      badge.classList.toggle('show',qty>0);
+    });
+  }
+
+  function addCartCount(){
+    const nav=q('#ndR17BottomNav');
+    if(!nav)return;
+    const cartBtn=nav.querySelector('[data-go="cart"]');
+    if(!cartBtn)return;
+    let badge=cartBtn.querySelector('.nd-cart-count');
+    if(!badge){
+      badge=document.createElement('span');
+      badge.className='nd-cart-count';
+      cartBtn.appendChild(badge);
+    }
+    const qty=totalQty();
+    badge.textContent=String(qty);
+    badge.classList.toggle('show',qty>0);
+  }
+
+  function refresh(){
+    addQtyBadges();
+    addCartCount();
+  }
+
+  function patchBottomNav(){
+    const nav=q('#ndR17BottomNav');
+    if(!nav)return;
+    const cartBtn=nav.querySelector('[data-go="cart"]');
+    if(cartBtn){
+      cartBtn.setAttribute('aria-label','Carrinho');
+      cartBtn.title='Carrinho';
+    }
+    addCartCount();
+  }
+
+  // Atualiza após qualquer adição/alteração do carrinho sem substituir a lógica existente.
+  function hook(){
+    ['atualizarCarrinho','adicionar','alterarQuantidade','removerItem'].forEach(fn=>{
+      if(typeof window[fn]!=='function')return;
+      if(window[fn].__ndQty0909)return;
+      const original=window[fn];
+      const wrapped=function(){
+        const result=original.apply(this,arguments);
+        setTimeout(refresh,0);
+        return result;
+      };
+      wrapped.__ndQty0909=true;
+      window[fn]=wrapped;
+    });
+  }
+
+  function init(){
+    patchBottomNav();
+    hook();
+    refresh();
+    setTimeout(()=>{patchBottomNav();hook();refresh()},500);
+    setTimeout(()=>{patchBottomNav();hook();refresh()},1500);
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
+
+  // Se algum módulo recriar a barra/menu, recoloca o contador.
+  const obs=new MutationObserver(()=>{patchBottomNav();addQtyBadges();});
+  if(document.body)obs.observe(document.body,{childList:true,subtree:true});
 })();
 </script>
 
