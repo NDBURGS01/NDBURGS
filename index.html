@@ -3196,7 +3196,13 @@ subtotal+taxa;
 
 barra.classList.add("ativo");
 
-contador.innerText=String(quantidade);
+contador.innerText=
+quantidade+
+(
+quantidade===1?
+" item":
+" itens"
+);
 
 total.innerText=
 moeda(valorTotal);
@@ -5434,8 +5440,7 @@ function setupCard(card){
  row.innerHTML='<div class="nd-fx-qty"><button type="button" class="nd-fx-minus">−</button><span class="nd-fx-q">1</span><button type="button" class="nd-fx-plus">+</button></div><button type="button" class="nd-fx-add">ADICIONAR</button>';
  card.appendChild(row);
  const qEl=row.querySelector('.nd-fx-q');
- function syncQty(){const n=Number(qEl.textContent)||1;const btn=row.querySelector('.nd-fx-add');if(btn)btn.textContent='ADICIONAR '+n+'x'}
- function setQty(n){n=Math.max(1,Math.min(99,n));qEl.textContent=n;syncQty()}
+ function setQty(n){n=Math.max(1,Math.min(99,n));qEl.textContent=n}
  row.querySelector('.nd-fx-minus').onclick=e=>{e.stopPropagation();setQty(Number(qEl.textContent)-1)};
  row.querySelector('.nd-fx-plus').onclick=e=>{e.stopPropagation();setQty(Number(qEl.textContent)+1)};
  row.querySelector('.nd-fx-add').onclick=e=>{
@@ -5450,7 +5455,6 @@ function setupCard(card){
     }else if(onclick){try{Function(onclick).call(old)}catch(_){}}
   }
   setQty(1);
-  syncQty();
  };
 }
 function addBadges(){
@@ -7021,23 +7025,17 @@ function optionsHtml(opts,name,prefix){return '<div class="r11-option-grid">'+op
 function addonHtml(prefix){return '<div class="r11-addons" id="'+prefix+'_addons"><div class="r11-bite">🍔 QUER TAL ADICIONAR ITENS NO SEU LANCHE ? E DEIXAR ELE DO JEITO QUE VOCE GOSTA<br><span style="font-size:10px;color:#ffb36d">ESCOLHA SEUS ADICIONAIS</span></div><div class="r11-addon-grid">'+ADDONS.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+prefix+'_a_'+i+'" data-price="'+a[1]+'" data-name="'+esc(a[0])+'"><label for="'+prefix+'_a_'+i+'"><img src="'+a[2]+'" alt="'+esc(a[0])+'"><span>'+esc(a[0])+'</span><br><b>+'+money(a[1])+'</b></label></div>').join('')+'</div><div class="r11-note">Os adicionais são opcionais e entram no valor do combo apenas se forem marcados.</div></div>'}
 function sectionHtml(sec,idx){
  const id='r11s'+idx;
- if(sec.type==='fixed'){
- const rawTitle=String(sec.title||'');
- const isAcomp=/ACOMPANHAMENTO/i.test(rawTitle);
- const title=isAcomp?(rawTitle.match(/ACOMPANHAMENTOS/i)?'PORÇÕES':'PORÇÃO'):rawTitle.replace(/\s*FIXOS?\s*/gi,' ').replace(/\s+/g,' ').trim();
- const displayValue=String(sec.value||'').replace(/\b\d+\s+(?=[A-ZÁÀÂÃÉÊÍÓÚÇ])/gi,'').replace(/\bFIXO\b/gi,'').replace(/\s+/g,' ').trim();
- return '<div class="r11-section"><h3>'+esc(title)+'</h3><div class="r11-fixed"><b>'+esc(displayValue)+'</b></div></div>';
-}
+ if(sec.type==='fixed')return '<div class="r11-section"><h3>📦 '+esc(sec.title)+'</h3><div class="r11-fixed"><span>FIXO</span><b>'+esc(sec.value)+'</b></div></div>';
  if(sec.type==='drink')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+'</div>';
  if(sec.type==='sauces')return '<div class="r11-section"><h3>🥫 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • MARQUE EXATAMENTE 2</span><div class="r11-sauce-grid">'+sec.options.map((x,i)=>'<div class="r11-sauce"><input type="checkbox" id="'+id+'_'+i+'" name="'+id+'" value="'+esc(x)+'"><label for="'+id+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div></div>';
  if(sec.type==='pastel')return '<div class="r11-section"><h3>🥟 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • SEM PASTEL ESPECIAL E SEM DOCES</span>'+optionsHtml((typeof saboresPasteis!=='undefined'?saboresPasteis.salgados:[]).filter(x=>norm(x[0])!=='PASTEL ESPECIAL').map(x=>x[0]),id,'r11opt'+idx)+'</div>';
- if(sec.type==='acai')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 300ML</span><div class="r11-fixed" style="margin-top:9px"><b>AÇAÍ 300ML</b></div>'+acaiChoicesHtml(id,1)+'</div>';
+ if(sec.type==='acai')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 300ML</span><div class="r11-fixed" style="margin-top:9px"><span>FIXO</span><b>AÇAÍ 300ML</b></div>'+acaiChoicesHtml(id,1)+'</div>';
  if(sec.type==='acai2')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 2 AÇAÍS DE 300ML</span>'+acaiChoicesHtml(id+'a',1)+acaiChoicesHtml(id+'b',2)+'</div>';
  if(sec.type==='burger')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+addonHtml(id)+'</div>';
  if(sec.type==='burger2')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 2</span><div style="margin-top:10px;font-size:10px;color:#aaa;font-weight:900">LANCHE 1</div>'+optionsHtml(sec.options,id+'a','r11opt'+idx+'a')+addonHtml(id+'a')+'<div style="margin-top:12px;font-size:10px;color:#aaa;font-weight:900">LANCHE 2</div>'+optionsHtml(sec.options,id+'b','r11opt'+idx+'b')+addonHtml(id+'b')+'<div class="r11-note">Você pode escolher lanches diferentes. Se repetir o mesmo lanche, ele será contabilizado duas vezes.</div></div>';
  return '';
 }
-function acaiChoicesHtml(id,num){const list=typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?produtosPersonalizaveis.acai.acompanhamentos:[];return '<div style="margin-top:10px"><div style="font-size:10px;color:#aaa;font-weight:900;margin-bottom:6px">AÇAÍ '+num+' • PORÇÕES</div><div class="r11-addon-grid">'+list.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+id+'_a_'+i+'" data-name="'+esc(a[0])+'" data-price="'+a[1]+'" data-acai="1"><label for="'+id+'_a_'+i+'"><span>'+esc(a[0])+'</span><br><b>'+((a[1]>0)?'+'+money(a[1]):'GRÁTIS')+'</b></label></div>').join('')+'</div><div class="r11-note">Até 3 porções normais são grátis, seguindo a regra do açaí do site. Os itens pagos continuam com o valor cadastrado.</div></div>'}
+function acaiChoicesHtml(id,num){const list=typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?produtosPersonalizaveis.acai.acompanhamentos:[];return '<div style="margin-top:10px"><div style="font-size:10px;color:#aaa;font-weight:900;margin-bottom:6px">AÇAÍ '+num+' • ACOMPANHAMENTOS</div><div class="r11-addon-grid">'+list.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+id+'_a_'+i+'" data-name="'+esc(a[0])+'" data-price="'+a[1]+'" data-acai="1"><label for="'+id+'_a_'+i+'"><div style="height:48px;display:grid;place-items:center;font-size:20px">🍓</div><span>'+esc(a[0])+'</span><br><b>'+((a[1]>0)?'+'+money(a[1]):'GRÁTIS')+'</b></label></div>').join('')+'</div><div class="r11-note">Até 3 acompanhamentos normais são grátis, seguindo a regra do açaí do site. Os itens pagos continuam com o valor cadastrado.</div></div>'}
 function open(name,price){ensureModal();current={name,price:Number(price),cfg:configs[name]};if(!current.cfg)return;document.getElementById('r11ComboTitle').textContent='🍔 '+name;document.getElementById('r11ComboContent').innerHTML=current.cfg.sections.map(sectionHtml).join('')+'<div class="r11-combo-total"><span>TOTAL DO COMBO</span><strong id="r11ComboTotal">'+money(current.price)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';const m=document.getElementById('ndComboModal');m.classList.add('show');document.body.style.overflow='hidden';bindDynamic();}
 function bindDynamic(){document.querySelectorAll('#r11ComboContent input[type=radio]').forEach(r=>r.addEventListener('change',()=>{const sec=r.closest('.r11-section');const addon=sec?.querySelector('.r11-addons');if(addon){addon.classList.add('show')}}));document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}}))}
 function selected(name){return document.querySelector('input[name="'+name+'"]:checked')?.value||''}
@@ -9950,239 +9948,4 @@ img,video,iframe,svg,canvas{
 })();
 </script>
 
-<style id="nd-r31-mobile-3-colunas">
-@media (max-width: 700px){
-  .produtos{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
-  .produto{min-width:0!important;padding:6px!important;border-radius:12px!important}
-  .produto-imagem{height:105px!important;border-radius:10px!important}
-  .produto h3{font-size:11px!important;line-height:1.15!important;margin:8px 1px 4px!important}
-  .produto p{font-size:8.5px!important;line-height:1.25!important;min-height:34px!important;margin:0 1px!important}
-  .preco{font-size:14px!important;margin:7px 1px!important}
-  .produto .btn,.produto .btn-add{width:100%!important;min-height:34px!important;padding:7px 3px!important;font-size:9px!important;line-height:1.1!important}
-}
-</style>
-
-
-<!-- =========================================================
-     ND BURGS — R32 / AJUSTE FINAL MOBILE
-     3 colunas proporcionais + carrinho somente por ícone
-     + contador numérico + botões compactos e legíveis
-     ========================================================= -->
-<style id="nd-r32-mobile-final">
-@media (max-width:700px){
-  /* CARDS: 3 por fileira, mas sem esmagar o conteúdo */
-  .produtos{
-    grid-template-columns:repeat(3,minmax(0,1fr))!important;
-    gap:7px!important;
-    align-items:stretch!important;
-  }
-
-  .produto{
-    min-width:0!important;
-    width:100%!important;
-    padding:7px 6px 8px!important;
-    border-radius:14px!important;
-    display:flex!important;
-    flex-direction:column!important;
-    overflow:hidden!important;
-  }
-
-  .produto-imagem{
-    width:100%!important;
-    height:98px!important;
-    min-height:98px!important;
-    margin-bottom:7px!important;
-    border-radius:10px!important;
-    object-fit:contain!important;
-  }
-
-  .produto h3{
-    font-size:11.5px!important;
-    line-height:1.16!important;
-    min-height:27px!important;
-    margin:5px 1px 3px!important;
-    overflow-wrap:anywhere!important;
-  }
-
-  .produto p{
-    font-size:9px!important;
-    line-height:1.25!important;
-    min-height:34px!important;
-    max-height:34px!important;
-    margin:0 1px!important;
-    overflow:hidden!important;
-  }
-
-  .produto .preco{
-    font-size:15px!important;
-    line-height:1.1!important;
-    margin:7px 1px 6px!important;
-    white-space:nowrap!important;
-  }
-
-  /* BOTÃO: menor, sem perder leitura/tocabilidade */
-  .produto .btn,
-  .produto .btn-add{
-    width:100%!important;
-    min-height:31px!important;
-    height:31px!important;
-    padding:5px 2px!important;
-    margin-top:auto!important;
-    border-radius:9px!important;
-    font-size:9.5px!important;
-    line-height:1!important;
-    font-weight:900!important;
-    letter-spacing:-.1px!important;
-    white-space:normal!important;
-    box-shadow:0 3px 8px rgba(0,0,0,.20)!important;
-  }
-
-  /* Categorias continuam fáceis de tocar */
-  .categoria-btn{
-    min-height:38px!important;
-    padding:8px 7px!important;
-    font-size:11px!important;
-  }
-
-  /* Espaçamento geral menor para aproveitar melhor a tela */
-  .container{
-    padding-left:8px!important;
-    padding-right:8px!important;
-  }
-
-  /* CARRINHO EXISTENTE: somente o ícone + quantidade */
-  #carrinhoFlutuante{
-    right:9px!important;
-    top:9px!important;
-  }
-
-  #carrinhoFlutuante .carrinho-flutuante-info strong{
-    width:46px!important;
-    min-width:46px!important;
-    height:46px!important;
-    min-height:46px!important;
-    padding:0!important;
-    font-size:0!important;
-    border-radius:14px!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-  }
-
-  #carrinhoFlutuante .carrinho-flutuante-info strong:after{
-    content:'🛒'!important;
-    font-size:22px!important;
-    line-height:1!important;
-    letter-spacing:0!important;
-  }
-
-  #carrinhoFlutuante .carrinho-flutuante-info span{
-    right:-8px!important;
-    top:-8px!important;
-    min-width:22px!important;
-    height:22px!important;
-    padding:0 5px!important;
-    font-size:10px!important;
-    border-width:2px!important;
-  }
-
-  /* O botão/texto VER CARRINHO e o total não aparecem no celular */
-  #carrinhoFlutuante .carrinho-flutuante-direita,
-  #carrinhoFlutuante .btn-ver-carrinho,
-  #totalCarrinhoFlutuante{
-    display:none!important;
-  }
-}
-
-@media (max-width:380px){
-  .produtos{gap:5px!important}
-  .produto{padding:6px 5px 7px!important}
-  .produto-imagem{height:88px!important;min-height:88px!important}
-  .produto h3{font-size:10.5px!important}
-  .produto p{font-size:8.5px!important}
-  .produto .preco{font-size:14px!important}
-  .produto .btn,.produto .btn-add{font-size:9px!important;height:30px!important;min-height:30px!important}
-}
-</style>
-
-<script id="nd-r32-cart-counter">
-(function(){
-  'use strict';
-  function ajustarContador(){
-    try{
-      var el=document.getElementById('contadorCarrinho');
-      if(!el || typeof carrinho==='undefined') return;
-      var total=carrinho.reduce(function(s,item){return s+(Number(item.quantidade)||0)},0);
-      /* O selo do carrinho mostra somente a quantidade de unidades. */
-      el.textContent=String(total);
-      el.setAttribute('aria-label', total+' '+(total===1?'item':'itens')+' no carrinho');
-    }catch(e){}
-  }
-  var original=window.atualizarCarrinhoFlutuante;
-  if(typeof original==='function' && !original.__ndR32){
-    function wrapped(quantidade,subtotal){
-      original.apply(this,arguments);
-      ajustarContador();
-    }
-    wrapped.__ndR32=true;
-    window.atualizarCarrinhoFlutuante=wrapped;
-  }
-  document.addEventListener('DOMContentLoaded',ajustarContador);
-  setTimeout(ajustarContador,500);
-  setTimeout(ajustarContador,1500);
-})();
-</script>
-
 </html>
-
-<!-- ND BURGS R32 — AJUSTES FINAIS -->
-<style id="nd-r32-final-fixes">
-#ndComboContent .r11-fixed{display:block!important}
-#ndComboContent .r11-fixed span{display:none!important}
-#ndComboContent .r11-fixed b{display:block!important;color:#fff!important;font-size:14px!important;line-height:1.4!important}
-@media(max-width:800px){
-  #carrinhoFlutuante,#ndFxCartbar,.nd-v3-buybar,#ndCartFab,#ndCartLabel,.nd-cart-fab,.nd-cart-label{
-    display:none!important;opacity:0!important;pointer-events:none!important;
-  }
-  #ndR17BottomNav{
-    display:grid!important;left:8px!important;right:8px!important;
-    bottom:calc(8px + env(safe-area-inset-bottom))!important;
-    z-index:12000!important;min-height:64px!important;padding:6px!important;
-    grid-template-columns:repeat(4,1fr)!important;
-  }
-  #ndR17BottomNav .nd-r17-nav-btn{
-    min-height:52px!important;padding:7px 2px!important;font-size:9px!important;line-height:1.1!important;
-  }
-  #ndR17BottomNav .nd-r17-nav-btn b{font-size:19px!important;line-height:1!important;margin-bottom:3px!important}
-  .nd-fx-buyrow{grid-template-columns:78px minmax(0,1fr)!important;gap:6px!important;width:100%!important}
-  .nd-fx-qty{grid-template-columns:24px minmax(0,1fr) 24px!important;min-width:0!important;height:44px!important}
-  .nd-fx-qty button{width:24px!important;min-height:44px!important;padding:0!important;font-size:17px!important}
-  .nd-fx-qty span{font-size:13px!important}
-  .nd-fx-add{
-    width:100%!important;min-width:0!important;min-height:44px!important;height:44px!important;
-    padding:0 4px!important;font-size:10px!important;line-height:1!important;
-    white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
-  }
-}
-</style>
-<script id="nd-r32-final-fixes-js">
-(function(){
-'use strict';
-function fixComboUI(){
- document.querySelectorAll('#ndComboContent .r11-section').forEach(function(sec){
-  var h=sec.querySelector('h3');
-  if(h){
-   h.textContent=h.textContent.replace(/📦\s*/g,'');
-   if(/ACOMPANHAMENTO/i.test(h.textContent)){
-    h.textContent=/ACOMPANHAMENTOS/i.test(h.textContent)?'PORÇÕES':'PORÇÃO';
-   }else{
-    h.textContent=h.textContent.replace(/\s*FIXOS?\s*/gi,' ').replace(/\s+/g,' ').trim();
-   }
-  }
-  var badge=sec.querySelector('.r11-fixed span');if(badge)badge.remove();
- });
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixComboUI,{once:true});else fixComboUI();
-new MutationObserver(fixComboUI).observe(document.body,{childList:true,subtree:true});
-})();
-</script>
