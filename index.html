@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R29">
+<meta name="nd-site-version" content="20260910-R31">
 <script>
 (function () {
   const ND_SITE_VERSION = "20260907-R29";
@@ -4775,18 +4775,68 @@ verificarHorario();
   const q=document.getElementById('buscaProdutos');
   const counter=document.getElementById('contadorBusca');
   const empty=document.getElementById('semResultados');
+  /* BUSCA INTELIGENTE ND BURGS — aceita acentos, espaços, abreviações e pequenos erros */
+  const normalizarBusca = texto => String(texto||'')
+    .toLocaleLowerCase('pt-BR')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s]/g,' ')
+    .replace(/\s+/g,' ').trim();
+
+  function distancia(a,b){
+    if(a===b)return 0;
+    if(!a||!b)return Math.max(a.length,b.length);
+    if(Math.abs(a.length-b.length)>3)return 99;
+    let prev=Array.from({length:b.length+1},(_,i)=>i);
+    for(let i=1;i<=a.length;i++){
+      const cur=[i];
+      for(let j=1;j<=b.length;j++){
+        cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+      }
+      prev=cur;
+    }
+    return prev[b.length];
+  }
+
+  function termoCombina(termo,texto){
+    if(!termo)return true;
+    const qn=normalizarBusca(termo);
+    const tn=normalizarBusca(texto);
+    if(!qn)return true;
+    if(tn.includes(qn))return true;
+
+    // Também aceita o cliente juntar/separar palavras: "xburguer" ↔ "x burguer"
+    const compact=tn.replace(/ /g,'');
+    if(compact.includes(qn.replace(/ /g,'')))return true;
+
+    const palavrasBusca=qn.split(' ').filter(Boolean);
+    const palavrasTexto=tn.split(' ').filter(Boolean);
+
+    // Cada palavra digitada precisa ter uma palavra próxima no nome/descrição.
+    return palavrasBusca.every(pb=>{
+      if(pb.length<=2){
+        return palavrasTexto.some(pt=>pt===pb || pt.startsWith(pb) || pt.includes(pb));
+      }
+      return palavrasTexto.some(pt=>{
+        if(pt.includes(pb)||pb.includes(pt))return true;
+        const limite=pb.length>=7?3:(pb.length>=4?2:1);
+        return distancia(pb,pt)<=limite;
+      });
+    });
+  }
+
   function filtrar(){
-    const termo=(q?.value||'').trim().toLocaleLowerCase('pt-BR');
+    const termo=(q?.value||'').trim();
     let total=0, visiveis=0;
     document.querySelectorAll('.produto').forEach(card=>{
       total++;
-      const texto=card.innerText.toLocaleLowerCase('pt-BR');
-      const ok=!termo||texto.includes(termo);
+      const texto=(card.querySelector('h3')?.textContent||'')+' '+(card.querySelector('p')?.textContent||'');
+      const ok=termoCombina(termo,texto);
       card.classList.toggle('search-hidden',!ok);
       if(ok)visiveis++;
     });
     if(counter) counter.textContent=termo?`${visiveis} produto${visiveis===1?'':'s'}`:'';
     if(empty) empty.style.display=termo&&visiveis===0?'block':'none';
+    if(typeof refreshEmptyCategories==='function') setTimeout(refreshEmptyCategories,0);
   }
   q?.addEventListener('input',filtrar);
 
