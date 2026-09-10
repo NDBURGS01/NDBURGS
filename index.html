@@ -4,7 +4,7 @@
 <meta name="nd-site-version" content="20260910-R31">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R29";
+  const ND_SITE_VERSION = "20260910-R31";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -10122,152 +10122,75 @@ img,video,iframe,svg,canvas{
 <script id="nd-r30-quantity-mobile-cart">
 (function(){
 'use strict';
-
 function qsa(s){return Array.from(document.querySelectorAll(s))}
-function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim()}
-
-/* Faz o controle de quantidade existir em TODO produto, inclusive nos combos e personalizáveis. */
 function setupAllProducts(){
-  qsa('.produto').forEach(function(card){
-    if(card.dataset.ndR30Ready==='1')return;
-    var old=card.querySelector('.btn-add');
-    if(!old)return;
-
-    card.dataset.ndR30Ready='1';
-    var onclick=old.getAttribute('onclick')||'';
-    var name=(card.querySelector('h3')?.textContent||'PRODUTO').trim();
-    var priceText=(card.querySelector('.preco')?.textContent||'');
-    var match=priceText.match(/R\$\s*([\d\.]+,[\d]{2})/);
-    var price=match?parseFloat(match[1].replace(/\./g,'').replace(',','.')):0;
-
-    /* Se a versão anterior já criou o seletor, só garante que ele fique visível. */
-    var existing=card.querySelector('.nd-fx-buyrow');
-    if(existing){
-      /* Remove o seletor antigo para instalar o R30 com suporte correto a combos. */
-      existing.remove();
-    }
-
-    old.style.display='none';
-
-    var row=document.createElement('div');
-    row.className='nd-fx-buyrow nd-r30-buyrow';
-    row.innerHTML='<div class="nd-fx-qty" aria-label="Quantidade"><button type="button" class="nd-fx-minus" aria-label="Diminuir quantidade">−</button><span class="nd-fx-q">1</span><button type="button" class="nd-fx-plus" aria-label="Aumentar quantidade">+</button></div><button type="button" class="nd-fx-add">ADICIONAR</button>';
-    card.appendChild(row);
-
-    var qel=row.querySelector('.nd-fx-q');
-    function setQty(n){n=Math.max(1,Math.min(99,Number(n)||1));qel.textContent=String(n)}
-
-    row.querySelector('.nd-fx-minus').onclick=function(e){e.preventDefault();e.stopPropagation();setQty(Number(qel.textContent)-1)};
-    row.querySelector('.nd-fx-plus').onclick=function(e){e.preventDefault();e.stopPropagation();setQty(Number(qel.textContent)+1)};
-
-    row.querySelector('.nd-fx-add').onclick=function(e){
-      e.preventDefault();e.stopPropagation();
-      var qty=Math.max(1,Math.min(99,Number(qel.textContent)||1));
-      var combo=/abrirComboPersonalizacao\s*\(/i.test(onclick);
-      var custom=/abrirPersonalizacao\s*\(/i.test(onclick);
-
-      if(combo){
-        /* O modal do combo usa ndPendingQty para gravar a quantidade após personalizar. */
-        window.ndPendingQty=qty;
-        try{Function('return '+onclick)()}
-        catch(_){
-          var m=onclick.match(/abrirComboPersonalizacao\s*\(\s*['"]([^'"]+)['"]\s*,\s*([0-9.]+)/i);
-          if(m&&typeof window.abrirComboPersonalizacao==='function')window.abrirComboPersonalizacao(m[1],Number(m[2]));
-        }
-      }else if(custom){
-        window.ndPendingQty=qty;
-        try{Function('return '+onclick)()}
-        catch(_){
-          var c=onclick.match(/abrirPersonalizacao\s*\(\s*['"]([^'"]+)['"]\s*\)/i);
-          if(c&&typeof window.abrirPersonalizacao==='function')window.abrirPersonalizacao(c[1]);
-        }
-      }else if(typeof window.adicionar==='function'&&name&&price>0){
-        for(var i=0;i<qty;i++)window.adicionar(name,price);
-      }else if(onclick){
-        try{Function('return '+onclick)()}catch(_){try{old.click()}catch(__){}}
-      }
-      setQty(1);
-    };
-  });
+ qsa('.produto').forEach(function(card){
+  if(card.dataset.ndR30Ready==='1')return;
+  var old=card.querySelector('.btn-add'); if(!old)return;
+  card.dataset.ndR30Ready='1';
+  var onclick=old.getAttribute('onclick')||'';
+  var name=(card.querySelector('h3')?.textContent||'PRODUTO').trim();
+  var text=card.querySelector('.preco')?.textContent||'';
+  var m=text.match(/R\$\s*([\d\.]+,[\d]{2})/);
+  var price=m?parseFloat(m[1].replace(/\./g,'').replace(',','.')):0;
+  old.style.display='none';
+  var row=document.createElement('div'); row.className='nd-fx-buyrow nd-r30-buyrow';
+  row.innerHTML='<div class="nd-fx-qty" aria-label="Quantidade"><button type="button" class="nd-fx-minus" aria-label="Diminuir quantidade">−</button><span class="nd-fx-q">1</span><button type="button" class="nd-fx-plus" aria-label="Aumentar quantidade">+</button></div><button type="button" class="nd-fx-add">COMPRAR</button>';
+  card.appendChild(row);
+  var qel=row.querySelector('.nd-fx-q');
+  function setQty(n){qel.textContent=String(Math.max(1,Math.min(99,Number(n)||1)))}
+  row.querySelector('.nd-fx-minus').onclick=function(e){e.preventDefault();e.stopPropagation();setQty(Number(qel.textContent)-1)};
+  row.querySelector('.nd-fx-plus').onclick=function(e){e.preventDefault();e.stopPropagation();setQty(Number(qel.textContent)+1)};
+  row.querySelector('.nd-fx-add').onclick=function(e){
+   e.preventDefault();e.stopPropagation();
+   var qty=Math.max(1,Math.min(99,Number(qel.textContent)||1));
+   var combo=/abrirComboPersonalizacao\s*\(/i.test(onclick), custom=/abrirPersonalizacao\s*\(/i.test(onclick);
+   try{
+    if(combo||custom){window.ndPendingQty=qty; Function(onclick).call(window)}
+    else if(typeof window.adicionar==='function'&&name&&price>0){for(var i=0;i<qty;i++)window.adicionar(name,price)}
+    else if(onclick){Function(onclick).call(window)} else old.click();
+   }catch(err){try{old.click()}catch(_){} }
+   setQty(1);
+  };
+ });
 }
-
-/* Corrige o modal de combo para respeitar a quantidade escolhida no card. */
 function patchComboConfirm(){
-  if(typeof window.confirmarComboPersonalizacao!=='function'||window.confirmarComboPersonalizacao.__ndR30)return;
-  var old=window.confirmarComboPersonalizacao;
-  window.confirmarComboPersonalizacao=function(){
-    var qty=Math.max(1,Math.min(99,Number(window.ndPendingQty)||1));
-    var before=Array.isArray(window.carrinho)?window.carrinho.length:0;
-    var result=old.apply(this,arguments);
-    /* O confirmador original cria 1 item; transforma em qty sem duplicar personalização. */
-    var c=Array.isArray(window.carrinho)?window.carrinho:[];
-    if(c.length>before){
-      var item=c[c.length-1];
-      if(item)item.quantidade=qty;
-      if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();
-    }
-    window.ndPendingQty=1;
-    return result;
-  };
-  window.confirmarComboPersonalizacao.__ndR30=true;
-}
-
-/* Corrige também a quantidade do pastel personalizado. */
-function patchPastelConfirm(){
-  if(typeof window.confirmarPersonalizacaoPastel!=='function'||window.confirmarPersonalizacaoPastel.__ndR30)return;
-  var old=window.confirmarPersonalizacaoPastel;
-  window.confirmarPersonalizacaoPastel=function(){
-    var qty=Math.max(1,Math.min(99,Number(window.ndPendingQty)||1));
-    var before=Array.isArray(window.carrinho)?window.carrinho.length:0;
-    var result=old.apply(this,arguments);
-    var c=Array.isArray(window.carrinho)?window.carrinho:[];
-    for(var i=before;i<c.length;i++)if(c[i])c[i].quantidade=qty;
-    if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();
-    window.ndPendingQty=1;
-    return result;
-  };
-  window.confirmarPersonalizacaoPastel.__ndR30=true;
-}
-
-/* No mobile, o indicador mostra somente a quantidade total, nunca "VER CARRINHO". */
-function refreshMobileCart(){
-  var cart=document.getElementById('carrinhoFlutuante');
-  if(!cart)return;
+ if(typeof window.confirmarComboPersonalizacao!=='function'||window.confirmarComboPersonalizacao.__ndR31)return;
+ var old=window.confirmarComboPersonalizacao;
+ window.confirmarComboPersonalizacao=function(){
+  var qty=Math.max(1,Math.min(99,Number(window.ndPendingQty)||1));
+  var before=Array.isArray(window.carrinho)?window.carrinho.length:0, result=old.apply(this,arguments);
   var c=Array.isArray(window.carrinho)?window.carrinho:[];
-  var qty=c.reduce(function(s,i){return s+(Number(i.quantidade)||1)},0);
-  var span=document.getElementById('contadorCarrinho')||cart.querySelector('.carrinho-flutuante-info span');
-  if(span)span.textContent=String(qty);
-  cart.classList.toggle('ativo',qty>0);
+  if(c.length>before&&c[c.length-1])c[c.length-1].quantidade=qty;
+  if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho(); window.ndPendingQty=1; return result;
+ };
+ window.confirmarComboPersonalizacao.__ndR31=true;
 }
-
-function cleanMobileExtras(){
-  if(window.innerWidth>600)return;
-  qsa('.nd-v3-buybar,.nd-cart-fab,.nd-cart-label,.nd-fx-cartbar').forEach(function(el){el.remove()});
-  qsa('.btn-ver-carrinho,.nd-fx-cart-open,#ndV3BuyBtn').forEach(function(el){el.style.display='none'});
+function patchPastelConfirm(){
+ if(typeof window.confirmarPersonalizacaoPastel!=='function'||window.confirmarPersonalizacaoPastel.__ndR31)return;
+ var old=window.confirmarPersonalizacaoPastel;
+ window.confirmarPersonalizacaoPastel=function(){
+  var qty=Math.max(1,Math.min(99,Number(window.ndPendingQty)||1));
+  var before=Array.isArray(window.carrinho)?window.carrinho.length:0, result=old.apply(this,arguments);
+  var c=Array.isArray(window.carrinho)?window.carrinho:[];
+  for(var i=before;i<c.length;i++)if(c[i])c[i].quantidade=qty;
+  if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho(); window.ndPendingQty=1; return result;
+ };
+ window.confirmarPersonalizacaoPastel.__ndR31=true;
 }
-
+function refreshMobileCart(){
+ var cart=document.getElementById('carrinhoFlutuante'); if(!cart)return;
+ var c=Array.isArray(window.carrinho)?window.carrinho:[];
+ var qty=c.reduce(function(sum,item){return sum+(Number(item.quantidade)||1)},0);
+ var span=document.getElementById('contadorCarrinho')||cart.querySelector('.carrinho-flutuante-info span');
+ if(span&&span.textContent!==String(qty))span.textContent=String(qty); cart.classList.toggle('ativo',qty>0);
+}
 function boot(){
-  setupAllProducts();
-  patchComboConfirm();
-  patchPastelConfirm();
-  refreshMobileCart();
-  cleanMobileExtras();
-
-  /* Reaplica quando módulos antigos terminam de montar produtos/cart. */
-  var obs=new MutationObserver(function(){
-    setupAllProducts();
-    patchComboConfirm();
-    patchPastelConfirm();
-    refreshMobileCart();
-    cleanMobileExtras();
-  });
-  obs.observe(document.body,{childList:true,subtree:true});
-
-  window.addEventListener('resize',cleanMobileExtras,{passive:true});
-  setInterval(refreshMobileCart,350);
+ setupAllProducts(); patchComboConfirm(); patchPastelConfirm(); refreshMobileCart();
+ window.addEventListener('resize',refreshMobileCart,{passive:true});
+ setTimeout(function(){setupAllProducts();patchComboConfirm();patchPastelConfirm();refreshMobileCart()},500);
+ setTimeout(function(){setupAllProducts();patchComboConfirm();patchPastelConfirm();refreshMobileCart()},1500);
 }
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
-else boot();
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
 </script>
