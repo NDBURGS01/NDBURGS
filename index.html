@@ -868,10 +868,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 🍔 ARTESANAIS
 </button>
 
-<button class="categoria-btn" onclick="irPara('combosArtesanais')">
-🔥 COMBOS ARTESANAIS
-</button>
-
 <button class="categoria-btn" onclick="irPara('porcoes')">
 🍟 PORÇÕES
 </button>
@@ -1103,80 +1099,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </div>
 </section>
 
-<section id="combosArtesanais" class="categoria">
 
-<div class="categoria-titulo">
-🔥 COMBOS ARTESANAIS
-</div>
-
-<div class="produtos">
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/QR0388c/COMBO-S-LOVE.png" alt="COMBO SÓ LOVE">
-<h3>ARTESANAL COMBO SÓ LOVE</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 90,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO SÓ LOVE',90.80)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/5WM7335K/5-ESTRELAS.png" alt="COMBO 5 ESTRELAS">
-<h3>ARTESANAL COMBO 5 ESTRELAS</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 70,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO 5 ESTRELAS',70.80)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/HLNHv9tt/COMBO-MAIS-VENDIDO-NOVO.png" alt="COMBO MAIS VENDIDO">
-<h3>ARTESANAL COMBO MAIS VENDIDO</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 34,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO MAIS VENDIDO',34.80)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/wNQqzkSf/COMBO-DOCE.png" alt="COMBO DOCE">
-<h3>ARTESANAL COMBO DOCE</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 44,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO DOCE',44.80)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/cSLMFXtL/COMBO-GELADO.png" alt="COMBO GELADO">
-<h3>ARTESANAL COMBO GELADO</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 52,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL COMBO GELADO',52.80)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/23CmpQqn/DATE-COM-ND-BURGS.png" alt="DATE COM NDBURGS">
-<h3>ARTESANAL DATE COM NDBURGS</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 91,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL DATE COM NDBURGS',91.80)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/PvJqcwzb/MOTACA-ND.png" alt="COMBO MOTOCA ND">
-<h3>ARTESANAL MOTOCA ND</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 41,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL MOTOCA ND',41.80)">ADICIONAR</button>
-</div>
-
-<div class="produto">
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/Lz9JQx8f/01-NDBURGS.png" alt="01 ND BURGS">
-<h3>ARTESANAL 01 ND BURGS</h3>
-<p>Combo artesanal especial.</p>
-<div class="preco">R$ 96,80</div>
-<button class="btn btn-add" onclick="abrirComboPersonalizacao('ARTESANAL 01 ND BURGS',96.80)">ADICIONAR</button>
-</div>
-
-</div>
-</section>
 
 <section id="porcoes" class="categoria">
 
@@ -6156,8 +6079,8 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     if(document.getElementById('nd15NavWrap')) return;
     var sections=Array.prototype.slice.call(document.querySelectorAll('section.categoria'));
     if(!sections.length) return;
-    var names=['Combos','Tradicionais','Artesanais','Combos Artesanais','Porções','Pastéis','Açaís - Milkshakes e Sobremesas','Bebidas','Adicionais'];
-    var icons=['❤️','🍔','🔥','🔥','🍟','🥟','🍨','🥤','➕'];
+    var names=['Combos','Tradicionais','Artesanais','Porções','Pastéis','Açaís - Milkshakes e Sobremesas','Bebidas','Adicionais'];
+    var icons=['❤️','🍔','🔥','🍟','🥟','🍨','🥤','➕'];
     var used=[], nav=document.createElement('div'); nav.id='nd15NavWrap';
     var bar=document.createElement('nav'); bar.id='nd15Nav'; bar.setAttribute('aria-label','Categorias do cardápio');
     sections.forEach(function(sec,i){
@@ -6925,7 +6848,7 @@ function renderBest(){
 }
 function buildQuickNav(){
  if($('#nd20QuickNav'))return;const menu=$('.categoria-menu');if(!menu)return;const wrap=document.createElement('div');wrap.id='nd20QuickNav';wrap.innerHTML='<div id="nd20QuickCats"></div><button id="nd20Finish" type="button">FINALIZAR PEDIDO →</button>';menu.parentNode.insertBefore(wrap,menu);
- const cats=$$('.categoria');const names=['COMBOS','TRADICIONAIS','ARTESANAIS','COMBOS ARTESANAIS','PORÇÕES','PASTÉIS','AÇAÍS - MILKSHAKES E SOBREMESAS','BEBIDAS','ADICIONAIS'];const icons=['❤️','🍔','🔥','🔥','🍟','🥟','🍨','🥤','➕'];const box=$('#nd20QuickCats');cats.forEach((cat,i)=>{const b=document.createElement('button');b.type='button';b.className='nd20-qcat';b.textContent=(icons[i]||'•')+' '+(names[i]||('CATEGORIA '+(i+1)));b.onclick=()=>cat.scrollIntoView({behavior:'smooth',block:'start'});box.appendChild(b)});
+ const cats=$$('.categoria');const names=['COMBOS','TRADICIONAIS','ARTESANAIS','PORÇÕES','PASTÉIS','AÇAÍS - MILKSHAKES E SOBREMESAS','BEBIDAS','ADICIONAIS'];const icons=['❤️','🍔','🔥','🍟','🥟','🍨','🥤','➕'];const box=$('#nd20QuickCats');cats.forEach((cat,i)=>{const b=document.createElement('button');b.type='button';b.className='nd20-qcat';b.textContent=(icons[i]||'•')+' '+(names[i]||('CATEGORIA '+(i+1)));b.onclick=()=>cat.scrollIntoView({behavior:'smooth',block:'start'});box.appendChild(b)});
  $('#nd20Finish').onclick=()=>{if(typeof window.abrirCarrinho==='function'){window.abrirCarrinho()}else{$('#modalCarrinho')?.classList.add('ativo')}};
 }
 function patchIntroButton(){
