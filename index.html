@@ -10568,3 +10568,118 @@ img,video,iframe,svg,canvas{
 })();
 </script>
 </html>
+
+<!-- =========================================================
+     ND BURGS R32 — CORREÇÃO DEFINITIVA DA PESQUISA
+     1) O item encontrado fica sozinho em destaque.
+     2) O resultado é levado para o topo da visão.
+     3) Bloqueia a mensagem antiga "NÃO ENCONTRAMOS" quando
+        existe resultado.
+     4) Ao limpar, devolve o cardápio inteiro.
+     ========================================================= -->
+<style id="nd-r32-search-top-fix">
+  .ndR32-force-visible{display:block!important;visibility:visible!important;opacity:1!important}
+</style>
+<script id="nd-r32-search-top-fix-js">
+(function(){
+  'use strict';
+  function norm(v){
+    return String(v||'').toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+  }
+  function input(){return document.getElementById('buscaProdutos');}
+  function cards(){return Array.from(document.querySelectorAll('.produto'));}
+  function hideLegacyEmpty(){
+    document.querySelectorAll('.nd14-no-results,#semResultados').forEach(function(el){
+      el.style.display='none';
+      el.classList.add('nd14-hidden');
+    });
+  }
+  function restore(){
+    cards().forEach(function(card){
+      card.classList.remove('ndR32-match','ndR32-no-match','ndR32-force-visible');
+      card.classList.remove('search-hidden','nd14-hidden');
+      card.style.removeProperty('display');
+      card.style.removeProperty('visibility');
+      card.style.removeProperty('opacity');
+    });
+    document.querySelectorAll('.categoria').forEach(function(sec){
+      sec.classList.remove('ndR32-no-match','search-hidden','nd14-hidden');
+      sec.style.removeProperty('display');
+    });
+    hideLegacyEmpty();
+  }
+  function text(card){
+    var h=card.querySelector('h3,h4,.produto-nome,.nome-produto,.product-name');
+    var p=card.querySelector('p');
+    var img=card.querySelector('img');
+    return norm((h?h.textContent:'')+' '+(p?p.textContent:'')+' '+(img?(img.getAttribute('alt')||''):''));
+  }
+  var lastTerm='';
+  var scrollTimer=0;
+  function apply(){
+    var q=input(); if(!q)return;
+    var term=norm(q.value);
+    if(!term){
+      lastTerm=''; restore(); return;
+    }
+    lastTerm=term;
+    var matches=[];
+    cards().forEach(function(card){
+      var ok=text(card).indexOf(term)!==-1;
+      card.classList.toggle('ndR32-match',ok);
+      card.classList.toggle('ndR32-no-match',!ok);
+      if(ok){
+        card.classList.add('ndR32-force-visible');
+        card.classList.remove('search-hidden','nd14-hidden');
+        matches.push(card);
+      }else{
+        card.classList.remove('ndR32-force-visible');
+      }
+    });
+    document.querySelectorAll('.categoria').forEach(function(sec){
+      var has=!!sec.querySelector('.produto.ndR32-match');
+      sec.classList.toggle('ndR32-no-match',!has);
+      sec.classList.remove('search-hidden','nd14-hidden');
+    });
+    if(matches.length){
+      hideLegacyEmpty();
+      clearTimeout(scrollTimer);
+      scrollTimer=setTimeout(function(){
+        var first=matches[0];
+        if(!first || lastTerm!==term)return;
+        var r=first.getBoundingClientRect();
+        var y=window.scrollY+r.top-16;
+        window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+      },80);
+    }
+  }
+  function init(){
+    var q=input(); if(!q || q.dataset.ndR32TopFix==='1')return;
+    q.dataset.ndR32TopFix='1';
+    q.addEventListener('input',apply,true);
+    q.addEventListener('search',apply,true);
+    q.addEventListener('keydown',function(e){
+      if(e.key==='Escape'){q.value='';setTimeout(restore,0);}
+    },true);
+    var clear=document.getElementById('ndR31ClearSearch');
+    if(clear)clear.addEventListener('click',function(){setTimeout(restore,20);},true);
+    var mo=new MutationObserver(function(){
+      var term=norm(q.value);
+      if(term){
+        hideLegacyEmpty();
+        /* Remove classes de buscas antigas que podem esconder o resultado. */
+        cards().forEach(function(card){
+          if(card.classList.contains('ndR32-match')){
+            card.classList.remove('search-hidden','nd14-hidden');
+            card.classList.add('ndR32-force-visible');
+          }
+        });
+      }
+    });
+    mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style']});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+  setTimeout(init,300);setTimeout(init,1000);setTimeout(init,2000);
+})();
+</script>
