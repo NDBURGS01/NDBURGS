@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R30-TAXA-WHITE">
+<meta name="nd-site-version" content="20260910-R31">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R30-TAXA-WHITE";
+  const ND_SITE_VERSION = "20260910-R31";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -747,66 +747,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   filter: none !important;
 }
 </style>
-
-<style id="nd-r30-search-free-delivery">
-/* ND BURGS R30 — busca inteligente + entrega grátis */
-.nd-r30-search-tools{display:flex;gap:8px;align-items:center;width:100%}
-.nd-r30-search-tools input{flex:1!important}
-.nd-r30-clear{display:none;border:1px solid #ff3b30;background:#ff3b30;color:#fff;border-radius:12px;padding:12px 14px;font-weight:950;cursor:pointer;white-space:nowrap}
-.nd-r30-clear.show{display:block}
-.nd-r30-results{display:none;margin:10px 0 16px;padding:14px 16px;border:1px solid #ff3b30;border-radius:16px;background:linear-gradient(135deg,rgba(255,59,48,.18),rgba(255,138,0,.08));box-shadow:0 10px 35px rgba(255,59,48,.10)}
-.nd-r30-results.show{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.nd-r30-results strong{font-size:16px}.nd-r30-results small{display:block;color:#bbb;margin-top:3px}
-.nd-r30-search-focus .produto{display:none!important}
-.nd-r30-search-focus .produto.nd-r30-match{display:block!important;grid-column:span 1;transform:none!important;border:2px solid #ff3b30!important;box-shadow:0 18px 55px rgba(255,59,48,.24)!important}
-.nd-r30-search-focus .produto.nd-r30-match .produto-imagem{height:250px!important}
-.nd-r30-search-focus .produto.nd-r30-match h3{font-size:20px!important}
-.nd-r30-search-focus .produto.nd-r30-match .preco{font-size:24px!important;color:#ffd166!important}
-.nd-r30-search-focus .categoria:has(.nd-r30-match){display:block!important}
-.nd-r30-search-focus .categoria:not(:has(.nd-r30-match)){display:none!important}
-.nd-r30-free-banner{display:none;position:relative;z-index:900;margin:8px auto 10px;max-width:1180px;padding:15px 18px;text-align:center;border:2px solid #25d366;border-radius:18px;background:linear-gradient(135deg,#062b18,#0c5c2b,#062b18);box-shadow:0 0 28px rgba(37,211,102,.28),0 12px 35px rgba(0,0,0,.35);animation:ndFreePulse 1.8s ease-in-out infinite}
-.nd-r30-free-banner.show{display:block}.nd-r30-free-banner b{display:block;font-size:clamp(18px,3vw,27px);letter-spacing:.2px}.nd-r30-free-banner span{display:block;margin-top:4px;font-size:12px;color:#d8ffe7;font-weight:800}
-.nd-r30-free-badge{display:inline-block;margin-left:7px;padding:4px 8px;border-radius:999px;background:#25d366;color:#04170c;font-size:10px;font-weight:950;vertical-align:middle}
-@keyframes ndFreePulse{50%{box-shadow:0 0 42px rgba(37,211,102,.45),0 12px 35px rgba(0,0,0,.4)}}
-@media(max-width:600px){.nd-r30-search-tools{gap:6px}.nd-r30-clear{padding:11px 9px;font-size:11px}.nd-r30-search-focus .produto.nd-r30-match .produto-imagem{height:190px!important}.nd-r30-search-focus .produto.nd-r30-match h3{font-size:17px!important}.nd-r30-results.show{align-items:flex-start}.nd-r30-free-banner{margin-left:9px;margin-right:9px;padding:13px 10px}}
-</style>
-
-
-<!-- ND BURGS — TAXA DE ENTREGA: SEM DESTAQUE VISUAL -->
-<style id="nd-taxa-entrega-discreta">
-/* A taxa de entrega deve ser sempre discreta: branca e menor que os demais valores. */
-#taxa,
-#taxaCarrinhoModal,
-#taxaFinalizarModal,
-#ndV4Fee {
-  color:#fff !important;
-  font-size:0.82em !important;
-  font-weight:600 !important;
-  text-shadow:none !important;
-  letter-spacing:0 !important;
-}
-/* Valores de taxa apresentados em avisos/resumos dinâmicos. */
-.aviso-taxa strong,
-#nd17AddressBar small,
-#nd17CartAddress strong,
-#nd26AddressSummary small,
-#nd26CurrentStatus span {
-  color:#fff !important;
-  font-size:0.88em !important;
-  font-weight:600 !important;
-  text-shadow:none !important;
-}
-/* Mantém a etiqueta "Taxa" discreta sem competir com subtotal/total. */
-#taxaCarrinhoModal,
-#taxaFinalizarModal {
-  line-height:1.2 !important;
-}
-</style>
-
 </head>
 
 <body>
-<div id="ndR30FreeBanner" class="nd-r30-free-banner" role="status" aria-live="polite"><b>🛵 HOJE TEM TAXA DE ENTREGA GRÁTIS! 🎉</b><span>PEÇA PELO SITE • A ENTREGA É POR NOSSA CONTA</span></div>
 
 <!-- ND R17: horário comercial real — terça a domingo, 18:00 às 00:30 -->
 
@@ -816,6 +759,19 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 
 </header>
+<!-- ND BURGS R31 — PROMOÇÃO DE TAXA GRÁTIS -->
+<section id="ndR31FreeDelivery" aria-live="polite" aria-label="Promoção de taxa de entrega">
+  <div class="ndR31Promo-shine"></div>
+  <div class="ndR31Promo-icon">🛵</div>
+  <div class="ndR31Promo-copy">
+    <span>🚨 OFERTA ESPECIAL DE HOJE</span>
+    <strong>HOJE ESTAMOS COM</strong>
+    <b>TAXA DE ENTREGA GRÁTIS</b>
+    <small>Aproveite e faça seu pedido agora!</small>
+  </div>
+  <button type="button" onclick="document.querySelector('.modern-search')?.scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('buscaProdutos')?.focus()">PEDIR AGORA</button>
+</section>
+
 
 <section class="nd-v4-hero">
   <div class="nd-v4-hero-glow"></div>
@@ -864,7 +820,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="container">
 
 <h1>🍔 FAÇA SEU PEDIDO</h1>
-<div class="modern-search"><div class="nd-r30-search-tools"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><button id="ndR30ClearSearch" class="nd-r30-clear" type="button">✕ LIMPAR</button><span id="contadorBusca" class="search-count"></span></div></div><div id="ndR30SearchResults" class="nd-r30-results"><div><strong id="ndR30SearchTitle">RESULTADOS</strong><small id="ndR30SearchSub">Encontramos produtos parecidos.</small></div><button id="ndR30ClearSearch2" class="nd-r30-clear show" type="button">✕ LIMPAR PESQUISA</button></div>
+<div class="modern-search" id="ndR31Search">
+  <input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos">
+  <span id="contadorBusca" class="search-count"></span>
+  <button type="button" id="ndR31ClearSearch" aria-label="Limpar pesquisa">✕ LIMPAR PESQUISA</button>
+</div>
 <div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
 
 <div class="categoria-menu">
@@ -6338,7 +6298,7 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     try{
       if(typeof window.obterTaxaEntrega==='function')return Number(window.obterTaxaEntrega()||0);
       const tipo=q('#tipoPedidoModal'), rua=q('#ruaModal');
-      if(tipo&&tipo.value==='ENTREGA'&&rua)return ndTaxaEntrega(rua.value);
+      if(tipo&&tipo.value==='ENTREGA'&&rua&&window.taxas)return Number(window.taxas[rua.value]||0);
       const rua2=q('#rua'); return rua2&&window.taxas?Number(window.taxas[rua2.value]||0):0;
     }catch(e){return 0}
   }
@@ -6497,7 +6457,7 @@ header .logo{display:none!important}
    const nome=$('#nomeModal')?.value.trim()||'', tel=$('#telefoneModal')?.value.trim()||'', tipo=$('#tipoPedidoModal')?.value||'ENTREGA', rua=$('#ruaModal')?.value||'', numero=$('#numeroModal')?.value.trim()||'', comp=$('#complementoModal')?.value.trim()||'', pagamento=$('#pagamentoModal')?.value||'', troco=$('#trocoModal')?.value||'', obs=$('#observacaoModal')?.value.trim()||'';
    if(!nome)return alert('Digite seu nome.'); const td=tel.replace(/\D/g,'');if(td.length<10||td.length>11)return alert('Digite um WhatsApp válido com DDD.');
    const aStreet=tipo==='ENTREGA'?(rua||addr().street):'';if(tipo==='ENTREGA'&&(!aStreet||!numero))return alert('Complete seu endereço.');if(!pagamento)return alert('Escolha uma forma de pagamento.');
-   const f=tipo==='ENTREGA'?ndTaxaEntrega(aStreet):0,sub=subtotal(),total=sub+f;if(sub<11.90)return alert('O pedido mínimo é R$ 11,90. Faltam '+money(11.90-sub)+'.');
+   const f=tipo==='ENTREGA'?Number((window.taxas||{})[aStreet]||0):0,sub=subtotal(),total=sub+f;if(sub<11.90)return alert('O pedido mínimo é R$ 11,90. Faltam '+money(11.90-sub)+'.');
    const lines=['NOVO PEDIDO - ND BURGS','CLIENTE: '+nome,'WHATSAPP: '+tel,'TIPO: '+(tipo==='ENTREGA'?'DELIVERY':'RETIRADA')];
    if(tipo==='ENTREGA'){lines.push('ENDEREÇO: '+aStreet+', Nº '+numero);if(comp)lines.push('COMPLEMENTO: '+comp)}
    lines.push('', 'ITENS DO PEDIDO');
@@ -9457,6 +9417,262 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<!-- =========================================================
+     ND BURGS R31 — MELHORIAS SOLICITADAS
+     Busca + limpar pesquisa + promoção taxa grátis + mobile
+     ========================================================= -->
+<style id="nd-r31-improvements">
+  #ndR31FreeDelivery{
+    display:none;
+    position:relative;
+    width:min(1100px,calc(100% - 24px));
+    margin:12px auto 8px;
+    padding:16px 18px;
+    overflow:hidden;
+    align-items:center;
+    gap:16px;
+    border:2px solid #ff3b30;
+    border-radius:20px;
+    background:
+      radial-gradient(circle at 15% 50%,rgba(255,59,48,.35),transparent 28%),
+      linear-gradient(135deg,#25070a,#120b0b 55%,#2a1304);
+    box-shadow:0 0 0 1px rgba(255,138,0,.2),0 12px 38px rgba(0,0,0,.5);
+    animation:ndR31Pulse 1.8s ease-in-out infinite;
+    z-index:30;
+  }
+  #ndR31FreeDelivery.ndR31-active{display:flex}
+  .ndR31Promo-shine{
+    position:absolute;inset:-60% -20%;
+    background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.20) 50%,transparent 58%);
+    transform:translateX(-70%);
+    animation:ndR31Shine 2.7s linear infinite;
+    pointer-events:none;
+  }
+  .ndR31Promo-icon{
+    position:relative;z-index:1;
+    width:58px;height:58px;flex:0 0 58px;
+    display:grid;place-items:center;
+    border-radius:17px;
+    background:linear-gradient(135deg,#ff3b30,#ff8a00);
+    font-size:30px;
+    box-shadow:0 0 25px rgba(255,59,48,.45);
+    animation:ndR31Bike 1.3s ease-in-out infinite;
+  }
+  .ndR31Promo-copy{position:relative;z-index:1;min-width:0;flex:1}
+  .ndR31Promo-copy span{display:block;color:#ffd166;font-size:11px;font-weight:900;letter-spacing:.7px}
+  .ndR31Promo-copy strong{display:block;color:#fff;font-size:15px;margin-top:2px}
+  .ndR31Promo-copy b{display:block;color:#ffd166;font-size:clamp(20px,3vw,30px);line-height:1.05;margin:2px 0;text-shadow:0 0 18px rgba(255,209,102,.3)}
+  .ndR31Promo-copy small{display:block;color:#ddd;font-size:12px;margin-top:4px}
+  #ndR31FreeDelivery button{
+    position:relative;z-index:1;flex:0 0 auto;
+    border:0;border-radius:12px;padding:12px 16px;
+    background:#fff;color:#111;font-weight:950;cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,.3);
+    transition:.18s ease;
+  }
+  #ndR31FreeDelivery button:hover{transform:translateY(-2px);background:#ffd166}
+  #ndR31ClearSearch,#nd14Clear{
+    border:1px solid rgba(255,255,255,.16)!important;
+    background:#191a1e!important;color:#fff!important;
+    border-radius:11px!important;
+    min-height:42px;padding:0 13px!important;
+    font-weight:900;cursor:pointer;white-space:nowrap;
+  }
+  #ndR31ClearSearch:hover,#nd14Clear:hover{border-color:#ff3b30!important;background:#241216!important}
+  #ndR31Search{gap:8px}
+  .ndR31-force-show{display:block!important}
+  @keyframes ndR31Pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 1px rgba(255,138,0,.2),0 12px 38px rgba(0,0,0,.5)}50%{transform:scale(1.008);box-shadow:0 0 0 3px rgba(255,59,48,.12),0 16px 48px rgba(255,59,48,.18)}}
+  @keyframes ndR31Shine{0%{transform:translateX(-80%)}55%,100%{transform:translateX(80%)}}
+  @keyframes ndR31Bike{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(-5deg) translateY(-3px)}}
+  @media(max-width:600px){
+    #ndR31FreeDelivery{width:calc(100% - 14px);padding:13px 12px;gap:10px;border-radius:16px}
+    .ndR31Promo-icon{width:44px;height:44px;flex-basis:44px;border-radius:13px;font-size:23px}
+    .ndR31Promo-copy span{font-size:9px}
+    .ndR31Promo-copy strong{font-size:12px}
+    .ndR31Promo-copy b{font-size:19px}
+    .ndR31Promo-copy small{font-size:10px}
+    #ndR31FreeDelivery button{padding:10px 9px;font-size:10px}
+    #ndR31ClearSearch{min-height:38px;padding:0 9px!important;font-size:10px}
+    #ndR31Search{align-items:stretch}
+    #ndR31Search .search-count{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #ndR31FreeDelivery,.ndR31Promo-shine,.ndR31Promo-icon{animation:none!important}
+  }
+</style>
+
+<script id="nd-r31-improvements-logic">
+(function(){
+  'use strict';
+
+  /* =========================================================
+     CONTROLE DA TAXA GRÁTIS
+     true  = mostra o destaque
+     false = deixa a promoção completamente escondida
+     ========================================================= */
+  const ND_R31_TAXA_GRATIS_ATIVA = false;
+
+  function allProducts(){
+    return Array.from(document.querySelectorAll('.produto'));
+  }
+
+  function restoreMenu(){
+    allProducts().forEach(function(card){
+      card.classList.remove('search-hidden','nd14-hidden');
+      card.style.removeProperty('display');
+    });
+
+    document.querySelectorAll('.categoria').forEach(function(section){
+      section.classList.remove('search-hidden','nd14-hidden');
+      section.style.removeProperty('display');
+    });
+
+    ['semResultados'].forEach(function(id){
+      const el=document.getElementById(id);
+      if(el) el.style.display='none';
+    });
+
+    document.querySelectorAll('.nd14-no-results').forEach(function(el){
+      el.classList.add('nd14-hidden');
+    });
+
+    const count=document.getElementById('contadorBusca');
+    if(count) count.textContent='';
+
+    const ndCount=document.getElementById('nd14Count');
+    if(ndCount) ndCount.textContent='';
+
+    const ndHint=document.getElementById('nd14Hint');
+    if(ndHint) ndHint.textContent='Digite o nome do produto';
+
+    const ndClear=document.getElementById('nd14Clear');
+    if(ndClear) ndClear.style.display='none';
+
+    /* Alguns scripts antigos escondem categorias vazias depois da busca.
+       Recalcula no próximo ciclo para restaurar tudo. */
+    setTimeout(function(){
+      document.querySelectorAll('.categoria').forEach(function(section){
+        section.style.removeProperty('display');
+      });
+    },0);
+  }
+
+  function clearAllSearches(focus){
+    ['buscaProdutos','nd14Search'].forEach(function(id){
+      const input=document.getElementById(id);
+      if(input) input.value='';
+    });
+    restoreMenu();
+    if(focus){
+      const input=document.getElementById('buscaProdutos') || document.getElementById('nd14Search');
+      if(input) input.focus();
+    }
+  }
+
+  function setupMainSearch(){
+    const input=document.getElementById('buscaProdutos');
+    const clear=document.getElementById('ndR31ClearSearch');
+    if(!input || !clear || clear.dataset.ndR31==='1') return;
+    clear.dataset.ndR31='1';
+
+    function sync(){
+      const active=input.value.trim().length>0;
+      clear.style.display=active?'inline-flex':'none';
+    }
+
+    clear.addEventListener('click',function(){
+      clearAllSearches(true);
+    });
+
+    input.addEventListener('input',function(){
+      sync();
+      if(!input.value.trim()) setTimeout(restoreMenu,0);
+    });
+
+    input.addEventListener('keydown',function(e){
+      if(e.key==='Escape') clearAllSearches(false);
+    });
+
+    sync();
+  }
+
+  function setupDynamicSearch(){
+    const clear=document.getElementById('nd14Clear');
+    if(clear && clear.dataset.ndR31!=='1'){
+      clear.dataset.ndR31='1';
+      clear.textContent='✕ LIMPAR PESQUISA';
+      clear.addEventListener('click',function(){
+        clearAllSearches(true);
+      });
+    }
+
+    const input=document.getElementById('nd14Search');
+    if(input && input.dataset.ndR31!=='1'){
+      input.dataset.ndR31='1';
+      input.addEventListener('keydown',function(e){
+        if(e.key==='Escape') clearAllSearches(false);
+      });
+    }
+  }
+
+  function setupMobileCartButton(){
+    const buttons=document.querySelectorAll('.btn-ver-carrinho');
+    buttons.forEach(function(btn){
+      if(btn.dataset.ndR31Cart==='1') return;
+      btn.dataset.ndR31Cart='1';
+      btn.dataset.ndR31Original=btn.textContent.trim() || 'VER CARRINHO';
+
+      function update(){
+        const mobile=window.matchMedia('(max-width: 600px)').matches;
+        btn.textContent=mobile?'FINALIZAR PEDIDO':btn.dataset.ndR31Original;
+        btn.setAttribute('aria-label',mobile?'Finalizar pedido':'Ver carrinho');
+      }
+      update();
+      window.addEventListener('resize',update,{passive:true});
+    });
+  }
+
+  function setupFreeDelivery(){
+    const box=document.getElementById('ndR31FreeDelivery');
+    if(!box) return;
+    box.classList.toggle('ndR31-active',ND_R31_TAXA_GRATIS_ATIVA);
+  }
+
+  function init(){
+    setupFreeDelivery();
+    setupMainSearch();
+    setupDynamicSearch();
+    setupMobileCartButton();
+    setTimeout(setupDynamicSearch,300);
+    setTimeout(setupDynamicSearch,1000);
+    setTimeout(setupMobileCartButton,300);
+    setTimeout(setupMobileCartButton,1000);
+
+    /* Observa elementos criados pelos módulos antigos do site. */
+    const observer=new MutationObserver(function(){
+      setupDynamicSearch();
+      setupMobileCartButton();
+    });
+    observer.observe(document.body,{childList:true,subtree:true});
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init,{once:true});
+  }else{
+    init();
+  }
+
+  window.ND_R31 = {
+    limparPesquisa:function(){ clearAllSearches(true); },
+    taxaGratis:function(ativa){
+      const box=document.getElementById('ndR31FreeDelivery');
+      if(box) box.classList.toggle('ndR31-active',!!ativa);
+    }
+  };
+})();
+</script>
+
 </body>
 
 <!-- =========================================================
@@ -10019,99 +10235,6 @@ img,video,iframe,svg,canvas{
   window.addEventListener('resize',stabilize,{passive:true});
   setTimeout(stabilize,300);
   setTimeout(stabilize,1000);
-})();
-</script>
-
-
-<script id="nd-r30-final-logic">
-(function(){
-  'use strict';
-  /* EDITE SOMENTE ESTA LINHA: true = entrega grátis para todos / false = taxas normais */
-  window.ND_ENTREGA_GRATIS = false;
-
-  window.ndTaxaEntrega=function(rua){
-    if(window.ND_ENTREGA_GRATIS) return 0;
-    return (rua && window.taxas && window.taxas[rua]!==undefined) ? Number(window.taxas[rua]) : 0;
-  };
-
-  function money(v){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}
-  function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
-  function levenshtein(a,b){
-    if(a===b)return 0;if(!a)return b.length;if(!b)return a.length;
-    let prev=Array.from({length:b.length+1},(_,i)=>i),cur=[];
-    for(let i=1;i<=a.length;i++){cur=[i];for(let j=1;j<=b.length;j++)cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur}
-    return prev[b.length];
-  }
-  function scoreProduct(text,term){
-    const t=norm(text), q=norm(term); if(!q)return 1;
-    if(t===q)return 1000;
-    const words=t.split(/\s+/).filter(Boolean), qs=q.split(/\s+/).filter(Boolean); let score=0;
-    if(t.includes(q))score+=700;
-    qs.forEach(w=>{
-      if(!w)return;
-      if(t.includes(w)) score+=220;
-      const best=words.reduce((m,x)=>Math.min(m,levenshtein(w,x)),99);
-      if(best<=1)score+=150; else if(best<=2 && w.length>=4)score+=80;
-    });
-    return score;
-  }
-  function cards(){return [...document.querySelectorAll('.produto')].filter(c=>!c.closest('#checkout'))}
-  function setSearchEmpty(){
-    const q=document.getElementById('buscaProdutos'), results=document.getElementById('ndR30SearchResults');
-    document.body.classList.remove('nd-r30-search-focus');
-    cards().forEach(c=>c.classList.remove('nd-r30-match','search-hidden'));
-    document.querySelectorAll('.categoria').forEach(c=>c.style.removeProperty('display'));
-    if(q)q.value=''; if(results)results.classList.remove('show');
-    const clear=document.getElementById('ndR30ClearSearch');if(clear)clear.classList.remove('show');
-    const count=document.getElementById('contadorBusca');if(count)count.textContent='';
-    const empty=document.getElementById('semResultados');if(empty)empty.style.display='none';
-  }
-  window.ndR30LimparPesquisa=setSearchEmpty;
-  function runSearch(){
-    const qEl=document.getElementById('buscaProdutos'); if(!qEl)return;
-    const raw=qEl.value.trim(); const q=norm(raw); const result=document.getElementById('ndR30SearchResults');
-    if(!q){setSearchEmpty();return}
-    const ranked=cards().map(c=>({c,score:scoreProduct(c.innerText,q)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
-    const matches=ranked.filter(x=>x.score>=80);
-    cards().forEach(c=>{c.classList.remove('nd-r30-match','search-hidden')});
-    document.body.classList.add('nd-r30-search-focus');
-    matches.forEach(x=>x.c.classList.add('nd-r30-match'));
-    document.querySelectorAll('.categoria').forEach(cat=>{
-      const has=cat.querySelector('.nd-r30-match'); cat.style.display=has?'':'none';
-    });
-    const count=document.getElementById('contadorBusca'); if(count)count.textContent=`${matches.length} resultado${matches.length===1?'':'s'}`;
-    const empty=document.getElementById('semResultados');if(empty)empty.style.display=matches.length?'none':'block';
-    if(result)result.classList.add('show');
-    const title=document.getElementById('ndR30SearchTitle'), sub=document.getElementById('ndR30SearchSub');
-    if(title)title.textContent=matches.length?`🔎 RESULTADOS PARA “${raw.toUpperCase()}”`:`😕 NÃO ENCONTRAMOS “${raw.toUpperCase()}”`;
-    if(sub)sub.textContent=matches.length===1?'Encontramos o produto ideal para você.':matches.length?`${matches.length} produtos parecidos encontrados. Os melhores resultados estão destacados.`:'Tente uma palavra menor ou parecida, como “x salada”, “batata” ou “açaí”.';
-    const clear=document.getElementById('ndR30ClearSearch');if(clear)clear.classList.add('show');
-    if(matches.length){
-      const first=matches[0].c; setTimeout(()=>first.scrollIntoView({behavior:'smooth',block:'center'}),30);
-    }
-  }
-  function initSearch(){
-    const q=document.getElementById('buscaProdutos');if(!q)return;
-    q.addEventListener('input',runSearch);q.addEventListener('search',runSearch);
-    ['ndR30ClearSearch','ndR30ClearSearch2'].forEach(id=>document.getElementById(id)?.addEventListener('click',setSearchEmpty));
-  }
-  function freeBanner(){
-    const b=document.getElementById('ndR30FreeBanner');if(!b)return;
-    b.classList.toggle('show',!!window.ND_ENTREGA_GRATIS);
-    document.querySelectorAll('#taxa,#taxaCarrinhoModal,#taxaFinalizarModal').forEach(el=>{
-      if(window.ND_ENTREGA_GRATIS) el.innerHTML='<span style="text-decoration:line-through;opacity:.5;margin-right:5px">taxa</span><strong style="color:#25d366">GRÁTIS 🎉</strong>';
-    });
-  }
-  window.ndR30AtualizarEntregaGratis=freeBanner;
-  function refreshTax(){
-    try{ if(typeof calcularTaxa==='function') calcularTaxa(); }catch(e){}
-    try{ if(typeof calcularTaxaModal==='function') calcularTaxaModal(); }catch(e){}
-    try{ if(typeof atualizarResumoFinalizarModal==='function') atualizarResumoFinalizarModal(); }catch(e){}
-    freeBanner();
-  }
-  document.addEventListener('DOMContentLoaded',()=>{initSearch();freeBanner();setTimeout(refreshTax,150);});
-  window.addEventListener('load',()=>{freeBanner();setTimeout(refreshTax,250)});
-  setTimeout(()=>{freeBanner()},800);
 })();
 </script>
 
