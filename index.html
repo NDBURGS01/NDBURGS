@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R31">
+<meta name="nd-site-version" content="20260910-R34">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R31";
+  const ND_SITE_VERSION = "20260910-R34";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -10233,7 +10233,7 @@ header .status-aberto,header .status-fechado{color:#fff!important;background:#05
 
 <style id="nd-r30-scroll-stability">
 /* =========================================================
-   ND BURGS R30 — ESTABILIDADE DE ROLAGEM
+   ND BURGS R34 — ESTABILIDADE DE ROLAGEM
    Impede estouro horizontal e movimentos automáticos laterais.
    ========================================================= */
 html{
@@ -10329,4 +10329,100 @@ img,video,iframe,svg,canvas{
 </script>
 
 
+
+<style id="nd-r34-white-red-master">
+/* =========================================================
+   ND BURGS R34 — NOVA IDENTIDADE VISUAL
+   Base funcional: R33 | Visual reconstruído: BRANCO + VERMELHO
+   ========================================================= */
+:root{
+  --nd-red:#d90416;
+  --nd-red-dark:#a90010;
+  --nd-red-light:#fff1f3;
+  --nd-text:#171717;
+  --nd-muted:#666;
+  --nd-border:#e6e6e6;
+  --nd-white:#fff;
+  --nd-soft:#fafafa;
+}
+html,body{background:#fff!important;color:var(--nd-text)!important;overflow-x:hidden!important}
+body{font-family:Arial,Helvetica,sans-serif!important;padding-bottom:125px!important}
+body *{box-sizing:border-box}
+header{background:#fff!important;color:var(--nd-text)!important;border-bottom:3px solid var(--nd-red)!important;box-shadow:0 2px 12px rgba(0,0,0,.06)!important}
+header .logo,.logo{background:transparent!important;filter:none!important}
+main,.container,.conteudo,.content{background:#fff!important;color:var(--nd-text)!important}
+h1,h2,h3,h4,h5,h6,.titulo,.categoria-titulo{color:var(--nd-text)!important;text-shadow:none!important}
+h1{font-weight:900!important}
+h2,.categoria-titulo{border-color:#eee!important}
+.categoria{background:#fff!important}
+.categoria-titulo{border-bottom:2px solid var(--nd-red)!important}
+.produtos{background:#fff!important}
+.produto,.card,.product-card{background:#fff!important;color:var(--nd-text)!important;border:1px solid var(--nd-border)!important;box-shadow:0 5px 18px rgba(0,0,0,.07)!important}
+.produto:hover,.card:hover,.product-card:hover{border-color:var(--nd-red)!important;box-shadow:0 8px 24px rgba(217,4,22,.12)!important}
+.produto h3,.produto p,.produto span,.produto div{color:var(--nd-text)!important;text-shadow:none!important}
+.produto p{color:var(--nd-muted)!important}
+.preco,.preco *,.produto .preco{color:var(--nd-red)!important;text-shadow:none!important}
+.produto-imagem{background:#fff!important;border:1px solid #f0f0f0!important}
+button,.btn,.btn-add,.btn-ver-carrinho,.btn-finalizar-pedido,.btn-continuar-comprando,
+.nd-fx-add,.nd-fx-cart-open,.nd-v4-primary,.nd-v4-secondary,.nd-v4-next,.nd-v4-back,
+.nd-v3-buybar button,.categoria-btn{border-radius:10px!important;font-weight:800!important;transition:.2s ease!important}
+.btn-add,.nd-fx-add,.nd-v4-primary,.btn-finalizar-pedido,.nd-v3-buybar button{background:var(--nd-red)!important;background-image:none!important;color:#fff!important;border-color:var(--nd-red)!important;box-shadow:0 5px 14px rgba(217,4,22,.16)!important}
+.btn-add:hover,.nd-fx-add:hover,.nd-v4-primary:hover,.btn-finalizar-pedido:hover,.nd-v3-buybar button:hover{background:var(--nd-red-dark)!important;transform:translateY(-1px)}
+.btn-ver-carrinho,.nd-fx-cart-open,.nd-v4-next{background:#fff!important;color:var(--nd-red)!important;border:2px solid var(--nd-red)!important;box-shadow:none!important}
+.btn-ver-carrinho:hover,.nd-fx-cart-open:hover,.nd-v4-next:hover{background:var(--nd-red)!important;color:#fff!important}
+.nd-v4-secondary,.nd-v4-back,.btn-continuar-comprando{background:#fff!important;color:var(--nd-text)!important;border:1px solid #ccc!important}
+.categoria-btn{background:#fff!important;color:var(--nd-text)!important;border:1px solid #ddd!important;box-shadow:none!important}
+.categoria-btn:hover,.categoria-btn.nd-r5-active{background:var(--nd-red)!important;color:#fff!important;border-color:var(--nd-red)!important;box-shadow:0 5px 14px rgba(217,4,22,.13)!important}
+input,select,textarea{background:#fff!important;color:var(--nd-text)!important;border:1px solid #ccc!important;border-radius:9px!important;box-shadow:none!important}
+input:focus,select:focus,textarea:focus{border-color:var(--nd-red)!important;outline:2px solid rgba(217,4,22,.10)!important}
+label{color:var(--nd-text)!important}
+.horarios,.horarios-box{background:#fff!important;color:var(--nd-text)!important}
+.horarios-box{border:1px solid var(--nd-red)!important;box-shadow:0 5px 18px rgba(0,0,0,.06)!important}
+.horarios-titulo{color:var(--nd-red)!important}
+.horarios-linha{color:var(--nd-text)!important}
+.status-aberto{color:#16803b!important}.status-fechado{color:var(--nd-red)!important}
+/* Navegação */
+#nd15NavWrap,#nd15Nav,#nd18Sidebar,.nd18-cat-nav,.categoria-menu{background:#fff!important;color:var(--nd-text)!important}
+/* Modais */
+.modal,.modal-content,.popup,.dialog,.r11-modal,.r11-box,.r11-content,
+.nd-v4-modal,.nd-v4-panel{background:#fff!important;color:var(--nd-text)!important;border-color:#ddd!important;box-shadow:0 18px 50px rgba(0,0,0,.18)!important}
+.modal h1,.modal h2,.modal h3,.popup h1,.popup h2,.popup h3,.r11-modal h1,.r11-modal h2,.r11-modal h3{color:var(--nd-red)!important}
+/* Escolhas de combos R33 */
+.r33-upgrade,.r11-section,.r33-subchoice,.r33-fixed-choice,.r11-fixed{background:#fff!important;color:var(--nd-text)!important;border-color:#e4e4e4!important}
+.r33-upgrade{border-left:4px solid var(--nd-red)!important}
+.r33-upgrade h3,.r33-subtitle{color:var(--nd-red)!important}
+.r33-upgrade-choice label,.r11-addon label,.r11-sauce label{background:#fff!important;color:var(--nd-text)!important;border:1px solid #ddd!important}
+.r33-upgrade-choice input:checked+label,.r11-addon input:checked+label,.r11-sauce input:checked+label{background:var(--nd-red-light)!important;color:var(--nd-text)!important;border-color:var(--nd-red)!important}
+.r11-required{color:var(--nd-red)!important}
+/* Carrinho fixo inferior: único destaque vermelho */
+#ndBottomCart,.nd-bottom-cart,.bottom-cart,.cart-bar,.nd-v3-buybar{background:#fff!important;color:var(--nd-text)!important;border-top:2px solid var(--nd-red)!important;box-shadow:0 -6px 22px rgba(0,0,0,.10)!important}
+#ndBottomCart button,.nd-bottom-cart button{background:var(--nd-red)!important;color:#fff!important}
+/* Badges / destaques */
+.mais-vendido,.badge,.selo,.r11-required{border-color:var(--nd-red)!important}
+.mais-vendido,.badge.mais-vendido{background:var(--nd-red)!important;color:#fff!important}
+/* Busca */
+input[type="search"],#nd14Search{border:2px solid #ddd!important;background:#fff!important;color:#111!important}
+#nd14Search:focus{border-color:var(--nd-red)!important}
+.nd-r33-search-hit,.search-hit{outline:3px solid rgba(217,4,22,.28)!important;box-shadow:0 0 0 5px rgba(217,4,22,.07)!important}
+/* Upsell */
+.r29-upsell,.r29-up-card{background:#fff!important;color:var(--nd-text)!important;border-color:#e5e5e5!important}
+.r29-up-name,.r29-up-price{color:var(--nd-text)!important}.r29-up-price{color:var(--nd-red)!important}
+.r29-up-add{background:var(--nd-red)!important;color:#fff!important;border-color:var(--nd-red)!important}
+/* Surpresa de uva e blocos promocionais */
+#ndUvaPromo,.nd-final-middle,.nd-r25-offer-top{background:#fff!important;color:var(--nd-text)!important;border-color:var(--nd-red)!important}
+#ndUvaPromo *,.nd-final-middle *{text-shadow:none!important}
+/* Rodapé */
+footer{background:#fff!important;color:var(--nd-text)!important;border-top:1px solid #eee!important}
+footer *{color:var(--nd-text)!important}
+/* Qualquer elemento originalmente amarelo/azul/roxo recebe a identidade nova */
+[style*="#f5c400"],[style*="#ffc"],[style*="yellow"],[style*="#00"],[style*="purple"],[style*="blue"]{color:var(--nd-red)!important;border-color:var(--nd-red)!important}
+/* Remove aparência neon antiga */
+*{text-shadow:none!important}
+@media(max-width:900px){
+ body{padding-bottom:112px!important}
+ .container{padding-left:10px!important;padding-right:10px!important}
+ .produto{border-radius:10px!important}
+ .produto-imagem{border-radius:8px!important}
+}
+</style>
 </html>
