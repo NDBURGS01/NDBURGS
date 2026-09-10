@@ -747,6 +747,48 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   filter: none !important;
 }
 </style>
+
+<style id="nd-r33-search-highlight">
+.produto.nd-r33-search-hit{
+  display:block!important;position:relative!important;z-index:30!important;
+  animation:ndR33SearchHit 1.8s ease both;
+  border-color:#ffd21a!important;
+  box-shadow:0 0 0 3px rgba(255,210,26,.28),0 18px 55px rgba(255,90,0,.30)!important;
+}
+@keyframes ndR33SearchHit{
+  0%{transform:translateY(0) scale(1);filter:brightness(1)}
+  20%{transform:translateY(-7px) scale(1.025);filter:brightness(1.35)}
+  55%{transform:translateY(-3px) scale(1.012);filter:brightness(1.16)}
+  100%{transform:translateY(0) scale(1);filter:brightness(1)}
+}
+.nd-r33-search-marker{
+  position:absolute!important;left:10px!important;top:10px!important;z-index:40!important;
+  padding:6px 9px!important;border-radius:999px!important;
+  background:linear-gradient(135deg,#ffd21a,#ff8a00)!important;color:#160f00!important;
+  font-size:10px!important;font-weight:1000!important;letter-spacing:.4px!important;
+  box-shadow:0 5px 16px rgba(255,160,0,.28)!important;pointer-events:none!important;
+}
+@media(prefers-reduced-motion:reduce){.produto.nd-r33-search-hit{animation:none!important}}
+</style>
+
+
+<style id="nd-r33-combo-upgrade-ui">
+.r33-upgrade{border-color:rgba(255,90,0,.42)!important;background:linear-gradient(145deg,rgba(255,90,0,.07),rgba(255,255,255,.02))!important}
+.r33-upgrade-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.r33-upgrade-choice{position:relative}
+.r33-upgrade-choice input{position:absolute;opacity:0;pointer-events:none}
+.r33-upgrade-choice label{display:flex!important;flex-direction:column!important;gap:5px!important;height:100%!important;margin:0!important;padding:13px!important;border:1px solid #333!important;border-radius:13px!important;background:#0b0b0d!important;color:#ddd!important;cursor:pointer!important}
+.r33-upgrade-choice label b{font-size:13px!important;color:#fff!important}
+.r33-upgrade-choice label span{font-size:10px!important;color:#aaa!important;line-height:1.35!important}
+.r33-upgrade-choice input:checked+label{border-color:#ff5a00!important;background:linear-gradient(145deg,#301107,#17100d)!important;box-shadow:0 0 0 1px rgba(255,90,0,.18),0 8px 22px rgba(255,90,0,.12)!important}
+.r33-upgrade-choice input[value="art"]:checked+label{border-color:#ffd21a!important;background:linear-gradient(145deg,#302408,#17120a)!important}
+.r33-subchoice{margin-top:11px;padding-top:11px;border-top:1px solid #29292d}
+.r33-subtitle{font-size:10px;color:#aaa;font-weight:1000;letter-spacing:.6px;margin-bottom:5px}
+.r33-subtitle.r33-second{margin-top:13px}
+.r33-fixed-choice{margin-top:11px;padding:12px;border:1px dashed #4a3023;border-radius:11px;background:#0b0b0d;color:#ffd21a;font-size:11px;line-height:1.45}
+@media(max-width:600px){.r33-upgrade-grid{grid-template-columns:1fr}}
+</style>
+
 </head>
 
 <body>
@@ -7013,15 +7055,15 @@ const ADDONS=[
  ['FATIA QUEIJO CHEDDAR EXTRA','3.00','https://i.ibb.co/ZRydT4hD/fatia-de-queijo.png']
 ];
 const configs={
- 'COMBO MAIS VENDIDO':{price:20.90,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
- 'COMBO DOCE':{price:32.90,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'fixed',title:'SOBREMESA',value:'1 SURPRESA DE UVA'}]},
- 'COMBO GELADO':{price:40.90,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P COMPLETA COM CHEDDAR E BACON'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'acai',title:'AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
- 'COMBO 5 ESTRELAS':{price:45.90,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M • NUGGETS P • ANEL DE CEBOLA P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES}]},
+ 'COMBO MAIS VENDIDO':{price:20.90,artisanPrice:34.80,sections:[{type:'burgerUpgrade',title:'TURBINE SEU COMBO',trad:TRAD,art:ART,tradLabel:'LANCHE TRADICIONAL • R$ 20,90',artLabel:'LANCHE ARTESANAL • R$ 34,80'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
+ 'COMBO DOCE':{price:32.90,artisanPrice:44.80,sections:[{type:'burgerUpgrade',title:'TURBINE SEU COMBO',trad:TRAD,art:ART,tradLabel:'LANCHE TRADICIONAL • R$ 32,90',artLabel:'LANCHE ARTESANAL • R$ 44,80'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'fixed',title:'SOBREMESA',value:'1 SURPRESA DE UVA'}]},
+ 'COMBO GELADO':{price:40.90,artisanPrice:52.80,sections:[{type:'burgerUpgrade',title:'TURBINE SEU COMBO',trad:TRAD,art:ART,tradLabel:'LANCHE TRADICIONAL • R$ 40,90',artLabel:'LANCHE ARTESANAL • R$ 52,80'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P COMPLETA COM CHEDDAR E BACON'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'acai',title:'AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
+ 'COMBO 5 ESTRELAS':{price:45.90,artisanPrice:70.80,sections:[{type:'burger2Upgrade',title:'TURBINE SEUS LANCHES',trad:TRAD,art:ART,tradLabel:'2 LANCHES TRADICIONAIS • R$ 45,90',artLabel:'2 LANCHES ARTESANAIS • R$ 70,80'},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M • NUGGETS P • ANEL DE CEBOLA P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES}]},
  'COMBO DIETA SÓ SEGUNDA':{price:27.90,sections:[{type:'pastel',title:'ESCOLHA 1 SABOR DE PASTEL',options:'dynamic'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'fixed',title:'SOBREMESA',value:'1 SURPRESA DE UVA'}]},
- 'COMBO MOTOCA ND':{price:32.90,sections:[{type:'fixed',title:'LANCHE',value:'NUNES'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
- 'COMBO SÓ LOVE':{price:71.90,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES',options:TRAD},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M COM CHEDDAR E BACON • NUGGETS P • ANEL DE CEBOLA P • FRANGO FRITO P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES},{type:'fixed',title:'BRINDE',value:'1 DOLLY 2 LITROS'}]},
- 'DATE COM NDBURGS':{price:70.90,sections:[{type:'burger2',title:'ESCOLHA 2 LANCHES',options:TRAD},{type:'fixed',title:'SOBREMESA',value:'2 SURPRESAS DE UVA'},{type:'fixed',title:'BRINDE',value:'1 COCA-COLA 600ML'},{type:'acai2',title:'2 AÇAÍS 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
- '01 ND BURGS':{price:50.90,sections:[{type:'fixed',title:'LANCHES FIXOS',value:'1 X-BURGUER • 1 X-EGG • 1 X-SALADA • 1 X-BACON'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA M COMPLETA COM CHEDDAR E BACON'}]},
+ 'COMBO MOTOCA ND':{price:32.90,artisanPrice:41.80,sections:[{type:'burgerUpgradeFixed',title:'TURBINE SEU COMBO',tradValue:'NUNES',artValue:'PÉZÃO',tradLabel:'NUNES • TRADICIONAL • R$ 32,90',artLabel:'PÉZÃO • ARTESANAL • R$ 41,80'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
+ 'COMBO SÓ LOVE':{price:71.90,artisanPrice:90.80,sections:[{type:'burger2Upgrade',title:'TURBINE SEUS LANCHES',trad:TRAD,art:ART,tradLabel:'2 LANCHES TRADICIONAIS • R$ 71,90',artLabel:'2 LANCHES ARTESANAIS • R$ 90,80'},{type:'fixed',title:'ACOMPANHAMENTOS FIXOS',value:'BATATA M COM CHEDDAR E BACON • NUGGETS P • ANEL DE CEBOLA P • FRANGO FRITO P'},{type:'sauces',title:'ESCOLHA 2 MOLHOS',options:SAUCES},{type:'fixed',title:'BRINDE',value:'1 DOLLY 2 LITROS'}]},
+ 'DATE COM NDBURGS':{price:70.90,artisanPrice:91.80,sections:[{type:'burger2Upgrade',title:'TURBINE SEUS LANCHES',trad:TRAD,art:ART,tradLabel:'2 LANCHES TRADICIONAIS • R$ 70,90',artLabel:'2 LANCHES ARTESANAIS • R$ 91,80'},{type:'fixed',title:'SOBREMESA',value:'2 SURPRESAS DE UVA'},{type:'fixed',title:'BRINDE',value:'1 COCA-COLA 600ML'},{type:'acai2',title:'2 AÇAÍS 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
+ '01 ND BURGS':{price:50.90,artisanPrice:96.80,sections:[{type:'burgerUpgradeFixed',title:'TURBINE O COMBO COMPLETO',tradValue:'1 X-BURGUER • 1 X-EGG • 1 X-SALADA • 1 X-BACON',artValue:'1 GAROTINHO • 1 DINA • 1 GADEIA • 1 PATÃO',tradLabel:'4 LANCHES TRADICIONAIS • R$ 50,90',artLabel:'4 LANCHES ARTESANAIS • R$ 96,80'},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA M COMPLETA COM CHEDDAR E BACON'}]},
  'ARTESANAL COMBO MAIS VENDIDO':{price:34.80,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE ARTESANAL',options:ART},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS}]},
  'ARTESANAL COMBO DOCE':{price:44.80,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE ARTESANAL',options:ART},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'fixed',title:'SOBREMESA',value:'1 SURPRESA DE UVA'}]},
  'ARTESANAL COMBO GELADO':{price:52.80,sections:[{type:'burger',title:'ESCOLHA 1 LANCHE ARTESANAL',options:ART},{type:'fixed',title:'ACOMPANHAMENTO',value:'BATATA P COMPLETA COM CHEDDAR E BACON'},{type:'drink',title:'ESCOLHA 1 REFRIGERANTE LATA',options:DRINKS},{type:'acai',title:'AÇAÍ 300ML — ESCOLHA OS ACOMPANHAMENTOS'}]},
@@ -7040,6 +7082,10 @@ function optionsHtml(opts,name,prefix){return '<div class="r11-option-grid">'+op
 function addonHtml(prefix){return '<div class="r11-addons" id="'+prefix+'_addons"><div class="r11-bite">🍔 QUER TAL ADICIONAR ITENS NO SEU LANCHE ? E DEIXAR ELE DO JEITO QUE VOCE GOSTA<br><span style="font-size:10px;color:#ffb36d">ESCOLHA SEUS ADICIONAIS</span></div><div class="r11-addon-grid">'+ADDONS.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+prefix+'_a_'+i+'" data-price="'+a[1]+'" data-name="'+esc(a[0])+'"><label for="'+prefix+'_a_'+i+'"><img src="'+a[2]+'" alt="'+esc(a[0])+'"><span>'+esc(a[0])+'</span><br><b>+'+money(a[1])+'</b></label></div>').join('')+'</div><div class="r11-note">Os adicionais são opcionais e entram no valor do combo apenas se forem marcados.</div></div>'}
 function sectionHtml(sec,idx){
  const id='r11s'+idx;
+ if(sec.type==='burgerUpgrade')return '<div class="r11-section r33-upgrade"><h3>🔥 '+esc(sec.title)+'</h3><span class="r11-required">ESCOLHA 1 OPÇÃO</span><div class="r33-upgrade-grid"><div class="r33-upgrade-choice"><input type="radio" id="'+id+'_trad" name="'+id+'_upgrade" value="trad" checked><label for="'+id+'_trad"><b>TRADICIONAL</b><span>'+esc(sec.tradLabel)+'</span></label></div><div class="r33-upgrade-choice"><input type="radio" id="'+id+'_art" name="'+id+'_upgrade" value="art"><label for="'+id+'_art"><b>🔥 ARTESANAL</b><span>'+esc(sec.artLabel)+'</span></label></div></div><div class="r33-subchoice" id="'+id+'_trad_box"><div class="r33-subtitle">ESCOLHA 1 LANCHE TRADICIONAL</div>'+optionsHtml(sec.trad,id+'_trad_burger','r33t'+idx)+'</div><div class="r33-subchoice" id="'+id+'_art_box" style="display:none"><div class="r33-subtitle">ESCOLHA 1 LANCHE ARTESANAL</div>'+optionsHtml(sec.art,id+'_art_burger','r33a'+idx)+addonHtml(id+'_art_burger')+'</div></div>';
+ if(sec.type==='burger2Upgrade')return '<div class="r11-section r33-upgrade"><h3>🔥 '+esc(sec.title)+'</h3><span class="r11-required">ESCOLHA 1 OPÇÃO PARA OS 2 LANCHES</span><div class="r33-upgrade-grid"><div class="r33-upgrade-choice"><input type="radio" id="'+id+'_trad" name="'+id+'_upgrade" value="trad" checked><label for="'+id+'_trad"><b>TRADICIONAL</b><span>'+esc(sec.tradLabel)+'</span></label></div><div class="r33-upgrade-choice"><input type="radio" id="'+id+'_art" name="'+id+'_upgrade" value="art"><label for="'+id+'_art"><b>🔥 ARTESANAL</b><span>'+esc(sec.artLabel)+'</span></label></div></div><div class="r33-subchoice" id="'+id+'_trad_box"><div class="r33-subtitle">LANCHE 1 • TRADICIONAL</div>'+optionsHtml(sec.trad,id+'_trad_a','r33t'+idx+'a')+'<div class="r33-subtitle r33-second">LANCHE 2 • TRADICIONAL</div>'+optionsHtml(sec.trad,id+'_trad_b','r33t'+idx+'b')+'</div><div class="r33-subchoice" id="'+id+'_art_box" style="display:none"><div class="r33-subtitle">LANCHE 1 • ARTESANAL</div>'+optionsHtml(sec.art,id+'_art_a','r33a'+idx+'a')+addonHtml(id+'_art_a')+'<div class="r33-subtitle r33-second">LANCHE 2 • ARTESANAL</div>'+optionsHtml(sec.art,id+'_art_b','r33a'+idx+'b')+addonHtml(id+'_art_b')+'</div></div>';
+ if(sec.type==='burgerUpgradeFixed')return '<div class="r11-section r33-upgrade"><h3>🔥 '+esc(sec.title)+'</h3><span class="r11-required">ESCOLHA COMO QUER SEU COMBO</span><div class="r33-upgrade-grid"><div class="r33-upgrade-choice"><input type="radio" id="'+id+'_trad" name="'+id+'_upgrade" value="trad" checked><label for="'+id+'_trad"><b>TRADICIONAL</b><span>'+esc(sec.tradLabel)+'</span></label></div><div class="r33-upgrade-choice"><input type="radio" id="'+id+'_art" name="'+id+'_upgrade" value="art"><label for="'+id+'_art"><b>🔥 ARTESANAL</b><span>'+esc(sec.artLabel)+'</span></label></div></div><div class="r33-fixed-choice" id="'+id+'_fixed_value"><b>'+esc(sec.tradValue)+'</b></div></div>';
+
  if(sec.type==='fixed')return '<div class="r11-section"><h3>📦 '+esc(sec.title)+'</h3><div class="r11-fixed"><span>FIXO</span><b>'+esc(sec.value)+'</b></div></div>';
  if(sec.type==='drink')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+'</div>';
  if(sec.type==='sauces')return '<div class="r11-section"><h3>🥫 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • MARQUE EXATAMENTE 2</span><div class="r11-sauce-grid">'+sec.options.map((x,i)=>'<div class="r11-sauce"><input type="checkbox" id="'+id+'_'+i+'" name="'+id+'" value="'+esc(x)+'"><label for="'+id+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div></div>';
@@ -7052,7 +7098,27 @@ function sectionHtml(sec,idx){
 }
 function acaiChoicesHtml(id,num){const list=typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?produtosPersonalizaveis.acai.acompanhamentos:[];return '<div style="margin-top:10px"><div style="font-size:10px;color:#aaa;font-weight:900;margin-bottom:6px">AÇAÍ '+num+' • ACOMPANHAMENTOS</div><div class="r11-addon-grid">'+list.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+id+'_a_'+i+'" data-name="'+esc(a[0])+'" data-price="'+a[1]+'" data-acai="1"><label for="'+id+'_a_'+i+'"><div style="height:48px;display:grid;place-items:center;font-size:20px">🍓</div><span>'+esc(a[0])+'</span><br><b>'+((a[1]>0)?'+'+money(a[1]):'GRÁTIS')+'</b></label></div>').join('')+'</div><div class="r11-note">Até 3 acompanhamentos normais são grátis, seguindo a regra do açaí do site. Os itens pagos continuam com o valor cadastrado.</div></div>'}
 function open(name,price){ensureModal();current={name,price:Number(price),cfg:configs[name]};if(!current.cfg)return;document.getElementById('r11ComboTitle').textContent='🍔 '+name;document.getElementById('r11ComboContent').innerHTML=current.cfg.sections.map(sectionHtml).join('')+'<div class="r11-combo-total"><span>TOTAL DO COMBO</span><strong id="r11ComboTotal">'+money(current.price)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';const m=document.getElementById('ndComboModal');m.classList.add('show');document.body.style.overflow='hidden';bindDynamic();}
-function bindDynamic(){document.querySelectorAll('#r11ComboContent input[type=radio]').forEach(r=>r.addEventListener('change',()=>{const sec=r.closest('.r11-section');const addon=sec?.querySelector('.r11-addons');if(addon){addon.classList.add('show')}}));document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}}))}
+function bindDynamic(){
+ document.querySelectorAll('#r11ComboContent input[type=radio]').forEach(r=>r.addEventListener('change',()=>{
+   const sec=r.closest('.r11-section');
+   const addon=sec?.querySelector('.r11-addons');
+   if(addon && !r.name.endsWith('_upgrade')) addon.classList.add('show');
+   if(r.name.endsWith('_upgrade')){
+     const id=r.name.replace('_upgrade','');
+     const trad=document.getElementById(id+'_trad_box'),art=document.getElementById(id+'_art_box'),fixed=document.getElementById(id+'_fixed_value');
+     if(trad)trad.style.display=r.value==='trad'?'block':'none';
+     if(art)art.style.display=r.value==='art'?'block':'none';
+     const cfg=current?.cfg;
+     if(cfg && r.value==='art')current.price=Number(cfg.artisanPrice||current.price);
+     if(cfg && r.value==='trad')current.price=Number(cfg.price||current.price);
+     if(fixed && sec?.type==='burgerUpgradeFixed')fixed.innerHTML='<b>'+esc(r.value==='art'?sec.artValue:sec.tradValue)+'</b>';
+     const total=document.getElementById('r11ComboTotal');if(total)total.textContent=money(current?.price||0);
+   }
+ }));
+ document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{
+   if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}
+ }));
+}
 function selected(name){return document.querySelector('input[name="'+name+'"]:checked')?.value||''}
 function addons(prefix){return [...document.querySelectorAll('#'+prefix+'_addons input[type=checkbox]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
 function acai(prefix){return [...document.querySelectorAll('#'+prefix+'_a_'+CSS.escape('0'))].length?[]:[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
@@ -7061,7 +7127,32 @@ function validarAcai(prefix){const chosen=[...document.querySelectorAll('[id^="'
 function close(){const m=document.getElementById('ndComboModal');if(m)m.classList.remove('show');document.body.style.overflow='';current=null}
 function confirm(){if(!current)return;const cfg=current.cfg,details=[],selectedBur=[];let ok=true;let extra=0;
  cfg.sections.forEach((sec,idx)=>{const id='r11s'+idx;
-   if(sec.type==='burger'){const v=selected(id);if(!v){ok=false;return}details.push('Lanche: '+v);addons(id).forEach(a=>{details.push('Adicional no lanche: '+a.name);extra+=a.price})}
+   if(sec.type==='burgerUpgrade'){
+      const mode=document.querySelector('input[name="'+id+'_upgrade"]:checked')?.value||'trad';
+      const v=selected(id+'_'+mode+'_burger');
+      if(!v){ok=false;return}
+      if(mode==='art')current.price=Number(cfg.artisanPrice||current.price); else current.price=Number(cfg.price||current.price);
+      details.push((mode==='art'?'Lanche artesanal: ':'Lanche tradicional: ')+v);
+      if(mode==='art')addons(id+'_art_burger').forEach(a=>{details.push('Adicional no lanche: '+a.name);extra+=a.price});
+    }
+    if(sec.type==='burger2Upgrade'){
+      const mode=document.querySelector('input[name="'+id+'_upgrade"]:checked')?.value||'trad';
+      const a=selected(id+'_'+mode+'_a'),b=selected(id+'_'+mode+'_b');
+      if(!a||!b){ok=false;return}
+      if(mode==='art')current.price=Number(cfg.artisanPrice||current.price); else current.price=Number(cfg.price||current.price);
+      details.push((mode==='art'?'Lanche 1 artesanal: ':'Lanche 1 tradicional: ')+a,(mode==='art'?'Lanche 2 artesanal: ':'Lanche 2 tradicional: ')+b);
+      if(mode==='art'){
+        addons(id+'_art_a').forEach(x=>{details.push('Adicional no Lanche 1: '+x.name);extra+=x.price});
+        addons(id+'_art_b').forEach(x=>{details.push('Adicional no Lanche 2: '+x.name);extra+=x.price});
+      }
+    }
+    if(sec.type==='burgerUpgradeFixed'){
+      const mode=document.querySelector('input[name="'+id+'_upgrade"]:checked')?.value||'trad';
+      if(mode==='art')current.price=Number(cfg.artisanPrice||current.price); else current.price=Number(cfg.price||current.price);
+      details.push('Tipo de combo: '+(mode==='art'?'ARTESANAL':'TRADICIONAL'));
+      details.push('Lanches: '+(mode==='art'?sec.artValue:sec.tradValue));
+    }
+    if(sec.type==='burger'){const v=selected(id);if(!v){ok=false;return}details.push('Lanche: '+v);addons(id).forEach(a=>{details.push('Adicional no lanche: '+a.name);extra+=a.price})}
    if(sec.type==='burger2'){const a=selected(id+'a'),b=selected(id+'b');if(!a||!b){ok=false;return}details.push('Lanche 1: '+a,'Lanche 2: '+b);addons(id+'a').forEach(x=>{details.push('Adicional no Lanche 1: '+x.name);extra+=x.price});addons(id+'b').forEach(x=>{details.push('Adicional no Lanche 2: '+x.name);extra+=x.price})}
    if(sec.type==='drink'){const v=selected(id);if(!v){ok=false;return}details.push('Refrigerante: '+v)}
    if(sec.type==='sauces'){const v=[...document.querySelectorAll('input[name="'+id+'"]:checked')].map(x=>x.value);if(v.length!==2){ok=false;return}details.push('Molhos: '+v.join(' + '))}
@@ -9632,6 +9723,43 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       if(box) box.classList.toggle('ndR31-active',!!ativa);
     }
   };
+})();
+</script>
+
+
+<script id="nd-r33-search-highlight-js">
+(function(){
+  'use strict';
+  function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').toLowerCase().trim();}
+  function clearHit(){
+    document.querySelectorAll('.produto.nd-r33-search-hit').forEach(function(c){
+      c.classList.remove('nd-r33-search-hit');
+      var m=c.querySelector('.nd-r33-search-marker');if(m)m.remove();
+    });
+  }
+  function apply(){
+    var input=document.getElementById('nd14Search');if(!input)return;
+    clearHit();var q=norm(input.value);if(!q)return;
+    var match=[...document.querySelectorAll('.produto')].find(function(card){
+      return norm(card.innerText||card.textContent).includes(q) &&
+             getComputedStyle(card).display!=='none';
+    });
+    if(!match)return;
+    match.classList.add('nd-r33-search-hit');
+    var marker=document.createElement('div');
+    marker.className='nd-r33-search-marker';marker.textContent='🔎 ENCONTRADO';
+    match.appendChild(marker);
+    setTimeout(function(){match.scrollIntoView({behavior:'smooth',block:'center'});},40);
+  }
+  function bind(){
+    var input=document.getElementById('nd14Search');if(!input||input.dataset.r33==='1')return;
+    input.dataset.r33='1';
+    input.addEventListener('input',function(){clearTimeout(input._r33);input._r33=setTimeout(apply,180);});
+    input.addEventListener('search',apply);
+  }
+  function init(){bind();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){init();setTimeout(init,500);setTimeout(init,1200);});
+  else{init();setTimeout(init,500);setTimeout(init,1200);}
 })();
 </script>
 
