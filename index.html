@@ -753,6 +753,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 /* Resultado pesquisado fica em primeiro plano */
 .produto.ndR32-match{display:block!important;position:relative!important;z-index:20!important}
 #ndR31Search{position:relative!important;z-index:900!important}
+/* QUANTIDADE DO COMBO */
+.r11-qty-box{margin:0 0 14px;padding:13px;border:2px solid #ffd21a;border-radius:16px;background:linear-gradient(145deg,rgba(255,210,26,.12),rgba(255,210,26,.04));text-align:center}.r11-qty-title{font-size:11px;font-weight:1000;color:#ffd21a;letter-spacing:.7px}.r11-qty-row{display:flex;align-items:center;justify-content:center;gap:18px;margin:8px 0}.r11-qty-btn{width:44px;height:44px;border:0;border-radius:12px;background:#ffd21a;color:#111;font-size:28px;font-weight:1000;cursor:pointer}.r11-qty-row strong{min-width:42px;font-size:25px;color:#fff}.r11-qty-box small{font-size:10px;color:#aaa;font-weight:800}.r11-unit-title{margin:16px 0 8px;padding:9px 12px;border-radius:10px;background:#202024;border-left:4px solid #ffd21a;color:#ffd21a;font-size:11px;font-weight:1000;letter-spacing:.5px}
 /* TURBINAR COM LANCHE ARTESANAL */
 .r11-turbo-box{margin:0 0 18px;padding:14px;border:1px solid rgba(255,59,48,.5);border-radius:16px;background:linear-gradient(145deg,rgba(255,59,48,.12),rgba(255,138,0,.05))}
 .r11-turbo-title{font-size:15px;font-weight:1000;color:#fff;margin-bottom:4px}
@@ -7065,32 +7067,49 @@ function turboConfig(name,cfg){
  });
  return out;
 }
-function turboHtml(name){
+function turboHtml(name,sim){
  if(!ARTISAN_PRICE_MAP[name])return '';
- return '<div class="r11-turbo-box"><div class="r11-turbo-title">🔥 QUERO TURBINAR COM LANCHE ARTESANAL</div><div class="r11-turbo-sub">Troque o(s) lanche(s) tradicional(is) pelo(s) artesanal(is).</div><div class="r11-turbo-options"><div class="r11-turbo-option"><input type="radio" id="r11TurboNao" name="r11Turbo" value="nao" checked><label for="r11TurboNao">NÃO</label></div><div class="r11-turbo-option"><input type="radio" id="r11TurboSim" name="r11Turbo" value="sim"><label for="r11TurboSim">SIM</label></div></div><div class="r11-turbo-price" id="r11TurboPrice">COMBO TRADICIONAL • '+money(configs[name].price)+'</div></div>';
+ const q=Math.max(1,Math.min(20,Number(current&&current.quantity)||1));
+ return '<div class="r11-qty-box"><div class="r11-qty-title">QUANTIDADE DO COMBO</div><div class="r11-qty-row"><button type="button" class="r11-qty-btn" onclick="alterarQuantidadeCombo(-1)">−</button><strong id="r11ComboQty">'+q+'</strong><button type="button" class="r11-qty-btn" onclick="alterarQuantidadeCombo(1)">+</button></div><small>Se pedir X2, você fará as escolhas para 2 combos.</small></div>'+
+ '<div class="r11-turbo-box"><div class="r11-turbo-title">🔥 QUERO TURBINAR COM LANCHE ARTESANAL</div><div class="r11-turbo-sub">Troque o(s) lanche(s) tradicional(is) pelo(s) artesanal(is).</div><div class="r11-turbo-options"><div class="r11-turbo-option"><input type="radio" id="r11TurboNao" name="r11Turbo" value="nao" '+(!sim?'checked':'')+'><label for="r11TurboNao">NÃO</label></div><div class="r11-turbo-option"><input type="radio" id="r11TurboSim" name="r11Turbo" value="sim" '+(sim?'checked':'')+'><label for="r11TurboSim">SIM</label></div></div><div class="r11-turbo-price" id="r11TurboPrice">'+(sim?'COMBO ARTESANAL • ':'COMBO TRADICIONAL • ')+money(sim?ARTISAN_PRICE_MAP[name]:configs[name].price)+'</div></div>';
 }
 function renderCombo(){
  if(!current)return;
- const sim=document.querySelector('input[name="r11Turbo"]:checked')?.value==='sim';
- current.turbo=sim;
+ const sim=!!current.turbo;
+ const q=Math.max(1,Math.min(20,Number(current.quantity)||1));
+ current.quantity=q;
  const cfg=sim?turboConfig(current.name,current.cfg):current.cfg;
  current.activeCfg=cfg;
  current.activePrice=Number(cfg.price)||Number(current.price)||0;
  const title=document.getElementById('r11ComboTitle');
  const content=document.getElementById('r11ComboContent');
- if(title)title.textContent='🍔 '+current.name+(sim?' • ARTESANAL':'');
+ if(title)title.textContent='🍔 '+current.name+(sim?' • ARTESANAL':'')+' • X'+q;
  if(content){
-   content.innerHTML=turboHtml(current.name)+cfg.sections.map(sectionHtml).join('')+'<div class="r11-combo-total"><span>TOTAL DO COMBO</span><strong id="r11ComboTotal">'+money(current.activePrice)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';
+   let html=turboHtml(current.name,sim);
+   let serial=0;
+   for(let unit=1;unit<=q;unit++){
+     html+='<div class="r11-unit-title">COMBO '+unit+' DE '+q+'</div>';
+     cfg.sections.forEach(sec=>{html+=sectionHtml(sec,serial++);});
+   }
+   html+='<div class="r11-combo-total"><span>TOTAL DO COMBO • X'+q+'</span><strong id="r11ComboTotal">'+money(current.activePrice*q)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';
+   content.innerHTML=html;
  }
  bindDynamic();
  const price=document.getElementById('r11TurboPrice');
- if(price)price.textContent=sim?'COMBO ARTESANAL • '+money(current.activePrice):'COMBO TRADICIONAL • '+money(current.activePrice);
+ if(price)price.textContent=(sim?'COMBO ARTESANAL • ':'COMBO TRADICIONAL • ')+money(current.activePrice)+' CADA';
  const turbo=document.querySelectorAll('input[name="r11Turbo"]');
- turbo.forEach(r=>r.addEventListener('change',()=>renderCombo()));
+ turbo.forEach(r=>r.addEventListener('change',()=>{current.turbo=r.value==='sim';renderCombo()}));
+}
+function alterarQuantidadeCombo(delta){
+ if(!current)return;
+ const novo=Math.max(1,Math.min(20,(Number(current.quantity)||1)+Number(delta||0)));
+ if(novo===current.quantity)return;
+ current.quantity=novo;
+ renderCombo();
 }
 function open(name,price){
  ensureModal();
- current={name,price:Number(price),cfg:configs[name],turbo:false,activeCfg:configs[name],activePrice:Number(price)};
+ current={name,price:Number(price),cfg:configs[name],turbo:false,quantity:1,activeCfg:configs[name],activePrice:Number(price)};
  if(!current.cfg)return;
  renderCombo();
  const m=document.getElementById('ndComboModal');
@@ -7106,20 +7125,24 @@ function validarAcai(prefix){const chosen=[...document.querySelectorAll('[id^="'
 function close(){const m=document.getElementById('ndComboModal');if(m)m.classList.remove('show');document.body.style.overflow='';current=null}
 function confirm(){
  if(!current)return;
- const cfg=current.activeCfg||current.cfg,details=[],selectedBur=[];let ok=true,extra=0;
- cfg.sections.forEach((sec,idx)=>{const id='r11s'+idx;
-   if(sec.type==='burger'){const v=selected(id);if(!v){ok=false;return}details.push('Lanche: '+v);addons(id).forEach(a=>{details.push('Adicional no lanche: '+a.name);extra+=a.price})}
-   if(sec.type==='burger2'){const a=selected(id+'a'),b=selected(id+'b');if(!a||!b){ok=false;return}details.push('Lanche 1: '+a,'Lanche 2: '+b);addons(id+'a').forEach(x=>{details.push('Adicional no Lanche 1: '+x.name);extra+=x.price});addons(id+'b').forEach(x=>{details.push('Adicional no Lanche 2: '+x.name);extra+=x.price})}
-   if(sec.type==='drink'){const v=selected(id);if(!v){ok=false;return}details.push('Refrigerante: '+v)}
-   if(sec.type==='sauces'){const v=[...document.querySelectorAll('input[name="'+id+'"]:checked')].map(x=>x.value);if(v.length!==2){ok=false;return}details.push('Molhos: '+v.join(' + '))}
-   if(sec.type==='pastel'){const v=selected(id);if(!v){ok=false;return}details.push('Pastel: '+v)}
-   if(sec.type==='fixed'){details.push(sec.title+': '+sec.value)}
-   if(sec.type==='acai'){const a=validarAcai(id);if(a.length===0){ok=false;return}details.push('Açaí 300ml: '+a.map(x=>x.name).join(' + '));a.forEach(x=>{if(x.price>0)extra+=x.price})}
-   if(sec.type==='acai2'){const a=validarAcai(id+'a'),b=validarAcai(id+'b');if(!a.length||!b.length){ok=false;return}details.push('Açaí 1 300ml: '+a.map(x=>x.name).join(' + '));details.push('Açaí 2 300ml: '+b.map(x=>x.name).join(' + '));a.concat(b).forEach(x=>{if(x.price>0)extra+=x.price})}
- });
- if(!ok){alert('⚠️ COMPLETE TODAS AS ESCOLHAS OBRIGATÓRIAS DO COMBO ANTES DE ADICIONAR.');return}
+ const cfg=current.activeCfg||current.cfg,details=[],q=Math.max(1,Number(current.quantity)||1);let ok=true,extra=0,serial=0;
+ for(let unit=1;unit<=q;unit++){
+   cfg.sections.forEach((sec)=>{
+     const idx=serial++,id='r11s'+idx;
+     if(sec.type==='burger'){const v=selected(id);if(!v){ok=false;return}details.push('Combo '+unit+' • Lanche: '+v);addons(id).forEach(a=>{details.push('Combo '+unit+' • Adicional no lanche: '+a.name);extra+=a.price})}
+     if(sec.type==='burger2'){const a=selected(id+'a'),b=selected(id+'b');if(!a||!b){ok=false;return}details.push('Combo '+unit+' • Lanche 1: '+a,'Combo '+unit+' • Lanche 2: '+b);addons(id+'a').forEach(x=>{details.push('Combo '+unit+' • Adicional no Lanche 1: '+x.name);extra+=x.price});addons(id+'b').forEach(x=>{details.push('Combo '+unit+' • Adicional no Lanche 2: '+x.name);extra+=x.price})}
+     if(sec.type==='drink'){const v=selected(id);if(!v){ok=false;return}details.push('Combo '+unit+' • Refrigerante: '+v)}
+     if(sec.type==='sauces'){const v=[...document.querySelectorAll('input[name="'+id+'"]:checked')].map(x=>x.value);if(v.length!==2){ok=false;return}details.push('Combo '+unit+' • Molhos: '+v.join(' + '))}
+     if(sec.type==='pastel'){const v=selected(id);if(!v){ok=false;return}details.push('Combo '+unit+' • Pastel: '+v)}
+     if(sec.type==='fixed'){details.push('Combo '+unit+' • '+sec.title+': '+sec.value)}
+     if(sec.type==='acai'){const a=validarAcai(id);if(a.length===0){ok=false;return}details.push('Combo '+unit+' • Açaí 300ml: '+a.map(x=>x.name).join(' + '));a.forEach(x=>{if(x.price>0)extra+=x.price})}
+     if(sec.type==='acai2'){const a=validarAcai(id+'a'),b=validarAcai(id+'b');if(!a.length||!b.length){ok=false;return}details.push('Combo '+unit+' • Açaí 1 300ml: '+a.map(x=>x.name).join(' + '));details.push('Combo '+unit+' • Açaí 2 300ml: '+b.map(x=>x.name).join(' + '));a.concat(b).forEach(x=>{if(x.price>0)extra+=x.price})}
+   });
+ }
+ if(!ok){alert('⚠️ COMPLETE TODAS AS ESCOLHAS OBRIGATÓRIAS DE CADA COMBO ANTES DE ADICIONAR.');return}
  if(current.turbo)details.unshift('🔥 LANCHE ARTESANAL: SIM');
- const base=Number(current.activePrice)||Number(current.price)||0;
+ details.unshift('📦 QUANTIDADE DO COMBO: X'+q);
+ const base=(Number(current.activePrice)||Number(current.price)||0)*q;
  const item={nome:current.name,preco:base+extra,quantidade:1,detalhes:details};
  if(Array.isArray(window.carrinho))window.carrinho.push(item);
  if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();
@@ -10303,24 +10326,12 @@ img,video,iframe,svg,canvas{
   display:block!important;
   position:relative!important;
   z-index:4!important;
-  transform:translateY(-3px) scale(1.015)!important;
-  border:2px solid #ffd21a!important;
-  box-shadow:0 0 0 4px rgba(255,210,26,.12),0 16px 40px rgba(0,0,0,.45)!important;
+  transform:translateY(-5px) scale(1.025)!important;
+  border:3px solid #ffd21a!important;
+  box-shadow:0 0 0 6px rgba(255,210,26,.18),0 0 28px rgba(255,210,26,.28),0 18px 48px rgba(0,0,0,.55)!important;
+  animation:ndR32SearchPulse 1.15s ease-in-out 2;
 }
-.produto.ndR32-match::before{
-  content:'ENCONTRADO';
-  position:absolute;
-  top:9px;
-  right:9px;
-  z-index:20;
-  padding:5px 8px;
-  border-radius:999px;
-  background:#ffd21a;
-  color:#111;
-  font-size:9px;
-  font-weight:1000;
-  letter-spacing:.5px;
-}
+@keyframes ndR32SearchPulse{0%,100%{filter:none}50%{filter:brightness(1.18)}}
 .produto.ndR32-no-match{display:none!important}
 .categoria.ndR32-no-match{display:none!important}
 
@@ -10372,8 +10383,7 @@ img,video,iframe,svg,canvas{
     margin-top:2px;
   }
   .produto.ndR32-match{transform:translateY(-1px) scale(1.008)!important}
-  .produto.ndR32-match::before{font-size:8px;padding:4px 7px}
-}
+  }
 @media(prefers-reduced-motion:reduce){
   .produto.ndR32-match{transform:none!important}
 }
@@ -10416,7 +10426,7 @@ img,video,iframe,svg,canvas{
      if(ok)matches.push(c);
    });
    cats().forEach(sec=>{const has=sec.querySelector('.produto.ndR32-match');sec.classList.toggle('ndR32-no-match',!has);sec.style.display=has?'':'none'});
-   const count=document.getElementById('contadorBusca');if(count)count.textContent=matches.length+' item'+(matches.length===1?' encontrado':'s encontrados');
+   const count=document.getElementById('contadorBusca');if(count)count.textContent=matches.length+' '+(matches.length===1?'item':'itens');
    const no=document.getElementById('semResultados');if(no)no.style.display=matches.length?'none':'block';
    document.querySelectorAll('.nd14-no-results').forEach(x=>x.style.display='none');
    if(matches.length && term.length>=2 && term!==lastTerm){lastTerm=term;scrollToResult(matches[0])}
@@ -10431,6 +10441,40 @@ img,video,iframe,svg,canvas{
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
  window.ND_R32={pesquisar:apply,limparPesquisa:function(){const q=input();if(q)q.value='';lastTerm='';restore()}};
+})();
+</script>
+
+<!-- ND BURGS — CORREÇÃO FINAL DO CONTADOR DA PESQUISA -->
+<style id="nd-r32-search-counter-fix">
+#contadorBusca{white-space:nowrap!important;min-width:58px!important;text-align:center!important;}
+</style>
+<script id="nd-r32-search-counter-fix-js">
+(function(){
+  'use strict';
+  function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').replace(/\s+/g,' ').trim()}
+  function update(){
+    const input=document.getElementById('buscaProdutos');
+    const counter=document.getElementById('contadorBusca');
+    if(!input||!counter)return;
+    const term=norm(input.value);
+    if(!term){counter.textContent='';return;}
+    // Conta SOMENTE os cards que realmente combinam com a pesquisa.
+    const matches=Array.from(document.querySelectorAll('.produto')).filter(card=>{
+      const text=norm((card.innerText||card.textContent||'')+' '+(card.querySelector('img')?.alt||''));
+      return text.includes(term);
+    });
+    counter.textContent=matches.length+' '+(matches.length===1?'item':'itens');
+  }
+  function init(){
+    const input=document.getElementById('buscaProdutos');
+    if(!input)return;
+    input.addEventListener('input',()=>requestAnimationFrame(update),{passive:true});
+    input.addEventListener('search',()=>requestAnimationFrame(update),{passive:true});
+    const clear=document.getElementById('ndR31ClearSearch');
+    if(clear)clear.addEventListener('click',()=>requestAnimationFrame(update),{passive:true});
+    update();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </html>
