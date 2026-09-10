@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R31">
+<meta name="nd-site-version" content="20260910-R32">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R31";
+  const ND_SITE_VERSION = "20260910-R32";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -10235,6 +10235,179 @@ img,video,iframe,svg,canvas{
   window.addEventListener('resize',stabilize,{passive:true});
   setTimeout(stabilize,300);
   setTimeout(stabilize,1000);
+})();
+</script>
+
+
+<!-- =========================================================
+     ND BURGS R32 — BUSCA INTELIGENTE DE CARDÁPIO
+     - Pesquisa enquanto o cliente digita
+     - Mostra somente itens compatíveis
+     - Dá destaque visual aos resultados
+     - Sugestões clicáveis abaixo da barra
+     - LIMPAR PESQUISA restaura 100% do cardápio
+     ========================================================= -->
+<style id="nd-r32-smart-search-css">
+#ndR31Search{position:relative;display:flex;align-items:center;flex-wrap:nowrap}
+#ndR31Search #buscaProdutos{flex:1;min-width:0}
+#ndR31Search #ndR32Suggestions{
+  position:absolute;left:0;right:0;top:calc(100% + 7px);z-index:9999;
+  display:none;max-height:330px;overflow:auto;padding:7px;
+  border:1px solid rgba(255,255,255,.12);border-radius:15px;
+  background:#101114;box-shadow:0 18px 45px rgba(0,0,0,.55)
+}
+.ndR32-suggestion{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border:0;background:transparent;color:#fff;text-align:left;cursor:pointer;
+  padding:11px 12px;border-radius:11px;font-weight:800
+}
+.ndR32-suggestion:hover,.ndR32-suggestion:focus{background:rgba(255,193,7,.12);outline:none}
+.ndR32-suggestion-name{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ndR32-suggestion mark{background:#ffd21a;color:#111;border-radius:4px;padding:0 2px}
+.ndR32-suggestion small{color:#ffd21a;white-space:nowrap;font-weight:900}
+.produto.ndR32-match{
+  position:relative!important;z-index:4!important;
+  transform:translateY(-2px) scale(1.012)!important;
+  outline:2px solid rgba(255,193,7,.72)!important;
+  box-shadow:0 0 0 4px rgba(255,193,7,.12),0 16px 34px rgba(0,0,0,.34)!important;
+  transition:transform .18s ease,box-shadow .18s ease,outline .18s ease!important;
+}
+.produto.ndR32-match::after{
+  content:'ENCONTRADO';position:absolute;top:8px;right:8px;z-index:20;
+  background:#ffd21a;color:#111;border-radius:999px;padding:5px 8px;
+  font-size:9px;font-weight:1000;letter-spacing:.4px;box-shadow:0 5px 14px rgba(0,0,0,.25)
+}
+.produto.ndR32-no-match{display:none!important}
+.categoria.ndR32-no-match{display:none!important}
+.ndR32-searching #contadorBusca{font-weight:900;color:#ffd21a}
+@media(max-width:600px){
+  #ndR31Search{flex-wrap:wrap}
+  #ndR31Search #buscaProdutos{min-width:calc(100% - 1px)}
+  #ndR31Search #ndR31ClearSearch{width:100%;justify-content:center;margin-top:6px}
+  #ndR31Search #ndR32Suggestions{top:calc(100% + 47px)}
+  .produto.ndR32-match{transform:translateY(-1px) scale(1.005)!important}
+  .produto.ndR32-match::after{font-size:8px;padding:4px 7px}
+}
+</style>
+<script id="nd-r32-smart-search-js">
+(function(){
+  'use strict';
+  var started=false;
+
+  function norm(v){
+    return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+  }
+  function cards(){return Array.from(document.querySelectorAll('.produto'));}
+  function categories(){return Array.from(document.querySelectorAll('.categoria'));}
+  function ensureSuggestions(){
+    var wrap=document.getElementById('ndR31Search');
+    if(!wrap || document.getElementById('ndR32Suggestions')) return;
+    var box=document.createElement('div');
+    box.id='ndR32Suggestions';
+    box.setAttribute('role','listbox');
+    wrap.appendChild(box);
+  }
+  function clearVisual(){
+    cards().forEach(function(c){c.classList.remove('ndR32-match','ndR32-no-match');});
+    categories().forEach(function(c){c.classList.remove('ndR32-no-match');});
+    var box=document.getElementById('ndR32Suggestions');
+    if(box){box.innerHTML='';box.style.display='none';}
+    var wrap=document.getElementById('ndR31Search');
+    if(wrap) wrap.classList.remove('ndR32-searching');
+  }
+  function restore(){
+    ['buscaProdutos','nd14Search'].forEach(function(id){var i=document.getElementById(id);if(i)i.value='';});
+    cards().forEach(function(c){
+      c.classList.remove('search-hidden','nd14-hidden','ndR32-match','ndR32-no-match');
+      c.style.removeProperty('display');
+    });
+    categories().forEach(function(c){
+      c.classList.remove('search-hidden','nd14-hidden','ndR32-no-match');
+      c.style.removeProperty('display');
+    });
+    ['semResultados'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+    document.querySelectorAll('.nd14-no-results').forEach(function(e){e.classList.add('nd14-hidden');e.style.display='none';});
+    var count=document.getElementById('contadorBusca');if(count)count.textContent='';
+    var ndCount=document.getElementById('nd14Count');if(ndCount)ndCount.textContent='';
+    var ndClear=document.getElementById('nd14Clear');if(ndClear)ndClear.style.display='none';
+    clearVisual();
+  }
+  function highlight(text,q){
+    var raw=String(text||''); if(!q)return raw;
+    var n=norm(raw), nq=norm(q), pos=n.indexOf(nq);
+    if(pos<0)return raw;
+    /* Mantém o texto original e destaca aproximadamente o trecho encontrado. */
+    var original=raw.substring(pos,pos+q.length);
+    var idx=raw.toLowerCase().indexOf(original.toLowerCase());
+    if(idx<0)idx=pos;
+    return raw.substring(0,idx)+'<mark>'+raw.substring(idx,idx+original.length)+'</mark>'+raw.substring(idx+original.length);
+  }
+  function doSearch(){
+    var input=document.getElementById('buscaProdutos');
+    if(!input)return;
+    var q=norm(input.value);
+    ensureSuggestions();
+    var box=document.getElementById('ndR32Suggestions');
+    var wrap=document.getElementById('ndR31Search');
+    if(!q){restore();return;}
+    if(wrap)wrap.classList.add('ndR32-searching');
+    var all=cards(), matches=[];
+    all.forEach(function(card){
+      var text=norm(card.textContent);
+      var ok=text.indexOf(q)!==-1;
+      card.classList.toggle('ndR32-match',ok);
+      card.classList.toggle('ndR32-no-match',!ok);
+      card.classList.remove('search-hidden','nd14-hidden');
+      if(ok)matches.push(card);
+    });
+    categories().forEach(function(cat){
+      var has=cat.querySelector('.produto.ndR32-match');
+      cat.classList.toggle('ndR32-no-match',!has);
+      cat.classList.remove('search-hidden','nd14-hidden');
+    });
+    var count=document.getElementById('contadorBusca');
+    if(count)count.textContent=matches.length+' item'+(matches.length===1?' encontrado':'s encontrados');
+    var no=document.getElementById('semResultados');
+    if(no)no.style.display=matches.length?'none':'';
+
+    box.innerHTML='';
+    if(matches.length){
+      matches.slice(0,8).forEach(function(card){
+        var b=document.createElement('button');
+        b.type='button'; b.className='ndR32-suggestion'; b.setAttribute('role','option');
+        var name=(card.querySelector('h2,h3,h4,.produto-nome,.nome-produto,.product-name')||card).textContent.trim().replace(/\s+/g,' ');
+        var price=(card.querySelector('.preco,.preco-produto,.price,.valor')||{}).textContent||'';
+        b.innerHTML='<span class="ndR32-suggestion-name">'+highlight(name,q)+'</span>'+(price.trim()?'<small>'+price.trim()+'</small>':'');
+        b.addEventListener('click',function(){
+          box.style.display='none';
+          card.scrollIntoView({behavior:'smooth',block:'center'});
+          card.classList.add('ndR32-match');
+          setTimeout(function(){card.classList.remove('ndR32-match');card.classList.add('ndR32-match');},900);
+        });
+        box.appendChild(b);
+      });
+      box.style.display='block';
+    }else box.style.display='none';
+  }
+  function init(){
+    if(started)return; started=true;
+    ensureSuggestions();
+    var input=document.getElementById('buscaProdutos');
+    if(input){
+      input.addEventListener('input',doSearch);
+      input.addEventListener('search',doSearch);
+      input.addEventListener('keydown',function(e){if(e.key==='Escape')restore();});
+    }
+    var clear=document.getElementById('ndR31ClearSearch');
+    if(clear)clear.addEventListener('click',function(){restore();if(input)input.focus();});
+    document.addEventListener('click',function(e){
+      var wrap=document.getElementById('ndR31Search'),box=document.getElementById('ndR32Suggestions');
+      if(box&&wrap&&!wrap.contains(e.target))box.style.display='none';
+    });
+    window.ND_R32={pesquisar:doSearch,limparPesquisa:restore};
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  setTimeout(function(){if(!started)init();},300);
 })();
 </script>
 
