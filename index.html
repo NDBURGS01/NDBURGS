@@ -208,7 +208,6 @@ body{padding-bottom:105px}
 .opcao-tamanho label{margin:0;display:block;padding:12px 8px;text-align:center;border:1px solid #444;border-radius:9px;background:#0d0d0d;cursor:pointer;font-weight:bold}
 .opcao-tamanho input:checked+label{border-color:#f5c400;background:#302900;color:#f5c400}
 .lista-acompanhamentos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.opcao-acomp input[type="checkbox"]{width:20px;height:20px;min-width:20px;accent-color:#e50914;cursor:pointer}
 .opcao-acomp{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #333;border-radius:8px;background:#0d0d0d;cursor:pointer}
 .opcao-acomp input{width:auto;margin:0}
 .opcao-acomp span{font-size:13px}
@@ -807,7 +806,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="container">
 
 <h1>🍔 FAÇA SEU PEDIDO</h1>
-<div class="modern-search"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><span id="contadorBusca" class="search-count"></span></div>
+<div class="modern-search" id="ndSearchBox"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><button type="button" id="limparBusca" aria-label="Limpar pesquisa" title="Limpar pesquisa">✕</button><span id="contadorBusca" class="search-count"></span></div>
 <div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
 
 <div class="categoria-menu">
@@ -2562,12 +2561,12 @@ tipo:"pasteis"
 };
 
 let html=
-`<div class="modal-secao" style="margin-top:0;padding-top:0;border-top:0"><div style="margin-bottom:12px;padding:11px 12px;border-radius:10px;background:#20120f;border:1px solid #ff4d00;color:#ffd166;font-size:13px;line-height:1.45;font-weight:800">🥟 ESCOLHA QUANTOS PASTÉIS QUISER<br><span style="color:#aaa;font-weight:600">Marque vários sabores. Cada sabor marcado adiciona 1 pastel ao carrinho.</span></div><h3>🥟 PASTÉIS SALGADOS</h3><div class="lista-acompanhamentos">`;
+`<div class="modal-secao" style="margin-top:0;padding-top:0;border-top:0"><h3>🥟 PASTÉIS SALGADOS</h3><div class="lista-acompanhamentos">`;
 
 saboresPasteis.salgados.forEach((p,i)=>{
 
 html+=
-`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="pastelModal" value="salgados|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
+`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="pastelModal" value="salgados|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
 
 });
 
@@ -2577,7 +2576,7 @@ html+=
 saboresPasteis.doces.forEach((p,i)=>{
 
 html+=
-`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="pastelModal" value="doces|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
+`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="pastelModal" value="doces|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
 
 });
 
@@ -2658,29 +2657,25 @@ document.body.style.overflow="hidden";
 
 function atualizarTotalModalPastel(){
 
-const selecionados=
-document.querySelectorAll(
+const selecionado=
+document.querySelector(
 'input[name="pastelModal"]:checked'
 );
 
 const total=
 document.getElementById("modalTotal");
 
-if(!selecionados.length){
+if(!selecionado){
 
 total.innerText=
-"ESCOLHA QUANTOS PASTÉIS QUISER";
+"ESCOLHA UM SABOR";
 
 return;
 
 }
 
-let soma=0;
-
-selecionados.forEach(input=>{
-
 const partes=
-input.value.split("|");
+selecionado.value.split("|");
 
 const lista=
 saboresPasteis[partes[0]];
@@ -2690,34 +2685,28 @@ lista[
 parseInt(partes[1],10)
 ];
 
-if(pastel) soma+=Number(pastel[1])||0;
-
-});
-
 total.innerText=
-moeda(soma);
+moeda(pastel[1]);
 
 }
 
 function confirmarPersonalizacaoPastel(){
 
-const selecionados=
-document.querySelectorAll(
+const selecionado=
+document.querySelector(
 'input[name="pastelModal"]:checked'
 );
 
-if(!selecionados.length){
+if(!selecionado){
 
-alert("Escolha pelo menos 1 pastel.");
+alert("Escolha o sabor do pastel.");
 
 return;
 
 }
 
-selecionados.forEach(input=>{
-
 const partes=
-input.value.split("|");
+selecionado.value.split("|");
 
 const lista=
 saboresPasteis[partes[0]];
@@ -2727,11 +2716,7 @@ lista[
 parseInt(partes[1],10)
 ];
 
-if(pastel){
-adicionar(pastel[0],pastel[1]);
-}
-
-});
+for(let i=0;i<Math.max(1,Number(window.ndPendingQty)||1);i++) adicionar(pastel[0],pastel[1]);
 
 window.ndPendingQty=1;
 
@@ -4939,9 +4924,35 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     e.style.display=any?'none':'';
   }
   function enhanceSearch(){
-    const input=document.getElementById('buscaProdutos'); if(!input||input.dataset.ndSearch==='1')return;
+    const input=document.getElementById('buscaProdutos'), clear=document.getElementById('limparBusca');
+    if(!input||input.dataset.ndSearch==='1')return;
     input.dataset.ndSearch='1';
-    input.addEventListener('input',()=>setTimeout(refreshEmptyCategories,0));
+    const sync=()=>{
+      const has=!!input.value.trim();
+      clear?.classList.toggle('show',has);
+      if(!has) input.classList.remove('nd-search-found');
+      setTimeout(refreshEmptyCategories,0);
+    };
+    input.addEventListener('input',sync,{passive:true});
+    input.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        e.preventDefault();
+        const cards=$$('.produto').filter(c=>getComputedStyle(c).display!=='none'&&!c.classList.contains('search-hidden'));
+        if(cards.length){
+          input.classList.add('nd-search-found');
+          cards[0].scrollIntoView({behavior:'smooth',block:'center'});
+          cards[0].animate?.([{transform:'scale(1)'},{transform:'scale(1.025)'},{transform:'scale(1)'}],{duration:500});
+        }
+      }
+    });
+    clear?.addEventListener('click',()=>{
+      input.value='';
+      input.focus();
+      input.classList.remove('nd-search-found');
+      clear.classList.remove('show');
+      input.dispatchEvent(new Event('input',{bubbles:true}));
+    });
+    sync();
   }
   function updateProgress(){
     const carts=typeof carrinho!=='undefined' ? carrinho : (window.carrinho||[]);
@@ -5659,6 +5670,15 @@ button{font-family:inherit}
 
 /* CONTADOR DE BUSCA */
 .search-count{min-width:42px;text-align:right}
+/* BUSCA ND BURGS — limpar, Enter e resultado ativo */
+#ndSearchBox{gap:8px}
+#ndSearchBox #buscaProdutos{flex:1;min-width:0}
+#limparBusca{display:none;flex:0 0 auto;width:42px;height:42px;border:1px solid rgba(229,9,20,.35);border-radius:11px;background:#151515;color:#fff;font-size:18px;font-weight:900;cursor:pointer;line-height:1}
+#limparBusca.show{display:block}
+#limparBusca:hover{background:#e50914;transform:scale(1.04)}
+#buscaProdutos.nd-search-found{border-color:rgba(37,211,102,.65)!important;box-shadow:0 0 0 3px rgba(37,211,102,.08)!important}
+@media(max-width:600px){#limparBusca{width:40px;height:40px}.search-count{font-size:11px;min-width:auto}}
+
 
 
 /* INDICADOR DE CARREGAMENTO DO SITE */
@@ -5708,9 +5728,13 @@ button{font-family:inherit}
   function optimizeImages(){
     $$('img').forEach((img,i)=>{
       if(!img.hasAttribute('decoding')) img.decoding='async';
-      const isHero=img.classList.contains('nd-v4-art-burger') || img.src===HERO_IMG;
+      const isHero=img.classList.contains('nd-v4-art-burger') || img.src===HERO_IMG || !!img.closest('header');
       if(isHero){ img.loading='eager'; img.fetchPriority='high'; img.setAttribute('fetchpriority','high'); }
-      else if(!img.closest('header') && !img.hasAttribute('loading')) img.loading='lazy';
+      else {
+        img.loading='lazy';
+        img.fetchPriority='low';
+        img.setAttribute('fetchpriority','low');
+      }
     });
   }
 
@@ -9400,6 +9424,59 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<!-- ND BURGS — CORREÇÃO FINAL: imagens + busca -->
+<script id="nd-final-performance-search">
+(function(){
+  'use strict';
+  const q=s=>document.querySelector(s);
+  const qa=s=>Array.from(document.querySelectorAll(s));
+  function optimizeAllImages(){
+    qa('img').forEach(img=>{
+      if(!img.hasAttribute('decoding')) img.decoding='async';
+      const hero=img.classList.contains('nd-v4-art-burger');
+      if(hero){img.loading='eager';img.fetchPriority='high';img.setAttribute('fetchpriority','high');}
+      else if(!img.closest('header')){img.loading='lazy';img.fetchPriority='low';img.setAttribute('fetchpriority','low');}
+    });
+  }
+  function bindSearch(){
+    const input=q('#buscaProdutos'), clear=q('#limparBusca');
+    if(!input||input.dataset.ndFinalSearch==='1')return;
+    input.dataset.ndFinalSearch='1';
+    const refresh=()=>{
+      const has=!!input.value.trim();
+      clear?.classList.toggle('show',has);
+      if(!has)input.classList.remove('nd-search-found');
+    };
+    input.addEventListener('input',refresh,{passive:true});
+    input.addEventListener('keydown',e=>{
+      if(e.key!=='Enter')return;
+      e.preventDefault();
+      const term=input.value.trim();
+      if(!term)return;
+      const card=qa('.produto').find(c=>getComputedStyle(c).display!=='none'&&!c.classList.contains('search-hidden'));
+      if(card){
+        input.classList.add('nd-search-found');
+        card.scrollIntoView({behavior:'smooth',block:'center'});
+        card.animate?.([{transform:'scale(1)'},{transform:'scale(1.025)'},{transform:'scale(1)'}],{duration:500});
+      }
+    });
+    clear?.addEventListener('click',()=>{
+      input.value='';
+      input.classList.remove('nd-search-found');
+      clear.classList.remove('show');
+      input.dispatchEvent(new Event('input',{bubbles:true}));
+      input.focus();
+    });
+    refresh();
+  }
+  function init(){optimizeAllImages();bindSearch();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  setTimeout(optimizeAllImages,700);
+  setTimeout(optimizeAllImages,1800);
+  new MutationObserver(()=>{optimizeAllImages();bindSearch()}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 
 <!-- =========================================================
