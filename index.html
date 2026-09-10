@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R30">
+<meta name="nd-site-version" content="20260910-R30-TAXA">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R30";
+  const ND_SITE_VERSION = "20260910-R30-TAXA";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -769,6 +769,31 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .nd-r30-free-badge{display:inline-block;margin-left:7px;padding:4px 8px;border-radius:999px;background:#25d366;color:#04170c;font-size:10px;font-weight:950;vertical-align:middle}
 @keyframes ndFreePulse{50%{box-shadow:0 0 42px rgba(37,211,102,.45),0 12px 35px rgba(0,0,0,.4)}}
 @media(max-width:600px){.nd-r30-search-tools{gap:6px}.nd-r30-clear{padding:11px 9px;font-size:11px}.nd-r30-search-focus .produto.nd-r30-match .produto-imagem{height:190px!important}.nd-r30-search-focus .produto.nd-r30-match h3{font-size:17px!important}.nd-r30-results.show{align-items:flex-start}.nd-r30-free-banner{margin-left:9px;margin-right:9px;padding:13px 10px}}
+</style>
+
+
+<style id="nd-r30-delivery-fee-style">
+/* ND BURGS — TAXA DE ENTREGA SEM DESTAQUE */
+#taxa,
+#taxaCarrinhoModal,
+#taxaFinalizarModal,
+#taxaModal,
+#taxaCheckout,
+.nd-delivery-fee-value{
+  color:#fff !important;
+  font-size:12px !important;
+  font-weight:500 !important;
+  text-shadow:none !important;
+  box-shadow:none !important;
+  background:none !important;
+  border:0 !important;
+  transform:none !important;
+}
+.aviso-taxa .nd-delivery-fee-value{
+  color:#fff !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+}
 </style>
 
 </head>
@@ -1560,7 +1585,7 @@ ESCOLHER SABOR
 
 <div class="linha">
 <span>Taxa de entrega</span>
-<strong id="taxa">R$ 0,00</strong>
+<strong id="taxa" class="nd-delivery-fee-value">R$ 0,00</strong>
 </div>
 
 <div class="linha total">
@@ -1765,7 +1790,7 @@ R$ 0,00
 
 <div class="linha">
 <span>Taxa de entrega</span>
-<strong id="taxaCarrinhoModal">
+<strong id="taxaCarrinhoModal" class="nd-delivery-fee-value">
 R$ 0,00
 </strong>
 </div>
@@ -1977,7 +2002,7 @@ R$ 0,00
 <div class="linha">
 <span>Taxa de entrega</span>
 
-<strong id="taxaFinalizarModal">
+<strong id="taxaFinalizarModal" class="nd-delivery-fee-value">
 R$ 0,00
 </strong>
 </div>
@@ -3075,7 +3100,7 @@ aviso.style.display="block";
 aviso.innerHTML=
 "🏍️ Taxa para <strong>"+
 rua+
-"</strong>: <strong>"+
+"</strong>: <strong class="nd-delivery-fee-value">"+
 moeda(taxa)+
 "</strong>";
 
@@ -3669,7 +3694,7 @@ aviso.style.display=
 aviso.innerHTML=
 "🏍️ Taxa para <strong>"+
 rua+
-"</strong>: <strong>"+
+"</strong>: <strong class="nd-delivery-fee-value">"+
 moeda(taxa)+
 "</strong>";
 
