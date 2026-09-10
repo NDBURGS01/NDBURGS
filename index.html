@@ -6960,21 +6960,30 @@ function norm(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\
 function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 function ensureModal(){if(document.getElementById('ndComboModal'))return;const m=document.createElement('div');m.id='ndComboModal';m.innerHTML='<div class="r11-combo-panel" onclick="event.stopPropagation()"><div class="r11-combo-head"><div><h2 id="r11ComboTitle"></h2><small>ESCOLHAS OBRIGATÓRIAS • O COMBO SÓ ENTRA NO CARRINHO DEPOIS DE MONTADO</small></div><button class="r11-close" type="button" onclick="fecharComboPersonalizacao()">×</button></div><div id="r11ComboContent"></div></div>';m.addEventListener('click',e=>{if(e.target===m)fecharComboPersonalizacao()});document.body.appendChild(m)}
-function optionsHtml(opts,name,prefix){return '<div class="r11-option-grid">'+opts.map((x,i)=>'<div class="r11-option"><input type="radio" id="'+prefix+'_'+i+'" name="'+name+'" value="'+esc(x)+'"><label for="'+prefix+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div>'}
+function optionsHtml(opts,name,prefix){const arr=Array.isArray(opts)?opts:[];return '<div class="r11-simple-select"><select class="r11-choice-select" name="'+name+'" id="'+prefix+'"><option value="">TOQUE AQUI E ESCOLHA</option>'+arr.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('')+'</select></div>'}
 function addonHtml(prefix){return '<div class="r11-addons" id="'+prefix+'_addons"><div class="r11-bite">🍔 QUER TAL ADICIONAR ITENS NO SEU LANCHE ? E DEIXAR ELE DO JEITO QUE VOCE GOSTA<br><span style="font-size:10px;color:#ffb36d">ESCOLHA SEUS ADICIONAIS</span></div><div class="r11-addon-grid">'+ADDONS.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+prefix+'_a_'+i+'" data-price="'+a[1]+'" data-name="'+esc(a[0])+'"><label for="'+prefix+'_a_'+i+'"><img src="'+a[2]+'" alt="'+esc(a[0])+'"><span>'+esc(a[0])+'</span><br><b>+'+money(a[1])+'</b></label></div>').join('')+'</div><div class="r11-note">Os adicionais são opcionais e entram no valor do combo apenas se forem marcados.</div></div>'}
 function sectionHtml(sec,idx){
  const id='r11s'+idx;
- if(sec.type==='fixed')return '<div class="r11-section"><h3>📦 '+esc(sec.title)+'</h3><div class="r11-fixed"><span>FIXO</span><b>'+esc(sec.value)+'</b></div></div>';
+ if(sec.type==='fixed'){
+ const t=String(sec.title||'').toUpperCase();
+ let icon='🍽️';
+ if(/ACOMPANHAMENTO/.test(t)) icon='🍟';
+ else if(/SOBREMESA|DOCE/.test(t)) icon='🍇';
+ else if(/BRINDE/.test(t)) icon='🎁';
+ else if(/LANCHE/.test(t)) icon='🍔';
+ const nome=(/ACOMPANHAMENTO/.test(t)?'ACOMPANHAMENTO':/SOBREMESA|DOCE/.test(t)?'SOBREMESA':/BRINDE/.test(t)?'BRINDE':/LANCHE/.test(t)?'LANCHE':String(sec.title||'ITEM'));
+ return '<div class="r11-section"><h3>'+icon+' '+esc(nome)+'</h3><div class="r11-fixed"><b>'+esc(sec.value)+'</b></div></div>';
+}
  if(sec.type==='drink')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+'</div>';
  if(sec.type==='sauces')return '<div class="r11-section"><h3>🥫 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • MARQUE EXATAMENTE 2</span><div class="r11-sauce-grid">'+sec.options.map((x,i)=>'<div class="r11-sauce"><input type="checkbox" id="'+id+'_'+i+'" name="'+id+'" value="'+esc(x)+'"><label for="'+id+'_'+i+'">'+esc(x)+'</label></div>').join('')+'</div></div>';
  if(sec.type==='pastel')return '<div class="r11-section"><h3>🥟 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • SEM PASTEL ESPECIAL E SEM DOCES</span>'+optionsHtml((typeof saboresPasteis!=='undefined'?saboresPasteis.salgados:[]).filter(x=>norm(x[0])!=='PASTEL ESPECIAL').map(x=>x[0]),id,'r11opt'+idx)+'</div>';
- if(sec.type==='acai')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 300ML</span><div class="r11-fixed" style="margin-top:9px"><span>FIXO</span><b>AÇAÍ 300ML</b></div>'+acaiChoicesHtml(id,1)+'</div>';
+ if(sec.type==='acai')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 300ML</span><div class="r11-fixed" style="margin-top:9px"><b>AÇAÍ 300ML</b></div>'+acaiChoicesHtml(id,1)+'</div>';
  if(sec.type==='acai2')return '<div class="r11-section"><h3>🥤 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • 2 AÇAÍS DE 300ML</span>'+acaiChoicesHtml(id+'a',1)+acaiChoicesHtml(id+'b',2)+'</div>';
  if(sec.type==='burger')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 1</span>'+optionsHtml(sec.options,id,'r11opt'+idx)+addonHtml(id)+'</div>';
  if(sec.type==='burger2')return '<div class="r11-section"><h3>🍔 '+esc(sec.title)+'</h3><span class="r11-required">OBRIGATÓRIO • ESCOLHA 2</span><div style="margin-top:10px;font-size:10px;color:#aaa;font-weight:900">LANCHE 1</div>'+optionsHtml(sec.options,id+'a','r11opt'+idx+'a')+addonHtml(id+'a')+'<div style="margin-top:12px;font-size:10px;color:#aaa;font-weight:900">LANCHE 2</div>'+optionsHtml(sec.options,id+'b','r11opt'+idx+'b')+addonHtml(id+'b')+'<div class="r11-note">Você pode escolher lanches diferentes. Se repetir o mesmo lanche, ele será contabilizado duas vezes.</div></div>';
  return '';
 }
-function acaiChoicesHtml(id,num){const list=typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?produtosPersonalizaveis.acai.acompanhamentos:[];return '<div style="margin-top:10px"><div style="font-size:10px;color:#aaa;font-weight:900;margin-bottom:6px">AÇAÍ '+num+' • ACOMPANHAMENTOS</div><div class="r11-addon-grid">'+list.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+id+'_a_'+i+'" data-name="'+esc(a[0])+'" data-price="'+a[1]+'" data-acai="1"><label for="'+id+'_a_'+i+'"><div style="height:48px;display:grid;place-items:center;font-size:20px">🍓</div><span>'+esc(a[0])+'</span><br><b>'+((a[1]>0)?'+'+money(a[1]):'GRÁTIS')+'</b></label></div>').join('')+'</div><div class="r11-note">Até 3 acompanhamentos normais são grátis, seguindo a regra do açaí do site. Os itens pagos continuam com o valor cadastrado.</div></div>'}
+function acaiChoicesHtml(id,num){const list=typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?produtosPersonalizaveis.acai.acompanhamentos:[];return '<div class="r11-acai-box" data-acai-group="'+id+'" style="margin-top:10px"><div class="r11-acai-head"><div style="font-size:10px;color:#aaa;font-weight:900;margin-bottom:6px">AÇAÍ '+num+' • ESCOLHA ATÉ 3 ACOMPANHAMENTOS GRÁTIS</div><strong class="r11-acai-count">0/3 GRÁTIS</strong></div><div class="r11-addon-grid">'+list.map((a,i)=>{const n=norm(a[0]);const price=n==='NUTELLA'?5:(n==='CREME DE NINHO'||n==='KIT KAT'||Number(a[1])>0?3:0);return '<div class="r11-addon"><input type="checkbox" id="'+id+'_a_'+i+'" data-name="'+esc(a[0])+'" data-price="'+price+'" data-acai="1"><label for="'+id+'_a_'+i+'"><div style="height:48px;display:grid;place-items:center;font-size:20px">🍓</div><span>'+esc(a[0])+'</span><br><b>'+((price>0)?'+'+money(price):'GRÁTIS')+'</b></label></div>'}).join('')+'</div><div class="r11-note">Os 3 primeiros acompanhamentos GRATUITOS ficam grátis. Do 4º acompanhamento gratuito em diante: +R$3,00. NUTELLA: +R$5,00 sempre. CREME DE NINHO: +R$3,00 sempre. KIT KAT: +R$3,00 sempre.</div></div>'}
 const ARTISAN_PRICE_MAP={
  'COMBO MAIS VENDIDO':34.80,
  'COMBO DOCE':44.80,
@@ -7019,7 +7028,10 @@ function renderCombo(){
    let serial=0;
    for(let unit=1;unit<=q;unit++){
      html+='<div class="r11-unit-title">🍔 COMBO '+unit+' DE '+q+' — FAÇA AS ESCOLHAS ABAIXO</div>';
-     cfg.sections.forEach(sec=>{html+=sectionHtml(sec,serial++);});
+     const escolhas=cfg.sections.filter(sec=>sec.type!=='fixed');
+     const fixos=cfg.sections.filter(sec=>sec.type==='fixed');
+     escolhas.forEach(sec=>{html+=sectionHtml(sec,serial++);});
+     fixos.forEach(sec=>{html+=sectionHtml(sec,serial++);});
    }
    html+='<div class="r11-combo-total"><span>TOTAL DO COMBO • X'+q+'</span><strong id="r11ComboTotal">'+money(current.activePrice*q)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';
    content.innerHTML=html;
@@ -7051,18 +7063,19 @@ function open(name,price,quantity){
  if(m)m.classList.add('show');
  document.body.style.overflow='hidden';
 }
-function bindDynamic(){document.querySelectorAll('#r11ComboContent input[type=radio]').forEach(r=>r.addEventListener('change',()=>{const sec=r.closest('.r11-section');const addon=sec?.querySelector('.r11-addons');if(addon)addon.classList.add('show')}));document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}}))}
-function selected(name){return document.querySelector('input[name="'+name+'"]:checked')?.value||''}
+function bindDynamic(){document.querySelectorAll('#r11ComboContent input[type=radio],#r11ComboContent select').forEach(r=>r.addEventListener('change',()=>{const sec=r.closest('.r11-section');const addon=sec?.querySelector('.r11-addons');if(addon)addon.classList.add('show')}));document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}if(c.dataset.acai==='1'){const box=c.closest('.r11-acai-box');if(box){const chosen=[...box.querySelectorAll('input[data-acai="1"]:checked')];const free=chosen.filter(x=>{const n=norm(x.dataset.name);return n!=='NUTELLA'&&n!=='CREME DE NINHO'&&n!=='KIT KAT'&&Number(x.dataset.price)===0}).length;const label=box.querySelector('.r11-acai-count');if(label)label.textContent=Math.min(free,3)+'/3 GRÁTIS';}}}))}
+function selected(name){const radio=document.querySelector('input[name="'+name+'"]:checked');if(radio)return radio.value||'';const sel=document.querySelector('select[name="'+name+'"]');if(sel)return sel.value||'';const byId=document.getElementById(name);if(byId&&('value' in byId))return byId.value||'';return ''}
 function addons(prefix){return [...document.querySelectorAll('#'+prefix+'_addons input[type=checkbox]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
 function acai(prefix){return [...document.querySelectorAll('#'+prefix+'_a_'+CSS.escape('0'))].length?[]:[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
 function allAcai(){return [...document.querySelectorAll('#r11ComboContent input[data-acai="1"]:checked')].map(x=>({id:x.id,name:x.dataset.name,price:Number(x.dataset.price)||0}));}
-function validarAcai(prefix){const chosen=[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')];return chosen.map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
+function validarAcai(prefix){const chosen=[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')];let gratuitos=0;return chosen.map(x=>{const nome=norm(x.dataset.name);const cadastrado=Number(x.dataset.price)||0;let price=cadastrado;if(nome!=='NUTELLA'&&nome!=='CREME DE NINHO'&&nome!=='KIT KAT'&&cadastrado===0){price=gratuitos<3?0:3;gratuitos++;}return {name:x.dataset.name,price};})}
 function close(){const m=document.getElementById('ndComboModal');if(m)m.classList.remove('show');document.body.style.overflow='';current=null}
 function confirm(){
  if(!current)return;
  const cfg=current.activeCfg||current.cfg,details=[],q=Math.max(1,Number(current.quantity)||1);let ok=true,extra=0,serial=0;
+ const orderedSections=cfg.sections.filter(sec=>sec.type!=='fixed').concat(cfg.sections.filter(sec=>sec.type==='fixed'));
  for(let unit=1;unit<=q;unit++){
-   cfg.sections.forEach((sec)=>{
+   orderedSections.forEach((sec)=>{
      const idx=serial++,id='r11s'+idx;
      if(sec.type==='burger'){const v=selected(id);if(!v){ok=false;return}details.push('Combo '+unit+' • Lanche: '+v);addons(id).forEach(a=>{details.push('Combo '+unit+' • Adicional no lanche: '+a.name);extra+=a.price})}
      if(sec.type==='burger2'){const a=selected(id+'a'),b=selected(id+'b');if(!a||!b){ok=false;return}details.push('Combo '+unit+' • Lanche 1: '+a,'Combo '+unit+' • Lanche 2: '+b);addons(id+'a').forEach(x=>{details.push('Combo '+unit+' • Adicional no Lanche 1: '+x.name);extra+=x.price});addons(id+'b').forEach(x=>{details.push('Combo '+unit+' • Adicional no Lanche 2: '+x.name);extra+=x.price})}
@@ -9873,6 +9886,145 @@ function boot(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
 </script>
+
+<style id="ndComboEasyUXStyle">
+.r11-easy-help{margin:0 0 12px;padding:12px 13px;border:1px solid rgba(255,210,26,.28);border-radius:14px;background:linear-gradient(135deg,rgba(255,210,26,.09),rgba(255,90,0,.05));}
+.r11-easy-help strong{display:block;color:#ffd21a;font-size:13px;margin-bottom:6px}.r11-easy-help span{display:block;color:#ddd;font-size:10px;font-weight:800;line-height:1.45}.r11-easy-help b{color:#fff}
+.r11-progress{margin:8px 0 12px;padding:9px 10px;border-radius:11px;background:#0c0c0e;border:1px solid #29292c}.r11-progress-row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10px;font-weight:900;color:#aaa}.r11-progress-row strong{color:#ffd21a}.r11-progress-bar{height:7px;margin-top:7px;border-radius:99px;background:#252529;overflow:hidden}.r11-progress-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ff5a00,#ffd21a);transition:width .2s ease}
+.r11-unit-title{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex-wrap:wrap!important}.r11-unit-title .r11-unit-label{font-size:12px;color:#ffd21a;font-weight:1000}.r11-unit-title .r11-unit-status{font-size:9px;color:#aaa;font-weight:900}
+.r11-section.nd-r11-complete{border-color:rgba(46,204,113,.42)!important;background:rgba(46,204,113,.035)!important}.r11-section.nd-r11-complete h3:after{content:' ✓';color:#55e58b;font-weight:1000}.r11-section.nd-r11-required{border-color:rgba(255,90,0,.55)!important}
+.r11-confirm.nd-r11-disabled{opacity:.55;filter:grayscale(.25);cursor:not-allowed}
+@media(max-width:600px){.r11-option-grid{grid-template-columns:1fr!important}.r11-section{padding:11px}.r11-unit-title{font-size:11px!important}}
+</style>
+<script id="ndComboEasyUX">
+(function(){
+'use strict';
+function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function sectionComplete(sec){
+ if(!sec)return true;
+ const req=sec.querySelector('.r11-required');
+ if(!req)return true;
+ const radios=sec.querySelectorAll('input[type="radio"]:checked');
+ if(radios.length)return sec.querySelectorAll('input[type="radio"]:checked').length>0;
+ const acais=sec.querySelectorAll('input[data-acai="1"]:checked');
+ if(acais.length){
+   const a=sec.querySelectorAll('input[data-acai="1"][id*="a_a_"]:checked').length;
+   const b=sec.querySelectorAll('input[data-acai="1"][id*="b_a_"]:checked').length;
+   if(sec.querySelectorAll('input[data-acai="1"][id*="b_a_"]').length)return a>0&&b>0;
+   return acais.length>0;
+ }
+ const sauce=sec.querySelectorAll('.r11-sauce input:checked');
+ if(sauce.length)return sauce.length===2;
+ return false;
+}
+function decorate(){
+ const content=document.getElementById('r11ComboContent');
+ if(!content||!content.children.length)return;
+ if(!content.querySelector('.r11-easy-help')){
+   const h=document.createElement('div');h.className='r11-easy-help';
+   h.innerHTML='<strong>🛒 FALTA POUCO! VAMOS MONTAR SEU COMBO</strong><span><b>1.</b> A quantidade você já escolheu no cardápio. &nbsp; <b>2.</b> Faça as escolhas de cada combo abaixo. &nbsp; <b>3.</b> Quando tudo estiver completo, toque em <b>ADICIONAR AO CARRINHO</b>.</span>';
+   content.insertBefore(h,content.firstChild);
+ }
+ const titles=[...content.querySelectorAll('.r11-unit-title')];
+ titles.forEach((title,i)=>{
+   if(!title.querySelector('.r11-unit-label')){
+     const raw=title.textContent.trim();
+     const m=raw.match(/COMBO\s+(\d+)\s+DE\s+(\d+)/i);
+     title.textContent='';
+     const lab=document.createElement('span');lab.className='r11-unit-label';lab.textContent=m?'🍔 COMBO '+m[1]+' DE '+m[2]:'🍔 COMBO '+(i+1);
+     const st=document.createElement('span');st.className='r11-unit-status';st.textContent='Faça as escolhas abaixo';
+     title.append(lab,st);
+   }
+   let next=title.nextElementSibling, secs=[];
+   while(next&&!next.classList.contains('r11-unit-title')&&!next.classList.contains('r11-combo-total')&&!next.classList.contains('r11-confirm')){if(next.classList.contains('r11-section'))secs.push(next);next=next.nextElementSibling}
+   let prog=title.nextElementSibling;
+   if(!prog||!prog.classList.contains('r11-progress')){prog=document.createElement('div');prog.className='r11-progress';title.insertAdjacentElement('afterend',prog)}
+   const required=secs.filter(s=>s.querySelector('.r11-required'));
+   const done=required.filter(sectionComplete).length;
+   const pct=required.length?Math.round(done/required.length*100):100;
+   prog.innerHTML='<div class="r11-progress-row"><span>PROGRESSO DESTE COMBO</span><strong>'+done+' de '+required.length+' escolhas</strong></div><div class="r11-progress-bar"><div class="r11-progress-fill" style="width:'+pct+'%"></div></div>';
+   secs.forEach(sec=>{const complete=sectionComplete(sec);sec.classList.toggle('nd-r11-complete',complete);sec.classList.toggle('nd-r11-required',!complete&&!!sec.querySelector('.r11-required'))});
+   const status=title.querySelector('.r11-unit-status');if(status)status.textContent=required.length?(done===required.length?'✅ COMBO COMPLETO':'⚠️ FALTAM '+(required.length-done)+' ESCOLHAS'):'COMPLETO';
+ });
+ const confirm=content.querySelector('.r11-confirm');
+ if(confirm){
+   const incomplete=[...content.querySelectorAll('.r11-section .r11-required')].filter(x=>!sectionComplete(x.closest('.r11-section'))).length;
+   confirm.classList.toggle('nd-r11-disabled',incomplete>0);
+   confirm.title=incomplete?'Complete todas as escolhas obrigatórias primeiro':'';
+ }
+}
+function init(){
+ const c=document.getElementById('r11ComboContent');if(!c)return;
+ if(c.dataset.easyUx==='1')return;c.dataset.easyUx='1';
+ const mo=new MutationObserver(function(){decorate()});mo.observe(c,{childList:true,subtree:true});
+ c.addEventListener('change',function(){setTimeout(decorate,0)});
+ setInterval(decorate,900);
+ decorate();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else setTimeout(init,0);
+})();
+</script>
+
+<script id="ndComboCartFinalFix">
+(function(){
+'use strict';
+/* Correção final: a personalização e a confirmação precisam usar exatamente a
+   mesma ordem de seções renderizada na tela. Isso evita que X2 leia as escolhas
+   do combo errado e impede o combo de entrar no carrinho. */
+function bindFinal(){
+  document.querySelectorAll('.produto').forEach(function(card){
+    var h=card.querySelector('h3'), b=card.querySelector('.nd-fx-add,.btn-add');
+    if(!h||!b)return;
+    var name=h.textContent.trim();
+    var comboNames=['COMBO MAIS VENDIDO','COMBO DOCE','COMBO GELADO','COMBO 5 ESTRELAS','COMBO DIETA SÓ SEGUNDA','COMBO MOTOCA ND','COMBO SÓ LOVE','DATE COM NDBURGS','01 ND BURGS'];
+    if(comboNames.indexOf(name)<0)return;
+    var qel=card.querySelector('.nd-fx-q');
+    var q=Math.max(1,Math.min(20,Number(qel&&qel.textContent)||Number(card.dataset.ndComboQty)||1));
+    card.dataset.ndComboQty=String(q);
+    if(qel)qel.textContent=String(q);
+    if(b.dataset.finalComboBound==='1')return;
+    var fresh=b.cloneNode(true); b.replaceWith(fresh); b=fresh;
+    b.dataset.finalComboBound='1';
+    b.addEventListener('click',function(e){
+      e.preventDefault();e.stopImmediatePropagation();
+      var now=Math.max(1,Math.min(20,Number(qel&&qel.textContent)||Number(card.dataset.ndComboQty)||1));
+      card.dataset.ndComboQty=String(now);
+      if(typeof window.abrirComboPersonalizacao==='function') window.abrirComboPersonalizacao(name,0,now);
+      return false;
+    },true);
+  });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindFinal,{once:true});
+else bindFinal();
+setTimeout(bindFinal,300);setTimeout(bindFinal,1000);setTimeout(bindFinal,2000);
+})();
+</script>
+<script id="nd-combo-cart-final-safety">
+(function(){
+'use strict';
+/* Correção final: as escolhas dos combos usam SELECTs; a validação precisa ler SELECT + RADIO. */
+function ndComboSelected(name){
+  const radio=document.querySelector('input[name="'+name+'"]:checked');
+  if(radio)return radio.value||'';
+  const select=document.querySelector('select[name="'+name+'"]');
+  if(select)return select.value||'';
+  const el=document.getElementById(name);
+  return el&&('value' in el)?(el.value||''):'';
+}
+window.ndComboSelected=ndComboSelected;
+/* Garante que o botão de confirmação sempre aponte para a função global atual. */
+function bind(){
+  document.querySelectorAll('#r11ComboContent .r11-confirm').forEach(btn=>{
+    btn.onclick=function(e){
+      e.preventDefault();e.stopPropagation();
+      if(typeof window.confirmarComboPersonalizacao==='function')return window.confirmarComboPersonalizacao();
+    };
+  });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+const obs=new MutationObserver(bind);if(document.body)obs.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 
 <!-- =========================================================
@@ -10588,4 +10740,41 @@ img,video,iframe,svg,canvas{
 })();
 </script>
 
+
+<style id="ndComboUltraSimpleUX">
+/* CONFIGURADOR DE COMBO — MODO ULTRA SIMPLES */
+.r11-easy-help,.r11-progress{display:none!important}
+.r11-unit-title{margin:14px 0 10px!important;padding:14px 15px!important;border:2px solid #ffd21a!important;border-radius:14px!important;background:#171719!important;display:block!important}
+.r11-unit-title .r11-unit-label{display:block!important;font-size:15px!important;color:#ffd21a!important;font-weight:1000!important}
+.r11-unit-title .r11-unit-status{display:block!important;margin-top:4px!important;font-size:10px!important;color:#aaa!important}
+.r11-section{margin:9px 0!important;padding:12px!important;border-radius:14px!important}
+.r11-section h3{font-size:13px!important;margin:0 0 7px!important}
+.r11-required{display:block!important;margin-bottom:7px!important}
+.r11-simple-select{width:100%!important}
+.r11-choice-select{width:100%!important;height:52px!important;padding:0 14px!important;border:2px solid #3a3a3e!important;border-radius:13px!important;background:#111113!important;color:#fff!important;font-size:14px!important;font-weight:900!important;outline:none!important}
+.r11-choice-select:focus{border-color:#ffd21a!important;box-shadow:0 0 0 3px rgba(255,210,26,.12)!important}
+.r11-addons{margin-top:8px!important}
+.r11-bite{font-size:10px!important;line-height:1.35!important}
+.r11-confirm{position:sticky!important;bottom:8px!important;width:100%!important;z-index:5!important;box-shadow:0 8px 25px rgba(0,0,0,.4)!important}
+</style>
+<script id="ndComboUltraSimpleJS">
+(function(){
+'use strict';
+function refresh(){
+ const c=document.getElementById('r11ComboContent'); if(!c)return;
+ const titles=[...c.querySelectorAll('.r11-unit-title')];
+ titles.forEach((t,i)=>{
+   const m=t.textContent.match(/COMBO\s+(\d+)\s+DE\s+(\d+)/i);
+   if(!m)return;
+   let label=t.querySelector('.r11-unit-label'),status=t.querySelector('.r11-unit-status');
+   if(!label){t.textContent='';label=document.createElement('span');label.className='r11-unit-label';status=document.createElement('span');status.className='r11-unit-status';t.append(label,status)}
+   label.textContent='🍔 COMBO '+m[1]+' DE '+m[2];
+   const next=t.nextElementSibling; if(next&&next.classList.contains('r11-progress'))next.style.display='none';
+   if(status)status.textContent='Escolha os itens abaixo';
+ });
+}
+function init(){const c=document.getElementById('r11ComboContent');if(!c)return;c.addEventListener('change',()=>setTimeout(refresh,0));new MutationObserver(()=>refresh()).observe(c,{childList:true,subtree:true});refresh()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else setTimeout(init,0);
+})();
+</script>
 </html>
