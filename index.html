@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260907-R29">
+<meta name="nd-site-version" content="20260910-R30">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260907-R29";
+  const ND_SITE_VERSION = "20260910-R30";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -747,9 +747,34 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   filter: none !important;
 }
 </style>
+
+<style id="nd-r30-search-free-delivery">
+/* ND BURGS R30 — busca inteligente + entrega grátis */
+.nd-r30-search-tools{display:flex;gap:8px;align-items:center;width:100%}
+.nd-r30-search-tools input{flex:1!important}
+.nd-r30-clear{display:none;border:1px solid #ff3b30;background:#ff3b30;color:#fff;border-radius:12px;padding:12px 14px;font-weight:950;cursor:pointer;white-space:nowrap}
+.nd-r30-clear.show{display:block}
+.nd-r30-results{display:none;margin:10px 0 16px;padding:14px 16px;border:1px solid #ff3b30;border-radius:16px;background:linear-gradient(135deg,rgba(255,59,48,.18),rgba(255,138,0,.08));box-shadow:0 10px 35px rgba(255,59,48,.10)}
+.nd-r30-results.show{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.nd-r30-results strong{font-size:16px}.nd-r30-results small{display:block;color:#bbb;margin-top:3px}
+.nd-r30-search-focus .produto{display:none!important}
+.nd-r30-search-focus .produto.nd-r30-match{display:block!important;grid-column:span 1;transform:none!important;border:2px solid #ff3b30!important;box-shadow:0 18px 55px rgba(255,59,48,.24)!important}
+.nd-r30-search-focus .produto.nd-r30-match .produto-imagem{height:250px!important}
+.nd-r30-search-focus .produto.nd-r30-match h3{font-size:20px!important}
+.nd-r30-search-focus .produto.nd-r30-match .preco{font-size:24px!important;color:#ffd166!important}
+.nd-r30-search-focus .categoria:has(.nd-r30-match){display:block!important}
+.nd-r30-search-focus .categoria:not(:has(.nd-r30-match)){display:none!important}
+.nd-r30-free-banner{display:none;position:relative;z-index:900;margin:8px auto 10px;max-width:1180px;padding:15px 18px;text-align:center;border:2px solid #25d366;border-radius:18px;background:linear-gradient(135deg,#062b18,#0c5c2b,#062b18);box-shadow:0 0 28px rgba(37,211,102,.28),0 12px 35px rgba(0,0,0,.35);animation:ndFreePulse 1.8s ease-in-out infinite}
+.nd-r30-free-banner.show{display:block}.nd-r30-free-banner b{display:block;font-size:clamp(18px,3vw,27px);letter-spacing:.2px}.nd-r30-free-banner span{display:block;margin-top:4px;font-size:12px;color:#d8ffe7;font-weight:800}
+.nd-r30-free-badge{display:inline-block;margin-left:7px;padding:4px 8px;border-radius:999px;background:#25d366;color:#04170c;font-size:10px;font-weight:950;vertical-align:middle}
+@keyframes ndFreePulse{50%{box-shadow:0 0 42px rgba(37,211,102,.45),0 12px 35px rgba(0,0,0,.4)}}
+@media(max-width:600px){.nd-r30-search-tools{gap:6px}.nd-r30-clear{padding:11px 9px;font-size:11px}.nd-r30-search-focus .produto.nd-r30-match .produto-imagem{height:190px!important}.nd-r30-search-focus .produto.nd-r30-match h3{font-size:17px!important}.nd-r30-results.show{align-items:flex-start}.nd-r30-free-banner{margin-left:9px;margin-right:9px;padding:13px 10px}}
+</style>
+
 </head>
 
 <body>
+<div id="ndR30FreeBanner" class="nd-r30-free-banner" role="status" aria-live="polite"><b>🛵 HOJE TEM TAXA DE ENTREGA GRÁTIS! 🎉</b><span>PEÇA PELO SITE • A ENTREGA É POR NOSSA CONTA</span></div>
 
 <!-- ND R17: horário comercial real — terça a domingo, 18:00 às 00:30 -->
 
@@ -807,7 +832,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="container">
 
 <h1>🍔 FAÇA SEU PEDIDO</h1>
-<div class="modern-search"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><span id="contadorBusca" class="search-count"></span></div>
+<div class="modern-search"><div class="nd-r30-search-tools"><input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos"><button id="ndR30ClearSearch" class="nd-r30-clear" type="button">✕ LIMPAR</button><span id="contadorBusca" class="search-count"></span></div></div><div id="ndR30SearchResults" class="nd-r30-results"><div><strong id="ndR30SearchTitle">RESULTADOS</strong><small id="ndR30SearchSub">Encontramos produtos parecidos.</small></div><button id="ndR30ClearSearch2" class="nd-r30-clear show" type="button">✕ LIMPAR PESQUISA</button></div>
 <div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
 
 <div class="categoria-menu">
@@ -6281,7 +6306,7 @@ section.categoria.nd15-target.nd15-highlight{animation:nd15Flash .7s ease}
     try{
       if(typeof window.obterTaxaEntrega==='function')return Number(window.obterTaxaEntrega()||0);
       const tipo=q('#tipoPedidoModal'), rua=q('#ruaModal');
-      if(tipo&&tipo.value==='ENTREGA'&&rua&&window.taxas)return Number(window.taxas[rua.value]||0);
+      if(tipo&&tipo.value==='ENTREGA'&&rua)return ndTaxaEntrega(rua.value);
       const rua2=q('#rua'); return rua2&&window.taxas?Number(window.taxas[rua2.value]||0):0;
     }catch(e){return 0}
   }
@@ -6440,7 +6465,7 @@ header .logo{display:none!important}
    const nome=$('#nomeModal')?.value.trim()||'', tel=$('#telefoneModal')?.value.trim()||'', tipo=$('#tipoPedidoModal')?.value||'ENTREGA', rua=$('#ruaModal')?.value||'', numero=$('#numeroModal')?.value.trim()||'', comp=$('#complementoModal')?.value.trim()||'', pagamento=$('#pagamentoModal')?.value||'', troco=$('#trocoModal')?.value||'', obs=$('#observacaoModal')?.value.trim()||'';
    if(!nome)return alert('Digite seu nome.'); const td=tel.replace(/\D/g,'');if(td.length<10||td.length>11)return alert('Digite um WhatsApp válido com DDD.');
    const aStreet=tipo==='ENTREGA'?(rua||addr().street):'';if(tipo==='ENTREGA'&&(!aStreet||!numero))return alert('Complete seu endereço.');if(!pagamento)return alert('Escolha uma forma de pagamento.');
-   const f=tipo==='ENTREGA'?Number((window.taxas||{})[aStreet]||0):0,sub=subtotal(),total=sub+f;if(sub<11.90)return alert('O pedido mínimo é R$ 11,90. Faltam '+money(11.90-sub)+'.');
+   const f=tipo==='ENTREGA'?ndTaxaEntrega(aStreet):0,sub=subtotal(),total=sub+f;if(sub<11.90)return alert('O pedido mínimo é R$ 11,90. Faltam '+money(11.90-sub)+'.');
    const lines=['NOVO PEDIDO - ND BURGS','CLIENTE: '+nome,'WHATSAPP: '+tel,'TIPO: '+(tipo==='ENTREGA'?'DELIVERY':'RETIRADA')];
    if(tipo==='ENTREGA'){lines.push('ENDEREÇO: '+aStreet+', Nº '+numero);if(comp)lines.push('COMPLEMENTO: '+comp)}
    lines.push('', 'ITENS DO PEDIDO');
@@ -9962,6 +9987,99 @@ img,video,iframe,svg,canvas{
   window.addEventListener('resize',stabilize,{passive:true});
   setTimeout(stabilize,300);
   setTimeout(stabilize,1000);
+})();
+</script>
+
+
+<script id="nd-r30-final-logic">
+(function(){
+  'use strict';
+  /* EDITE SOMENTE ESTA LINHA: true = entrega grátis para todos / false = taxas normais */
+  window.ND_ENTREGA_GRATIS = false;
+
+  window.ndTaxaEntrega=function(rua){
+    if(window.ND_ENTREGA_GRATIS) return 0;
+    return (rua && window.taxas && window.taxas[rua]!==undefined) ? Number(window.taxas[rua]) : 0;
+  };
+
+  function money(v){return 'R$ '+Number(v||0).toFixed(2).replace('.',',')}
+  function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+  function levenshtein(a,b){
+    if(a===b)return 0;if(!a)return b.length;if(!b)return a.length;
+    let prev=Array.from({length:b.length+1},(_,i)=>i),cur=[];
+    for(let i=1;i<=a.length;i++){cur=[i];for(let j=1;j<=b.length;j++)cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur}
+    return prev[b.length];
+  }
+  function scoreProduct(text,term){
+    const t=norm(text), q=norm(term); if(!q)return 1;
+    if(t===q)return 1000;
+    const words=t.split(/\s+/).filter(Boolean), qs=q.split(/\s+/).filter(Boolean); let score=0;
+    if(t.includes(q))score+=700;
+    qs.forEach(w=>{
+      if(!w)return;
+      if(t.includes(w)) score+=220;
+      const best=words.reduce((m,x)=>Math.min(m,levenshtein(w,x)),99);
+      if(best<=1)score+=150; else if(best<=2 && w.length>=4)score+=80;
+    });
+    return score;
+  }
+  function cards(){return [...document.querySelectorAll('.produto')].filter(c=>!c.closest('#checkout'))}
+  function setSearchEmpty(){
+    const q=document.getElementById('buscaProdutos'), results=document.getElementById('ndR30SearchResults');
+    document.body.classList.remove('nd-r30-search-focus');
+    cards().forEach(c=>c.classList.remove('nd-r30-match','search-hidden'));
+    document.querySelectorAll('.categoria').forEach(c=>c.style.removeProperty('display'));
+    if(q)q.value=''; if(results)results.classList.remove('show');
+    const clear=document.getElementById('ndR30ClearSearch');if(clear)clear.classList.remove('show');
+    const count=document.getElementById('contadorBusca');if(count)count.textContent='';
+    const empty=document.getElementById('semResultados');if(empty)empty.style.display='none';
+  }
+  window.ndR30LimparPesquisa=setSearchEmpty;
+  function runSearch(){
+    const qEl=document.getElementById('buscaProdutos'); if(!qEl)return;
+    const raw=qEl.value.trim(); const q=norm(raw); const result=document.getElementById('ndR30SearchResults');
+    if(!q){setSearchEmpty();return}
+    const ranked=cards().map(c=>({c,score:scoreProduct(c.innerText,q)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+    const matches=ranked.filter(x=>x.score>=80);
+    cards().forEach(c=>{c.classList.remove('nd-r30-match','search-hidden')});
+    document.body.classList.add('nd-r30-search-focus');
+    matches.forEach(x=>x.c.classList.add('nd-r30-match'));
+    document.querySelectorAll('.categoria').forEach(cat=>{
+      const has=cat.querySelector('.nd-r30-match'); cat.style.display=has?'':'none';
+    });
+    const count=document.getElementById('contadorBusca'); if(count)count.textContent=`${matches.length} resultado${matches.length===1?'':'s'}`;
+    const empty=document.getElementById('semResultados');if(empty)empty.style.display=matches.length?'none':'block';
+    if(result)result.classList.add('show');
+    const title=document.getElementById('ndR30SearchTitle'), sub=document.getElementById('ndR30SearchSub');
+    if(title)title.textContent=matches.length?`🔎 RESULTADOS PARA “${raw.toUpperCase()}”`:`😕 NÃO ENCONTRAMOS “${raw.toUpperCase()}”`;
+    if(sub)sub.textContent=matches.length===1?'Encontramos o produto ideal para você.':matches.length?`${matches.length} produtos parecidos encontrados. Os melhores resultados estão destacados.`:'Tente uma palavra menor ou parecida, como “x salada”, “batata” ou “açaí”.';
+    const clear=document.getElementById('ndR30ClearSearch');if(clear)clear.classList.add('show');
+    if(matches.length){
+      const first=matches[0].c; setTimeout(()=>first.scrollIntoView({behavior:'smooth',block:'center'}),30);
+    }
+  }
+  function initSearch(){
+    const q=document.getElementById('buscaProdutos');if(!q)return;
+    q.addEventListener('input',runSearch);q.addEventListener('search',runSearch);
+    ['ndR30ClearSearch','ndR30ClearSearch2'].forEach(id=>document.getElementById(id)?.addEventListener('click',setSearchEmpty));
+  }
+  function freeBanner(){
+    const b=document.getElementById('ndR30FreeBanner');if(!b)return;
+    b.classList.toggle('show',!!window.ND_ENTREGA_GRATIS);
+    document.querySelectorAll('#taxa,#taxaCarrinhoModal,#taxaFinalizarModal').forEach(el=>{
+      if(window.ND_ENTREGA_GRATIS) el.innerHTML='<span style="text-decoration:line-through;opacity:.5;margin-right:5px">taxa</span><strong style="color:#25d366">GRÁTIS 🎉</strong>';
+    });
+  }
+  window.ndR30AtualizarEntregaGratis=freeBanner;
+  function refreshTax(){
+    try{ if(typeof calcularTaxa==='function') calcularTaxa(); }catch(e){}
+    try{ if(typeof calcularTaxaModal==='function') calcularTaxaModal(); }catch(e){}
+    try{ if(typeof atualizarResumoFinalizarModal==='function') atualizarResumoFinalizarModal(); }catch(e){}
+    freeBanner();
+  }
+  document.addEventListener('DOMContentLoaded',()=>{initSearch();freeBanner();setTimeout(refreshTax,150);});
+  window.addEventListener('load',()=>{freeBanner();setTimeout(refreshTax,250)});
+  setTimeout(()=>{freeBanner()},800);
 })();
 </script>
 
