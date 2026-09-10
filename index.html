@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R32">
+<meta name="nd-site-version" content="20260910-R31">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R32";
+  const ND_SITE_VERSION = "20260910-R31";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -10239,447 +10239,192 @@ img,video,iframe,svg,canvas{
 </script>
 
 
-<!-- =========================================================
-     ND BURGS R32 — BUSCA DE CARDÁPIO CORRIGIDA
-     - Filtra enquanto o cliente digita
-     - Procura pelo nome, descrição e texto alternativo da imagem
-     - Destaca visualmente os itens encontrados
-     - Esconde categorias sem resultados
-     - LIMPAR/ESC desfaz a busca e restaura todo o cardápio
-     ========================================================= -->
-<style id="nd-r32-smart-search-final">
-/* BUSCA */
-#ndR31Search{position:relative!important;display:flex!important;align-items:center!important;gap:8px!important}
-#ndR31Search #buscaProdutos{flex:1 1 auto!important;min-width:0!important}
-#ndR31Search #ndR31ClearSearch{
-  display:none;
-  flex:0 0 auto;
-  min-height:42px;
-  padding:0 13px;
-  border:1px solid #333;
-  border-radius:11px;
-  background:#171717;
-  color:#fff;
-  font-weight:900;
-  cursor:pointer;
-}
-#ndR31Search #ndR31ClearSearch:hover{background:#242424;border-color:#555}
-
-/* RESULTADO ENCONTRADO */
-.produto.ndR32-match{
-  display:block!important;
-  position:relative!important;
-  z-index:4!important;
-  transform:translateY(-3px) scale(1.015)!important;
-  border:2px solid #ffd21a!important;
-  box-shadow:0 0 0 4px rgba(255,210,26,.12),0 16px 40px rgba(0,0,0,.45)!important;
-}
-.produto.ndR32-match::before{
-  content:'ENCONTRADO';
-  position:absolute;
-  top:9px;
-  right:9px;
-  z-index:20;
-  padding:5px 8px;
-  border-radius:999px;
-  background:#ffd21a;
-  color:#111;
-  font-size:9px;
-  font-weight:1000;
-  letter-spacing:.5px;
-}
-.produto.ndR32-no-match{display:none!important}
-.categoria.ndR32-no-match{display:none!important}
-
-/* TEXTO DA BUSCA */
-.ndR32-searching #contadorBusca{
-  color:#ffd21a!important;
-  font-weight:900!important;
-}
-.ndR32-searching #buscaProdutos{
-  border-color:#ffd21a!important;
-  box-shadow:0 0 0 2px rgba(255,210,26,.08)!important;
-}
-
-/* TAXAS DE ENTREGA — SEMPRE BRANCO */
-#taxa,
-#taxaCarrinhoModal,
-#taxaFinalizarModal,
-#ndV4Fee,
-#avisoTaxa,
-#avisoTaxaModal,
-#nd26CurrentStatus,
-#nd26CurrentStatus span,
-#nd26CurrentStatus strong,
-.nd26-status,
-.nd26-status span,
-.nd26-status strong,
-.nd26-status small,
-[class*="taxa"] strong,
-[class*="taxa"] b{
-  color:#fff!important;
-}
-
-/* Quando o valor aparece dentro de selects de ruas */
-#rua option,
-#ruaModal option{
-  color:#fff!important;
-  background:#0d0d11!important;
-}
-#rua option:checked,
-#ruaModal option:checked{color:#fff!important}
-
-/* Mobile */
-@media(max-width:600px){
-  #ndR31Search{flex-wrap:wrap!important}
-  #ndR31Search #buscaProdutos{width:100%!important;flex-basis:100%!important}
-  #ndR31Search #ndR31ClearSearch{
-    width:100%;
-    justify-content:center;
-    margin-top:2px;
+<!-- ND BURGS R32 — BUSCAS UNIFICADAS -->
+<style id="nd-r32-unified-search-style">
+  /* As duas barras usam exatamente o mesmo estado de filtro. */
+  .nd14-hidden,
+  .search-hidden{
+    display:none!important;
   }
-  .produto.ndR32-match{transform:translateY(-1px) scale(1.008)!important}
-  .produto.ndR32-match::before{font-size:8px;padding:4px 7px}
-}
-@media(prefers-reduced-motion:reduce){
-  .produto.ndR32-match{transform:none!important}
-}
 </style>
 
-<script id="nd-r32-smart-search-final-js">
+<script id="nd-r32-unified-search-logic">
 (function(){
   'use strict';
 
-  var started=false;
-  var debounceTimer=null;
-
   function norm(v){
-    return String(v||'')
+    return (v || '')
+      .toString()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g,'')
-      .toLocaleLowerCase('pt-BR')
+      .toLowerCase()
+      .replace(/\s+/g,' ')
       .trim();
   }
 
-  function cards(){
+  function inputs(){
+    return [
+      document.getElementById('buscaProdutos'),
+      document.getElementById('nd14Search')
+    ].filter(Boolean);
+  }
+
+  function products(){
     return Array.from(document.querySelectorAll('.produto'));
   }
 
-  function categories(){
-    return Array.from(document.querySelectorAll('.categoria'));
-  }
-
-  function input(){
-    return document.getElementById('buscaProdutos');
-  }
-
-  function clearButton(){
-    return document.getElementById('ndR31ClearSearch');
-  }
-
   function getSearchText(card){
-    var name=card.querySelector('h3,h4,.produto-nome,.nome-produto,.product-name');
-    var desc=card.querySelector('p');
-    var img=card.querySelector('img');
-    return norm(
-      (name ? name.textContent : '')+' '+
-      (desc ? desc.textContent : '')+' '+
-      (img ? (img.getAttribute('alt')||'') : '')
-    );
+    /* Prioriza nome + descrição, mas mantém categoria/opções pesquisáveis. */
+    const name = card.querySelector('h3')?.textContent || '';
+    const desc = card.querySelector('p')?.textContent || '';
+    const alt = Array.from(card.querySelectorAll('img'))
+      .map(img => img.getAttribute('alt') || '')
+      .join(' ');
+    return norm(name + ' ' + desc + ' ' + alt + ' ' + card.textContent);
   }
 
-  function removeLegacySearchClasses(card){
-    card.classList.remove('search-hidden','nd14-hidden');
-  }
+  function applySearch(rawValue){
+    const value = norm(rawValue);
+    const cards = products();
+    let shown = 0;
 
-  function restoreCategories(){
-    categories().forEach(function(section){
-      section.classList.remove('search-hidden','nd14-hidden','ndR32-no-match');
-      section.style.removeProperty('display');
+    cards.forEach(function(card){
+      const ok = !value || getSearchText(card).includes(value);
+
+      /* Limpa os dois estados antigos para impedir conflito entre as barras. */
+      card.classList.toggle('search-hidden', !ok);
+      card.classList.toggle('nd14-hidden', !ok);
+
+      if(ok) shown++;
     });
-  }
 
-  function restoreProducts(){
-    cards().forEach(function(card){
-      removeLegacySearchClasses(card);
-      card.classList.remove('ndR32-match','ndR32-no-match');
-      card.style.removeProperty('display');
+    /* Esconde somente categorias que ficaram sem produtos. */
+    document.querySelectorAll('.categoria').forEach(function(section){
+      const hasVisible = Array.from(section.querySelectorAll('.produto'))
+        .some(card => !card.classList.contains('search-hidden') &&
+                      !card.classList.contains('nd14-hidden'));
+
+      section.style.display = (!value || hasVisible) ? '' : 'none';
     });
-  }
 
-  function hideOldNoResults(){
-    var a=document.getElementById('semResultados');
-    if(a)a.style.display='none';
-
-    document.querySelectorAll('.nd14-no-results').forEach(function(el){
-      el.classList.add('nd14-hidden');
-      el.style.display='none';
-    });
-  }
-
-  function restoreAll(focus){
-    var q=input();
-
-    if(q)q.value='';
-
-    /* Também limpa a busca antiga que existe no R14. */
-    var old=document.getElementById('nd14Search');
-    if(old)old.value='';
-
-    restoreProducts();
-    restoreCategories();
-    hideOldNoResults();
-
-    var counter=document.getElementById('contadorBusca');
-    if(counter)counter.textContent='';
-
-    var oldCounter=document.getElementById('nd14Count');
-    if(oldCounter)oldCounter.textContent='';
-
-    var oldHint=document.getElementById('nd14Hint');
-    if(oldHint)oldHint.textContent='Digite o nome do produto';
-
-    var oldClear=document.getElementById('nd14Clear');
-    if(oldClear)oldClear.style.display='none';
-
-    var clear=clearButton();
-    if(clear)clear.style.display='none';
-
-    var wrap=document.getElementById('ndR31Search');
-    if(wrap)wrap.classList.remove('ndR32-searching');
-
-    if(focus && q){
-      q.focus();
+    /* Os dois contadores ficam sincronizados. */
+    const contador = document.getElementById('contadorBusca');
+    if(contador){
+      contador.textContent = value
+        ? shown + ' produto' + (shown === 1 ? '' : 's')
+        : '';
     }
+
+    const ndCount = document.getElementById('nd14Count');
+    if(ndCount){
+      ndCount.textContent = value
+        ? shown + ' produto' + (shown === 1 ? '' : 's')
+        : '';
+    }
+
+    const ndHint = document.getElementById('nd14Hint');
+    if(ndHint){
+      ndHint.textContent = value
+        ? 'Resultados para: "' + rawValue.trim() + '"'
+        : 'Digite o nome do produto';
+    }
+
+    const empty = document.getElementById('semResultados');
+    if(empty) empty.style.display = value && shown === 0 ? 'block' : 'none';
+
+    const ndEmpty = document.getElementById('ndR24SearchEmpty');
+    if(ndEmpty) ndEmpty.style.display = value && shown === 0 ? 'block' : 'none';
+
+    const nd14Empty = document.querySelector('.nd14-no-results');
+    if(nd14Empty) nd14Empty.classList.toggle('nd14-hidden', !value || shown !== 0);
+
+    const clear1 = document.getElementById('ndR31ClearSearch');
+    if(clear1) clear1.style.display = value ? 'inline-flex' : 'none';
+
+    const clear2 = document.getElementById('nd14Clear');
+    if(clear2) clear2.style.display = value ? 'inline-flex' : 'none';
   }
 
-  function applySearch(){
-    clearTimeout(debounceTimer);
+  function restore(){
+    inputs().forEach(function(input){ input.value = ''; });
+    applySearch('');
+  }
 
-    debounceTimer=setTimeout(function(){
-      var q=input();
-      if(!q)return;
+  function bind(){
+    const list = inputs();
+    if(!list.length || !products().length) return;
 
-      var term=norm(q.value);
+    list.forEach(function(input){
+      if(input.dataset.ndR32Bound === '1') return;
+      input.dataset.ndR32Bound = '1';
 
-      if(!term){
-        restoreAll(true);
-        return;
-      }
+      input.addEventListener('input', function(){
+        const value = input.value;
 
-      var wrap=document.getElementById('ndR31Search');
-      if(wrap)wrap.classList.add('ndR32-searching');
+        /* As duas barras passam a ser uma única pesquisa. */
+        list.forEach(function(other){
+          if(other !== input) other.value = value;
+        });
 
-      var clear=clearButton();
-      if(clear)clear.style.display='inline-flex';
+        /* Executa depois das lógicas antigas, anulando qualquer conflito. */
+        setTimeout(function(){
+          list.forEach(function(other){
+            if(other.value !== value) other.value = value;
+          });
+          applySearch(value);
+        }, 0);
+      }, false);
 
-      var matches=[];
+      input.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){
+          e.preventDefault();
+          restore();
+          input.blur();
+        }
+      }, false);
+    });
 
-      cards().forEach(function(card){
-        removeLegacySearchClasses(card);
+    const clearIds = ['ndR31ClearSearch','nd14Clear'];
+    clearIds.forEach(function(id){
+      const btn = document.getElementById(id);
+      if(!btn || btn.dataset.ndR32Bound === '1') return;
+      btn.dataset.ndR32Bound = '1';
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        restore();
+        const target = document.getElementById(
+          id === 'ndR31ClearSearch' ? 'buscaProdutos' : 'nd14Search'
+        );
+        if(target) target.focus();
+      }, true);
+    });
 
-        var ok=getSearchText(card).indexOf(term)!==-1;
-
-        card.classList.toggle('ndR32-match',ok);
-        card.classList.toggle('ndR32-no-match',!ok);
-
-        if(ok)matches.push(card);
-      });
-
-      /* Mostra somente as categorias que possuem algum resultado. */
-      categories().forEach(function(section){
-        var hasMatch=section.querySelector('.produto.ndR32-match');
-        section.classList.toggle('ndR32-no-match',!hasMatch);
-        section.classList.remove('search-hidden','nd14-hidden');
-      });
-
-      /* Contador */
-      var counter=document.getElementById('contadorBusca');
-      if(counter){
-        counter.textContent=
-          matches.length+
-          ' item'+
-          (matches.length===1?' encontrado':'s encontrados');
-      }
-
-      /* Mensagem de nenhum resultado */
-      var no=document.getElementById('semResultados');
-      if(no)no.style.display=matches.length?'none':'block';
-
-      document.querySelectorAll('.nd14-no-results').forEach(function(el){
-        el.classList.add('nd14-hidden');
-        el.style.display='none';
-      });
-
-      /* Se houver resultado, leva o primeiro para a área visível.
-         Não faz isso a cada tecla para não atrapalhar o cliente. */
-    },30);
+    /* Estado inicial limpo e consistente. */
+    const active = list.find(x => x.value.trim())?.value || '';
+    list.forEach(function(input){ input.value = active; });
+    applySearch(active);
   }
 
   function init(){
-    if(started)return;
-    started=true;
-
-    var q=input();
-    var clear=clearButton();
-
-    if(!q)return;
-
-    /* Desliga a lógica visual antiga para que somente esta busca controle os cards. */
-    q.removeAttribute('onkeyup');
-    q.removeAttribute('onchange');
-
-    q.addEventListener('input',applySearch);
-    q.addEventListener('search',applySearch);
-
-    q.addEventListener('keydown',function(e){
-      if(e.key==='Escape'){
-        e.preventDefault();
-        restoreAll(true);
-      }
-    });
-
-    if(clear){
-      clear.addEventListener('click',function(e){
-        e.preventDefault();
-        restoreAll(true);
-      });
-    }
-
-    window.ND_R32={
-      pesquisar:applySearch,
-      limparPesquisa:function(){restoreAll(true);}
-    };
-
-    /* Estado inicial garantido */
-    restoreAll(false);
+    bind();
+    setTimeout(bind, 250);
+    setTimeout(bind, 800);
+    setTimeout(bind, 1500);
   }
 
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',init,{once:true});
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init, {once:true});
   }else{
     init();
   }
 
-  setTimeout(function(){
-    if(!started)init();
-  },500);
-
+  /* Reatacha caso alguma camada antiga recrie a primeira barra. */
+  const observer = new MutationObserver(function(){
+    bind();
+  });
+  observer.observe(document.body, {childList:true, subtree:true});
 })();
 </script>
+
 </html>
-
-<!-- =========================================================
-     ND BURGS R32 — CORREÇÃO DEFINITIVA DA PESQUISA
-     1) O item encontrado fica sozinho em destaque.
-     2) O resultado é levado para o topo da visão.
-     3) Bloqueia a mensagem antiga "NÃO ENCONTRAMOS" quando
-        existe resultado.
-     4) Ao limpar, devolve o cardápio inteiro.
-     ========================================================= -->
-<style id="nd-r32-search-top-fix">
-  .ndR32-force-visible{display:block!important;visibility:visible!important;opacity:1!important}
-</style>
-<script id="nd-r32-search-top-fix-js">
-(function(){
-  'use strict';
-  function norm(v){
-    return String(v||'').toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
-  }
-  function input(){return document.getElementById('buscaProdutos');}
-  function cards(){return Array.from(document.querySelectorAll('.produto'));}
-  function hideLegacyEmpty(){
-    document.querySelectorAll('.nd14-no-results,#semResultados').forEach(function(el){
-      el.style.display='none';
-      el.classList.add('nd14-hidden');
-    });
-  }
-  function restore(){
-    cards().forEach(function(card){
-      card.classList.remove('ndR32-match','ndR32-no-match','ndR32-force-visible');
-      card.classList.remove('search-hidden','nd14-hidden');
-      card.style.removeProperty('display');
-      card.style.removeProperty('visibility');
-      card.style.removeProperty('opacity');
-    });
-    document.querySelectorAll('.categoria').forEach(function(sec){
-      sec.classList.remove('ndR32-no-match','search-hidden','nd14-hidden');
-      sec.style.removeProperty('display');
-    });
-    hideLegacyEmpty();
-  }
-  function text(card){
-    var h=card.querySelector('h3,h4,.produto-nome,.nome-produto,.product-name');
-    var p=card.querySelector('p');
-    var img=card.querySelector('img');
-    return norm((h?h.textContent:'')+' '+(p?p.textContent:'')+' '+(img?(img.getAttribute('alt')||''):''));
-  }
-  var lastTerm='';
-  var scrollTimer=0;
-  function apply(){
-    var q=input(); if(!q)return;
-    var term=norm(q.value);
-    if(!term){
-      lastTerm=''; restore(); return;
-    }
-    lastTerm=term;
-    var matches=[];
-    cards().forEach(function(card){
-      var ok=text(card).indexOf(term)!==-1;
-      card.classList.toggle('ndR32-match',ok);
-      card.classList.toggle('ndR32-no-match',!ok);
-      if(ok){
-        card.classList.add('ndR32-force-visible');
-        card.classList.remove('search-hidden','nd14-hidden');
-        matches.push(card);
-      }else{
-        card.classList.remove('ndR32-force-visible');
-      }
-    });
-    document.querySelectorAll('.categoria').forEach(function(sec){
-      var has=!!sec.querySelector('.produto.ndR32-match');
-      sec.classList.toggle('ndR32-no-match',!has);
-      sec.classList.remove('search-hidden','nd14-hidden');
-    });
-    if(matches.length){
-      hideLegacyEmpty();
-      clearTimeout(scrollTimer);
-      scrollTimer=setTimeout(function(){
-        var first=matches[0];
-        if(!first || lastTerm!==term)return;
-        var r=first.getBoundingClientRect();
-        var y=window.scrollY+r.top-16;
-        window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
-      },80);
-    }
-  }
-  function init(){
-    var q=input(); if(!q || q.dataset.ndR32TopFix==='1')return;
-    q.dataset.ndR32TopFix='1';
-    q.addEventListener('input',apply,true);
-    q.addEventListener('search',apply,true);
-    q.addEventListener('keydown',function(e){
-      if(e.key==='Escape'){q.value='';setTimeout(restore,0);}
-    },true);
-    var clear=document.getElementById('ndR31ClearSearch');
-    if(clear)clear.addEventListener('click',function(){setTimeout(restore,20);},true);
-    var mo=new MutationObserver(function(){
-      var term=norm(q.value);
-      if(term){
-        hideLegacyEmpty();
-        /* Remove classes de buscas antigas que podem esconder o resultado. */
-        cards().forEach(function(card){
-          if(card.classList.contains('ndR32-match')){
-            card.classList.remove('search-hidden','nd14-hidden');
-            card.classList.add('ndR32-force-visible');
-          }
-        });
-      }
-    });
-    mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style']});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
-  else init();
-  setTimeout(init,300);setTimeout(init,1000);setTimeout(init,2000);
-})();
-</script>
