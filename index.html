@@ -10227,3 +10227,65 @@ body.nd-searching .produto{transition:none!important}
 <!-- =========================================================
      ND BURGS — CARREGAMENTO DE IMAGENS MAIS LEVE
      ========================================================= -->
+
+
+<style id="nd-mobile-cart-final">
+/* MOBILE: remove o carrinho amarelo do topo e usa somente a barra inferior */
+@media (max-width:600px){
+  #carrinhoFlutuante{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;}
+  #ndFxCartbar{
+    display:flex!important;position:fixed!important;left:8px!important;right:8px!important;bottom:8px!important;
+    width:auto!important;height:auto!important;min-height:62px!important;z-index:300000!important;
+    align-items:center!important;gap:9px!important;padding:9px 10px!important;
+    border:1px solid rgba(255,255,255,.14)!important;border-radius:17px!important;
+    background:linear-gradient(135deg,#ff4d00,#d20b16)!important;
+    box-shadow:0 12px 35px rgba(0,0,0,.7)!important;
+    transform:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+  }
+  #ndFxCartbar .nd-fx-cart-icon{font-size:25px!important;flex:0 0 auto!important;}
+  #ndFxCartbar .nd-fx-cart-info{flex:1 1 auto!important;min-width:0!important;}
+  #ndFxCartbar .nd-fx-cart-info strong{display:block!important;color:#fff!important;font-size:13px!important;font-weight:1000!important;}
+  #ndFxCartbar .nd-fx-cart-info span{display:block!important;color:rgba(255,255,255,.72)!important;font-size:9px!important;margin-top:2px!important;white-space:nowrap!important;}
+  #ndFxCartbar .nd-fx-cart-total{font-size:12px!important;font-weight:1000!important;color:#fff!important;white-space:nowrap!important;}
+  #ndFxCartbar .nd-fx-cart-open{border:0!important;background:#fff!important;color:#111!important;border-radius:11px!important;padding:11px 10px!important;font-size:10px!important;font-weight:1000!important;white-space:nowrap!important;}
+}
+</style>
+<script id="nd-mobile-cart-final-js">
+(function(){
+'use strict';
+function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(e){return []}}
+function qty(){return getCart().reduce(function(t,i){return t+(Number(i.quantidade)||0)},0)}
+function total(){return getCart().reduce(function(t,i){return t+(Number(i.preco)||0)*(Number(i.quantidade)||0)},0)}
+function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function ensureBar(){
+  if(window.innerWidth>600)return;
+  var old=document.getElementById('ndFxCartbar');
+  if(!old){
+    old=document.createElement('div');old.id='ndFxCartbar';old.className='nd-fx-cartbar';
+    old.innerHTML='<div class="nd-fx-cart-icon">🛒</div><div class="nd-fx-cart-info"><strong id="ndFxCartQty">0 itens</strong><span>Seu pedido</span></div><div id="ndFxCartTotal" class="nd-fx-cart-total">R$ 0,00</div><button type="button" class="nd-fx-cart-open" onclick="abrirCarrinho()">VER CARRINHO</button>';
+    document.body.appendChild(old);
+  }
+  document.getElementById('carrinhoFlutuante')?.setAttribute('aria-hidden','true');
+  update();
+}
+function update(){
+  if(window.innerWidth>600)return;
+  var b=document.getElementById('ndFxCartbar');if(!b)return;
+  var n=qty(),q=document.getElementById('ndFxCartQty'),v=document.getElementById('ndFxCartTotal');
+  if(q)q.textContent=n+' '+(n===1?'item':'itens');
+  if(v)v.textContent=money(total());
+}
+function hook(){
+ ensureBar();
+ if(typeof window.atualizarCarrinho==='function'&&!window.atualizarCarrinho.__ndMobileFinal){
+   var old=window.atualizarCarrinho;
+   window.atualizarCarrinho=function(){var r=old.apply(this,arguments);setTimeout(update,0);return r};
+   window.atualizarCarrinho.__ndMobileFinal=true;
+ }
+ update();
+}
+window.addEventListener('DOMContentLoaded',hook);
+window.addEventListener('resize',hook);
+setInterval(function(){if(window.innerWidth<=600){ensureBar();update()}},700);
+})();
+</script>
