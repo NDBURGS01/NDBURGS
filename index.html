@@ -208,6 +208,7 @@ body{padding-bottom:105px}
 .opcao-tamanho label{margin:0;display:block;padding:12px 8px;text-align:center;border:1px solid #444;border-radius:9px;background:#0d0d0d;cursor:pointer;font-weight:bold}
 .opcao-tamanho input:checked+label{border-color:#f5c400;background:#302900;color:#f5c400}
 .lista-acompanhamentos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opcao-acomp input[type="checkbox"]{width:20px;height:20px;min-width:20px;accent-color:#e50914;cursor:pointer}
 .opcao-acomp{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #333;border-radius:8px;background:#0d0d0d;cursor:pointer}
 .opcao-acomp input{width:auto;margin:0}
 .opcao-acomp span{font-size:13px}
@@ -2561,12 +2562,12 @@ tipo:"pasteis"
 };
 
 let html=
-`<div class="modal-secao" style="margin-top:0;padding-top:0;border-top:0"><h3>🥟 PASTÉIS SALGADOS</h3><div class="lista-acompanhamentos">`;
+`<div class="modal-secao" style="margin-top:0;padding-top:0;border-top:0"><div style="margin-bottom:12px;padding:11px 12px;border-radius:10px;background:#20120f;border:1px solid #ff4d00;color:#ffd166;font-size:13px;line-height:1.45;font-weight:800">🥟 ESCOLHA QUANTOS PASTÉIS QUISER<br><span style="color:#aaa;font-weight:600">Marque vários sabores. Cada sabor marcado adiciona 1 pastel ao carrinho.</span></div><h3>🥟 PASTÉIS SALGADOS</h3><div class="lista-acompanhamentos">`;
 
 saboresPasteis.salgados.forEach((p,i)=>{
 
 html+=
-`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="pastelModal" value="salgados|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
+`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="pastelModal" value="salgados|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
 
 });
 
@@ -2576,7 +2577,7 @@ html+=
 saboresPasteis.doces.forEach((p,i)=>{
 
 html+=
-`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="pastelModal" value="doces|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
+`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="pastelModal" value="doces|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
 
 });
 
@@ -2657,25 +2658,29 @@ document.body.style.overflow="hidden";
 
 function atualizarTotalModalPastel(){
 
-const selecionado=
-document.querySelector(
+const selecionados=
+document.querySelectorAll(
 'input[name="pastelModal"]:checked'
 );
 
 const total=
 document.getElementById("modalTotal");
 
-if(!selecionado){
+if(!selecionados.length){
 
 total.innerText=
-"ESCOLHA UM SABOR";
+"ESCOLHA QUANTOS PASTÉIS QUISER";
 
 return;
 
 }
 
+let soma=0;
+
+selecionados.forEach(input=>{
+
 const partes=
-selecionado.value.split("|");
+input.value.split("|");
 
 const lista=
 saboresPasteis[partes[0]];
@@ -2685,28 +2690,34 @@ lista[
 parseInt(partes[1],10)
 ];
 
+if(pastel) soma+=Number(pastel[1])||0;
+
+});
+
 total.innerText=
-moeda(pastel[1]);
+moeda(soma);
 
 }
 
 function confirmarPersonalizacaoPastel(){
 
-const selecionado=
-document.querySelector(
+const selecionados=
+document.querySelectorAll(
 'input[name="pastelModal"]:checked'
 );
 
-if(!selecionado){
+if(!selecionados.length){
 
-alert("Escolha o sabor do pastel.");
+alert("Escolha pelo menos 1 pastel.");
 
 return;
 
 }
 
+selecionados.forEach(input=>{
+
 const partes=
-selecionado.value.split("|");
+input.value.split("|");
 
 const lista=
 saboresPasteis[partes[0]];
@@ -2716,7 +2727,11 @@ lista[
 parseInt(partes[1],10)
 ];
 
-for(let i=0;i<Math.max(1,Number(window.ndPendingQty)||1);i++) adicionar(pastel[0],pastel[1]);
+if(pastel){
+adicionar(pastel[0],pastel[1]);
+}
+
+});
 
 window.ndPendingQty=1;
 
