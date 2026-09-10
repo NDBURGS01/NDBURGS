@@ -753,6 +753,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 /* Resultado pesquisado fica em primeiro plano */
 .produto.ndR32-match{display:block!important;position:relative!important;z-index:20!important}
 #ndR31Search{position:relative!important;z-index:900!important}
+.r11-simple-qty-summary{margin:0 0 12px;padding:12px 14px;border-radius:14px;background:#1a1a1f;border:1px solid rgba(255,210,26,.45);text-align:center}.r11-simple-qty-summary b{display:block;color:#ffd21a;font-size:14px;font-weight:1000}.r11-simple-qty-summary span{display:block;margin-top:4px;color:#aaa;font-size:10px;font-weight:800}
 /* QUANTIDADE DO COMBO */
 .r11-qty-box{margin:0 0 14px;padding:13px;border:2px solid #ffd21a;border-radius:16px;background:linear-gradient(145deg,rgba(255,210,26,.12),rgba(255,210,26,.04));text-align:center}.r11-qty-title{font-size:11px;font-weight:1000;color:#ffd21a;letter-spacing:.7px}.r11-qty-row{display:flex;align-items:center;justify-content:center;gap:18px;margin:8px 0}.r11-qty-btn{width:44px;height:44px;border:0;border-radius:12px;background:#ffd21a;color:#111;font-size:28px;font-weight:1000;cursor:pointer}.r11-qty-row strong{min-width:42px;font-size:25px;color:#fff}.r11-qty-box small{font-size:10px;color:#aaa;font-weight:800}.r11-unit-title{margin:16px 0 8px;padding:9px 12px;border-radius:10px;background:#202024;border-left:4px solid #ffd21a;color:#ffd21a;font-size:11px;font-weight:1000;letter-spacing:.5px}
 /* TURBINAR COM LANCHE ARTESANAL */
@@ -765,6 +766,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .r11-turbo-option input:checked+label{border-color:#ff3b30;background:linear-gradient(135deg,#ff3b30,#ff8a00);box-shadow:0 7px 20px rgba(255,59,48,.2)}
 .r11-turbo-price{margin-top:9px;font-size:11px;color:#ffd166;font-weight:900}
 @media(max-width:600px){.r11-turbo-box{padding:12px}.r11-turbo-option label{min-height:42px;font-size:12px}}
+
+/* CORREÇÃO FINAL — QUANTIDADE DO COMBO */
+.r11-qty-box{position:relative!important;z-index:20!important}
+.r11-qty-row{display:flex!important;align-items:center!important;justify-content:center!important;gap:18px!important}
+.r11-qty-btn{cursor:pointer!important;user-select:none!important}
+#r11ComboQty{min-width:58px!important;text-align:center!important;font-size:26px!important}
+.r11-qty-box small b{color:#ffd21a!important}
 </style>
 </head>
 
@@ -7067,11 +7075,10 @@ function turboConfig(name,cfg){
  });
  return out;
 }
+function quantityHtml(){ return ''; }
 function turboHtml(name,sim){
  if(!ARTISAN_PRICE_MAP[name])return '';
- const q=Math.max(1,Math.min(20,Number(current&&current.quantity)||1));
- return '<div class="r11-qty-box"><div class="r11-qty-title">QUANTIDADE DO COMBO</div><div class="r11-qty-row"><button type="button" class="r11-qty-btn" onclick="alterarQuantidadeCombo(-1)">−</button><strong id="r11ComboQty">'+q+'</strong><button type="button" class="r11-qty-btn" onclick="alterarQuantidadeCombo(1)">+</button></div><small>Se pedir X2, você fará as escolhas para 2 combos.</small></div>'+
- '<div class="r11-turbo-box"><div class="r11-turbo-title">🔥 QUERO TURBINAR COM LANCHE ARTESANAL</div><div class="r11-turbo-sub">Troque o(s) lanche(s) tradicional(is) pelo(s) artesanal(is).</div><div class="r11-turbo-options"><div class="r11-turbo-option"><input type="radio" id="r11TurboNao" name="r11Turbo" value="nao" '+(!sim?'checked':'')+'><label for="r11TurboNao">NÃO</label></div><div class="r11-turbo-option"><input type="radio" id="r11TurboSim" name="r11Turbo" value="sim" '+(sim?'checked':'')+'><label for="r11TurboSim">SIM</label></div></div><div class="r11-turbo-price" id="r11TurboPrice">'+(sim?'COMBO ARTESANAL • ':'COMBO TRADICIONAL • ')+money(sim?ARTISAN_PRICE_MAP[name]:configs[name].price)+'</div></div>';
+ return '<div class="r11-turbo-box"><div class="r11-turbo-title">🔥 QUERO TURBINAR COM LANCHE ARTESANAL</div><div class="r11-turbo-sub">Troque o(s) lanche(s) tradicional(is) pelo(s) artesanal(is).</div><div class="r11-turbo-options"><div class="r11-turbo-option"><input type="radio" id="r11TurboNao" name="r11Turbo" value="nao" '+(!sim?'checked':'')+'><label for="r11TurboNao">NÃO</label></div><div class="r11-turbo-option"><input type="radio" id="r11TurboSim" name="r11Turbo" value="sim" '+(sim?'checked':'')+'><label for="r11TurboSim">SIM</label></div></div><div class="r11-turbo-price" id="r11TurboPrice">'+(sim?'COMBO ARTESANAL • ':'COMBO TRADICIONAL • ')+money(sim?ARTISAN_PRICE_MAP[name]:configs[name].price)+'</div></div>';
 }
 function renderCombo(){
  if(!current)return;
@@ -7083,12 +7090,12 @@ function renderCombo(){
  current.activePrice=Number(cfg.price)||Number(current.price)||0;
  const title=document.getElementById('r11ComboTitle');
  const content=document.getElementById('r11ComboContent');
- if(title)title.textContent='🍔 '+current.name+(sim?' • ARTESANAL':'')+' • X'+q;
+ if(title)title.textContent='🍔 '+current.name+(sim?' • ARTESANAL':'');
  if(content){
    let html=turboHtml(current.name,sim);
    let serial=0;
    for(let unit=1;unit<=q;unit++){
-     html+='<div class="r11-unit-title">COMBO '+unit+' DE '+q+'</div>';
+     html+='<div class="r11-unit-title">🍔 COMBO '+unit+' DE '+q+' — FAÇA AS ESCOLHAS ABAIXO</div>';
      cfg.sections.forEach(sec=>{html+=sectionHtml(sec,serial++);});
    }
    html+='<div class="r11-combo-total"><span>TOTAL DO COMBO • X'+q+'</span><strong id="r11ComboTotal">'+money(current.activePrice*q)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';
@@ -7102,14 +7109,19 @@ function renderCombo(){
 }
 function alterarQuantidadeCombo(delta){
  if(!current)return;
- const novo=Math.max(1,Math.min(20,(Number(current.quantity)||1)+Number(delta||0)));
- if(novo===current.quantity)return;
+ const atual=Math.max(1,Number(current.quantity)||1);
+ const passo=Number(delta)||0;
+ const novo=Math.max(1,Math.min(20,atual+passo));
+ if(novo===atual)return;
  current.quantity=novo;
  renderCombo();
+ const qEl=document.getElementById('r11ComboQty');
+ if(qEl)qEl.textContent='X'+novo;
 }
-function open(name,price){
+function open(name,price,quantity){
  ensureModal();
- current={name,price:Number(price),cfg:configs[name],turbo:false,quantity:1,activeCfg:configs[name],activePrice:Number(price)};
+ const q=Math.max(1,Math.min(20,Number(quantity)||1));
+ current={name,price:Number(price),cfg:configs[name],turbo:false,quantity:q,activeCfg:configs[name],activePrice:Number(price)};
  if(!current.cfg)return;
  renderCombo();
  const m=document.getElementById('ndComboModal');
@@ -9729,7 +9741,216 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-<style>#nd14SearchWrap{display:none!important}</style></body>
+<style>#nd14SearchWrap{display:none!important}</style>
+
+<!-- ND BURGS — PRIMEIRA VISITA: DEFINIR ENTREGA OU RETIRADA ANTES DE PEDIR -->
+<style id="nd-first-visit-address-gate">
+#ndFirstVisitGate{position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:16px}
+#ndFirstVisitGate.show{display:flex}
+.nd-first-gate-box{width:min(560px,100%);max-height:92vh;overflow:auto;background:linear-gradient(160deg,#17181b,#09090b);border:2px solid #e50914;border-radius:24px;padding:22px;box-shadow:0 25px 100px rgba(0,0,0,.8),0 0 35px rgba(229,9,20,.16)}
+.nd-first-kicker{font-size:11px;font-weight:1000;letter-spacing:1.5px;color:#ff646a;text-transform:uppercase}
+.nd-first-title{margin-top:7px;font-size:clamp(24px,6vw,34px);line-height:1.04;font-weight:1000;letter-spacing:-.8px;color:#fff}
+.nd-first-title strong{color:#ff4b51}
+.nd-first-sub{margin-top:9px;color:#aeb0b8;font-size:12px;line-height:1.5}
+.nd-first-modes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}
+.nd-first-mode{min-height:58px;border:1px solid #303037;border-radius:14px;background:#101014;color:#ddd;font-weight:1000;font-size:13px;cursor:pointer}
+.nd-first-mode.active{border-color:#e50914;background:linear-gradient(135deg,#2a0d0f,#151012);color:#fff;box-shadow:0 8px 25px rgba(229,9,20,.12)}
+.nd-first-fields{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:9px}
+.nd-first-fields input{width:100%;min-height:50px;padding:13px 14px;border-radius:12px;border:1px solid #34343d;background:#0c0c10;color:#fff;font-size:15px;outline:none}
+.nd-first-fields input:focus{border-color:#e50914;box-shadow:0 0 0 3px rgba(229,9,20,.1)}
+.nd-first-save{width:100%;min-height:52px;margin-top:10px;border:0;border-radius:13px;background:linear-gradient(135deg,#e50914,#ff3038);color:#fff;font-size:15px;font-weight:1000;cursor:pointer;box-shadow:0 10px 28px rgba(229,9,20,.2)}
+.nd-first-pickup{display:none;margin-top:12px;padding:14px;border:1px solid #303037;border-radius:13px;background:#101014;color:#ccc;font-size:12px;line-height:1.5}
+.nd-first-pickup.show{display:block}
+.nd-first-status{margin-top:11px;color:#777;font-size:10px;text-align:center;min-height:15px}
+.nd-first-gate-box.nd-pickup .nd-first-fields,.nd-first-gate-box.nd-pickup .nd-first-save{display:none}
+.nd-first-gate-box.nd-pickup .nd-first-pickup{display:block}
+@media(max-width:480px){#ndFirstVisitGate{padding:10px}.nd-first-gate-box{padding:17px;border-radius:20px}.nd-first-modes{grid-template-columns:1fr}.nd-first-fields{grid-template-columns:1fr}.nd-first-title{font-size:27px}}
+</style>
+<script id="nd-first-visit-address-gate-js">
+(function(){
+'use strict';
+var KEY='ndburgs_primeira_visita_endereco_v1';
+var initialized=false;
+function $(s){return document.querySelector(s)}
+function hasSaved(){
+ try{
+  var type=localStorage.getItem('nd26_tipo')||localStorage.getItem('nd17_tipo');
+  var street=localStorage.getItem('nd26_rua')||localStorage.getItem('nd17_rua');
+  var number=localStorage.getItem('nd26_numero')||localStorage.getItem('nd17_numero');
+  return type==='RETIRADA'||(type==='ENTREGA'&&street&&number);
+ }catch(e){return false}
+}
+function markDone(){try{localStorage.setItem(KEY,'1')}catch(e){}}
+function done(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
+function closeGate(){var g=$('#ndFirstVisitGate');if(!g)return;g.classList.remove('show');document.body.style.overflow='';markDone()}
+function setMode(mode){
+ var box=$('.nd-first-gate-box'),del=$('#ndFirstDelivery'),pick=$('#ndFirstPickup'),fields=$('#ndFirstFields'),note=$('#ndFirstPickupNote');
+ if(!box)return;
+ var delivery=mode==='ENTREGA';
+ box.classList.toggle('nd-pickup',!delivery);
+ del.classList.toggle('active',delivery);pick.classList.toggle('active',!delivery);
+ fields.style.display=delivery?'grid':'none';note.classList.toggle('show',!delivery);
+}
+function saveDelivery(){
+ var street=$('#ndFirstStreet'),num=$('#ndFirstNumber');
+ var s=(street&&street.value||'').trim(),n=(num&&num.value||'').trim();
+ if(!s){$('#ndFirstStatus').textContent='Digite sua rua para continuar.';street&&street.focus();return}
+ if(!n){$('#ndFirstStatus').textContent='Digite o número do endereço para continuar.';num&&num.focus();return}
+ var topStreet=$('#ndTopStreet'),topNumber=$('#ndTopNumber'),topSave=$('#nd26SaveAddress');
+ if(topStreet&&topNumber&&topSave){
+  topStreet.value=s;topNumber.value=n;topStreet.dataset.valid='1';topSave.click();
+  setTimeout(function(){
+   var saved=(localStorage.getItem('nd26_rua')||'');
+   if(saved){closeGate()}else{$('#ndFirstStatus').textContent='Selecione uma rua válida da lista de endereços.'}
+  },80);
+  return;
+ }
+ $('#ndFirstStatus').textContent='Carregando o endereço...';
+ setTimeout(saveDelivery,120);
+}
+function savePickup(){
+ var topPick=$('#nd26PickupMode');
+ if(topPick){topPick.click();closeGate();return}
+ try{localStorage.setItem('nd26_tipo','RETIRADA');localStorage.setItem('nd26_rua','');localStorage.setItem('nd26_numero','');localStorage.setItem('nd17_tipo','RETIRADA');localStorage.setItem('nd17_rua','');localStorage.setItem('nd17_numero','')}catch(e){}
+ closeGate();
+}
+function build(){
+ if(initialized||$('#ndFirstVisitGate'))return;
+ initialized=true;
+ var g=document.createElement('div');g.id='ndFirstVisitGate';
+ g.innerHTML='<div class="nd-first-gate-box" role="dialog" aria-modal="true" aria-labelledby="ndFirstTitle">'+
+ '<div class="nd-first-kicker">⚡ ESSA PARTE É MUITO IMPORTANTE PARA SEU PEDIDO</div>'+ 
+ '<div class="nd-first-title" id="ndFirstTitle">Coloque seu <strong>ENDEREÇO</strong> ou selecione <strong>RETIRADA NA LOJA</strong></div>'+ 
+ '<div class="nd-first-sub">Escolha uma única vez aqui no topo. A taxa de delivery será calculada automaticamente.</div>'+ 
+ '<div class="nd-first-modes"><button type="button" class="nd-first-mode active" id="ndFirstDelivery">🛵 DELIVERY</button><button type="button" class="nd-first-mode" id="ndFirstPickup">🏪 RETIRADA NA LOJA</button></div>'+ 
+ '<div class="nd-first-fields" id="ndFirstFields"><input id="ndFirstStreet" type="text" autocomplete="off" placeholder="🔎 Digite sua rua" aria-label="Rua"><input id="ndFirstNumber" type="text" inputmode="numeric" placeholder="Número" aria-label="Número"></div>'+ 
+ '<button type="button" class="nd-first-save" id="ndFirstSave">SALVAR ENDEREÇO</button>'+ 
+ '<div class="nd-first-pickup" id="ndFirstPickupNote">🏪 <strong>Retirada na loja</strong><br>Sem taxa de entrega. Seu endereço não será solicitado.</div>'+ 
+ '<div class="nd-first-status" id="ndFirstStatus"></div></div>';
+ document.body.appendChild(g);
+ $('#ndFirstDelivery').onclick=function(){setMode('ENTREGA');$('#ndFirstStreet').focus()};
+ $('#ndFirstPickup').onclick=savePickup;
+ $('#ndFirstSave').onclick=saveDelivery;
+ $('#ndFirstStreet').addEventListener('keydown',function(e){if(e.key==='Enter')saveDelivery()});
+ $('#ndFirstNumber').addEventListener('keydown',function(e){if(e.key==='Enter')saveDelivery()});
+ if(done()||hasSaved())return;
+ setMode('ENTREGA');
+ g.classList.add('show');
+ document.body.style.overflow='hidden';
+ setTimeout(function(){var x=$('#ndFirstStreet');if(x)x.focus()},100);
+}
+function init(){setTimeout(build,120)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+<style id="ndComboCatalogQtyStyle">
+.nd-cat-qty{display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;margin:10px 0 8px!important;padding:8px 10px!important;border:1px solid rgba(255,193,7,.45)!important;border-radius:12px!important;background:rgba(255,193,7,.07)!important}
+.nd-cat-qty-label{font-size:11px!important;font-weight:900!important;color:#fff!important}.nd-cat-qty button{width:38px!important;height:38px!important;border:0!important;border-radius:10px!important;background:#222!important;color:#fff!important;font-size:24px!important;font-weight:900!important;cursor:pointer!important;touch-action:manipulation!important}.nd-cat-qty strong{min-width:42px!important;text-align:center!important;font-size:17px!important;color:#ffd400!important}
+/* A quantidade do combo existe SOMENTE no catálogo. */
+#ndComboModal .r11-qty-box,#ndComboModal .r11-simple-qty-summary{display:none!important}
+</style>
+<script id="ndComboCatalogQtyFinal">
+(function(){
+'use strict';
+const NAMES=new Set(['COMBO MAIS VENDIDO','COMBO DOCE','COMBO GELADO','COMBO 5 ESTRELAS','COMBO DIETA SÓ SEGUNDA','COMBO MOTOCA ND','COMBO SÓ LOVE','DATE COM NDBURGS','01 ND BURGS','ARTESANAL COMBO MAIS VENDIDO','ARTESANAL COMBO DOCE','ARTESANAL COMBO GELADO','ARTESANAL COMBO 5 ESTRELAS','ARTESANAL COMBO SÓ LOVE','ARTESANAL DATE COM NDBURGS','ARTESANAL MOTOCA ND','ARTESANAL 01 ND BURGS']);
+function norm(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
+function qty(card){return Math.max(1,Math.min(20,Number(card.dataset.ndComboQty)||1))}
+function set(card,n){n=Math.max(1,Math.min(20,Number(n)||1));card.dataset.ndComboQty=String(n);const x=card.querySelector('.nd-cat-qty strong');if(x)x.textContent='X'+n}
+function install(){
+ document.querySelectorAll('.produto').forEach(function(card){
+  const h=card.querySelector('h3'),btn=card.querySelector('.btn-add');if(!h||!btn)return;
+  const name=h.textContent.trim();if(!NAMES.has(name))return;
+  if(!card.dataset.ndComboQty)card.dataset.ndComboQty='1';
+  let box=card.querySelector('.nd-cat-qty');
+  if(!box){
+   box=document.createElement('div');box.className='nd-cat-qty';
+   box.innerHTML='<span class="nd-cat-qty-label">QUANTIDADE</span><button type="button" data-combo-qty="-1" aria-label="Diminuir">−</button><strong>X'+qty(card)+'</strong><button type="button" data-combo-qty="1" aria-label="Aumentar">+</button>';
+   btn.parentNode.insertBefore(box,btn);
+   box.addEventListener('click',function(e){const b=e.target.closest('[data-combo-qty]');if(!b)return;e.preventDefault();e.stopPropagation();set(card,qty(card)+Number(b.dataset.comboQty));});
+  }else{set(card,qty(card))}
+  // O botão COMPRAR do combo abre uma única tela de escolhas usando a quantidade escolhida aqui.
+  btn.removeAttribute('onclick');
+  if(btn.dataset.ndQtyBound!=='1'){
+   btn.dataset.ndQtyBound='1';
+   btn.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();if(typeof window.abrirComboPersonalizacao==='function'){window.abrirComboPersonalizacao(name,undefined,qty(card));}});
+  }
+ });
+}
+function start(){install();setInterval(install,700)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+
+<style id="ndComboQuantityULTIMATEStyle">
+/* QUANTIDADE DOS COMBOS: UM ÚNICO CONTROLE, O MESMO DO CARD */
+.nd-cat-qty{display:none!important}
+#ndComboModal .r11-qty-box,
+#ndComboModal .r11-simple-qty-summary{display:none!important}
+</style>
+<script id="ndComboQuantityULTIMATE">
+(function(){
+'use strict';
+const COMBOS=new Set([
+ 'COMBO MAIS VENDIDO','COMBO DOCE','COMBO GELADO','COMBO 5 ESTRELAS','COMBO DIETA SÓ SEGUNDA',
+ 'COMBO MOTOCA ND','COMBO SÓ LOVE','DATE COM NDBURGS','01 ND BURGS',
+ 'ARTESANAL COMBO MAIS VENDIDO','ARTESANAL COMBO DOCE','ARTESANAL COMBO GELADO',
+ 'ARTESANAL COMBO 5 ESTRELAS','ARTESANAL COMBO SÓ LOVE','ARTESANAL DATE COM NDBURGS',
+ 'ARTESANAL MOTOCA ND','ARTESANAL 01 ND BURGS'
+]);
+function norm(v){return String(v||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
+function qty(card){return Math.max(1,Math.min(20,Number(card.dataset.ndComboQty)||Number(card.querySelector('.nd-fx-q')?.textContent)||1))}
+function prepare(){
+ document.querySelectorAll('.produto').forEach(function(card){
+   const h=card.querySelector('h3');
+   if(!h)return;
+   const name=h.textContent.trim();
+   if(!COMBOS.has(name))return;
+   /* Remove completamente o controle antigo criado pela camada anterior. */
+   card.querySelectorAll('.nd-cat-qty').forEach(x=>x.remove());
+   const qbox=card.querySelector('.nd-fx-qty');
+   const add=card.querySelector('.nd-fx-add');
+   if(!qbox||!add)return;
+   card.dataset.ndComboQty=String(qty(card));
+   const qel=qbox.querySelector('.nd-fx-q');
+   if(qel)qel.textContent=''+qty(card);
+   if(qbox.dataset.comboOnly==='1' && add.dataset.comboOnly==='1')return;
+   qbox.dataset.comboOnly='1';
+   /* Os botões +/- do controle existente continuam funcionando normalmente. */
+   const minus=qbox.querySelector('.nd-fx-minus'), plus=qbox.querySelector('.nd-fx-plus');
+   function sync(){
+     let n=Math.max(1,Math.min(20,Number(qel?.textContent)||1));
+     if(qel)qel.textContent=String(n);
+     card.dataset.ndComboQty=String(n);
+   }
+   minus?.addEventListener('click',function(){setTimeout(sync,0)});
+   plus?.addEventListener('click',function(){setTimeout(sync,0)});
+   /* Remove TODOS os listeners antigos do botão COMPRAR clonando-o. */
+   const fresh=add.cloneNode(true);
+   add.replaceWith(fresh);
+   fresh.dataset.comboOnly='1';
+   fresh.onclick=function(e){
+     e.preventDefault();
+     e.stopImmediatePropagation();
+     sync();
+     const n=qty(card);
+     if(typeof window.abrirComboPersonalizacao==='function'){
+       window.abrirComboPersonalizacao(name,0,n);
+     }
+     return false;
+   };
+ });
+}
+function boot(){
+ prepare();
+ setTimeout(prepare,150);
+ setTimeout(prepare,600);
+ setTimeout(prepare,1500);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+</body>
 
 <!-- =========================================================
      ND BURGS — R28 / AJUSTES SOLICITADOS
@@ -10444,37 +10665,4 @@ img,video,iframe,svg,canvas{
 })();
 </script>
 
-<!-- ND BURGS — CORREÇÃO FINAL DO CONTADOR DA PESQUISA -->
-<style id="nd-r32-search-counter-fix">
-#contadorBusca{white-space:nowrap!important;min-width:58px!important;text-align:center!important;}
-</style>
-<script id="nd-r32-search-counter-fix-js">
-(function(){
-  'use strict';
-  function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').replace(/\s+/g,' ').trim()}
-  function update(){
-    const input=document.getElementById('buscaProdutos');
-    const counter=document.getElementById('contadorBusca');
-    if(!input||!counter)return;
-    const term=norm(input.value);
-    if(!term){counter.textContent='';return;}
-    // Conta SOMENTE os cards que realmente combinam com a pesquisa.
-    const matches=Array.from(document.querySelectorAll('.produto')).filter(card=>{
-      const text=norm((card.innerText||card.textContent||'')+' '+(card.querySelector('img')?.alt||''));
-      return text.includes(term);
-    });
-    counter.textContent=matches.length+' '+(matches.length===1?'item':'itens');
-  }
-  function init(){
-    const input=document.getElementById('buscaProdutos');
-    if(!input)return;
-    input.addEventListener('input',()=>requestAnimationFrame(update),{passive:true});
-    input.addEventListener('search',()=>requestAnimationFrame(update),{passive:true});
-    const clear=document.getElementById('ndR31ClearSearch');
-    if(clear)clear.addEventListener('click',()=>requestAnimationFrame(update),{passive:true});
-    update();
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
 </html>
