@@ -769,7 +769,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <b>TAXA DE ENTREGA GRÁTIS</b>
     <small>Aproveite e faça seu pedido agora!</small>
   </div>
-  <button type="button" onclick="document.querySelector('.modern-search')?.scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('buscaProdutos')?.focus()">PEDIR AGORA</button>
+  <button type="button" onclick="document.getElementById('nd14Search')?.scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('nd14Search')?.focus()">PEDIR AGORA</button>
 </section>
 
 
@@ -820,13 +820,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="container">
 
 <h1>🍔 FAÇA SEU PEDIDO</h1>
-<div class="modern-search" id="ndR31Search">
-  <input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos">
-  <span id="contadorBusca" class="search-count"></span>
-  <button type="button" id="ndR31ClearSearch" aria-label="Limpar pesquisa">✕ LIMPAR PESQUISA</button>
-</div>
-<div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
-
 <div class="categoria-menu">
 
 <button class="categoria-btn" onclick="irPara('combos')">
@@ -5767,18 +5760,6 @@ button{font-family:inherit}
     },{rootMargin:'-35% 0px -55% 0px',threshold:0});
     sections.forEach(s=>io.observe(s));
   }
-
-  function setupSearchCounter(){
-    const input=$('#buscaProdutos'),count=$('#contadorBusca');
-    if(!input||!count)return;
-    const update=()=>{
-      const visible=$$('.produto').filter(c=>!c.classList.contains('search-hidden')).length;
-      const q=input.value.trim(); count.textContent=q?(visible+' resultado'+(visible===1?'':'s')):'';
-    };
-    input.addEventListener('input',()=>setTimeout(update,0),{passive:true});
-    update();
-  }
-
   function setupButtonFeedback(){
     document.addEventListener('click',e=>{
       const btn=e.target.closest('.btn-add,.nd-fx-add,.nd-r3-add');
@@ -8569,26 +8550,7 @@ function improveButtons(){
   });
 }
 
-/* 6) BUSCA: estado vazio mais claro */
-function improveSearch(){
-  const input=q('#buscaProdutos');
-  if(!input || input.dataset.r24==='1')return;
-  input.dataset.r24='1';
-  const empty=document.createElement('div');
-  empty.className='nd-r24-search-empty';
-  empty.id='ndR24SearchEmpty';
-  empty.innerHTML='<strong>NÃO ENCONTRAMOS ESSE PRODUTO</strong><br><small>Tente outro nome ou escolha uma categoria acima.</small>';
-  input.closest('.modern-search')?.insertAdjacentElement('afterend',empty);
-
-  input.addEventListener('input',()=>{
-    const value=norm(input.value);
-    if(!value){empty.style.display='none';return}
-    const visible=qa('.produto').some(c=>c.style.display!=='none'&&!c.classList.contains('search-hidden'));
-    empty.style.display=visible?'none':'block';
-  });
-}
-
-/* 7) META/SEO básico sem alterar o conteúdo do catálogo */
+/* 6) META/SEO básico sem alterar o conteúdo do catálogo */
 function seo(){
   if(!q('meta[name="description"]')){
     const m=document.createElement('meta');
@@ -10238,193 +10200,5 @@ img,video,iframe,svg,canvas{
 })();
 </script>
 
-
-<!-- ND BURGS R32 — BUSCAS UNIFICADAS -->
-<style id="nd-r32-unified-search-style">
-  /* As duas barras usam exatamente o mesmo estado de filtro. */
-  .nd14-hidden,
-  .search-hidden{
-    display:none!important;
-  }
-</style>
-
-<script id="nd-r32-unified-search-logic">
-(function(){
-  'use strict';
-
-  function norm(v){
-    return (v || '')
-      .toString()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g,'')
-      .toLowerCase()
-      .replace(/\s+/g,' ')
-      .trim();
-  }
-
-  function inputs(){
-    return [
-      document.getElementById('buscaProdutos'),
-      document.getElementById('nd14Search')
-    ].filter(Boolean);
-  }
-
-  function products(){
-    return Array.from(document.querySelectorAll('.produto'));
-  }
-
-  function getSearchText(card){
-    /* Prioriza nome + descrição, mas mantém categoria/opções pesquisáveis. */
-    const name = card.querySelector('h3')?.textContent || '';
-    const desc = card.querySelector('p')?.textContent || '';
-    const alt = Array.from(card.querySelectorAll('img'))
-      .map(img => img.getAttribute('alt') || '')
-      .join(' ');
-    return norm(name + ' ' + desc + ' ' + alt + ' ' + card.textContent);
-  }
-
-  function applySearch(rawValue){
-    const value = norm(rawValue);
-    const cards = products();
-    let shown = 0;
-
-    cards.forEach(function(card){
-      const ok = !value || getSearchText(card).includes(value);
-
-      /* Limpa os dois estados antigos para impedir conflito entre as barras. */
-      card.classList.toggle('search-hidden', !ok);
-      card.classList.toggle('nd14-hidden', !ok);
-
-      if(ok) shown++;
-    });
-
-    /* Esconde somente categorias que ficaram sem produtos. */
-    document.querySelectorAll('.categoria').forEach(function(section){
-      const hasVisible = Array.from(section.querySelectorAll('.produto'))
-        .some(card => !card.classList.contains('search-hidden') &&
-                      !card.classList.contains('nd14-hidden'));
-
-      section.style.display = (!value || hasVisible) ? '' : 'none';
-    });
-
-    /* Os dois contadores ficam sincronizados. */
-    const contador = document.getElementById('contadorBusca');
-    if(contador){
-      contador.textContent = value
-        ? shown + ' produto' + (shown === 1 ? '' : 's')
-        : '';
-    }
-
-    const ndCount = document.getElementById('nd14Count');
-    if(ndCount){
-      ndCount.textContent = value
-        ? shown + ' produto' + (shown === 1 ? '' : 's')
-        : '';
-    }
-
-    const ndHint = document.getElementById('nd14Hint');
-    if(ndHint){
-      ndHint.textContent = value
-        ? 'Resultados para: "' + rawValue.trim() + '"'
-        : 'Digite o nome do produto';
-    }
-
-    const empty = document.getElementById('semResultados');
-    if(empty) empty.style.display = value && shown === 0 ? 'block' : 'none';
-
-    const ndEmpty = document.getElementById('ndR24SearchEmpty');
-    if(ndEmpty) ndEmpty.style.display = value && shown === 0 ? 'block' : 'none';
-
-    const nd14Empty = document.querySelector('.nd14-no-results');
-    if(nd14Empty) nd14Empty.classList.toggle('nd14-hidden', !value || shown !== 0);
-
-    const clear1 = document.getElementById('ndR31ClearSearch');
-    if(clear1) clear1.style.display = value ? 'inline-flex' : 'none';
-
-    const clear2 = document.getElementById('nd14Clear');
-    if(clear2) clear2.style.display = value ? 'inline-flex' : 'none';
-  }
-
-  function restore(){
-    inputs().forEach(function(input){ input.value = ''; });
-    applySearch('');
-  }
-
-  function bind(){
-    const list = inputs();
-    if(!list.length || !products().length) return;
-
-    list.forEach(function(input){
-      if(input.dataset.ndR32Bound === '1') return;
-      input.dataset.ndR32Bound = '1';
-
-      input.addEventListener('input', function(){
-        const value = input.value;
-
-        /* As duas barras passam a ser uma única pesquisa. */
-        list.forEach(function(other){
-          if(other !== input) other.value = value;
-        });
-
-        /* Executa depois das lógicas antigas, anulando qualquer conflito. */
-        setTimeout(function(){
-          list.forEach(function(other){
-            if(other.value !== value) other.value = value;
-          });
-          applySearch(value);
-        }, 0);
-      }, false);
-
-      input.addEventListener('keydown', function(e){
-        if(e.key === 'Escape'){
-          e.preventDefault();
-          restore();
-          input.blur();
-        }
-      }, false);
-    });
-
-    const clearIds = ['ndR31ClearSearch','nd14Clear'];
-    clearIds.forEach(function(id){
-      const btn = document.getElementById(id);
-      if(!btn || btn.dataset.ndR32Bound === '1') return;
-      btn.dataset.ndR32Bound = '1';
-      btn.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        restore();
-        const target = document.getElementById(
-          id === 'ndR31ClearSearch' ? 'buscaProdutos' : 'nd14Search'
-        );
-        if(target) target.focus();
-      }, true);
-    });
-
-    /* Estado inicial limpo e consistente. */
-    const active = list.find(x => x.value.trim())?.value || '';
-    list.forEach(function(input){ input.value = active; });
-    applySearch(active);
-  }
-
-  function init(){
-    bind();
-    setTimeout(bind, 250);
-    setTimeout(bind, 800);
-    setTimeout(bind, 1500);
-  }
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', init, {once:true});
-  }else{
-    init();
-  }
-
-  /* Reatacha caso alguma camada antiga recrie a primeira barra. */
-  const observer = new MutationObserver(function(){
-    bind();
-  });
-  observer.observe(document.body, {childList:true, subtree:true});
-})();
-</script>
 
 </html>
