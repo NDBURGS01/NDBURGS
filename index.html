@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R31">
+<meta name="nd-site-version" content="20260910-R32">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R31";
+  const ND_SITE_VERSION = "20260910-R32";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -747,6 +747,23 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   filter: none !important;
 }
 </style>
+<style id="nd-search-single-final">
+/* UMA ÚNICA BARRA DE PESQUISA */
+#nd14SearchWrap,#nd14SearchBox,#nd14Meta,.nd14-no-results{display:none!important}
+/* Resultado pesquisado fica em primeiro plano */
+.produto.ndR32-match{display:block!important;position:relative!important;z-index:20!important}
+#ndR31Search{position:relative!important;z-index:900!important}
+/* TURBINAR COM LANCHE ARTESANAL */
+.r11-turbo-box{margin:0 0 18px;padding:14px;border:1px solid rgba(255,59,48,.5);border-radius:16px;background:linear-gradient(145deg,rgba(255,59,48,.12),rgba(255,138,0,.05))}
+.r11-turbo-title{font-size:15px;font-weight:1000;color:#fff;margin-bottom:4px}
+.r11-turbo-sub{font-size:11px;color:#aaa;margin-bottom:10px}
+.r11-turbo-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.r11-turbo-option input{position:absolute;opacity:0;pointer-events:none}
+.r11-turbo-option label{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #393941;border-radius:12px;background:#101014;color:#fff;font-weight:1000;cursor:pointer}
+.r11-turbo-option input:checked+label{border-color:#ff3b30;background:linear-gradient(135deg,#ff3b30,#ff8a00);box-shadow:0 7px 20px rgba(255,59,48,.2)}
+.r11-turbo-price{margin-top:9px;font-size:11px;color:#ffd166;font-weight:900}
+@media(max-width:600px){.r11-turbo-box{padding:12px}.r11-turbo-option label{min-height:42px;font-size:12px}}
+</style>
 </head>
 
 <body>
@@ -769,7 +786,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <b>TAXA DE ENTREGA GRÁTIS</b>
     <small>Aproveite e faça seu pedido agora!</small>
   </div>
-  <button type="button" onclick="document.getElementById('nd14Search')?.scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('nd14Search')?.focus()">PEDIR AGORA</button>
+  <button type="button" onclick="document.querySelector('.modern-search')?.scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('buscaProdutos')?.focus()">PEDIR AGORA</button>
 </section>
 
 
@@ -820,6 +837,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="container">
 
 <h1>🍔 FAÇA SEU PEDIDO</h1>
+<div class="modern-search" id="ndR31Search">
+  <input id="buscaProdutos" type="search" autocomplete="off" placeholder="🔎 Buscar lanche, combo, açaí, pastel, bebida..." aria-label="Buscar produtos">
+  <span id="contadorBusca" class="search-count"></span>
+  <button type="button" id="ndR31ClearSearch" aria-label="Limpar pesquisa">✕ LIMPAR PESQUISA</button>
+</div>
+<div id="semResultados" class="no-results">😕 Nenhum produto encontrado.<br><small>Tente outro nome ou categoria.</small></div>
+
 <div class="categoria-menu">
 
 <button class="categoria-btn" onclick="irPara('combos')">
@@ -5760,6 +5784,18 @@ button{font-family:inherit}
     },{rootMargin:'-35% 0px -55% 0px',threshold:0});
     sections.forEach(s=>io.observe(s));
   }
+
+  function setupSearchCounter(){
+    const input=$('#buscaProdutos'),count=$('#contadorBusca');
+    if(!input||!count)return;
+    const update=()=>{
+      const visible=$$('.produto').filter(c=>!c.classList.contains('search-hidden')).length;
+      const q=input.value.trim(); count.textContent=q?(visible+' resultado'+(visible===1?'':'s')):'';
+    };
+    input.addEventListener('input',()=>setTimeout(update,0),{passive:true});
+    update();
+  }
+
   function setupButtonFeedback(){
     document.addEventListener('click',e=>{
       const btn=e.target.closest('.btn-add,.nd-fx-add,.nd-r3-add');
@@ -6081,52 +6117,7 @@ header{z-index:50}
 
 
 <!-- ND BURGS — ETAPA 14: BUSCA INTELIGENTE + NAVEGAÇÃO RÁPIDA -->
-<style id="nd-etapa-14-style">
-#nd14SearchWrap{width:min(100%,980px);margin:16px auto 18px;padding:0 12px;box-sizing:border-box;position:relative;z-index:10}
-#nd14SearchBox{background:#0b0b0b;border:1px solid #292929;border-radius:16px;padding:10px;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
-#nd14SearchIcon{font-size:20px;line-height:1;flex:0 0 auto}
-#nd14Search{width:100%;min-width:0;background:#000!important;color:#fff!important;border:0!important;outline:0!important;box-shadow:none!important;font-size:16px;font-weight:600;padding:9px 4px}
-#nd14Search::placeholder{color:#8a8a8a}
-#nd14Clear{display:none;flex:0 0 auto;border:1px solid #333;background:#151515;color:#fff;border-radius:10px;min-height:38px;padding:0 12px;font-weight:800;cursor:pointer}
-#nd14Meta{display:flex;justify-content:space-between;gap:10px;padding:8px 4px 0;color:#8f8f8f;font-size:12px;font-weight:700}
-#nd14Count{color:#fff}
-.nd14-hidden{display:none!important}
-.nd14-no-results{width:min(100%,980px);margin:12px auto;padding:28px 18px;text-align:center;border:1px solid #252525;border-radius:16px;background:#080808;color:#aaa}
-.nd14-no-results strong{display:block;color:#fff;font-size:17px;margin-bottom:6px}
-@media(max-width:600px){#nd14SearchWrap{padding:0 9px;margin:12px auto 15px}#nd14SearchBox{border-radius:14px;padding:8px}#nd14Search{font-size:15px}#nd14Clear{min-height:36px;padding:0 10px}#nd14Meta{font-size:11px}}
-@media(prefers-reduced-motion:reduce){#nd14SearchBox{scroll-behavior:auto}}
-</style>
-<script id="nd-etapa-14-logic">
-(function(){'use strict';
-  function norm(v){return (v||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();}
-  function init(){
-    if(document.getElementById('nd14SearchWrap')) return;
-    var products=Array.prototype.slice.call(document.querySelectorAll('.produto'));
-    if(!products.length) return;
-    var first=products[0];
-    var wrap=document.createElement('div');
-    wrap.id='nd14SearchWrap';
-    wrap.innerHTML='<div id="nd14SearchBox"><span id="nd14SearchIcon">🔎</span><input id="nd14Search" type="search" inputmode="search" autocomplete="off" placeholder="Buscar no cardápio..." aria-label="Buscar no cardápio"><button id="nd14Clear" type="button" aria-label="Limpar busca">LIMPAR</button></div><div id="nd14Meta"><span id="nd14Hint">Digite o nome do produto</span><span id="nd14Count"></span></div>';
-    first.parentNode.insertBefore(wrap,first);
-    var input=document.getElementById('nd14Search'), clear=document.getElementById('nd14Clear'), count=document.getElementById('nd14Count'), hint=document.getElementById('nd14Hint');
-    var empty=document.createElement('div'); empty.className='nd14-no-results nd14-hidden'; empty.innerHTML='<strong>Nenhum produto encontrado</strong><span>Tente outro nome ou confira a escrita.</span>'; wrap.parentNode.insertBefore(empty,wrap.nextSibling);
-    var data=products.map(function(el){return {el:el,text:norm(el.innerText||el.textContent)};});
-    function apply(){
-      var q=norm(input.value), shown=0;
-      data.forEach(function(item){var ok=!q||item.text.indexOf(q)!==-1; item.el.classList.toggle('nd14-hidden',!ok); if(ok) shown++;});
-      var active=!!q;
-      clear.style.display=active?'block':'none';
-      empty.classList.toggle('nd14-hidden',!active||shown!==0);
-      count.textContent=active?(shown+' produto'+(shown===1?'':'s')):'';
-      hint.textContent=active?'Resultados para: "'+input.value+'"':'Digite o nome do produto';
-    }
-    input.addEventListener('input',apply);
-    clear.addEventListener('click',function(){input.value='';apply();input.focus();});
-    input.addEventListener('keydown',function(e){if(e.key==='Escape'){input.value='';apply();input.blur();}});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
+
 
 
 <!-- ND BURGS — ETAPA 15: NAVEGAÇÃO PREMIUM POR CATEGORIAS -->
@@ -7051,15 +7042,71 @@ function sectionHtml(sec,idx){
  return '';
 }
 function acaiChoicesHtml(id,num){const list=typeof produtosPersonalizaveis!=='undefined'&&produtosPersonalizaveis.acai?produtosPersonalizaveis.acai.acompanhamentos:[];return '<div style="margin-top:10px"><div style="font-size:10px;color:#aaa;font-weight:900;margin-bottom:6px">AÇAÍ '+num+' • ACOMPANHAMENTOS</div><div class="r11-addon-grid">'+list.map((a,i)=>'<div class="r11-addon"><input type="checkbox" id="'+id+'_a_'+i+'" data-name="'+esc(a[0])+'" data-price="'+a[1]+'" data-acai="1"><label for="'+id+'_a_'+i+'"><div style="height:48px;display:grid;place-items:center;font-size:20px">🍓</div><span>'+esc(a[0])+'</span><br><b>'+((a[1]>0)?'+'+money(a[1]):'GRÁTIS')+'</b></label></div>').join('')+'</div><div class="r11-note">Até 3 acompanhamentos normais são grátis, seguindo a regra do açaí do site. Os itens pagos continuam com o valor cadastrado.</div></div>'}
-function open(name,price){ensureModal();current={name,price:Number(price),cfg:configs[name]};if(!current.cfg)return;document.getElementById('r11ComboTitle').textContent='🍔 '+name;document.getElementById('r11ComboContent').innerHTML=current.cfg.sections.map(sectionHtml).join('')+'<div class="r11-combo-total"><span>TOTAL DO COMBO</span><strong id="r11ComboTotal">'+money(current.price)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';const m=document.getElementById('ndComboModal');m.classList.add('show');document.body.style.overflow='hidden';bindDynamic();}
-function bindDynamic(){document.querySelectorAll('#r11ComboContent input[type=radio]').forEach(r=>r.addEventListener('change',()=>{const sec=r.closest('.r11-section');const addon=sec?.querySelector('.r11-addons');if(addon){addon.classList.add('show')}}));document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}}))}
+const ARTISAN_PRICE_MAP={
+ 'COMBO MAIS VENDIDO':34.80,
+ 'COMBO DOCE':44.80,
+ 'COMBO GELADO':52.80,
+ 'COMBO 5 ESTRELAS':70.80,
+ 'COMBO SÓ LOVE':90.80,
+ 'DATE COM NDBURGS':91.80,
+ 'COMBO MOTOCA ND':41.80,
+ '01 ND BURGS':96.80
+};
+function turboConfig(name,cfg){
+ const out={price:ARTISAN_PRICE_MAP[name]||cfg.price,sections:cfg.sections.map(sec=>Object.assign({},sec))};
+ out.sections=out.sections.map(sec=>{
+   const x=Object.assign({},sec);
+   if(x.type==='burger'||x.type==='burger2') x.options=ART;
+   if(x.type==='burger') x.title='ESCOLHA 1 LANCHE ARTESANAL';
+   if(x.type==='burger2') x.title='ESCOLHA 2 LANCHES ARTESANAIS';
+   if(name==='COMBO MOTOCA ND' && x.type==='fixed' && /LANCHE/i.test(x.title)) x.value='PÉZÃO';
+   if(name==='01 ND BURGS' && x.type==='fixed' && /LANCHES FIXOS/i.test(x.title)) x.value='1 GAROTINHO • 1 DINA • 1 GADEIA • 1 PATÃO';
+   return x;
+ });
+ return out;
+}
+function turboHtml(name){
+ if(!ARTISAN_PRICE_MAP[name])return '';
+ return '<div class="r11-turbo-box"><div class="r11-turbo-title">🔥 QUERO TURBINAR COM LANCHE ARTESANAL</div><div class="r11-turbo-sub">Troque o(s) lanche(s) tradicional(is) pelo(s) artesanal(is).</div><div class="r11-turbo-options"><div class="r11-turbo-option"><input type="radio" id="r11TurboNao" name="r11Turbo" value="nao" checked><label for="r11TurboNao">NÃO</label></div><div class="r11-turbo-option"><input type="radio" id="r11TurboSim" name="r11Turbo" value="sim"><label for="r11TurboSim">SIM</label></div></div><div class="r11-turbo-price" id="r11TurboPrice">COMBO TRADICIONAL • '+money(configs[name].price)+'</div></div>';
+}
+function renderCombo(){
+ if(!current)return;
+ const sim=document.querySelector('input[name="r11Turbo"]:checked')?.value==='sim';
+ current.turbo=sim;
+ const cfg=sim?turboConfig(current.name,current.cfg):current.cfg;
+ current.activeCfg=cfg;
+ current.activePrice=Number(cfg.price)||Number(current.price)||0;
+ const title=document.getElementById('r11ComboTitle');
+ const content=document.getElementById('r11ComboContent');
+ if(title)title.textContent='🍔 '+current.name+(sim?' • ARTESANAL':'');
+ if(content){
+   content.innerHTML=turboHtml(current.name)+cfg.sections.map(sectionHtml).join('')+'<div class="r11-combo-total"><span>TOTAL DO COMBO</span><strong id="r11ComboTotal">'+money(current.activePrice)+'</strong></div><button class="r11-confirm" type="button" onclick="confirmarComboPersonalizacao()">✅ ADICIONAR AO CARRINHO</button>';
+ }
+ bindDynamic();
+ const price=document.getElementById('r11TurboPrice');
+ if(price)price.textContent=sim?'COMBO ARTESANAL • '+money(current.activePrice):'COMBO TRADICIONAL • '+money(current.activePrice);
+ const turbo=document.querySelectorAll('input[name="r11Turbo"]');
+ turbo.forEach(r=>r.addEventListener('change',()=>renderCombo()));
+}
+function open(name,price){
+ ensureModal();
+ current={name,price:Number(price),cfg:configs[name],turbo:false,activeCfg:configs[name],activePrice:Number(price)};
+ if(!current.cfg)return;
+ renderCombo();
+ const m=document.getElementById('ndComboModal');
+ if(m)m.classList.add('show');
+ document.body.style.overflow='hidden';
+}
+function bindDynamic(){document.querySelectorAll('#r11ComboContent input[type=radio]').forEach(r=>r.addEventListener('change',()=>{const sec=r.closest('.r11-section');const addon=sec?.querySelector('.r11-addons');if(addon)addon.classList.add('show')}));document.querySelectorAll('#r11ComboContent input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{if(c.name&&c.closest('.r11-sauce')){const checked=[...document.querySelectorAll('input[name="'+c.name+'"]:checked')];if(checked.length>2)c.checked=false}}))}
 function selected(name){return document.querySelector('input[name="'+name+'"]:checked')?.value||''}
 function addons(prefix){return [...document.querySelectorAll('#'+prefix+'_addons input[type=checkbox]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
 function acai(prefix){return [...document.querySelectorAll('#'+prefix+'_a_'+CSS.escape('0'))].length?[]:[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')].map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
 function allAcai(){return [...document.querySelectorAll('#r11ComboContent input[data-acai="1"]:checked')].map(x=>({id:x.id,name:x.dataset.name,price:Number(x.dataset.price)||0}));}
 function validarAcai(prefix){const chosen=[...document.querySelectorAll('[id^="'+prefix+'_a_"][data-acai="1"]:checked')];return chosen.map(x=>({name:x.dataset.name,price:Number(x.dataset.price)||0}))}
 function close(){const m=document.getElementById('ndComboModal');if(m)m.classList.remove('show');document.body.style.overflow='';current=null}
-function confirm(){if(!current)return;const cfg=current.cfg,details=[],selectedBur=[];let ok=true;let extra=0;
+function confirm(){
+ if(!current)return;
+ const cfg=current.activeCfg||current.cfg,details=[],selectedBur=[];let ok=true,extra=0;
  cfg.sections.forEach((sec,idx)=>{const id='r11s'+idx;
    if(sec.type==='burger'){const v=selected(id);if(!v){ok=false;return}details.push('Lanche: '+v);addons(id).forEach(a=>{details.push('Adicional no lanche: '+a.name);extra+=a.price})}
    if(sec.type==='burger2'){const a=selected(id+'a'),b=selected(id+'b');if(!a||!b){ok=false;return}details.push('Lanche 1: '+a,'Lanche 2: '+b);addons(id+'a').forEach(x=>{details.push('Adicional no Lanche 1: '+x.name);extra+=x.price});addons(id+'b').forEach(x=>{details.push('Adicional no Lanche 2: '+x.name);extra+=x.price})}
@@ -7067,11 +7114,16 @@ function confirm(){if(!current)return;const cfg=current.cfg,details=[],selectedB
    if(sec.type==='sauces'){const v=[...document.querySelectorAll('input[name="'+id+'"]:checked')].map(x=>x.value);if(v.length!==2){ok=false;return}details.push('Molhos: '+v.join(' + '))}
    if(sec.type==='pastel'){const v=selected(id);if(!v){ok=false;return}details.push('Pastel: '+v)}
    if(sec.type==='fixed'){details.push(sec.title+': '+sec.value)}
-   if(sec.type==='acai'){const a=validarAcai(id);if(a.length===0){ok=false;return}details.push('Açaí 300ml: '+a.map(x=>x.name).join(' + '));let normal=0;a.forEach(x=>{if(x.price>0)extra+=x.price;else normal++});if(normal>3)extra+=(normal-3)*0}
+   if(sec.type==='acai'){const a=validarAcai(id);if(a.length===0){ok=false;return}details.push('Açaí 300ml: '+a.map(x=>x.name).join(' + '));a.forEach(x=>{if(x.price>0)extra+=x.price})}
    if(sec.type==='acai2'){const a=validarAcai(id+'a'),b=validarAcai(id+'b');if(!a.length||!b.length){ok=false;return}details.push('Açaí 1 300ml: '+a.map(x=>x.name).join(' + '));details.push('Açaí 2 300ml: '+b.map(x=>x.name).join(' + '));a.concat(b).forEach(x=>{if(x.price>0)extra+=x.price})}
  });
  if(!ok){alert('⚠️ COMPLETE TODAS AS ESCOLHAS OBRIGATÓRIAS DO COMBO ANTES DE ADICIONAR.');return}
- const item={nome:current.name,preco:current.price+extra,quantidade:1,detalhes:details};if(Array.isArray(window.carrinho))window.carrinho.push(item);if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();close();setTimeout(()=>{try{window.scrollTo({top:window.scrollY,behavior:'auto'})}catch(_){ }},0);
+ if(current.turbo)details.unshift('🔥 LANCHE ARTESANAL: SIM');
+ const base=Number(current.activePrice)||Number(current.price)||0;
+ const item={nome:current.name,preco:base+extra,quantidade:1,detalhes:details};
+ if(Array.isArray(window.carrinho))window.carrinho.push(item);
+ if(typeof window.atualizarCarrinho==='function')window.atualizarCarrinho();
+ close();
 }
 window.abrirComboPersonalizacao=open;window.fecharComboPersonalizacao=close;window.confirmarComboPersonalizacao=confirm;
 // Intercepta qualquer adicionar() de combo, inclusive entradas antigas/atalhos.
@@ -8550,7 +8602,26 @@ function improveButtons(){
   });
 }
 
-/* 6) META/SEO básico sem alterar o conteúdo do catálogo */
+/* 6) BUSCA: estado vazio mais claro */
+function improveSearch(){
+  const input=q('#buscaProdutos');
+  if(!input || input.dataset.r24==='1')return;
+  input.dataset.r24='1';
+  const empty=document.createElement('div');
+  empty.className='nd-r24-search-empty';
+  empty.id='ndR24SearchEmpty';
+  empty.innerHTML='<strong>NÃO ENCONTRAMOS ESSE PRODUTO</strong><br><small>Tente outro nome ou escolha uma categoria acima.</small>';
+  input.closest('.modern-search')?.insertAdjacentElement('afterend',empty);
+
+  input.addEventListener('input',()=>{
+    const value=norm(input.value);
+    if(!value){empty.style.display='none';return}
+    const visible=qa('.produto').some(c=>c.style.display!=='none'&&!c.classList.contains('search-hidden'));
+    empty.style.display=visible?'none':'block';
+  });
+}
+
+/* 7) META/SEO básico sem alterar o conteúdo do catálogo */
 function seo(){
   if(!q('meta[name="description"]')){
     const m=document.createElement('meta');
@@ -9635,7 +9706,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-</body>
+<style>#nd14SearchWrap{display:none!important}</style></body>
 
 <!-- =========================================================
      ND BURGS — R28 / AJUSTES SOLICITADOS
@@ -10201,4 +10272,165 @@ img,video,iframe,svg,canvas{
 </script>
 
 
+<!-- =========================================================
+     ND BURGS R32 — BUSCA DE CARDÁPIO CORRIGIDA
+     - Filtra enquanto o cliente digita
+     - Procura pelo nome, descrição e texto alternativo da imagem
+     - Destaca visualmente os itens encontrados
+     - Esconde categorias sem resultados
+     - LIMPAR/ESC desfaz a busca e restaura todo o cardápio
+     ========================================================= -->
+<style id="nd-r32-smart-search-final">
+/* BUSCA */
+#ndR31Search{position:relative!important;display:flex!important;align-items:center!important;gap:8px!important}
+#ndR31Search #buscaProdutos{flex:1 1 auto!important;min-width:0!important}
+#ndR31Search #ndR31ClearSearch{
+  display:none;
+  flex:0 0 auto;
+  min-height:42px;
+  padding:0 13px;
+  border:1px solid #333;
+  border-radius:11px;
+  background:#171717;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+#ndR31Search #ndR31ClearSearch:hover{background:#242424;border-color:#555}
+
+/* RESULTADO ENCONTRADO */
+.produto.ndR32-match{
+  display:block!important;
+  position:relative!important;
+  z-index:4!important;
+  transform:translateY(-3px) scale(1.015)!important;
+  border:2px solid #ffd21a!important;
+  box-shadow:0 0 0 4px rgba(255,210,26,.12),0 16px 40px rgba(0,0,0,.45)!important;
+}
+.produto.ndR32-match::before{
+  content:'ENCONTRADO';
+  position:absolute;
+  top:9px;
+  right:9px;
+  z-index:20;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#ffd21a;
+  color:#111;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.5px;
+}
+.produto.ndR32-no-match{display:none!important}
+.categoria.ndR32-no-match{display:none!important}
+
+/* TEXTO DA BUSCA */
+.ndR32-searching #contadorBusca{
+  color:#ffd21a!important;
+  font-weight:900!important;
+}
+.ndR32-searching #buscaProdutos{
+  border-color:#ffd21a!important;
+  box-shadow:0 0 0 2px rgba(255,210,26,.08)!important;
+}
+
+/* TAXAS DE ENTREGA — SEMPRE BRANCO */
+#taxa,
+#taxaCarrinhoModal,
+#taxaFinalizarModal,
+#ndV4Fee,
+#avisoTaxa,
+#avisoTaxaModal,
+#nd26CurrentStatus,
+#nd26CurrentStatus span,
+#nd26CurrentStatus strong,
+.nd26-status,
+.nd26-status span,
+.nd26-status strong,
+.nd26-status small,
+[class*="taxa"] strong,
+[class*="taxa"] b{
+  color:#fff!important;
+}
+
+/* Quando o valor aparece dentro de selects de ruas */
+#rua option,
+#ruaModal option{
+  color:#fff!important;
+  background:#0d0d11!important;
+}
+#rua option:checked,
+#ruaModal option:checked{color:#fff!important}
+
+/* Mobile */
+@media(max-width:600px){
+  #ndR31Search{flex-wrap:wrap!important}
+  #ndR31Search #buscaProdutos{width:100%!important;flex-basis:100%!important}
+  #ndR31Search #ndR31ClearSearch{
+    width:100%;
+    justify-content:center;
+    margin-top:2px;
+  }
+  .produto.ndR32-match{transform:translateY(-1px) scale(1.008)!important}
+  .produto.ndR32-match::before{font-size:8px;padding:4px 7px}
+}
+@media(prefers-reduced-motion:reduce){
+  .produto.ndR32-match{transform:none!important}
+}
+</style>
+
+<script id="nd-r32-smart-search-final-js">
+(function(){
+ 'use strict';
+ var started=false, lastTerm='';
+ function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').replace(/\s+/g,' ').trim()}
+ function cards(){return Array.from(document.querySelectorAll('.produto'))}
+ function cats(){return Array.from(document.querySelectorAll('.categoria'))}
+ function input(){return document.getElementById('buscaProdutos')}
+ function clearBtn(){return document.getElementById('ndR31ClearSearch')}
+ function text(card){return norm(card.innerText||card.textContent||'')+' '+norm(card.querySelector('img')?.alt||'')}
+ function restore(){
+   cards().forEach(c=>{c.classList.remove('ndR32-match','ndR32-no-match','search-hidden','nd14-hidden');c.style.removeProperty('display')});
+   cats().forEach(c=>{c.classList.remove('ndR32-no-match','search-hidden','nd14-hidden');c.style.removeProperty('display')});
+   document.querySelectorAll('.nd14-no-results').forEach(x=>{x.style.display='none'});
+   const no=document.getElementById('semResultados');if(no)no.style.display='none';
+   const count=document.getElementById('contadorBusca');if(count)count.textContent='';
+   const clear=clearBtn();if(clear)clear.style.display='none';
+   const wrap=document.getElementById('ndR31Search');if(wrap)wrap.classList.remove('ndR32-searching');
+ }
+ function scrollToResult(card){
+   if(!card)return;
+   requestAnimationFrame(()=>{setTimeout(()=>{const y=card.getBoundingClientRect().top+window.scrollY-150;window.scrollTo({top:Math.max(0,y),behavior:'smooth'})},20)});
+ }
+ function apply(){
+   const q=input();if(!q)return;
+   const term=norm(q.value);
+   if(!term){lastTerm='';restore();return}
+   const wrap=document.getElementById('ndR31Search');if(wrap)wrap.classList.add('ndR32-searching');
+   const clear=clearBtn();if(clear)clear.style.display='inline-flex';
+   const matches=[];
+   cards().forEach(c=>{
+     c.classList.remove('search-hidden','nd14-hidden');
+     const ok=text(c).indexOf(term)!==-1;
+     c.classList.toggle('ndR32-match',ok);c.classList.toggle('ndR32-no-match',!ok);
+     if(ok)matches.push(c);
+   });
+   cats().forEach(sec=>{const has=sec.querySelector('.produto.ndR32-match');sec.classList.toggle('ndR32-no-match',!has);sec.style.display=has?'':'none'});
+   const count=document.getElementById('contadorBusca');if(count)count.textContent=matches.length+' item'+(matches.length===1?' encontrado':'s encontrados');
+   const no=document.getElementById('semResultados');if(no)no.style.display=matches.length?'none':'block';
+   document.querySelectorAll('.nd14-no-results').forEach(x=>x.style.display='none');
+   if(matches.length && term.length>=2 && term!==lastTerm){lastTerm=term;scrollToResult(matches[0])}
+ }
+ function init(){if(started)return;started=true;const q=input();if(!q)return;const clear=clearBtn();
+   q.removeAttribute('onkeyup');q.removeAttribute('onchange');
+   q.addEventListener('input',apply,{passive:true});
+   q.addEventListener('search',apply,{passive:true});
+   q.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();q.value='';restore();q.focus()}});
+   if(clear){clear.onclick=e=>{e.preventDefault();q.value='';lastTerm='';restore();q.focus()}}
+   restore();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+ window.ND_R32={pesquisar:apply,limparPesquisa:function(){const q=input();if(q)q.value='';lastTerm='';restore()}};
+})();
+</script>
 </html>
