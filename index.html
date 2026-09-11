@@ -10777,4 +10777,123 @@ function init(){const c=document.getElementById('r11ComboContent');if(!c)return;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else setTimeout(init,0);
 })();
 </script>
+
+
+<!-- ND BURGS — VALIDAÇÃO DE REGIÃO / ENDEREÇO V2 -->
+<style id="ndAddressRegionV2Style">
+#ndRegionMsg{position:fixed;inset:0;z-index:2147483647;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)}
+#ndRegionMsg.show{display:flex}
+.nd-region-box{width:min(440px,100%);background:linear-gradient(145deg,#17171b,#0b0b0e);border:1px solid rgba(229,9,20,.55);border-radius:22px;padding:24px 20px;box-shadow:0 25px 80px rgba(0,0,0,.75),0 0 35px rgba(229,9,20,.12);text-align:center}
+.nd-region-icon{font-size:42px;line-height:1;margin-bottom:12px}
+.nd-region-title{font-size:22px;font-weight:1000;color:#fff;line-height:1.1}
+.nd-region-text{margin-top:10px;color:#b9bac1;font-size:13px;line-height:1.5}
+.nd-region-btn{margin-top:18px;width:100%;min-height:48px;border:0;border-radius:13px;background:linear-gradient(135deg,#e50914,#ff3038);color:#fff;font-weight:1000;cursor:pointer}
+.nd-region-list{margin-top:10px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:#0a0a0c;max-height:220px;overflow:auto;text-align:left;padding:5px;display:none}
+.nd-region-list.show{display:block}
+.nd-region-option{display:flex;justify-content:space-between;gap:10px;padding:10px;border-radius:9px;color:#eee;font-size:12px;cursor:pointer}
+.nd-region-option:hover{background:rgba(229,9,20,.13)}
+.nd-region-option small{color:#ffd166;white-space:nowrap}
+#ndFirstStreetListV2{margin-top:7px;position:relative;z-index:10}
+#ndFirstStreetListV2 .nd-region-option{font-size:12px}
+#ndFirstVisitGate .nd-first-fields{position:relative}
+@media(max-width:480px){.nd-region-box{padding:21px 16px}.nd-region-title{font-size:20px}}
+</style>
+
+<script id="ndAddressRegionV2JS">
+(function(){
+'use strict';
+function $(s){return document.querySelector(s)}
+function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').toUpperCase().trim()}
+function taxes(){try{return window.taxas||taxas||{}}catch(e){return window.taxas||{}}}
+function streets(){
+  var t=taxes();
+  return Object.keys(t).filter(function(k){return !['BALCAO','RETIRADA','IFOOD','99FOOD'].includes(k)}).sort(function(a,b){return a.localeCompare(b,'pt-BR')});
+}
+function fee(s){return Number(taxes()[s]||0)}
+function esc(v){return String(v||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function exactStreet(value){var n=norm(value);return streets().find(function(s){return norm(s)===n})||null}
+function matches(value){var n=norm(value);if(!n)return streets();return streets().filter(function(s){return norm(s).includes(n)});}
+
+function ensureMsg(){
+ if($('#ndRegionMsg'))return;
+ var d=document.createElement('div');d.id='ndRegionMsg';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');
+ d.innerHTML='<div class="nd-region-box"><div class="nd-region-icon">📍</div><div class="nd-region-title">INFELIZMENTE NÃO ENTREGAMOS NA SUA REGIÃO</div><div class="nd-region-text">Essa rua não está na nossa lista de endereços atendidos pela ND BURGS.</div><button type="button" class="nd-region-btn" id="ndRegionOk">OK, ENTENDI</button></div>';
+ document.body.appendChild(d);
+ $('#ndRegionOk').onclick=function(){d.classList.remove('show')};
+ d.addEventListener('click',function(e){if(e.target===d)d.classList.remove('show')});
+}
+function showMsg(){ensureMsg();$('#ndRegionMsg').classList.add('show');setTimeout(function(){$('#ndRegionOk')?.focus()},30)}
+function buildList(input,list){
+ if(!input||!list)return;
+ var arr=matches(input.value);
+ list.innerHTML=arr.slice(0,80).map(function(s){return '<div class="nd-region-option" data-street="'+esc(s)+'"><span>'+esc(s)+'</span><small>'+('R$ '+fee(s).toFixed(2).replace('.',','))+'</small></div>'}).join('');
+ list.classList.toggle('show',arr.length>0);
+ list.querySelectorAll('.nd-region-option').forEach(function(el){el.onclick=function(){input.value=el.dataset.street;input.dataset.valid='1';list.classList.remove('show');}});
+}
+function addListToFirstGate(){
+ var input=$('#ndFirstStreet');if(!input||input.dataset.ndRegionV2)return;
+ input.dataset.ndRegionV2='1';
+ var wrap=input.parentElement;
+ var list=document.createElement('div');list.id='ndFirstStreetListV2';list.className='nd-region-list';wrap.appendChild(list);
+ var render=function(){buildList(input,list)};
+ input.addEventListener('focus',render);
+ input.addEventListener('input',function(){input.dataset.valid='';render()});
+ input.addEventListener('keydown',function(e){if(e.key==='Escape')list.classList.remove('show');if(e.key==='ArrowDown'&&list.querySelector('.nd-region-option')){e.preventDefault();list.querySelector('.nd-region-option').focus?.()}});
+ document.addEventListener('click',function(e){if(!wrap.contains(e.target))list.classList.remove('show')});
+ setTimeout(render,150);
+}
+function addListToTop(){
+ var input=$('#ndTopStreet');var list=$('#ndTopStreetList');if(!input||!list||input.dataset.ndRegionV2)return;
+ input.dataset.ndRegionV2='1';
+ var render=function(){buildList(input,list)};
+ input.addEventListener('input',function(){input.dataset.valid='';render()});
+ input.addEventListener('focus',render);
+}
+function validateOrMessage(input){
+ var s=exactStreet(input&&input.value);
+ if(!s){showMsg();if(input){input.dataset.valid='';input.focus()}return null}
+ if(input)input.value=s;
+ return s;
+}
+function patchFirstSave(){
+ var b=$('#ndFirstSave');if(!b||b.dataset.ndRegionV2)return;
+ b.dataset.ndRegionV2='1';
+ b.addEventListener('click',function(e){
+   e.preventDefault();e.stopImmediatePropagation();
+   var input=$('#ndFirstStreet'),num=$('#ndFirstNumber');
+   if(!input||!num)return;
+   var s=validateOrMessage(input);if(!s)return;
+   if(!num.value.trim()){$('#ndFirstStatus').textContent='Digite o número do endereço para continuar.';num.focus();return}
+   // Copia para o endereço principal e salva somente rua válida.
+   var top=$('#ndTopStreet'),topNum=$('#ndTopNumber'),topSave=$('#nd26SaveAddress');
+   if(top&&topNum&&topSave){
+     top.value=s;top.dataset.valid='1';topNum.value=num.value.trim();topSave.click();
+   }
+ },true);
+}
+function patchTopSave(){
+ var b=$('#nd26SaveAddress');if(!b||b.dataset.ndRegionV2)return;
+ b.dataset.ndRegionV2='1';
+ b.addEventListener('click',function(e){
+   var input=$('#ndTopStreet');if(!input)return;
+   var s=exactStreet(input.value);
+   if(!s){e.preventDefault();e.stopImmediatePropagation();showMsg();input.focus();return}
+   input.value=s;input.dataset.valid='1';
+ },true);
+}
+function patchEnter(){
+ var a=$('#ndFirstStreet'),b=$('#ndTopStreet');
+ if(a&&!a.dataset.ndEnterV2){a.dataset.ndEnterV2='1';a.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();var s=validateOrMessage(a);if(s)$('#ndFirstNumber')?.focus()}})}
+ if(b&&!b.dataset.ndEnterV2){b.dataset.ndEnterV2='1';b.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();var s=validateOrMessage(b);if(s)$('#ndTopNumber')?.focus()}})}
+}
+function init(){
+ ensureMsg();
+ addListToFirstGate();addListToTop();patchFirstSave();patchTopSave();patchEnter();
+ setTimeout(function(){addListToFirstGate();addListToTop();patchFirstSave();patchTopSave();patchEnter()},300);
+ setTimeout(function(){addListToFirstGate();addListToTop();patchFirstSave();patchTopSave();patchEnter()},1000);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+window.NDAddressRegionV2={showMsg:showMsg,streets:streets,validate:function(v){return !!exactStreet(v)}};
+})();
+</script>
 </html>
