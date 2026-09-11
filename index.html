@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R32">
+<meta name="nd-site-version" content="20260911-R33-ENDERECOS">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R32";
+  const ND_SITE_VERSION = "20260911-R33-ENDERECOS";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -10775,6 +10775,283 @@ function refresh(){
 }
 function init(){const c=document.getElementById('r11ComboContent');if(!c)return;c.addEventListener('change',()=>setTimeout(refresh,0));new MutationObserver(()=>refresh()).observe(c,{childList:true,subtree:true});refresh()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else setTimeout(init,0);
+})();
+</script>
+
+
+<!-- =========================================================
+     ND BURGS R33 — LOGÍSTICA DE ENDEREÇOS INTELIGENTE
+     - seleção obrigatória de endereço atendido
+     - busca parcial em tempo real
+     - resultados destacados/piscando
+     - aviso claro para região não atendida
+     - logística definida antes do cardápio
+     - sincronização com checkout/carrinho
+     ========================================================= -->
+<style id="nd-r33-address-system">
+#ndR33AddressGate{position:fixed;inset:0;z-index:1000000;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(0,0,0,.91);backdrop-filter:blur(13px)}
+#ndR33AddressGate.show{display:flex}
+.nd-r33-panel{width:min(720px,100%);max-height:94vh;overflow:auto;background:linear-gradient(160deg,#17181c,#09090b);border:2px solid #ffd21a;border-radius:24px;padding:22px;box-shadow:0 25px 100px rgba(0,0,0,.82),0 0 40px rgba(255,210,26,.10)}
+.nd-r33-kicker{font-size:10px;font-weight:1000;letter-spacing:1.8px;color:#ffd21a;text-transform:uppercase}
+.nd-r33-title{margin-top:6px;font-size:clamp(24px,5vw,38px);font-weight:1000;line-height:1.02;color:#fff;letter-spacing:-1px}
+.nd-r33-title strong{color:#ffd21a}
+.nd-r33-sub{margin-top:9px;color:#a9abb2;font-size:12px;line-height:1.5}
+.nd-r33-modes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:17px}
+.nd-r33-mode{min-height:54px;border:1px solid #34353b;border-radius:14px;background:#101115;color:#ddd;font-weight:1000;cursor:pointer;font-size:13px}
+.nd-r33-mode.active{border-color:#ffd21a;background:linear-gradient(135deg,#302800,#16140a);color:#fff;box-shadow:0 0 20px rgba(255,210,26,.10)}
+.nd-r33-fields{margin-top:13px}
+.nd-r33-label{display:block;margin:11px 0 6px;color:#eee;font-size:12px;font-weight:1000}
+.nd-r33-label small{display:block;margin-top:4px;color:#ffd21a;font-size:10px;font-weight:800}
+.nd-r33-input-wrap{position:relative}
+.nd-r33-input{width:100%!important;min-height:54px!important;margin:0!important;padding:14px 15px!important;border:2px solid #303137!important;border-radius:14px!important;background:#08090b!important;color:#fff!important;font-size:16px!important;outline:none!important}
+.nd-r33-input:focus{border-color:#ffd21a!important;box-shadow:0 0 0 4px rgba(255,210,26,.09)!important}
+.nd-r33-number{width:100%!important;min-height:54px!important;margin:0!important}
+.nd-r33-hint{margin-top:7px;padding:10px 12px;border:1px solid rgba(255,210,26,.22);border-radius:11px;background:rgba(255,210,26,.055);color:#b9bac0;font-size:11px;line-height:1.45}
+.nd-r33-hint b{color:#ffd21a}
+.nd-r33-list{display:none;position:absolute;left:0;right:0;top:calc(100% + 7px);z-index:1000002;max-height:310px;overflow:auto;padding:7px;border:2px solid rgba(255,210,26,.72);border-radius:15px;background:#0c0d10;box-shadow:0 22px 60px rgba(0,0,0,.85)}
+.nd-r33-list.show{display:block}
+.nd-r33-result{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:13px 12px;margin:3px 0;border:1px solid #37383e;border-radius:12px;background:linear-gradient(135deg,#18191d,#0e0f12);color:#fff;text-align:left;cursor:pointer;animation:ndR33Blink .95s ease-in-out infinite alternate}
+.nd-r33-result:hover,.nd-r33-result:focus{border-color:#ffd21a;background:#282207;outline:none}
+.nd-r33-result-main{min-width:0}
+.nd-r33-result-main strong{display:block;font-size:13px;line-height:1.25}
+.nd-r33-result-main small{display:block;margin-top:4px;color:#ffd21a;font-size:10px;font-weight:900}
+.nd-r33-result-fee{white-space:nowrap;color:#fff;font-size:12px;font-weight:1000}
+@keyframes ndR33Blink{0%{border-color:#3a3a40;box-shadow:0 0 0 rgba(255,210,26,0)}100%{border-color:#ffd21a;box-shadow:0 0 18px rgba(255,210,26,.20)}}
+.nd-r33-no-match{display:none;margin-top:9px;padding:14px;border:2px solid #ff3b30;border-radius:14px;background:linear-gradient(145deg,#280d0f,#12090a);color:#fff;font-size:13px;font-weight:1000;line-height:1.4}
+.nd-r33-no-match.show{display:block;animation:ndR33Error .7s ease-in-out infinite alternate}
+.nd-r33-no-match span{display:block;margin-top:4px;color:#ffaaa7;font-size:10px;font-weight:700}
+@keyframes ndR33Error{from{box-shadow:0 0 0 rgba(255,59,48,0)}to{box-shadow:0 0 20px rgba(255,59,48,.20)}}
+.nd-r33-selected{display:none;margin-top:10px;padding:12px;border:1px solid rgba(37,211,102,.45);border-radius:13px;background:rgba(37,211,102,.07);color:#d9ffe6;font-size:11px;line-height:1.45}
+.nd-r33-selected.show{display:block}
+.nd-r33-selected b{color:#5dff8c}
+.nd-r33-save{width:100%;min-height:55px;margin-top:14px;border:0;border-radius:14px;background:linear-gradient(135deg,#ffd21a,#e9ad00);color:#090909;font-size:15px;font-weight:1000;cursor:pointer;box-shadow:0 10px 28px rgba(255,210,26,.18)}
+.nd-r33-save:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.nd-r33-pickup-note{display:none;margin-top:13px;padding:14px;border:1px solid #34353b;border-radius:13px;background:#101115;color:#cfd0d5;font-size:12px;line-height:1.5}
+.nd-r33-pickup-note.show{display:block}
+.nd-r33-pickup-note b{color:#ffd21a}
+.nd-r33-status{margin-top:10px;text-align:center;color:#777;font-size:10px;min-height:16px}
+
+/* Após escolher no topo, o endereço continua visível na página. */
+#ndR33AddressBar{width:min(1180px,calc(100% - 18px));margin:10px auto 5px;padding:11px 13px;border:1px solid rgba(255,210,26,.42);border-radius:14px;background:linear-gradient(135deg,#17160d,#0d0e10);display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.28)}
+#ndR33AddressBar.show{display:flex}
+#ndR33AddressBar strong{color:#fff;font-size:12px}
+#ndR33AddressBar small{display:block;color:#aaa;margin-top:3px;font-size:10px}
+#ndR33AddressBar button{border:1px solid #555;color:#fff;background:#1a1a1d;border-radius:9px;padding:8px 10px;font-size:10px;font-weight:1000;cursor:pointer}
+#ndR33AddressBar button:hover{border-color:#ffd21a;color:#ffd21a}
+
+/* Impede o checkout de aceitar texto que não foi selecionado da lista. */
+#ruaModal,#rua{ }
+.nd-r33-invalid-field{border-color:#ff3b30!important;box-shadow:0 0 0 3px rgba(255,59,48,.10)!important}
+
+/* O sistema R33 passa a ser o único gate inicial. */
+#nd17Gate{display:none!important}
+#nd26TopAddress{ }
+
+@media(max-width:600px){
+ .nd-r33-panel{padding:17px;border-radius:20px}
+ .nd-r33-modes{grid-template-columns:1fr}
+ .nd-r33-result{padding:13px 10px}
+ #ndR33AddressBar{width:calc(100% - 12px)}
+ #ndR33AddressBar button{padding:9px 8px}
+}
+@media(prefers-reduced-motion:reduce){.nd-r33-result,.nd-r33-no-match{animation:none!important}}
+</style>
+
+<script id="nd-r33-address-system-js">
+(function(){
+'use strict';
+
+const R33_EXCLUDE=new Set(['BALCAO','RETIRADA','IFOOD','99FOOD']);
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim().toUpperCase();
+const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+
+function getTaxes(){
+ try{
+  if(typeof window.taxas==='object' && window.taxas)return window.taxas;
+  if(typeof taxas==='object' && taxas)return taxas;
+ }catch(e){}
+ return {};
+}
+function streets(){return Object.keys(getTaxes()).filter(k=>!R33_EXCLUDE.has(k)).sort((a,b)=>a.localeCompare(b,'pt-BR'));}
+function addr(){
+ return {
+  type:localStorage.getItem('ndR33_tipo')||localStorage.getItem('nd26_tipo')||localStorage.getItem('nd17_tipo')||'',
+  street:localStorage.getItem('ndR33_rua')||localStorage.getItem('nd26_rua')||localStorage.getItem('nd17_rua')||'',
+  number:localStorage.getItem('ndR33_numero')||localStorage.getItem('nd26_numero')||localStorage.getItem('nd17_numero')||''
+ };
+}
+function save(type,street,number){
+ const vals={ndR33_tipo:type,ndR33_rua:street||'',ndR33_numero:number||'',nd26_tipo:type,nd26_rua:street||'',nd26_numero:number||'',nd17_tipo:type,nd17_rua:street||'',nd17_numero:number||''};
+ Object.keys(vals).forEach(k=>localStorage.setItem(k,vals[k]));
+}
+function selectedStreet(value){
+ const n=norm(value);return streets().find(s=>norm(s)===n)||'';
+}
+function setFormValues(){
+ const a=addr();
+ ['#tipoPedido','#tipoPedidoModal'].forEach(sel=>{const e=$(sel);if(e)e.value=a.type==='RETIRADA'?'RETIRADA':'ENTREGA';});
+ ['#rua','#ruaModal'].forEach(sel=>{const e=$(sel);if(e&&a.street)e.value=a.street;});
+ ['#numero','#numeroModal'].forEach(sel=>{const e=$(sel);if(e&&a.number)e.value=a.number;});
+ try{
+  if(typeof window.calcularTaxa==='function')window.calcularTaxa();
+  if(typeof window.calcularTaxaModal==='function')window.calcularTaxaModal();
+  if(typeof window.ndSummary==='function')window.ndSummary();
+  if(typeof window.cartTotalSync==='function')window.cartTotalSync();
+ }catch(e){}
+}
+function updateBar(){
+ let bar=$('#ndR33AddressBar');
+ if(!bar){
+  bar=document.createElement('section');bar.id='ndR33AddressBar';bar.setAttribute('aria-live','polite');
+  const target=$('.horarios');
+  if(target)target.parentNode.insertBefore(bar,target.nextSibling);else document.body.prepend(bar);
+ }
+ const a=addr();
+ if(!a.type)return bar.classList.remove('show');
+ if(a.type==='RETIRADA'){
+  bar.innerHTML='<div><strong>🏪 RETIRADA NA LOJA</strong><small>Sem taxa de entrega.</small></div><button type="button" id="ndR33ChangeAddress">ALTERAR</button>';
+ }else{
+  const fee=Number(getTaxes()[a.street]||0);
+  bar.innerHTML='<div><strong>🛵 '+escapeHtml(a.street)+(a.number?', Nº '+escapeHtml(a.number):'')+'</strong><small>Taxa de entrega: '+money(fee)+'</small></div><button type="button" id="ndR33ChangeAddress">ALTERAR</button>';
+ }
+ bar.classList.add('show');
+ $('#ndR33ChangeAddress').onclick=()=>showGate();
+}
+function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+
+function hideLegacy(){
+ ['#nd17Gate','#ndFinalSendGate'].forEach(sel=>{$$(sel).forEach(e=>e.classList.remove('show','ativo'));});
+ const old=$('#nd17AddressBar');if(old)old.style.display='none';
+}
+function buildGate(){
+ if($('#ndR33AddressGate'))return;
+ const g=document.createElement('div');g.id='ndR33AddressGate';g.setAttribute('role','dialog');g.setAttribute('aria-modal','true');
+ g.innerHTML=`
+ <div class="nd-r33-panel">
+  <div class="nd-r33-kicker">⚡ ESSA PARTE É MUITO IMPORTANTE PARA SEU PEDIDO</div>
+  <div class="nd-r33-title">INFORME COMO VAMOS <strong>ENTREGAR</strong> SEU PEDIDO</div>
+  <div class="nd-r33-sub">Primeiro selecione <b>DELIVERY</b> ou <b>RETIRADA NA LOJA</b>. No delivery, digite o nome da sua rua e <b>SELECIONE UMA DAS OPÇÕES ENCONTRADAS</b>. Só assim a taxa e a região serão confirmadas.</div>
+  <div class="nd-r33-modes">
+   <button type="button" class="nd-r33-mode active" id="ndR33Delivery">🛵 DELIVERY</button>
+   <button type="button" class="nd-r33-mode" id="ndR33Pickup">🏪 RETIRADA NA LOJA</button>
+  </div>
+  <div id="ndR33DeliveryArea">
+   <label class="nd-r33-label">ENDEREÇO <small>⚠️ VOCÊ PRECISA SELECIONAR O ENDEREÇO DA LISTA — NÃO BASTA DIGITAR</small></label>
+   <div class="nd-r33-input-wrap">
+    <input id="ndR33Street" class="nd-r33-input" type="search" autocomplete="off" placeholder="🔎 Digite o nome da rua — exemplo: bana" aria-label="Digite sua rua">
+    <div id="ndR33List" class="nd-r33-list" role="listbox"></div>
+   </div>
+   <div class="nd-r33-hint">🔎 <b>Digite apenas parte do nome.</b> Exemplo: se escrever <b>bana</b>, vamos mostrar automaticamente todos os endereços atendidos que possuem “BANA”. <b>As opções encontradas ficarão piscando</b> para você selecionar.</div>
+   <div id="ndR33NoMatch" class="nd-r33-no-match">❌ INFELIZMENTE NÃO ENTREGAMOS NA SUA REGIÃO<span>Não encontramos nenhum endereço atendido com esse nome. Confira a escrita ou tente outro endereço.</span></div>
+   <label class="nd-r33-label">NÚMERO DO ENDEREÇO</label>
+   <input id="ndR33Number" class="nd-r33-input nd-r33-number" type="text" inputmode="numeric" autocomplete="address-line2" placeholder="Digite o número da residência">
+   <div id="ndR33Selected" class="nd-r33-selected"></div>
+   <button type="button" class="nd-r33-save" id="ndR33Save">SALVAR ENDEREÇO E CONTINUAR</button>
+  </div>
+  <div id="ndR33PickupArea" class="nd-r33-pickup-note">🏪 <b>RETIRADA NA LOJA SELECIONADA</b><br>Sem taxa de entrega. O endereço não será solicitado.</div>
+  <div id="ndR33Status" class="nd-r33-status"></div>
+ </div>`;
+ document.body.appendChild(g);
+ const street=$('#ndR33Street'), list=$('#ndR33List'), num=$('#ndR33Number'), selected=$('#ndR33Selected'), noMatch=$('#ndR33NoMatch');
+ function setMode(type){
+  const delivery=type==='ENTREGA';
+  $('#ndR33Delivery').classList.toggle('active',delivery);$('#ndR33Pickup').classList.toggle('active',!delivery);
+  $('#ndR33DeliveryArea').style.display=delivery?'block':'none';$('#ndR33PickupArea').classList.toggle('show',!delivery);
+  if(delivery){setTimeout(()=>street.focus(),50)}
+ }
+ function render(){
+  const q=norm(street.value);
+  const all=streets();
+  const found=q?all.filter(s=>norm(s).includes(q)).slice(0,40):all.slice(0,25);
+  list.innerHTML='';
+  noMatch.classList.toggle('show',!!q&&!found.length);
+  if(!q){list.classList.remove('show');return;}
+  found.forEach(s=>{
+   const el=document.createElement('button');el.type='button';el.className='nd-r33-result';el.setAttribute('role','option');
+   el.innerHTML='<span class="nd-r33-result-main"><strong>'+escapeHtml(s)+'</strong><small>✨ SELECIONE AQUI SEU ENDEREÇO • região atendida</small></span><span class="nd-r33-result-fee">'+money(getTaxes()[s])+'</span>';
+   el.addEventListener('click',()=>{
+    street.value=s;street.dataset.selected=s;street.dataset.valid='1';list.classList.remove('show');noMatch.classList.remove('show');
+    selected.innerHTML='<b>✅ ENDEREÇO SELECIONADO:</b> '+escapeHtml(s)+'<br>Taxa de entrega: '+money(getTaxes()[s]);selected.classList.add('show');
+    $('#ndR33Status').textContent='Agora informe o número do endereço.';num.focus();
+   });
+   list.appendChild(el);
+  });
+  list.classList.toggle('show',found.length>0);
+ }
+ street.addEventListener('input',()=>{street.dataset.valid='';street.dataset.selected='';selected.classList.remove('show');render();});
+ street.addEventListener('focus',render);
+ street.addEventListener('keydown',e=>{if(e.key==='Escape')list.classList.remove('show');});
+ num.addEventListener('input',()=>{num.value=num.value.replace(/[^0-9A-Za-z\-\/ ]/g,'');});
+ $('#ndR33Delivery').onclick=()=>setMode('ENTREGA');
+ $('#ndR33Pickup').onclick=()=>{save('RETIRADA','','');setFormValues();updateBar();hideGate();};
+ $('#ndR33Save').onclick=()=>{
+  const key=selectedStreet(street.value);
+  if(!key || street.dataset.valid!=='1' || norm(street.value)!==norm(key)){
+   street.classList.add('nd-r33-invalid-field');
+   $('#ndR33Status').textContent='Selecione uma das opções piscando na lista. Digitar o nome sozinho não confirma o endereço.';
+   noMatch.classList.toggle('show',!!street.value&&!streets().some(s=>norm(s).includes(norm(street.value))));
+   street.focus();return;
+  }
+  street.classList.remove('nd-r33-invalid-field');
+  const n=num.value.trim();
+  if(!n){num.classList.add('nd-r33-invalid-field');$('#ndR33Status').textContent='Digite o número do endereço.';num.focus();return;}
+  num.classList.remove('nd-r33-invalid-field');
+  save('ENTREGA',key,n);setFormValues();updateBar();hideGate();
+ };
+}
+function showGate(){
+ buildGate();hideLegacy();
+ const g=$('#ndR33AddressGate');g.classList.add('show');document.body.style.overflow='hidden';
+ const a=addr();
+ const delivery=a.type!=='RETIRADA';
+ $('#ndR33Delivery').classList.toggle('active',delivery);$('#ndR33Pickup').classList.toggle('active',!delivery);
+ $('#ndR33DeliveryArea').style.display=delivery?'block':'none';$('#ndR33PickupArea').classList.toggle('show',!delivery);
+ const street=$('#ndR33Street'),num=$('#ndR33Number');
+ if(delivery){street.value=a.street||'';num.value=a.number||'';const savedValid=!!selectedStreet(a.street);street.dataset.valid=savedValid?'1':'';street.dataset.selected=savedValid?a.street:'';if(savedValid){$('#ndR33Selected').innerHTML='<b>✅ ENDEREÇO ATUAL:</b> '+escapeHtml(a.street)+'<br>Taxa de entrega: '+money(getTaxes()[a.street]);$('#ndR33Selected').classList.add('show');}else{$('#ndR33Selected').classList.remove('show');}setTimeout(()=>street.focus(),60)}
+}
+function closeGate(){const g=$('#ndR33AddressGate');if(g)g.classList.remove('show');document.body.style.overflow='';}
+
+function patchCheckoutValidation(){
+ const old=window.finalizarPedidoModal;
+ if(typeof old==='function'&&!old.__ndR33){
+  const wrapped=function(){
+   const tipo=$('#tipoPedidoModal')?.value||'ENTREGA';
+   if(tipo==='ENTREGA'){
+    const r=$('#ruaModal')?.value||addr().street||'';
+    const valid=selectedStreet(r);
+    if(!valid){alert('Selecione um endereço atendido pela ND BURGS antes de finalizar o pedido.');showGate();return false;}
+    if($('#ruaModal'))$('#ruaModal').value=valid;
+   }
+   return old.apply(this,arguments);
+  };
+  wrapped.__ndR33=true;window.finalizarPedidoModal=wrapped;
+ }
+ const old2=window.ndFinish;
+ if(typeof old2==='function'&&!old2.__ndR33){
+  const wrapped2=function(){
+   const a=addr();if(a.type==='ENTREGA'&&!selectedStreet(a.street)){showGate();return false;}return old2.apply(this,arguments);
+  };wrapped2.__ndR33=true;window.ndFinish=wrapped2;
+ }
+}
+function patchOriginalForms(){
+ const rua=$('#rua'),ruaM=$('#ruaModal');
+ [rua,ruaM].forEach(el=>{if(!el||el.dataset.ndR33Bound)return;el.dataset.ndR33Bound='1';el.addEventListener('change',()=>{if(el.value&&!selectedStreet(el.value)){el.classList.add('nd-r33-invalid-field');alert('Esse endereço não está na região atendida. Selecione um endereço da lista.');showGate();}else{el.classList.remove('nd-r33-invalid-field');}})});
+}
+function init(){
+ hideLegacy();buildGate();patchOriginalForms();patchCheckoutValidation();setFormValues();updateBar();
+ const saved=addr();
+ const savedValid=saved.type==='RETIRADA' || (saved.type==='ENTREGA' && !!selectedStreet(saved.street) && !!String(saved.number||'').trim());
+ if(!savedValid){showGate();}
+ else{closeGate();}
+ // Reaplica somente quando o checkout dinâmico for criado, sem polling contínuo.
+ const obs=new MutationObserver(()=>{patchOriginalForms();patchCheckoutValidation();});
+ obs.observe(document.body,{childList:true,subtree:true});
+ window.addEventListener('beforeunload',()=>{try{obs.disconnect()}catch(e){}});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else setTimeout(init,0);
+window.ND_R33_ADDRESS={show:showGate,close:closeGate,streets:streets};
 })();
 </script>
 </html>
