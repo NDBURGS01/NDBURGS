@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R32">
+<meta name="nd-site-version" content="20260910-R33">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R32";
+  const ND_SITE_VERSION = "20260910-R33";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -7119,7 +7119,7 @@ function renderBest(){
  const picks=pool.slice(0,3);
  grid.innerHTML=picks.map((x,i)=>'<article class="r11-best-card nd-daily-best-card"><div class="nd-best-rank">#'+(i+1)+'</div><img src="'+x.img+'" alt="'+esc(x.name)+'"><div><strong>'+esc(x.name)+'</strong><span>'+esc(x.btn.closest('.produto').querySelector('.preco')?.textContent||'')+'</span><small>⭐ DESTAQUE DE HOJE</small></div><button type="button">ADICIONAR</button></article>').join('');
  grid.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{const x=picks[i];if(configs[x.name])open(x.name,configs[x.name].price);else x.btn.click()});
- const head=s.querySelector('.r11-best-head p');if(head)head.textContent='3 escolhas aleatórias atualizadas todos os dias.';
+ const head=s.querySelector('.r11-best-head p');if(head)head.textContent='A LISTA É ATUALIZADA TODOS OS DIAS.';
 }
 function buildPromo(){if(document.getElementById('ndUvaPromo'))return;const h=document.querySelector('#ndAutoBest');if(!h)return;const p=document.createElement('section');p.id='ndUvaPromo';p.innerHTML='<img src="https://i.ibb.co/9kC6V4gP/Chat-GPT-Image-5-09-2026-06-50-46.png" alt="Doce surpresa de uva"><div class="r11-promo-copy"><div class="k">🔥 DESCONTO EXCLUSIVO NO SITE</div><h2>DOCE SURPRESA DE UVA</h2><p>Somente pelo site da ND BURGS</p><div class="r11-promo-old">DE R$ 12,00</div><div class="r11-promo-price">POR R$ 7,90</div><button type="button">ADICIONAR AO CARRINHO</button></div>';const destino=document.querySelector('#artesanais');if(destino)destino.insertAdjacentElement('afterend',p);else h.insertAdjacentElement('afterend',p);p.querySelector('button').onclick=()=>{if(typeof window.adicionar==='function')window.adicionar('SURPRESA DE UVA',7.90)}}
 function buildQuick(){if(document.getElementById('ndFinalQuick'))return;const footer=document.querySelector('footer');if(!footer)return;const picks=['COMBO MAIS VENDIDO','COMBO DOCE','COMBO GELADO','COMBO SÓ LOVE','X-BACON','NUNES','GADEIA','BATATA'];const cards=[...document.querySelectorAll('.produto')].map(productInfo).filter(Boolean);const data=picks.map(n=>cards.find(x=>norm(x.name)===norm(n))).filter(Boolean);const s=document.createElement('section');s.id='ndFinalQuick';s.innerHTML='<h2>⚡ ESCOLHAS RÁPIDAS</h2><p>Se já sabe o que quer, adicione em um toque.</p><div class="r11-quick-grid">'+data.map((x,i)=>'<div class="r11-q"><img src="'+x.img+'" alt="'+esc(x.name)+'"><div><b>'+esc(x.name)+'</b><span>'+esc(x.btn.closest('.produto').querySelector('.preco')?.textContent||'')+'</span><button type="button">ADICIONAR</button></div></div>').join('')+'</div>';footer.parentNode.insertBefore(s,footer);s.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{const x=data[i];if(configs[x.name])open(x.name,configs[x.name].price);else x.btn.click()})}
@@ -9732,17 +9732,11 @@ function saveDelivery(){
  var s=(street&&street.value||'').trim(),n=(num&&num.value||'').trim();
  if(!s){$('#ndFirstStatus').textContent='Digite sua rua para continuar.';street&&street.focus();return}
  if(!n){$('#ndFirstStatus').textContent='Digite o número do endereço para continuar.';num&&num.focus();return}
- var topStreet=$('#ndTopStreet'),topNumber=$('#ndTopNumber'),topSave=$('#nd26SaveAddress');
- if(topStreet&&topNumber&&topSave){
-  topStreet.value=s;topNumber.value=n;topStreet.dataset.valid='1';topSave.click();
-  setTimeout(function(){
-   var saved=(localStorage.getItem('nd26_rua')||'');
-   if(saved){closeGate()}else{$('#ndFirstStatus').textContent='Selecione uma rua válida da lista de endereços.'}
-  },80);
-  return;
- }
+ // A validação/salvamento definitivo é feita pelo patchFirstSave,
+ // que grava diretamente no localStorage e sincroniza o restante do site.
+ var btn=$('#ndFirstSave');
+ if(btn){btn.click();return;}
  $('#ndFirstStatus').textContent='Carregando o endereço...';
- setTimeout(saveDelivery,120);
 }
 function savePickup(){
  var topPick=$('#nd26PickupMode');
@@ -10856,18 +10850,81 @@ function validateOrMessage(input){
  return s;
 }
 function patchFirstSave(){
- var b=$('#ndFirstSave');if(!b||b.dataset.ndRegionV2)return;
- b.dataset.ndRegionV2='1';
+ var b=$('#ndFirstSave');if(!b||b.dataset.ndRegionV3)return;
+ b.dataset.ndRegionV3='1';
  b.addEventListener('click',function(e){
-   e.preventDefault();e.stopImmediatePropagation();
-   var input=$('#ndFirstStreet'),num=$('#ndFirstNumber');
+   // O primeiro acesso agora salva DIRETAMENTE no localStorage.
+   // Não depende mais de clicar/simular o botão do endereço do topo.
+   e.preventDefault();
+   e.stopImmediatePropagation();
+
+   var input=$('#ndFirstStreet'),num=$('#ndFirstNumber'),status=$('#ndFirstStatus');
    if(!input||!num)return;
-   var s=validateOrMessage(input);if(!s)return;
-   if(!num.value.trim()){$('#ndFirstStatus').textContent='Digite o número do endereço para continuar.';num.focus();return}
-   // Copia para o endereço principal e salva somente rua válida.
-   var top=$('#ndTopStreet'),topNum=$('#ndTopNumber'),topSave=$('#nd26SaveAddress');
-   if(top&&topNum&&topSave){
-     top.value=s;top.dataset.valid='1';topNum.value=num.value.trim();topSave.click();
+
+   var s=validateOrMessage(input);
+   if(!s)return;
+
+   var n=num.value.trim();
+   if(!n){
+     if(status)status.textContent='Digite o número do endereço para continuar.';
+     num.focus();
+     return;
+   }
+
+   try{
+     // Fonte principal do endereço.
+     localStorage.setItem('nd26_tipo','ENTREGA');
+     localStorage.setItem('nd26_rua',s);
+     localStorage.setItem('nd26_numero',n);
+
+     // Compatibilidade com as versões anteriores do site.
+     localStorage.setItem('nd17_tipo','ENTREGA');
+     localStorage.setItem('nd17_rua',s);
+     localStorage.setItem('nd17_numero',n);
+
+     // Atualiza o endereço exibido no topo.
+     var top=$('#ndTopStreet'),topNum=$('#ndTopNumber');
+     if(top){top.value=s;top.dataset.valid='1';}
+     if(topNum){topNum.value=n;}
+
+     // Informa outros módulos do site sobre a alteração.
+     [top,topNum].forEach(function(el){
+       if(el)el.dispatchEvent(new Event('input',{bubbles:true}));
+     });
+
+     if(typeof syncCheckoutAddr==='function')syncCheckoutAddr();
+     if(typeof addressSummary==='function')addressSummary();
+
+     // Atualiza o resumo do topo, sem depender da função interna do outro módulo.
+     var current=$('#nd26CurrentStatus');
+     if(current){
+       var t=typeof taxes==='function'?taxes():{};
+       var taxa=Number(t[s]||0);
+       current.innerHTML='<strong>'+esc(s)+', Nº '+esc(n)+'</strong><br><span>Taxa: R$ '+taxa.toFixed(2).replace('.',',')+'</span>';
+     }
+
+     // Marca a primeira configuração como concluída.
+     localStorage.setItem('ndburgs_primeira_visita_endereco_v1','1');
+
+     if(status){
+       status.textContent='✓ Endereço salvo com sucesso!';
+       status.style.color='#25d366';
+     }
+
+     // Fecha a tela de primeiro acesso.
+     var gate=$('#ndFirstVisitGate');
+     if(gate)gate.classList.remove('show');
+     document.body.style.overflow='';
+
+     // Evento público para futuras integrações.
+     window.dispatchEvent(new CustomEvent('nd:addressSaved',{detail:{type:'ENTREGA',street:s,number:n}}));
+
+   }catch(err){
+     console.error('ND BURGS — erro ao salvar endereço no primeiro acesso:',err);
+     if(status){
+       status.textContent='Não foi possível salvar o endereço. Tente novamente.';
+       status.style.color='#ff4d4d';
+     }
    }
  },true);
 }
@@ -10896,4 +10953,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 window.NDAddressRegionV2={showMsg:showMsg,streets:streets,validate:function(v){return !!exactStreet(v)}};
 })();
 </script>
+
+<!-- ND BURGS R33 — CORREÇÃO DEFINITIVA DO ENDEREÇO NO PRIMEIRO ACESSO -->
+<style id="nd-r33-address-polish">
+#ndFirstStatus{transition:color .2s ease,opacity .2s ease;font-weight:800}
+#ndFirstVisitGate .nd-first-save:active{transform:translateY(1px)}
+</style>
 </html>
