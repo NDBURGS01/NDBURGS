@@ -10792,15 +10792,33 @@ function findProduct(name){const key=norm(name);return $$('.produto').find(c=>no
 function addProduct(name,price){try{if(typeof window.adicionar==='function'){window.adicionar(name,price);return true}}catch(_){}return false}
 function readPrice(card){if(!card)return 0;const text=card.querySelector('.preco')?.textContent||'';const m=text.replace(/\./g,'').replace(',','.').match(/\d+(?:\.\d+)?/);return m?Number(m[0]):0}
 function chooseCrossSell(){
- const inCart=new Set(cart().map(x=>norm(x.nome)));
- const candidates=[];
- $$('.produto').forEach(card=>{const h=card.querySelector('h3');const b=card.querySelector('.btn-add,[onclick*="adicionar("]');if(!h||!b)return;const name=h.textContent.trim();if(!name||inCart.has(norm(name)))return;const price=readPrice(card);if(price>0)candidates.push({name,price,card})});
- const preferred=['BATATA','COCA-COLA','SPRITE','FANTA','NUGGETS','SOBREMESA','AÇAÍ','ACAI'];
- candidates.sort((a,b)=>{const sa=preferred.findIndex(k=>norm(a.name).includes(k));const sb=preferred.findIndex(k=>norm(b.name).includes(k));return (sa<0?99:sa)-(sb<0?99:sb)});
- return candidates.slice(0,3);
+  const inCart=new Set(cart().map(x=>norm(x.nome)));
+  const names=cart().map(x=>norm(x.nome)).join(' | ');
+  const rules=[
+    {test:/BURGUER|HAMBURG|X-SALADA|X-BURGUER|X-EGG|X-BACON|ARTESANAL|NUNES|GAROTINHO|DINA|GADEIA|PATAO|BERENICE|LANCH/i, keys:['BATATA','COCA','SPRITE','FANTA','NUGGETS','ANEL DE CEBOLA']},
+    {test:/PASTEL|PASTEIS|PASTEIS/i, keys:['COCA','SPRITE','FANTA','NUGGETS','BATATA','SURPRESA DE UVA']},
+    {test:/BATATA|NUGGETS|ANEL DE CEBOLA|FRANGO FRITO/i, keys:['COCA','SPRITE','FANTA','MILKSHAKE','AÇAÍ','ACAI']},
+    {test:/AÇAÍ|ACAI/i, keys:['MILKSHAKE','SURPRESA DE UVA','TENTAÇÃO DE MORANGO','BATATA']},
+    {test:/MILKSHAKE/i, keys:['SURPRESA DE UVA','TENTAÇÃO DE MORANGO','AÇAÍ','ACAI']},
+    {test:/COCA|SPRITE|FANTA/i, keys:['BATATA','NUGGETS','PASTEL','MILKSHAKE','AÇAÍ','ACAI']}
+  ];
+  let preferred=[];
+  for(const r of rules){if(r.test.test(names)){preferred=r.keys;break}}
+  if(!preferred.length) preferred=['BATATA','COCA','SPRITE','FANTA','NUGGETS','MILKSHAKE','AÇAÍ','ACAI'];
+  const candidates=[];
+  $$('.produto').forEach(card=>{
+    const h=card.querySelector('h3'); const b=card.querySelector('.btn-add,[onclick*="adicionar("]');
+    if(!h||!b)return; const name=h.textContent.trim(); if(!name||inCart.has(norm(name)))return;
+    const price=readPrice(card); if(price<=0)return;
+    const n=norm(name);
+    // Não oferecer combos, nem o mesmo tipo do que já foi pedido, quando houver opções melhores.
+    if(/COMBO|DATE COM NDBURGS|01 ND BURGS/i.test(n))return;
+    const rank=preferred.findIndex(k=>n.includes(k));
+    candidates.push({name,price,card,rank:rank<0?99:rank});
+  });
+  candidates.sort((a,b)=>a.rank-b.rank);
+  return candidates.slice(0,3);
 }
-function ensureCrossSell(){if($('#ndR40CrossSell'))return;const d=document.createElement('section');d.id='ndR40CrossSell';d.innerHTML='<div class="nd-r40-cross-head"><strong>🔥 QUE TAL COMPLETAR SEU PEDIDO?</strong><button class="nd-r40-cross-close" type="button" aria-label="Fechar">×</button></div><div class="nd-r40-cross-grid"></div>';document.body.appendChild(d);d.querySelector('button').onclick=()=>d.classList.remove('show')}
-function renderCrossSell(){if(!cart().length)return;ensureCrossSell();const d=$('#ndR40CrossSell'),g=d.querySelector('.nd-r40-cross-grid'),items=chooseCrossSell();if(!items.length){d.classList.remove('show');return}g.innerHTML=items.map((x,i)=>'<article class="nd-r40-cross-card"><b>'+esc(x.name)+'</b><span>'+money(x.price)+'</span><button type="button" data-r40-cross="'+i+'">ADICIONAR +</button></article>').join('');g.querySelectorAll('[data-r40-cross]').forEach(b=>b.onclick=()=>{const x=items[Number(b.dataset.r40Cross)];if(x&&addProduct(x.name,x.price))renderCrossSell()});d.classList.add('show')}
 function esc(v){return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function updateBadge(){const q=cart().reduce((s,x)=>s+(Number(x.quantidade)||1),0);const qty=$('#ndFxCartQty'),totalEl=$('#ndFxCartTotal');if(qty)qty.textContent=q+' '+(q===1?'item':'itens');if(totalEl)totalEl.textContent=money(total(cart()));}
 function historyFromLegacy(){const a=getHistory();if(a.length)return a;try{const old=JSON.parse(localStorage.getItem('ndburgs_ultimo_pedido')||localStorage.getItem('ndburgs_r17_last_order')||'[]');if(Array.isArray(old)&&old.length)return [{id:'LEGACY',date:new Date().toISOString(),items:old,total:total(old)}]}catch(_){}return[]}
