@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260910-R33">
+<meta name="nd-site-version" content="20260912-R34">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260910-R33";
+  const ND_SITE_VERSION = "20260912-R34";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -1181,19 +1181,31 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <div class="produtos">
 
 <div class="produto">
+<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/LmV4Cdb/SALGADOS.png" alt="SABORES PASTÉIS SALGADOS">
 
-<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/5x68nMyh/Chat-GPT-Image-25-06-2026-23-28-35.png" alt="PASTÉIS">
+<h3>SABORES PASTÉIS SALGADOS</h3>
 
-<h3>PASTÉIS</h3>
-
-<p>Escolha entre nossos sabores salgados e doces.</p>
+<p>Escolha seu sabor de pastel salgado.</p>
 
 <div class="preco">A partir de R$ 11,00</div>
 
-<button class="btn btn-add" onclick="abrirPersonalizacao('pasteis')">
+<button class="btn btn-add" onclick="abrirPersonalizacao('pasteis-salgados')">
 ESCOLHER SABOR
 </button>
+</div>
 
+<div class="produto">
+<img class="produto-imagem" loading="lazy" decoding="async" src="https://i.ibb.co/4ZCMmN6H/DOCES.png" alt="SABORES PASTÉIS DOCES">
+
+<h3>SABORES PASTÉIS DOCES</h3>
+
+<p>Escolha seu sabor de pastel doce.</p>
+
+<div class="preco">A partir de R$ 13,00</div>
+
+<button class="btn btn-add" onclick="abrirPersonalizacao('pasteis-doces')">
+ESCOLHER SABOR
+</button>
 </div>
 
 </div>
@@ -2533,7 +2545,7 @@ produtoModalAtual=null;
 }
 
 function abrirPersonalizacao(chave){
-if(chave==="pasteis"){
+if(chave==="pasteis-salgados" || chave==="pasteis-doces"){
 
 const modal=
 document.getElementById("modalPersonalizacao");
@@ -2541,35 +2553,49 @@ document.getElementById("modalPersonalizacao");
 const conteudo=
 document.getElementById("modalConteudo");
 
+const ehSalgado=chave==="pasteis-salgados";
+const listaSabores=ehSalgado?saboresPasteis.salgados:saboresPasteis.doces;
+const tituloCategoria=ehSalgado?"🥟 SABORES PASTÉIS SALGADOS":"🍫 SABORES PASTÉIS DOCES";
+const textoAjuda=ehSalgado
+?"Escolha 1 ou mais sabores salgados. Cada sabor marcado adiciona 1 pastel ao carrinho."
+:"Escolha 1 ou mais sabores doces. Cada sabor marcado adiciona 1 pastel ao carrinho.";
+
 document.getElementById("modalTitulo").innerText=
-"🥟 ESCOLHA SEU PASTEL";
+tituloCategoria;
 
 produtoModalAtual={
-tipo:"pasteis"
+tipo:chave
 };
 
 let html=
-`<div class="modal-secao" style="margin-top:0;padding-top:0;border-top:0"><div style="margin-bottom:12px;padding:11px 12px;border-radius:10px;background:#20120f;border:1px solid #ff4d00;color:#ffd166;font-size:13px;line-height:1.45;font-weight:800">🥟 ESCOLHA QUANTOS PASTÉIS QUISER<br><span style="color:#aaa;font-weight:600">Marque vários sabores. Cada sabor marcado adiciona 1 pastel ao carrinho.</span></div><h3>🥟 PASTÉIS SALGADOS</h3><div class="lista-acompanhamentos">`;
+`<div class="modal-secao" style="margin-top:0;padding-top:0;border-top:0">
+<div style="margin-bottom:12px;padding:11px 12px;border-radius:10px;background:#20120f;border:1px solid #ff4d00;color:#ffd166;font-size:13px;line-height:1.45;font-weight:800">
+🥟 ESCOLHA QUANTOS PASTÉIS QUISER<br>
+<span style="color:#aaa;font-weight:600">${textoAjuda}</span>
+</div>
+<h3>${tituloCategoria}</h3>
+<div class="lista-acompanhamentos">`;
 
-saboresPasteis.salgados.forEach((p,i)=>{
+listaSabores.forEach((p,i)=>{
 
 html+=
-`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="pastelModal" value="salgados|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
+`<label class="opcao-acomp" style="justify-content:space-between">
+<span style="display:flex;align-items:center;gap:8px">
+<input type="checkbox" name="pastelModal" value="${ehSalgado?'salgados':'doces'}|${i}" onchange="atualizarTotalModalPastel()">
+<span>${p[0]}</span>
+</span>
+<strong class="preco-adicional">${moeda(p[1])}</strong>
+</label>`;
 
 });
 
 html+=
-`</div></div><div class="modal-secao"><h3>🍫 PASTÉIS DOCES</h3><div class="lista-acompanhamentos">`;
-
-saboresPasteis.doces.forEach((p,i)=>{
-
-html+=
-`<label class="opcao-acomp" style="justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="pastelModal" value="doces|${i}" onchange="atualizarTotalModalPastel()"><span>${p[0]}</span></span><strong class="preco-adicional">${moeda(p[1])}</strong></label>`;
-
-});
-
-html+=
-`</div></div><div class="modal-total"><span>TOTAL</span><strong id="modalTotal">ESCOLHA UM SABOR</strong></div><button class="btn btn-confirmar-personalizacao" onclick="confirmarPersonalizacaoPastel()">✅ ADICIONAR AO CARRINHO</button>`;
+`</div></div>
+<div class="modal-total">
+<span>TOTAL</span>
+<strong id="modalTotal">ESCOLHA UM SABOR</strong>
+</div>
+<button class="btn btn-confirmar-personalizacao" onclick="confirmarPersonalizacaoPastel()">✅ ADICIONAR AO CARRINHO</button>`;
 
 conteudo.innerHTML=html;
 
@@ -10407,6 +10433,17 @@ img,video,iframe,svg,canvas{
      - Esconde categorias sem resultados
      - LIMPAR/ESC desfaz a busca e restaura todo o cardápio
      ========================================================= -->
+<style id="nd-pasteis-2-produtos">
+#pasteis .produtos{grid-template-columns:repeat(2,minmax(0,1fr))}
+#pasteis .produto{display:flex;flex-direction:column}
+#pasteis .produto .btn-add{margin-top:auto}
+@media(max-width:600px){
+  #pasteis .produtos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #pasteis .produto-imagem{height:145px}
+  #pasteis .produto h3{font-size:13px}
+  #pasteis .produto p{min-height:38px}
+}
+</style>
 <style id="nd-r32-smart-search-final">
 /* BUSCA */
 #ndR31Search{position:relative!important;display:flex!important;align-items:center!important;gap:8px!important}
