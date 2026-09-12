@@ -5909,59 +5909,6 @@ button{font-family:inherit}
      INTELIGÊNCIA DE VENDAS + RETENÇÃO
      Camada adicional e independente.
      ========================================================= -->
-<style id="nd-rodada-11">
-#ndR11Box{display:none;position:fixed;left:14px;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:9998;max-width:520px;margin:auto;padding:13px 14px;border:1px solid rgba(255,180,0,.28);border-radius:17px;background:linear-gradient(135deg,rgba(20,20,20,.98),rgba(42,28,8,.97));box-shadow:0 14px 45px rgba(0,0,0,.42);color:#fff}
-#ndR11Box.show{display:block;animation:ndR11in .28s ease}
-#ndR11Box .r11-head{display:flex;align-items:center;gap:9px}.r11-fire{font-size:20px}.r11-title{font-weight:900;font-size:13px}.r11-close{margin-left:auto;border:0;background:transparent;color:#aaa;font-size:20px;cursor:pointer}
-#ndR11Box .r11-sub{font-size:10px;color:#aaa;margin:4px 0 9px 29px}
-#ndR11Item{display:flex;align-items:center;gap:10px}.r11-name{font-weight:800;font-size:12px;flex:1}.r11-price{font-size:11px;color:#ffd15a;font-weight:900}.r11-add{border:0;border-radius:11px;padding:9px 12px;background:#ffd21a;color:#111;font-weight:900;font-size:11px;cursor:pointer}.r11-add:active{transform:scale(.97)}
-#ndR11Mini{display:none;margin:8px 0 0;padding:9px 11px;border-radius:12px;background:rgba(255,210,26,.07);border:1px solid rgba(255,210,26,.16);font-size:10px;color:#bbb}#ndR11Mini b{color:#fff}
-@keyframes ndR11in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media(min-width:800px){#ndR11Box{left:auto;right:22px;bottom:22px;width:430px}}
-@media(prefers-reduced-motion:reduce){#ndR11Box.show{animation:none}}
-</style>
-<script id="nd-rodada-11-logic">
-(function(){'use strict';
- const KEY='ndburgs_r11_dismissed'; let lastKey=''; let timer;
- const q=s=>document.querySelector(s), qa=s=>[...document.querySelectorAll(s)];
- const money=v=>'R$ '+Number(v||0).toFixed(2).replace('.',',');
- function getCart(){try{return Array.isArray(window.carrinho)?window.carrinho:[]}catch(e){return[]}}
- function total(){return getCart().reduce((a,i)=>a+(Number(i.preco)||0)*(Number(i.quantidade)||1),0)}
- function ensure(){if(q('#ndR11Box'))return; const d=document.createElement('div');d.id='ndR11Box';d.innerHTML='<div class="r11-head"><span class="r11-fire">🔥</span><span class="r11-title">COMPLETE SEU PEDIDO</span><button class="r11-close" type="button" aria-label="Fechar">×</button></div><div class="r11-sub">Uma sugestão que combina com o que você já escolheu.</div><div id="ndR11Item"></div><div id="ndR11Mini"></div>';document.body.appendChild(d);d.querySelector('.r11-close').onclick=()=>{d.classList.remove('show');try{sessionStorage.setItem(KEY,'1')}catch(e){}}}
- function catalog(){
-   const out=[]; const seen=new Set();
-   qa('button[onclick*="adicionar("]').forEach(b=>{const m=b.getAttribute('onclick').match(/adicionar\((['"])(.*?)\1\s*,\s*([0-9.]+)/);if(!m)return;const nome=m[2],preco=Number(m[3]);if(!nome||!preco||seen.has(nome))return;seen.add(nome);out.push({nome,preco,btn:b})}); return out;
- }
- function choose(){
-   const c=getCart(), names=c.map(i=>String(i.nome||'').toUpperCase()).join(' | '), cat=catalog();
-   if(!c.length)return null;
-   const rules=names.includes('AÇA')||names.includes('AÇAI')?[ 'DOCE','SOBREMESA','BRIGADEIRO','UVA','BROWNIE','COMBO']:
-     names.includes('BURGER')||names.includes('X-')||names.includes('X ')||names.includes('GADEIA')||names.includes('PATÃO')||names.includes('BERENICE')||names.includes('DINA')||names.includes('GAROTINHO')?[ 'BATATA','REFRI','COCA','BEBIDA','DOCE','SOBREMESA','COMBO']:
-     names.includes('PASTEL')?[ 'REFRI','COCA','DOCE','AÇA','COMBO']:['BATATA','REFRI','COCA','DOCE','SOBREMESA','COMBO'];
-   const inCart=new Set(c.map(i=>String(i.nome||'').toUpperCase()));
-   let best=cat.find(x=>!inCart.has(x.nome.toUpperCase())&&rules.some(r=>x.nome.toUpperCase().includes(r)));
-   if(!best)best=cat.find(x=>!inCart.has(x.nome.toUpperCase()));
-   return best||null;
- }
- function show(){
-   ensure(); const box=q('#ndR11Box'), item=q('#ndR11Item'); if(!box||!item)return;
-   if(!getCart().length){box.classList.remove('show');return}
-   let pick=choose(); if(!pick){box.classList.remove('show');return}
-   const k=pick.nome+'|'+total(); if(k===lastKey)return; lastKey=k;
-   let dismissed=false;try{dismissed=sessionStorage.getItem(KEY)==='1'}catch(e){}
-   if(dismissed)return;
-   item.innerHTML='<span class="r11-name">'+pick.nome+'</span><span class="r11-price">'+money(pick.preco)+'</span><button class="r11-add" type="button">+ ADICIONAR</button>';
-   item.querySelector('.r11-add').onclick=()=>{try{window.adicionar(pick.nome,pick.preco)}catch(e){if(pick.btn)pick.btn.click()}box.classList.remove('show');try{sessionStorage.removeItem(KEY)}catch(e){}};
-   clearTimeout(timer);timer=setTimeout(()=>box.classList.add('show'),350);
- }
- function mini(){
-   const el=q('#ndR11Mini');if(!el)return;const c=getCart(),n=c.reduce((a,i)=>a+(Number(i.quantidade)||1),0);if(!n){el.style.display='none';return}el.style.display='block';el.innerHTML='🛒 <b>'+n+' item'+(n>1?'s':'')+'</b> no seu pedido • subtotal <b>'+money(total())+'</b>';
- }
- function patch(){if(window.__ndR11Patched)return; if(typeof window.atualizarCarrinho!=='function')return;const original=window.atualizarCarrinho;window.atualizarCarrinho=function(){const r=original.apply(this,arguments);setTimeout(()=>{mini();show()},0);return r};window.__ndR11Patched=true;setTimeout(()=>{mini();show()},500)}
- function init(){ensure();patch();mini();show();setInterval(()=>{patch();mini()},1200)}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
 <!-- ND BURGS VERSION: 20260904-R11 -->
 
 
