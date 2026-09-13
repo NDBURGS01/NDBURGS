@@ -1,10 +1,10 @@
 <html lang="pt-BR">
 <head>
 <!-- ND BURGS: controle de versão para evitar conteúdo antigo em cache -->
-<meta name="nd-site-version" content="20260912-R34">
+<meta name="nd-site-version" content="20260913-R35">
 <script>
 (function () {
-  const ND_SITE_VERSION = "20260912-R34";
+  const ND_SITE_VERSION = "20260913-R35";
   const KEY = "ndburgs_site_version";
   try {
     const old = localStorage.getItem(KEY);
@@ -9964,6 +9964,257 @@ const obs=new MutationObserver(bind);if(document.body)obs.observe(document.body,
   window.addEventListener('load',moveActionsTop);
 })();
 </script>
+
+<!-- =========================================================
+     ND BURGS R35 — MELHORIAS 1 + 2 + 8
+     LIMPEZA VISUAL/ESTRUTURAL + MOBILE + CONVERSÃO
+     ========================================================= -->
+<style id="nd-r35-clean-mobile-conversao">
+/* Base: evita regras de tamanho herdadas causando estouro */
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:hidden}
+body{overflow-x:hidden}
+img{max-width:100%;height:auto}
+button,input,select,textarea{font:inherit}
+
+/* MOBILE — exatamente 3 produtos por linha */
+@media (max-width:700px){
+  .produtos,
+  .produtos-grid,
+  .grid-produtos,
+  .lista-produtos{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  .produto{
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    overflow:hidden!important;
+    border-radius:12px!important;
+  }
+  .produto img,.produto-imagem{
+    display:block!important;
+    width:100%!important;
+    aspect-ratio:1/1!important;
+    object-fit:cover!important;
+    border-radius:10px 10px 0 0!important;
+  }
+  .produto h3{
+    font-size:10px!important;
+    line-height:1.12!important;
+    min-height:23px!important;
+    margin:7px 6px 3px!important;
+    display:-webkit-box!important;
+    -webkit-line-clamp:2!important;
+    -webkit-box-orient:vertical!important;
+    overflow:hidden!important;
+  }
+  .produto p{
+    font-size:8px!important;
+    line-height:1.2!important;
+    margin:0 6px 5px!important;
+    min-height:19px!important;
+    color:#999!important;
+    display:-webkit-box!important;
+    -webkit-line-clamp:2!important;
+    -webkit-box-orient:vertical!important;
+    overflow:hidden!important;
+  }
+  .produto .preco{
+    font-size:12px!important;
+    line-height:1!important;
+    margin:5px 6px!important;
+    white-space:nowrap!important;
+  }
+  .produto button,.produto .btn,.produto .btn-add{
+    width:calc(100% - 12px)!important;
+    min-height:34px!important;
+    margin:4px 6px 7px!important;
+    padding:6px 4px!important;
+    font-size:9px!important;
+    line-height:1!important;
+    border-radius:9px!important;
+  }
+  .produto .nd-fav{width:auto!important;min-height:0!important;margin:0!important}
+  #ndR35Top3{grid-column:1/-1!important}
+}
+
+/* Tablet/desktop: preserva leitura sem alterar a experiência atual */
+@media (min-width:701px){
+  .produtos{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));}
+}
+
+/* Busca unificada */
+#ndR35SearchStatus{margin:7px 0 12px;color:#999;font-size:12px;font-weight:800;min-height:16px}
+.nd-r35-match{outline:2px solid rgba(255,59,48,.9)!important;outline-offset:2px!important;transform:translateY(-2px)!important}
+.nd-r35-hidden{display:none!important}
+
+/* TOP 3 DO DIA */
+#ndR35Top3{
+  margin:18px 0 20px;padding:16px;border-radius:20px;
+  background:linear-gradient(145deg,#170b0d,#090909);
+  border:1px solid rgba(255,59,48,.38);
+  box-shadow:0 14px 35px rgba(0,0,0,.28);
+}
+.nd-r35-top-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:12px}
+.nd-r35-top-kicker{font-size:10px;font-weight:1000;letter-spacing:1.6px;color:#ff6666}
+.nd-r35-top-title{font-size:23px;font-weight:1000;line-height:1;margin-top:3px}
+.nd-r35-top-day{font-size:9px;color:#888;font-weight:800;text-align:right}
+.nd-r35-top-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.nd-r35-top-card{min-width:0;border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;background:#111;cursor:pointer}
+.nd-r35-top-card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.nd-r35-top-info{padding:8px}
+.nd-r35-top-rank{font-size:9px;color:#ff6464;font-weight:1000}
+.nd-r35-top-name{font-size:11px;font-weight:1000;line-height:1.15;margin-top:3px;min-height:25px}
+.nd-r35-top-price{font-size:13px;font-weight:1000;margin-top:5px}
+.nd-r35-top-buy{width:100%;margin-top:7px;border:0;border-radius:9px;min-height:32px;background:#fff;color:#000;font-size:9px;font-weight:1000;cursor:pointer}
+@media(max-width:700px){
+  #ndR35Top3{padding:12px;margin:13px 0 15px}
+  .nd-r35-top-grid{gap:6px}
+  .nd-r35-top-info{padding:6px}
+  .nd-r35-top-title{font-size:18px}
+  .nd-r35-top-name{font-size:9px}
+  .nd-r35-top-price{font-size:11px}
+  .nd-r35-top-buy{min-height:29px;font-size:8px}
+}
+
+/* PRIMEIRA VEZ */
+#ndR35FirstBuy{
+  margin:16px 0 20px;padding:18px;border-radius:20px;
+  background:linear-gradient(145deg,#101018,#07070a);
+  border:1px solid rgba(125,90,255,.48);
+  box-shadow:0 16px 40px rgba(0,0,0,.32);
+}
+.nd-r35-first-kicker{font-size:10px;letter-spacing:1.4px;font-weight:1000;color:#a992ff}
+.nd-r35-first-title{font-size:25px;font-weight:1000;line-height:1.05;margin-top:5px}
+.nd-r35-first-text{font-size:12px;line-height:1.45;color:#aaa;margin-top:8px;max-width:700px}
+.nd-r35-first-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px}
+.nd-r35-first-price{font-size:24px;font-weight:1000}
+.nd-r35-first-btn{border:0;border-radius:12px;padding:12px 16px;background:linear-gradient(135deg,#7255ff,#3e2ac7);color:#fff;font-weight:1000;cursor:pointer;box-shadow:0 8px 24px rgba(85,55,220,.25)}
+.nd-r35-first-btn:active{transform:scale(.98)}
+
+/* Não criar uma segunda barra flutuante no mobile */
+@media(max-width:700px){
+  #carrinhoFlutuante button[aria-label*="carrinho" i]{display:none!important}
+}
+
+/* Redução de animações e estabilidade */
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+
+<script id="nd-r35-clean-mobile-conversao-logic">
+(function(){
+'use strict';
+
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+
+/* 1) PRIMEIRA VEZ — card de conversão */
+function setupFirstBuy(){
+  if($('#ndR35FirstBuy')) return;
+  const hero=$('.nd-v4-hero')||$('#ndFxIntro')||$('main');
+  if(!hero) return;
+  const card=document.createElement('section');
+  card.id='ndR35FirstBuy';
+  card.innerHTML=`
+    <div class="nd-r35-first-kicker">PRIMEIRA VEZ NA ND BURGS?</div>
+    <div class="nd-r35-first-title">COMECE PELO COMBO MAIS VENDIDO</div>
+    <div class="nd-r35-first-text">Se você ainda não conhece a ND BURGS, essa é uma das escolhas mais fáceis para começar.</div>
+    <div class="nd-r35-first-row">
+      <div class="nd-r35-first-price">R$ 20,90</div>
+      <button type="button" class="nd-r35-first-btn" id="ndR35FirstBuyBtn">QUERO O MAIS VENDIDO</button>
+    </div>`;
+  hero.insertAdjacentElement('afterend',card);
+  $('#ndR35FirstBuyBtn').onclick=()=>{
+    if(typeof window.abrirComboPersonalizacao==='function') window.abrirComboPersonalizacao('COMBO MAIS VENDIDO',20.90);
+    else {
+      const b=$$('.produto').find(x=>norm(x.textContent).includes('COMBO MAIS VENDIDO'))?.querySelector('button');
+      if(b) b.click();
+    }
+  };
+}
+
+/* 2) TOP 3 DO DIA — seleção diária estável, sem repetir a cada render */
+function setupTop3(){
+  if($('#ndR35Top3')) return;
+  const anchor=$('#combos')||$('.categoria')||$('main');
+  if(!anchor) return;
+  const candidates=[
+    {name:'COMBO MAIS VENDIDO',price:20.90,img:'https://i.ibb.co/HLNHv9tt/COMBO-MAIS-VENDIDO-NOVO.png',combo:true},
+    {name:'COMBO MOTOCA ND',price:32.90,img:'https://i.ibb.co/PvJqcwzb/MOTACA-ND.png',combo:true},
+    {name:'COMBO SÓ LOVE',price:71.90,img:'https://i.ibb.co/QR0388c/COMBO-S-LOVE.png',combo:true},
+    {name:'COMBO DIETA SÓ SEGUNDA',price:27.90,img:'https://i.ibb.co/HLNHv9tt/COMBO-MAIS-VENDIDO-NOVO.png',combo:true}
+  ];
+  const dayKey=new Date().toISOString().slice(0,10);
+  let seed=0; for(const c of dayKey) seed=(seed*31+c.charCodeAt(0))>>>0;
+  const pool=candidates.map((x,i)=>({x,i,score:(seed+i*7919)%100000})).sort((a,b)=>a.score-b.score);
+  const chosen=pool.slice(0,3).map(v=>v.x);
+  const sec=document.createElement('section'); sec.id='ndR35Top3';
+  sec.innerHTML=`<div class="nd-r35-top-head"><div><div class="nd-r35-top-kicker">DESTAQUES</div><div class="nd-r35-top-title">TOP 3 DO DIA</div></div><div class="nd-r35-top-day">ATUALIZADO<br>HOJE</div></div><div class="nd-r35-top-grid"></div>`;
+  const grid=$('.nd-r35-top-grid',sec);
+  chosen.forEach((p,i)=>{
+    const card=document.createElement('article'); card.className='nd-r35-top-card';
+    card.innerHTML=`<img loading="lazy" decoding="async" src="${p.img}" alt="${p.name}"><div class="nd-r35-top-info"><div class="nd-r35-top-rank">#${i+1} DO DIA</div><div class="nd-r35-top-name">${p.name}</div><div class="nd-r35-top-price">R$ ${p.price.toFixed(2).replace('.',',')}</div><button type="button" class="nd-r35-top-buy">COMPRAR</button></div>`;
+    const buy=()=>{ if(p.combo&&typeof window.abrirComboPersonalizacao==='function') window.abrirComboPersonalizacao(p.name,p.price); };
+    card.onclick=e=>{if(!e.target.closest('button'))buy()}; $('.nd-r35-top-buy',card).onclick=buy;
+    grid.appendChild(card);
+  });
+  anchor.parentNode.insertBefore(sec,anchor);
+}
+
+/* 3) Busca: mantém os dois campos sincronizados e destaca o resultado */
+function setupSearch(){
+  const inputs=$$('#buscaProdutos,#nd14Search').filter((x,i,a)=>a.indexOf(x)===i);
+  if(!inputs.length||document.body.dataset.ndR35Search==='1')return;
+  document.body.dataset.ndR35Search='1';
+  let syncing=false;
+  const status=document.createElement('div'); status.id='ndR35SearchStatus';
+  const first=inputs[0];
+  first.parentNode?.insertBefore(status,first.nextSibling);
+  function apply(value,source){
+    if(syncing)return; syncing=true;
+    inputs.forEach(inp=>{if(inp!==source){inp.value=value; inp.dispatchEvent(new Event('input',{bubbles:true}))}});
+    syncing=false;
+    const q=norm(value);
+    let visible=0;
+    $$('.produto').forEach(card=>{
+      const match=!q||norm(card.textContent).includes(q);
+      card.classList.toggle('nd-r35-hidden',!match);
+      card.classList.toggle('nd-r35-match',!!q&&match);
+      if(match)visible++;
+    });
+    status.textContent=q?(visible+' resultado'+(visible===1?'':'s')):'';
+    if(q){
+      const hit=$('.nd-r35-match');
+      if(hit && visible===1) hit.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+  }
+  inputs.forEach(inp=>inp.addEventListener('input',()=>apply(inp.value,inp),{passive:true}));
+}
+
+/* 4) Imagens: carregamento mais leve, sem tocar no funcionamento dos produtos */
+function optimizeImages(){
+  $$('img').forEach((img,i)=>{
+    if(i>3 && !img.hasAttribute('loading')) img.loading='lazy';
+    if(!img.hasAttribute('decoding')) img.decoding='async';
+  });
+}
+
+function init(){
+  setupFirstBuy();
+  setupTop3();
+  setupSearch();
+  optimizeImages();
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
+setTimeout(init,900);
+})();
+</script>
+
 </body>
 
 <!-- =========================================================
